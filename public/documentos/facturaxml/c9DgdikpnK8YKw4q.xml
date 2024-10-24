@@ -1,0 +1,35 @@
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Fecha="2022-05-17T09:37:30" Sello="TziGmIXA3L7d9KIeNyZhw+/Fu5EqoORUgt6LLmh01MU/ry9105rIW2SoIbDJFwCuI2k1Z34c8tl/JKnyUSZ1HjEfei79zcbu2ZjznpmoOX7lcI++eAUWxatpJoMmTX7QzwvjqajKJzAI2RQvRSHJGEfCwL/a7o7odriM+GLq0qYA4BlGnlJOi90ZsgEShYVi2z5qCeZWEdOM88h/qeBYoYOZ5WFfCKG0ihT+5wCMJkvdZa1PhSuVfSSPX6Imj3cVaPIzd2tMCxvAxDfl1anJ7HUD7wmnAo3EKnIYekogaHcdMS43bBgfGU2Ue+wbdu0nq85PwLw4DaD+9fv3krJZwg==" FormaPago="03" NoCertificado="00001000000412980171" Certificado="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" SubTotal="2890.00" Moneda="MXN" Total="3352.40" TipoDeComprobante="I" Exportacion="01" MetodoPago="PUE" LugarExpedicion="28985" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <cfdi:Emisor Rfc="VASC9010231F4" Nombre="CHRISTIAN AARON VAZQUEZ SANCHEZ" RegimenFiscal="612" />
+  <cfdi:Receptor Rfc="EIM110627PY3" Nombre="ECO IMPULSA" DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="601" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="40151510" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="BOMBA DE AGUA FORD TRANSIT 2016 FL5289B KM 219423" ValorUnitario="1850" Importe="1850.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1850.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="296.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="15121807" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="ANTICONGELANTE" ValorUnitario="240" Importe="240.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="240.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="38.40" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="CAMBIO DE BOMBA DE AGUA" ValorUnitario="800" Importe="800.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="800.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="128.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="462.40">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="2890.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="462.40" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="E9DCEB15-CB57-4CBD-86C7-A6B721884FA9" FechaTimbrado="2022-05-17T09:38:05" RfcProvCertif="SAT970701NN3" SelloCFD="TziGmIXA3L7d9KIeNyZhw+/Fu5EqoORUgt6LLmh01MU/ry9105rIW2SoIbDJFwCuI2k1Z34c8tl/JKnyUSZ1HjEfei79zcbu2ZjznpmoOX7lcI++eAUWxatpJoMmTX7QzwvjqajKJzAI2RQvRSHJGEfCwL/a7o7odriM+GLq0qYA4BlGnlJOi90ZsgEShYVi2z5qCeZWEdOM88h/qeBYoYOZ5WFfCKG0ihT+5wCMJkvdZa1PhSuVfSSPX6Imj3cVaPIzd2tMCxvAxDfl1anJ7HUD7wmnAo3EKnIYekogaHcdMS43bBgfGU2Ue+wbdu0nq85PwLw4DaD+9fv3krJZwg==" NoCertificadoSAT="00001000000504465028" SelloSAT="CbsyzsiEpOa4d7cYRKcy1vADmOr98BkliiJxPsihtyzzYJZyUgZ2cexlqEQp/GGFq7LW93YvjAGOisBlPCSBIyfNTNAD+o8Ebe7b7gHcEzysppo6pvI9ioWJTQUrV1aw3LiADCLUPRzH0OM07emq6pwZKrcCiyEhm+rgwHRJV6VlLo6VX44Tc3nrLchaT7wya2kCYc76TKDCnXb8Ei2dj59vYVhjN6m2LXSD/tYmhDCvbXiuzKaX6zJXdgiLwsF/zMiFmdrmQnvcEXlU/uX2C8yOuI+7yQfFZocFmT0l7HZBYFh3S0aCcUe4EXas5YlDawZ3OgBipySj4Up6TbJj3Q==" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

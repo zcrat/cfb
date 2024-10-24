@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Certificado="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" Exportacion="01" Fecha="2023-10-16T17:23:28" Folio="3365" FormaPago="99" LugarExpedicion="59670" MetodoPago="PPD" Moneda="MXN" NoCertificado="00001000000518319456" Sello="YKM/HhYRxPaPKMazRZFqf0xdYL1mh2XG9tWUr2+eGZwGaEc0LJ80Q7vkeuM+9gUVVSGAv4fBbf+1cYaA3T0NvfNzk4K3qLrhXl+FMwOdEUDMiS1G/8ljLcg8+eTf09ws5VeNrTnWAmVF3vimVh4OYC/s2k6np6z+W+sGs/n78HXBY4s14cZEK1CTTvhltr72YmYTqJR+UTG1cjilITbARE6EHQgrAesH08G3Jhwmal3R0IhOpGJB/Zb5MYfY0SUw/tjpwnAa6Co2iXeJOMpzY2/N0fL0wo85sbeVbNKiDGtgzuMc/Ip9GXz4EdkSZzr21aO4NQ0Z1oTVC3eteVLl8Q==" Serie="A" SubTotal="38594.00" TipoDeComprobante="I" Total="44286.61" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd">
+  <cfdi:Emisor Nombre="SANDRA CATALINA CACHO BERNAL" RegimenFiscal="626" Rfc="CABS630420A82" />
+  <cfdi:Receptor DomicilioFiscalReceptor="58337" Nombre="CAR FIX AND BEYOND" RegimenFiscalReceptor="626" Rfc="CFB190523NF1" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="12161802" ClaveUnidad="H87" Descripcion="FORD F150 2007 ECO 86470 NB3836B KM 247774 / ROTULA INFERIOR DERECHO " Importe="1206" ObjetoImp="02" ValorUnitario="1206">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1206" Importe="192.960000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1206" Importe="15.075000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="12161802" ClaveUnidad="H87" Descripcion="HORQUILLA INFERIOR IZQUIERDA " Importe="3250" ObjetoImp="02" ValorUnitario="3250">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3250" Importe="520.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="3250" Importe="40.625000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="12161802" ClaveUnidad="H87" Descripcion="2 HORQUILLAS SUPERIORES " Importe="3592" ObjetoImp="02" ValorUnitario="3592">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3592" Importe="574.720000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="3592" Importe="44.900000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="25174202" ClaveUnidad="H87" Descripcion="TERMINALES INTERIORES" Importe="1020" ObjetoImp="02" ValorUnitario="1020">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1020" Importe="163.200000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1020" Importe="12.750000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="25174202" ClaveUnidad="H87" Descripcion="TERMINALES EXTERIORES " Importe="1020" ObjetoImp="02" ValorUnitario="1020">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1020" Importe="163.200000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1020" Importe="12.750000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="12161802" ClaveUnidad="H87" Descripcion="BRAZO AUXILIAR  " Importe="1405" ObjetoImp="02" ValorUnitario="1405">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1405" Importe="224.800000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1405" Importe="17.562500" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="12161802" ClaveUnidad="H87" Descripcion="BRAZO PITMAN" Importe="907" ObjetoImp="02" ValorUnitario="907">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="907" Importe="145.120000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="907" Importe="11.337500" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="EMPACAR CARTER " Importe="1189" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="1189">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1189" Importe="190.240000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1189" Importe="14.862500" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="CAMBIAR RETEN DE CIGUEÑAL  TRASERO " Importe="1257" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="1257">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1257" Importe="201.120000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1257" Importe="15.712500" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="CAMBIAR CRUZETAS " Importe="1128" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="1128">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1128" Importe="180.480000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1128" Importe="14.100000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="REPARAR CAJA DE DIRECCION HIDRAULICA " Importe="4900" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="4900">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="4900" Importe="784.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="4900" Importe="61.250000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="25171700" ClaveUnidad="H87" Descripcion="BALATAS TRASERAS " Importe="1850" ObjetoImp="02" ValorUnitario="1850">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1850" Importe="296.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1850" Importe="23.125000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="CAMBIAR BALEROS DELANTEROS DE MASA " Importe="957" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="957">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="957" Importe="153.120000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="957" Importe="11.962500" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="26112004" ClaveUnidad="H87" Descripcion="KIT DE CLUTCH" Importe="10200" ObjetoImp="02" ValorUnitario="10200">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="10200" Importe="1632.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="10200" Importe="127.500000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="LUCES DELANTERAS Y TRASERAS " Importe="863" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="863">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="863" Importe="138.080000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="863" Importe="10.787500" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="SERVICIO DE MANTENIMIENTO MAYOR + KIT DE REFACCIONES CON ACEITE MOBIL " Importe="2250" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="2250">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2250" Importe="360.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="2250" Importe="28.125000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="CORREGIR FALLA DE MOTOR SENSOR MAF " Importe="1600" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="1600">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1600" Importe="256.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1600" Importe="20.000000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosRetenidos="482.43" TotalImpuestosTrasladados="6175.04">
+    <cfdi:Retenciones>
+      <cfdi:Retencion Importe="482.43" Impuesto="001" />
+    </cfdi:Retenciones>
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="38594.00" Importe="6175.04" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital FechaTimbrado="2023-10-16T17:23:33" NoCertificadoSAT="00001000000504204971" RfcProvCertif="PPD101129EA3" SelloCFD="YKM/HhYRxPaPKMazRZFqf0xdYL1mh2XG9tWUr2+eGZwGaEc0LJ80Q7vkeuM+9gUVVSGAv4fBbf+1cYaA3T0NvfNzk4K3qLrhXl+FMwOdEUDMiS1G/8ljLcg8+eTf09ws5VeNrTnWAmVF3vimVh4OYC/s2k6np6z+W+sGs/n78HXBY4s14cZEK1CTTvhltr72YmYTqJR+UTG1cjilITbARE6EHQgrAesH08G3Jhwmal3R0IhOpGJB/Zb5MYfY0SUw/tjpwnAa6Co2iXeJOMpzY2/N0fL0wo85sbeVbNKiDGtgzuMc/Ip9GXz4EdkSZzr21aO4NQ0Z1oTVC3eteVLl8Q==" SelloSAT="SNoXdfYx2r/mf83IbG89JWbszBM50GJ0C+9S2IP8XUHS3Uf4ZgrQS+DgVEOxWgfTsvfLt6aBXyryk7wBWdIbaWAqWEqVJnrSqsFxpmcBE/JhApEcPhwMIV7zbGBTagAgINdaPGalKhvZAzMvHAXTeOHpOqRrma64Mk8fW0Sk/Y3kkD5cl/abejCEvZAAo+yWgqioP2TKlkn2GP/h2xTm5QVFDf6+wPiGOnUAYQoAXMgo1wWTq0NRy3ZD8hhpItlKvpz63INTBXS0MubnLBQMD2FLPViAMWDASOmiQRXiwdAx0DAvapYxAWKHFBwzbku5vblzuYKjmXSNSV2RnVsvkw==" UUID="B7E878CB-D9D1-423A-A199-AE095B80B5A9" Version="1.1" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

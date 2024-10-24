@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Certificado="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" Exportacion="01" Fecha="2023-09-11T16:50:13" Folio="3289" FormaPago="99" LugarExpedicion="59670" MetodoPago="PPD" Moneda="MXN" NoCertificado="00001000000518319456" Sello="JrDvGw7HFDQ8Ln5Htgi3zxYuj4GL+XqZXYv9adZYF+RRm12+R68WEX5i7Xw9hNaaXGSw9A4kWYXx8XfRA1RMf/aaz+tWz/6Q6QgaZy/LQ9ScgZZgOFX2wQMwqAz5IPrxzLqVybTIe+nX9+9WYMwFiXBT69hiLEyWcydAdbd4rXXyB/bLBGlC1AAAMeqXumxPHuMkoS/HElC8GTKprruQWgWGD/DmlKJCzW3rRygIR2mfTb5ZqPZX+P8q5bkm17udAfVIHSHiqM7KV6VNZgNwDO1tlfj52xL+GJV6XWu9pEmpqadK65t0QdGPmEIAW34GEIIX167J5o+oLvZijF75Hg==" Serie="A" SubTotal="1350.00" TipoDeComprobante="I" Total="1549.12" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd">
+  <cfdi:Emisor Nombre="SANDRA CATALINA CACHO BERNAL" RegimenFiscal="626" Rfc="CABS630420A82" />
+  <cfdi:Receptor DomicilioFiscalReceptor="58337" Nombre="CAR FIX AND BEYOND" RegimenFiscalReceptor="626" Rfc="CFB190523NF1" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto Cantidad="1" ClaveProdServ="78181500" ClaveUnidad="E48" Descripcion="FORD F250 2006 ECO 81146 NB3848B KM 244647 / SERVICIO DE MANTENIMIENTO MENOR + KIT DE REFACCIONES " Importe="1350" NoIdentificacion="1" ObjetoImp="02" ValorUnitario="1350">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1350" Importe="216.000000" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1350" Importe="16.875000" Impuesto="001" TasaOCuota="0.012500" TipoFactor="Tasa" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosRetenidos="16.88" TotalImpuestosTrasladados="216.00">
+    <cfdi:Retenciones>
+      <cfdi:Retencion Importe="16.88" Impuesto="001" />
+    </cfdi:Retenciones>
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="1350.00" Importe="216.00" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital FechaTimbrado="2023-09-11T16:50:31" NoCertificadoSAT="00001000000504204971" RfcProvCertif="PPD101129EA3" SelloCFD="JrDvGw7HFDQ8Ln5Htgi3zxYuj4GL+XqZXYv9adZYF+RRm12+R68WEX5i7Xw9hNaaXGSw9A4kWYXx8XfRA1RMf/aaz+tWz/6Q6QgaZy/LQ9ScgZZgOFX2wQMwqAz5IPrxzLqVybTIe+nX9+9WYMwFiXBT69hiLEyWcydAdbd4rXXyB/bLBGlC1AAAMeqXumxPHuMkoS/HElC8GTKprruQWgWGD/DmlKJCzW3rRygIR2mfTb5ZqPZX+P8q5bkm17udAfVIHSHiqM7KV6VNZgNwDO1tlfj52xL+GJV6XWu9pEmpqadK65t0QdGPmEIAW34GEIIX167J5o+oLvZijF75Hg==" SelloSAT="aonuiOhyuD5/EkJNCYJwCwLBcnDvK4OSlcrv0j8LwVaHtUAc5jttseMnStviEctjLmFXaBOW8Eu5YXeUwygzHyuZtXWL5W8o5hLV0e/Yo0haVbkpv1jBfS+PgFZtuRmxxzA9PmHV01z8ip6ZQRNCGbgOYGoJHeP2hXFZk+d95CRYfsb+eA3a9X+gshROphuUAU3h9UHDjStfnZfYj8btKcwfJdtdZlXbuj9oVuGBnD2NurogAk/PFXFk0pNF8AW172oMTtJ0Izy99q6zwgiDPKEcABooXePsl8q3ovE662MXwnrJrMVRZcWMpmrYZFl0ORjGJq2trHO+Ieck6k4PbA==" UUID="261D7762-F342-4CF2-8F9C-2EC886D6BAB4" Version="1.1" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

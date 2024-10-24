@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Folio="202300375" Fecha="2023-02-02T14:28:37" FormaPago="03" NoCertificado="00001000000413797667" SubTotal="145190.52" Descuento="0" Moneda="MXN" TipoCambio="1" Total="168421" TipoDeComprobante="I" Exportacion="01" MetodoPago="PUE" LugarExpedicion="58148" Certificado="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" Sello="GP8LTl8K0Vqy+AJ7vzbJqPYybvqnCQ0uWcipP85EFtj/ALsQmpCzATDKAA5/PK4QLL04s+sdzWpg8RMbFyf4Srb2JjFAxqKq+tFVRUAxZb+RQ8UvwqfQc2auwihqPJshqYDkK0l4HCvvJkb2++iUuP6yNvGkyax1XsEATp/v9PyU0i3zW6dEgAqf/godPkJp5X8NCjSNYhuBY/o2nDQvxeybmLCrKen/WrkPeNHDG8qu9dWG6JpMZdZ2iGq+ykzhPwr0ct3cHEFo3VmocncLzE2Q1YIlfni7pxU5CL/CE6RMvRbqp6XZiYU/f5xiVtzpsNGTLpX3i7TqBiSWUAiJ2w==">
+  <cfdi:Emisor Rfc="MARC870729LK2" Nombre="CINDY MARTINEZ ROMERO" RegimenFiscal="612"/>
+  <cfdi:Receptor Rfc="CFB190523NF1" Nombre="CAR FIX AND BEYOND" UsoCFDI="G03" RegimenFiscalReceptor="626" DomicilioFiscalReceptor="58337"/>
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="14.000000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 215 65R16 FULLRUN FRUN FOUR 98H 520AA" ValorUnitario="1200.00" Importe="16800.00" ObjetoImp="02" NoIdentificacion="4 2156516FRFRUNFOUR" Descuento="0.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="16800.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2688.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="25.000000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 215 70R15 ANTARES SU 830 98T" ValorUnitario="1250.00" Importe="31250.00" ObjetoImp="02" NoIdentificacion="3 2157015ASSU830" Descuento="0.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="31250.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="5000.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="26.000000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 175 70R14 WINRUN R380 84T 420AB" ValorUnitario="1000.00" Importe="26000.00" ObjetoImp="02" NoIdentificacion="6 1757014WNR380" Descuento="0.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="26000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="4160.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="13.000000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 225 40R18 SUMITOMO HTRZIII 92Y 300AAA" ValorUnitario="1500.00" Importe="19500.00" ObjetoImp="02" NoIdentificacion="SUMI 5517933" Descuento="0.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="19500.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="3120.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="25.000000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 215 75R14LT WINRUN MAXCLAW A T 104 101S" ValorUnitario="1500.00" Importe="37500.00" ObjetoImp="02" NoIdentificacion="1 2157514WNMAXCLAWATLT" Descuento="0.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="37500.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="6000.00"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="13.000000" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 235 70R16 BLACKHAWK HISCEND H HT01 106T 700AB" ValorUnitario="1087.73" Importe="14140.52" ObjetoImp="02" NoIdentificacion="9 2357016BHHT01" Descuento="0.00">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="14140.52" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="2262.48"/>
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="23230.48">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="145190.52" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="23230.48"/>
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+<cfdi:Complemento><tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="b429d1b6-5f9e-4e50-91c8-afdd5c9482fe" FechaTimbrado="2023-02-02T14:28:41" RfcProvCertif="LSO1306189R5" SelloCFD="GP8LTl8K0Vqy+AJ7vzbJqPYybvqnCQ0uWcipP85EFtj/ALsQmpCzATDKAA5/PK4QLL04s+sdzWpg8RMbFyf4Srb2JjFAxqKq+tFVRUAxZb+RQ8UvwqfQc2auwihqPJshqYDkK0l4HCvvJkb2++iUuP6yNvGkyax1XsEATp/v9PyU0i3zW6dEgAqf/godPkJp5X8NCjSNYhuBY/o2nDQvxeybmLCrKen/WrkPeNHDG8qu9dWG6JpMZdZ2iGq+ykzhPwr0ct3cHEFo3VmocncLzE2Q1YIlfni7pxU5CL/CE6RMvRbqp6XZiYU/f5xiVtzpsNGTLpX3i7TqBiSWUAiJ2w==" NoCertificadoSAT="00001000000509846663" SelloSAT="b+PJpfcjNp+3vpWEqdS1JzztzM95OadIvqBQ8R9gsqPZYXX3lhjLWYLtbtId1/4EPiRzgH/EJnHvJgnNAzXmLCh6ixhfstLHmtTZCi/QHixVPCJcZM9JqfRNVK+B9tLx+N7vjFpKjEIkP0CL3bR1O0GIJck4qnd1LCyIJj0QktjWMnzJQPX4QJgjPiZI7qWPCwP3giJgoKblMm8tqO3ZsRglCt8Gd6PzkUpayMG4/mEUFQO+0lNFsU2AXwnFiFNRbL2Lk+kqeyXXJVfOUOicsgFmzK2W0wiR3iiyY/By6GGN2a+sTwnIYH5QV/gW3MiS4KSDVd58BrO5XcfGMNgR7A=="/></cfdi:Complemento></cfdi:Comprobante>

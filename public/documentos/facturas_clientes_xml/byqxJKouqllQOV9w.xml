@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<cfdi:Comprobante Certificado="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" Fecha="2023-02-01T15:43:40" Folio="528440" FormaPago="28" LugarExpedicion="38670" MetodoPago="PUE" Moneda="MXN" NoCertificado="00001000000500366161" Sello="ERwscTNmkyef1COtz3n81qxm4qubtvQ7dRpP7fvcHkvobx7Gc3Ws+Lwq9iGpaZwienWSUTTPDJ3bbproz12oZSdypcrqdHr/8bPjOF/smn/pfQ4BBniIx1ObogiXlq/eR5QtOniuE1RaWqUag0XfaUGylaZ/hDBkB2AR85nnWtuTaF0jWYeOim1/xNc9O9ufruaJ/KYE3lThEwTedS4+69Ayprtw2rvI5Wk4aIV2RHTzQkz7N208VmCdB/kRK19id3Uxign1unr9p26LaSPe8XId3uGZyxDB3DG27hPRBjUdTH6g4wYVl0c8x0zvYKfZ4q3CaUB6ZxgV8WeatO5xVA==" Serie="7422" SubTotal="1516.55" TipoDeComprobante="I" Total="1759.20" Version="3.3" xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:dvz="http://www.diverza.com/ns/addenda/diverza/1" xmlns:fm="http://facturame.mx/ns/addenda/1" xmlns:pago10="http://www.sat.gob.mx/Pagos" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd">
+    <cfdi:Emisor Nombre="AUTOZONE DE MEXICO S DE RL DE CV" RegimenFiscal="601" Rfc="AME970109GW0"/><cfdi:Receptor Rfc="EIM110627PY3" UsoCFDI="G03"/>
+    <cfdi:Conceptos>
+        <cfdi:Concepto Cantidad="1.000000" ClaveProdServ="25172013" ClaveUnidad="H87" Descripcion="55 CB85224 HORQUILLA" Importe="1516.55" NoIdentificacion="330357" ValorUnitario="1516.550000">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Base="1516.550000" Importe="242.65" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa"/>
+                </cfdi:Traslados>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos TotalImpuestosTrasladados="242.65">
+        <cfdi:Traslados>
+            <cfdi:Traslado Importe="242.65" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa"/>
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+    <cfdi:Complemento>
+        <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="d1630743-ac43-43d2-8185-de59d384c785" RfcProvCertif="SNF171020F3A" FechaTimbrado="2023-02-01T15:43:41" SelloCFD="ERwscTNmkyef1COtz3n81qxm4qubtvQ7dRpP7fvcHkvobx7Gc3Ws+Lwq9iGpaZwienWSUTTPDJ3bbproz12oZSdypcrqdHr/8bPjOF/smn/pfQ4BBniIx1ObogiXlq/eR5QtOniuE1RaWqUag0XfaUGylaZ/hDBkB2AR85nnWtuTaF0jWYeOim1/xNc9O9ufruaJ/KYE3lThEwTedS4+69Ayprtw2rvI5Wk4aIV2RHTzQkz7N208VmCdB/kRK19id3Uxign1unr9p26LaSPe8XId3uGZyxDB3DG27hPRBjUdTH6g4wYVl0c8x0zvYKfZ4q3CaUB6ZxgV8WeatO5xVA==" NoCertificadoSAT="00001000000414211380" SelloSAT="cybUGoKeG8O4qKALb8Cev2fJ5gDHtZl2qV9nZ6UmEswJFyMRDsmXbI8ds0xM+zSM8EAlEOgiG9x03lVuNqHOc0sMm0nsCHnXgSfJcYB1l5LndtG/yioQ20wviM0SqaRQAS5IKuWh6nxXiNmFvFDj5kNZmftorQY7teLQit9t16SkEdIwsLY07q1md2LzCvPM0E888w4Hfq6/aZPwD1If6lQzrDJWt2lK1d6nHHRgie+u5/TnXmrajmzVRd96JQpPaLMEdNwB4x/qsyl5YEk14VY1dsLe5pin7ET5OlN7/9nfPRU11tbV4qcWRqrpnDkfPl2WjxDC100f81fW2kfdTg=="/>
+    </cfdi:Complemento><cfdi:Addenda>
+        <dvz:diverza version="1.1">
+            <dvz:generales tipoDocumento="Factura"/>
+            <dvz:complemento>
+                <dvz:datosExtra atributo="NumCta" valor="1105"/>
+            </dvz:complemento>
+        </dvz:diverza>
+    <fm:AddendaFacturame version="1.0" xmlns:fm="http://facturame.mx/ns/addenda/1"><Ticket number="7422528440020123"/></fm:AddendaFacturame></cfdi:Addenda>
+</cfdi:Comprobante>

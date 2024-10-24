@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Folio="2561" Fecha="2022-11-29T15:51:44" Sello="iHhsPYsqZPMgn/4s3BQFrd/hewAvuLTPRY8V+qyuBnmpVHEoUlF0+73m7Yh9bzZ27Q9T8ZpyOPphbgCuUQlw7lmeL4jTrj4JWBW1JFw1sDqkNkOGOC0tV/ZV09iXlftee/6YC3/5XSnBFxSKqnBvU1qb5Cd1YV7Aq+mvtaPAKKQBTpZ0TEiimMTNyVdXhJZasUKbaRtgD37Rb0u2VI3enPedAw0Wg8ZyNiyqYVDdOJZC2G0CjanNQWj+QgQasnAO0nN7yHk1lLlwWLrYfr/VaRwhjOo6F3p2ynNzOr/jODKf4jv0p91zvGXHs7aW4OYt6FLyKAWiM/ZVvQ6YHVyo+A==" FormaPago="99" NoCertificado="00001000000502706885" Certificado="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" SubTotal="3906.90" Moneda="MXN" Total="4532.00" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" LugarExpedicion="58500" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <cfdi:Emisor Rfc="POPI740806CN0" Nombre="IGNACIO PEDRO PONCE PARAMO" RegimenFiscal="621" />
+  <cfdi:Receptor Rfc="EIM110627PY3" Nombre="ECO IMPULSA" DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="601" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="78181507" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="AFINACIACION 4 CIL CAMBIO DE FILTROSACEITE Y BUJIAS" ValorUnitario="1452.59" Importe="1452.59" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1452.59" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="232.41" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25171708" Cantidad="1.00" ClaveUnidad="XKI" Unidad="Kit (Conjunto de pie" Descripcion="BALATAS DELANTERAS (INCLUYE RECTIFICADO DE DISCOS )" ValorUnitario="1333.62" Importe="1333.62" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1333.62" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="213.38" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="25172504" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="LLANTA 175/70R14" ValorUnitario="1120.69" Importe="1120.69" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1120.69" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="179.31" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="625.10">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="3906.90" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="625.10" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="58AAF5ED-E180-4934-B9FC-4D83E01184ED" FechaTimbrado="2022-11-29T15:52:08" RfcProvCertif="SAT970701NN3" SelloCFD="iHhsPYsqZPMgn/4s3BQFrd/hewAvuLTPRY8V+qyuBnmpVHEoUlF0+73m7Yh9bzZ27Q9T8ZpyOPphbgCuUQlw7lmeL4jTrj4JWBW1JFw1sDqkNkOGOC0tV/ZV09iXlftee/6YC3/5XSnBFxSKqnBvU1qb5Cd1YV7Aq+mvtaPAKKQBTpZ0TEiimMTNyVdXhJZasUKbaRtgD37Rb0u2VI3enPedAw0Wg8ZyNiyqYVDdOJZC2G0CjanNQWj+QgQasnAO0nN7yHk1lLlwWLrYfr/VaRwhjOo6F3p2ynNzOr/jODKf4jv0p91zvGXHs7aW4OYt6FLyKAWiM/ZVvQ6YHVyo+A==" NoCertificadoSAT="00001000000504465028" SelloSAT="Uq852FloskuJt//pIRY6ghuL/vFSdqgc1o/s6tedvJDcpXHxHhPanMXHsY1144Wc9syWdqiNFJjSnZIEmFS1Pxafygp926wvlzMxFu9voBzFqERrYe270qnNDLjZoMZajVwBQnXrnFtsU3Rlgx2f2I/WGvCXtWyMXSkskn4aveuumX2jEd00nudgjxR0XmgvrkuuTO5v+YdEzeD5ITpIIMklaVA/JzBPRleYixBNQeiTrSs9uap9x5HjpMzpbkBfqEiviqms4U1MxsZbSLgF40G2p7SzBci+VeZ0LUlaHCoag0SCsFmqEGxrxQ5G8AFkW4nSlMTl+QPJF/vMV9+68Q==" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>
