@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Certificado="MIIGMzCCBBugAwIBAgIUMDAwMDEwMDAwMDA1MDYyODU3ODMwDQYJKoZIhvcNAQELBQAwggGEMSAwHgYDVQQDDBdBVVRPUklEQUQgQ0VSVElGSUNBRE9SQTEuMCwGA1UECgwlU0VSVklDSU8gREUgQURNSU5JU1RSQUNJT04gVFJJQlVUQVJJQTEaMBgGA1UECwwRU0FULUlFUyBBdXRob3JpdHkxKjAoBgkqhkiG9w0BCQEWG2NvbnRhY3RvLnRlY25pY29Ac2F0LmdvYi5teDEmMCQGA1UECQwdQVYuIEhJREFMR08gNzcsIENPTC4gR1VFUlJFUk8xDjAMBgNVBBEMBTA2MzAwMQswCQYDVQQGEwJNWDEZMBcGA1UECAwQQ0lVREFEIERFIE1FWElDTzETMBEGA1UEBwwKQ1VBVUhURU1PQzEVMBMGA1UELRMMU0FUOTcwNzAxTk4zMVwwWgYJKoZIhvcNAQkCE01yZXNwb25zYWJsZTogQURNSU5JU1RSQUNJT04gQ0VOVFJBTCBERSBTRVJWSUNJT1MgVFJJQlVUQVJJT1MgQUwgQ09OVFJJQlVZRU5URTAeFw0yMTAxMjkxOTUwMDdaFw0yNTAxMjkxOTUwMDdaMIIBADE2MDQGA1UEAxMtQ09NRVJDSUFMSVpBRE9SQSBZIERJU1RSSUJVSURPUkEgWkFZIFNBIERFIENWMTYwNAYDVQQpEy1DT01FUkNJQUxJWkFET1JBIFkgRElTVFJJQlVJRE9SQSBaQVkgU0EgREUgQ1YxNjA0BgNVBAoTLUNPTUVSQ0lBTElaQURPUkEgWSBESVNUUklCVUlET1JBIFpBWSBTQSBERSBDVjElMCMGA1UELRMcQ0RaMjAxMjI4NDYxIC8gUkFKVTczMTAwNUU5MDEeMBwGA1UEBRMVIC8gUkFKVTczMTAwNUhERk1NTDA1MQ8wDQYDVQQLEwZNQVRSSVowggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCFDhO2Z7dgVUX7jELuuuOBkopAJVIbt6vdKvvdQIpbkg7tCdO6oJLYcb5U5JqVrvefZ5JUL6+p4DTrTXGR9JKJNWD6KL3EKB53nccbMsZe4B9q3rYD98BD91bwUxmnHrjmOfK11BprPiyg0YUTefH39QHOxxVj/gJKQCvyavMJufXte9VJewX3j27tyk6ceJrjyPWrsZUe1lF2dUxb0DmffQGkK9706yQSsytrFpf4sARST9t+laM09OcWFh/YkAL5Ib74apxo5st4iiZVIZx6JA7sWaFPHo0lI5nCTRclhZK9TdskRG85uX5/sHKqKvA6S9znem3ug3Wyxqcj5SV/AgMBAAGjHTAbMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSqGSIb3DQEBCwUAA4ICAQAS9ha74S02MLzWhsvoQYr0v+Q7kbMiAngoVvoBDLThAyGYWWY909Y56qQppBuAe2LimO5ICPf7YwiHs5rFcaCi3SnfH98fx1XU8zwfb/t0hiwnJr7Xuz8wSU+T2i6UfGKDkdVzjRZewNLZlJkwBlncMHoo5e7mEjPVoZIZYYvg/PEZybXslDKiQoEaVe4xSe/+x1FQTwextSfoMfA+gHC6BHeYDkkiRYm8elWvAHnNMN+Rbhr2KE8jvEM9L/FlOmgNRnZEsxKfB4ngLKpUbh7DRhHh8pJ6wmioK7q5DidRXDYlxz4tcWx3WosxS1VcWCy4gT1zZf1RyzF+qBNUgyLe8/JY+bCQw5QXBeW5LNQUPPFb01+Z40GmgiTKCDW3FgZEVWXY8RuVxIN0Q5k8d4SnfSG4JmUXuzHJDnhNY0A7sVupk3jL9mPRrVZzMLeTqRB4/jUyC75CLj+sDe6aBj2yJs2tLcMdRkGLcCbRPuh1d2LZBo3bEVU64YjJgalN5krN/GdRruS67RDCGPqJDQSrwTUj2eiVlHa3bgUA+aAGRMRTWcflHX4FQtOszp8JBMw7z3dFwatN99+eu8rTqClEuM56jhtlj/h9nAyPCUGeOQAFUBQUuUdQrE6qbbTLEb6L11Ys/IlMApW1ZN2EjkWTf6cW2RAZK6dKRuq0kM39rw==" CondicionesDePago="0001" Exportacion="01" Fecha="2023-03-14T14:35:47" Folio="18763" FormaPago="03" LugarExpedicion="08400" MetodoPago="PUE" Moneda="MXN" NoCertificado="00001000000506285783" Sello="RX3d4BsOLwm2u6/TcWXlh3DLeIzTemmevabgXzZlkQb9ulizVLX9R1gUxNEI8WmgYttd0rL2qNnuFee7iWgl+Gwo58t/IkY2OwctAvcRrGsN8gFKuH25BX9Cm3N/5t4nvX4fAeI8vTx6XsRoT7LtFwP4FZaMbMkB+Z3EvLuQhJaybe1oqHjqcVp9dmSX+ZxsUmZuPqbrRWnb3i1Se3zSA15H62C4uOyZ+Ij2YlZtcpFzS7yxvalo9pbNIFB1tzOLqaHB7BcTlAyUjvPrnrXxnI6U48bR0qi7vS380sv3tYTTDddTR0zfz5aSRg/AssjtPJ/WarWVcUTNL4TWiOQtvQ==" Serie="FMO" SubTotal="1980.00" TipoCambio="1" TipoDeComprobante="I" Total="2296.80" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd">
+<cfdi:Emisor Nombre="COMERCIALIZADORA Y DISTRIBUIDORA ZAY" RegimenFiscal="601" Rfc="CDZ201228461"/>
+<cfdi:Receptor DomicilioFiscalReceptor="58337" Nombre="ECO IMPULSA" RegimenFiscalReceptor="601" Rfc="EIM110627PY3" UsoCFDI="G03"/>
+<cfdi:Conceptos>
+<cfdi:Concepto Cantidad="10.00" ClaveProdServ="53103001" ClaveUnidad="H87" Descripcion="PLAYERA PC C/R M/C CABALLERO 100%ALGODÓN MARINO, G" Importe="440.00" NoIdentificacion="C0300P04140G" ObjetoImp="02" Unidad="PZ" ValorUnitario="44.00">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="440.00" Importe="70.40" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa"/>
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto Cantidad="25.00" ClaveProdServ="53103001" ClaveUnidad="H87" Descripcion="PLAYERA PC C/R M/C CABALLERO 100%ALGODÓN MARINO, M" Importe="1100.00" NoIdentificacion="C0300P04140M" ObjetoImp="02" Unidad="PZ" ValorUnitario="44.00">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="1100.00" Importe="176.00" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa"/>
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+<cfdi:Concepto Cantidad="10.00" ClaveProdServ="53103001" ClaveUnidad="H87" Descripcion="PLAYERA PC C/R M/C CABALLERO 100%ALGODÓN MARINO, EG" Importe="440.00" NoIdentificacion="C0300P04141G" ObjetoImp="02" Unidad="PZ" ValorUnitario="44.00">
+<cfdi:Impuestos>
+<cfdi:Traslados>
+<cfdi:Traslado Base="440.00" Importe="70.40" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa"/>
+</cfdi:Traslados>
+</cfdi:Impuestos>
+</cfdi:Concepto>
+</cfdi:Conceptos>
+<cfdi:Impuestos TotalImpuestosTrasladados="316.80">
+<cfdi:Traslados>
+<cfdi:Traslado Base="1980.00" Importe="316.80" Impuesto="002" TasaOCuota="0.160000" TipoFactor="Tasa"/>
+</cfdi:Traslados>
+</cfdi:Impuestos>
+<cfdi:Complemento>
+<tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" FechaTimbrado="2023-03-14T14:37:39" NoCertificadoSAT="00001000000503726510" RfcProvCertif="VSI850514HX4" SelloCFD="RX3d4BsOLwm2u6/TcWXlh3DLeIzTemmevabgXzZlkQb9ulizVLX9R1gUxNEI8WmgYttd0rL2qNnuFee7iWgl+Gwo58t/IkY2OwctAvcRrGsN8gFKuH25BX9Cm3N/5t4nvX4fAeI8vTx6XsRoT7LtFwP4FZaMbMkB+Z3EvLuQhJaybe1oqHjqcVp9dmSX+ZxsUmZuPqbrRWnb3i1Se3zSA15H62C4uOyZ+Ij2YlZtcpFzS7yxvalo9pbNIFB1tzOLqaHB7BcTlAyUjvPrnrXxnI6U48bR0qi7vS380sv3tYTTDddTR0zfz5aSRg/AssjtPJ/WarWVcUTNL4TWiOQtvQ==" SelloSAT="QyyMzz0Yap2101bq81xqdelcNXyWiRe+zo6XX/MSYTnHx7tMnlohj/FMrCw43ALLOW7PIYkjxAV5W34LmwXYNXCJPLs2hEFtHEkLBqGclgUVU7lRCbU2xOx8Fvgf4vhHQ2Zq7iVP49u9PuWJWmUCwz5flXocXYHJVO4vXnJ+HotDl6M3+j+fC86kA/orABvkTI7GG0bRn4uswU7Ep9VWsmmVPPGAfulu9a4zIdcn+Yxigr5W4p9TI+uHJxx8O3RTrDJ/9MnwSSjqeO9Y75fyfwsLNPXYn8fqK13KNEU782NOkz+qYn7kF1FRMZvxijfugFld7FIRe75uOMRL4XHnXw==" UUID="A0FBE30B-9DD8-4518-9398-17A399F0CC4E" Version="1.1" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd"/>
+</cfdi:Complemento>
+</cfdi:Comprobante>

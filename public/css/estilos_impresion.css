@@ -1,0 +1,284 @@
+@charset "utf-8";
+/* CSS Document */
+body { font-family: 'Arial', 'sans-serif'; }
+
+
+
+
+
+.texto-vertical{
+	display: block;
+	font-size: .3rem;
+	top: calc(100% -500px);
+	left: 238px;
+	position: absolute;
+	padding: 1rem;
+	color: rgb(36, 45, 126);
+	  text-align: center;
+	  writing-mode: vertical-lr;
+	  transform: rotate(180deg);
+	  margin: 0;
+	  background: #aecafd;
+	  border-radius: 5px;
+	  border: 1px solid rgb(9, 50, 138);
+  }
+
+
+@media (max-width:700px){
+
+	.texto-vertical{
+		display: none;
+		font-size: .3rem;
+		
+		top: calc(0% + 300px);
+		left: 0;
+		position: relative;
+		padding: 1rem;
+		color: #fff;
+		text-align: center;
+		
+		transform: rotate(0deg);
+		margin: 0;
+		
+	  }
+	
+	  .margen{
+        margin-left: 90%;
+    }
+    
+
+}
+
+
+
+
+@page{
+	size: A4;
+   margin: 30px;
+}
+
+.texto-vertical{
+	display: block;
+	font-size: 1rem;
+	top: calc(100% -600px);
+	position: absolute;
+	padding: 1.1rem;
+	  text-align: center;
+	  writing-mode: vertical-lr;
+	  transform: rotate(180deg);
+	  margin: 1rem;
+  }
+
+
+
+
+
+
+
+
+
+#Imprime center {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center {
+	font-size: 12px;
+}
+#Imprime center {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center table tr td {
+	text-align: center;
+}
+#Imprime center table tr td {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center table tr td {
+	
+}
+#Imprime center table tr td strong {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center table tr td strong {
+	font-size: 10px;
+}
+#Imprime center table tr td strong {
+	font-size: 12px;
+}
+#Imprime center table tr td table {
+	text-align: center;
+}
+
+#Imprime  table{
+	border: 1px solid #cccccc;
+	
+}
+
+ .border_table{
+	border: 1px solid #cccccc;
+}
+
+  .border_bottom{
+	border-bottom: 1px solid #cccccc;
+}
+
+#Imprime  table td .blanco{
+
+}
+
+
+
+#Imprime  table, td, tr, p {
+	font-size: 1rem;
+}
+
+
+
+
+
+
+@media print {
+
+	body{
+		background: none;
+		background-image:none;
+	}
+
+
+
+	.texto-vertical{
+		display: block;
+		font-size: 1rem;
+		top: calc(100% -600px);
+		position: absolute;
+		padding: 1.1rem;
+		  text-align: center;
+		  writing-mode: vertical-lr;
+		  transform: rotate(180deg);
+		  margin: 1rem;
+	  }
+	
+
+#Imprime center {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center {
+	font-size: 12px;
+}
+#Imprime center {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center table tr td {
+	text-align: center;
+}
+#Imprime center table tr td {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center table tr td {
+
+}
+#Imprime center table tr td strong {
+	font-family: Arial,  sans-serif;
+}
+#Imprime center table tr td strong {
+	font-size: 10px;
+}
+#Imprime center table tr td strong {
+	font-size: 12px;
+}
+#Imprime center table tr td table {
+	text-align: center;
+}
+
+  table{
+	border: 1px solid #cccccc;
+	
+}
+
+ .border_table{
+	border: 1px solid #cccccc;
+}
+
+ .border_bottom{
+	border-bottom: 1px solid #cccccc;
+}
+
+ .blanco{
+	
+color: #333;
+}
+
+
+
+#Imprime  table, td, tr, p {
+	font-size: .9rem;
+}
+
+
+body{ font-size: 1rem;
+	height: 100%;
+	} 
+	
+		.formularios{
+		background: #EDEDF9;
+		padding: 0 0 .5rem 0;
+		border-radius:  .5rem;
+		font-size: .5rem;
+		margin: .4rem;
+		
+		}
+	
+		.table--text{
+			color: #29299b;
+		}
+	
+		#Imprime  .azul{
+		background: #b0c3e6;
+			border-radius: 3px;
+			color: #333366;
+			
+		}
+			header, footer, nav, aside, button, .oculto{
+			display: none;
+		  }
+		  
+	.quitar{
+		display: none;
+	}
+
+
+
+
+
+	.main {
+		width:100%;
+	  }
+	  
+	  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		 
+		  /*
+		  ul, img, table {
+			page-break-inside: avoid;
+		}*/
+	}
+
+
+
+
+
+
+
+

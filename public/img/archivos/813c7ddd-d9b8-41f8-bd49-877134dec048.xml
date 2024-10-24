@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cfdi:Comprobante Exportacion="01" LugarExpedicion="58180" MetodoPago="PUE" TipoDeComprobante="I" Total="6719.98" Moneda="MXN" SubTotal="6067.71" Certificado="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" NoCertificado="00001000000510693899" FormaPago="03" Sello="nMIwKHEy9RXc72R6w2Q8MhdXGrXYZI7YdpfuLBwG17NHUk1Wb1QOBN6B3hVHK5djH236M3T9AkEcxRdaCq9xy4KxOsvWLRE02U4Pj53UFVjVDrKSLJ4Kp2a3NgQs5TNx+TZbzkA1B4G3CHiOs8zdJQvtC75M/kWcM5g1K1wCmLwCCDyPnYoMkrdVZ6SUqzy0C9BWX8+WSYvkYKGIEjUJNBlfF0TEAi6BEKwLi9rn8X7K3/W27Yyym9IaNiylvsNyzmP8Us8bgScfciMqHXAHvD29lgqXXB5MqjRfM4kX6GOWPw3AeImdjRJffmpk64B17OcBcYNDTVY/KNAqjWy2sw==" Fecha="2023-05-17T13:33:27" Folio="2389" Serie="A" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <cfdi:Emisor RegimenFiscal="626" Nombre="GUSTAVO RAMIREZ VALDES" Rfc="RAVG630517TK9"/>
+    <cfdi:Receptor DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="626" UsoCFDI="G03" Nombre="CAR FIX AND BEYOND" Rfc="CFB190523NF1"/>
+    <cfdi:Conceptos>
+        <cfdi:Concepto ObjetoImp="02" Importe="1047.40" ValorUnitario="1047.40" Descripcion="AK15361  Un Servicio de grúa Local de Perif. República en Rancho Los Ejidos a Pto. Acapulco Tinijaro el Vehículo Dodge Ram, 0 color Blanco, placas  NL 9040 A, # de Serie: 84001 el 12-may" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15361" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="167.58" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="13.09" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1047.40"/>
+                    <cfdi:Retencion Importe="41.90" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1047.40" ValorUnitario="1047.40" Descripcion="AK15376  Un Servicio de grúa Local de Mariano Porto en La Soledad a Pto. Acapulco Tinijaro el Vehículo Chevrolet Silverado, 0 color Blanco, placas  MU 2340 F, # de Serie: 70170 el 15-may" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15376" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="167.58" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="13.09" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1047.40"/>
+                    <cfdi:Retencion Importe="41.90" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="3972.91" ValorUnitario="3972.91" Descripcion="AK15381  Un Servicio de grúa Foráneo de Tinijaro en Morelia, Mich. a Loma Linda Moroleon, Gto. el VehícuMo Ford F 150, 0 color Blanco, placas S/P, # de Serie: 0 el 16-may" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15381" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="635.67" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="3972.91"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="49.66" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="3972.91"/>
+                    <cfdi:Retencion Importe="158.92" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="3972.91"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos TotalImpuestosTrasladados="970.83" TotalImpuestosRetenidos="318.56">
+        <cfdi:Retenciones>
+            <cfdi:Retencion Importe="75.84" Impuesto="001"/>
+            <cfdi:Retencion Importe="242.72" Impuesto="002"/>
+        </cfdi:Retenciones>
+        <cfdi:Traslados>
+            <cfdi:Traslado Base="6067.71" Importe="970.83" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002"/>
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+    <cfdi:Complemento>
+        <tfd:TimbreFiscalDigital FechaTimbrado="2023-05-17T13:33:28" NoCertificadoSAT="00001000000509846663" RfcProvCertif="LSO1306189R5" SelloCFD="nMIwKHEy9RXc72R6w2Q8MhdXGrXYZI7YdpfuLBwG17NHUk1Wb1QOBN6B3hVHK5djH236M3T9AkEcxRdaCq9xy4KxOsvWLRE02U4Pj53UFVjVDrKSLJ4Kp2a3NgQs5TNx+TZbzkA1B4G3CHiOs8zdJQvtC75M/kWcM5g1K1wCmLwCCDyPnYoMkrdVZ6SUqzy0C9BWX8+WSYvkYKGIEjUJNBlfF0TEAi6BEKwLi9rn8X7K3/W27Yyym9IaNiylvsNyzmP8Us8bgScfciMqHXAHvD29lgqXXB5MqjRfM4kX6GOWPw3AeImdjRJffmpk64B17OcBcYNDTVY/KNAqjWy2sw==" SelloSAT="PA8A7sJJmVRJoxQSpNDA1LVXWbgmE/jkQEGS8ilts5RHqTgbGNoD13MRUj8r004Mp7LwNWn0LJqsR1jccUZzERsTtpovPlFi/u0yM9lRJqyvPDUNrrap+xKK1eiYibw+eMevjk+xfNmZ7iSp2eK0dCraGAz0DsVskIUD7lqn7QT7vmzaWavWFUvd1ccbIgFW6yajmy8qXAvbxmTwYrdIzzN+Gh2XhnSFUuGDgESmisBqsbBgxjh6tjF2gyP/o4ZE1qx/nlkuBJyGwOtlJXTr7ZJYIrPfF7fZzejsI6pJ/aUjTS3AjaHEAPE3N292Czm0jJy+Ou8NFwc9bP88kiGEOw==" UUID="813c7ddd-d9b8-41f8-bd49-877134dec048" Version="1.1" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"/>
+    </cfdi:Complemento>
+</cfdi:Comprobante>

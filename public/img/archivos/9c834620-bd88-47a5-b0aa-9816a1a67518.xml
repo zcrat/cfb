@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cfdi:Comprobante Exportacion="01" LugarExpedicion="58180" MetodoPago="PUE" TipoDeComprobante="I" Total="23620.24" Moneda="MXN" SubTotal="21327.55" Certificado="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" NoCertificado="00001000000510693899" FormaPago="03" Sello="QLJ3HHcswnbNSnRNQyf4iRNc/NUnooF7YSasHrTNPDCqMA9Q6n5xcGDdcdn+stZWq+kj+eda6YhAOqPfdTwmXOTcW8Fu+dsPoH+zTkbqHVF41JIf8i7gLpVmduYjurcVV6eLpAtrtBmVEM/bzhbl2g1kDdu/0VjXDDFuOV5N722cCs+G3nYZqFerzvIje75yycmZ414/l4rpEaG+czeiKFQTFrMMBF5icphMSAd01jNxWMl9+zFGGCYmIgeJ6+gDI0/B5MBqNg8DLcrSzNnbQsr7ig4QP1pDOpUbePBSbIYagiu35Nuh/HXoGL5uxhU/Nm7HLIimN57BOHAYWz9bpA==" Fecha="2023-06-14T14:41:18" Folio="2412" Serie="A" Version="4.0" xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <cfdi:Emisor RegimenFiscal="626" Nombre="GUSTAVO RAMIREZ VALDES" Rfc="RAVG630517TK9"/>
+    <cfdi:Receptor DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="626" UsoCFDI="G03" Nombre="CAR FIX AND BEYOND" Rfc="CFB190523NF1"/>
+    <cfdi:Conceptos>
+        <cfdi:Concepto ObjetoImp="02" Importe="2304.29" ValorUnitario="2304.29" Descripcion="AK12479 Un Servicio de grúa Foráneo de Carr. Morelia Huaniqueo en Tiristaran a Tinijaro Morelia, Mich. el Vehículo Ford F250, 0 color Blanco, placas  0, # de Serie: 98675 el 08-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK12479" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="368.69" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="2304.29"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="28.80" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="2304.29"/>
+                    <cfdi:Retencion Importe="92.17" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="2304.29"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="3972.91" ValorUnitario="3972.91" Descripcion="AK15471 Un Servicio de grúa Foráneo de Loma Linda en Moroleon, Gto. a Tinijaro Morelia, Mich. el Vehículo Chevrolet Silverado, 0 color Blanco, placas  GJ 06033, # de Serie: 68754 el 09-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15471" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="635.67" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="3972.91"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="49.66" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="3972.91"/>
+                    <cfdi:Retencion Importe="158.92" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="3972.91"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1361.63" ValorUnitario="1361.63" Descripcion="AK15474 Un Servicio de grúa Local de ! Ret del Castor en Vistas Altozano a Pto. Acapulco Tinijaro el VehícuMo Ford F 250, 0 color Blanco, placas 0, # de Serie: 80385 el 09-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15474" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="217.86" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1361.63"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="17.02" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1361.63"/>
+                    <cfdi:Retencion Importe="54.47" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1361.63"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1152.14" ValorUnitario="1152.14" Descripcion="AK15475 Un Servicio de grúa Local de Planta El Cobano en Electricistas a Pto. Acapulco Tinijaro el VehícuMo Renault 0, 0 color Gris, placas 0, # de Serie: 0 el 09-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15475" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="184.34" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1152.14"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="14.40" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1152.14"/>
+                    <cfdi:Retencion Importe="46.09" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1152.14"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1361.63" ValorUnitario="1361.63" Descripcion="AK15480 Un Servicio de grúa Local de 1 Cong. Const. 1824 en La Soledad a Pto. Acapulco Tinijaro el VehícuMo Chevrolet Silverado, 2000 color Blanco, placas GH 7883 C, # de Serie: 0 el 10-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15480" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="217.86" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1361.63"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="17.02" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1361.63"/>
+                    <cfdi:Retencion Importe="54.47" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1361.63"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1047.40" ValorUnitario="1047.40" Descripcion="AK15490 Un Servicio de grúa Local de Camelinas en Nva. Jacarandas a Pto. Acapulco Tinijaro el VehícuMo Ford F250, 0 color Blanco, placas MV 5034 D, # de Serie: 0 el 12-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15490" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="167.58" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="13.09" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1047.40"/>
+                    <cfdi:Retencion Importe="41.90" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="5728.45" ValorUnitario="5728.45" Descripcion="AK12480 Un Servicio de grúa Foráneo de Camelia Nte., Las Flores en Jaral, Gto. a Tinijaro Morelia, Mich.  para un Vehículo Chevrolet Silverado, 0 color Blanco, placas  GH 7859 L, # de Serie: 68981 el   el 13-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK12480" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="916.55" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="5728.45"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="71.61" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="5728.45"/>
+                    <cfdi:Retencion Importe="229.14" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="5728.45"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1466.37" ValorUnitario="1466.37" Descripcion="AK15495 Un Servicio de grúa Local de Acceso Erandeli La Salle en Fco. Villa, Tarimbaro a Pto. Acapulco Tinijaro el para un Vehículo Mercedes Benz Sprinter, 2019 color Blanco, placas  NA 3448 A, # de Serie: 0 el 13-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15495" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="234.62" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1466.37"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="18.33" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1466.37"/>
+                    <cfdi:Retencion Importe="58.65" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1466.37"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1047.40" ValorUnitario="1047.40" Descripcion="AK15497 Un Servicio de grúa Local de Perif. Republica en Justo Mendoza a Pto. Acapulco Tinijaro el Vehículo Ford F 250, 0 color Blanco, placas  NH 8704 B, # de Serie: 0 el 13-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15497" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="167.58" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="13.09" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1047.40"/>
+                    <cfdi:Retencion Importe="41.90" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1047.40"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+        <cfdi:Concepto ObjetoImp="02" Importe="1885.33" ValorUnitario="1885.33" Descripcion="AK15499 Un Servicio de grúa Local de Tejocote en Club de Golf Altozano a Pto. Acapulco Tinijaro el Vehículo Ford F 250, 0 color Blanco, placas  NG 0826 B, # de Serie: 80385 el 14-jun" Unidad="Arrastre" ClaveUnidad="Z5" Cantidad="1.00" NoIdentificacion="AK15499" ClaveProdServ="78101803">
+            <cfdi:Impuestos>
+                <cfdi:Traslados>
+                    <cfdi:Traslado Importe="301.65" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002" Base="1885.33"/>
+                </cfdi:Traslados>
+                <cfdi:Retenciones>
+                    <cfdi:Retencion Importe="23.57" TasaOCuota="0.012500" TipoFactor="Tasa" Impuesto="001" Base="1885.33"/>
+                    <cfdi:Retencion Importe="75.41" TasaOCuota="0.04" TipoFactor="Tasa" Impuesto="002" Base="1885.33"/>
+                </cfdi:Retenciones>
+            </cfdi:Impuestos>
+        </cfdi:Concepto>
+    </cfdi:Conceptos>
+    <cfdi:Impuestos TotalImpuestosTrasladados="3412.40" TotalImpuestosRetenidos="1119.71">
+        <cfdi:Retenciones>
+            <cfdi:Retencion Importe="266.59" Impuesto="001"/>
+            <cfdi:Retencion Importe="853.12" Impuesto="002"/>
+        </cfdi:Retenciones>
+        <cfdi:Traslados>
+            <cfdi:Traslado Base="21327.55" Importe="3412.40" TasaOCuota="0.160000" TipoFactor="Tasa" Impuesto="002"/>
+        </cfdi:Traslados>
+    </cfdi:Impuestos>
+    <cfdi:Complemento>
+        <tfd:TimbreFiscalDigital FechaTimbrado="2023-06-14T14:41:18" NoCertificadoSAT="00001000000509846663" RfcProvCertif="LSO1306189R5" SelloCFD="QLJ3HHcswnbNSnRNQyf4iRNc/NUnooF7YSasHrTNPDCqMA9Q6n5xcGDdcdn+stZWq+kj+eda6YhAOqPfdTwmXOTcW8Fu+dsPoH+zTkbqHVF41JIf8i7gLpVmduYjurcVV6eLpAtrtBmVEM/bzhbl2g1kDdu/0VjXDDFuOV5N722cCs+G3nYZqFerzvIje75yycmZ414/l4rpEaG+czeiKFQTFrMMBF5icphMSAd01jNxWMl9+zFGGCYmIgeJ6+gDI0/B5MBqNg8DLcrSzNnbQsr7ig4QP1pDOpUbePBSbIYagiu35Nuh/HXoGL5uxhU/Nm7HLIimN57BOHAYWz9bpA==" SelloSAT="AG45AHhg/hCtGXK79zzFC9pOFK0vGnp9ac+BA/QWCMWecQqnFo75+UG1TT/PppIm0qwEunxCNESCkS/2PM1nQUGqF6v3oEo716CUlsfgfKm3X0a9hRfzPu0P1/OiIOWf3S3qcXTCd2UnFS2rDmkZhbtN0cnhYf/Z4xRaY45OLWfxG4t8scrGpArbY+N17WI5lgF19Of6GptvQCWsA7hhOEd/xL5U/HCTh72MAyEree0xy3BM4jWJdzYbtGti5epL76fAxOL/yOxuSil6oRW+0R0l0DV77U3odEMaBeudHlWOjWyUHTgcdESSdiiEFpJI66/jcXVbrUXCvkxrmxBNEA==" UUID="9c834620-bd88-47a5-b0aa-9816a1a67518" Version="1.1" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"/>
+    </cfdi:Complemento>
+</cfdi:Comprobante>

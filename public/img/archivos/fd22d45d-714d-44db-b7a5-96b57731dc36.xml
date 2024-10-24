@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Fecha="2024-01-27T10:53:56" Sello="GGQu6p6BidohIfYyXtg2t+ly0hkQk5BHdRveN8FnJmPivaGTpOW04lMqAAEe7725TCzkIdsVPLiB5HnhlM+1OYIsai6LiG8LPIjRGXzJfohXvGhwDFlBIWQ7eAiK31MCye4mvOvmqtfVvOqPQ/y0ExD4NPCmQMEDVF9CzsEj+IJ9+2eE5LZVOv0lW55vZAUEiVSsBO+5Oj1OUj3CTvakG55nORyjsNGvYEJLlCCNDVCRgxgM2CVuMiV5Ij/cuK8xYvZ4z4hfiRLoXlU6Gjn8huMDbGphZ/PW6PjGAMqrPGgYqzbjH0K/bOeOqjWdKt1PxQOn8lOX2ykmk0YZpkT2xg==" FormaPago="01" NoCertificado="00001000000516987576" Certificado="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" SubTotal="1000.00" Moneda="MXN" Total="1147.50" TipoDeComprobante="I" Exportacion="01" MetodoPago="PUE" LugarExpedicion="58148" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cartaporte30="http://www.sat.gob.mx/CartaPorte30">
+  <cfdi:Emisor Rfc="RIBB900426HK4" Nombre="BLANCA NELLY RIVERA BLANCAS" RegimenFiscal="626" />
+  <cfdi:Receptor Rfc="CFB190523NF1" Nombre="CAR FIX AND BEYOND" DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="626" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="XUN" Unidad="Unidad" Descripcion="REPARACION DE SISTEMA DE ESCAPE QUE INCLUYE TUBO TRACERO" ValorUnitario="1000" Importe="1000.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="160.00" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1000.00" Impuesto="001" TipoFactor="Tasa" TasaOCuota="0.012500" Importe="12.50" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="160.00" TotalImpuestosRetenidos="12.50">
+    <cfdi:Retenciones>
+      <cfdi:Retencion Impuesto="001" Importe="12.50" />
+    </cfdi:Retenciones>
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="1000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="160.00" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="FD22D45D-714D-44DB-B7A5-96B57731DC36" FechaTimbrado="2024-01-27T10:55:40" RfcProvCertif="SAT970701NN3" SelloCFD="GGQu6p6BidohIfYyXtg2t+ly0hkQk5BHdRveN8FnJmPivaGTpOW04lMqAAEe7725TCzkIdsVPLiB5HnhlM+1OYIsai6LiG8LPIjRGXzJfohXvGhwDFlBIWQ7eAiK31MCye4mvOvmqtfVvOqPQ/y0ExD4NPCmQMEDVF9CzsEj+IJ9+2eE5LZVOv0lW55vZAUEiVSsBO+5Oj1OUj3CTvakG55nORyjsNGvYEJLlCCNDVCRgxgM2CVuMiV5Ij/cuK8xYvZ4z4hfiRLoXlU6Gjn8huMDbGphZ/PW6PjGAMqrPGgYqzbjH0K/bOeOqjWdKt1PxQOn8lOX2ykmk0YZpkT2xg==" NoCertificadoSAT="00001000000504465028" SelloSAT="FsGfeSw0U/twmoffY7GE/LOUZpBV5KZBV+I566GQSPpsGf5gbScsRi7myHLO9HfBidZn/+V+IV9qAOG7qoQB+jDRf1LBNHzcnwod/a346l7w9s9fF75h2Z7YXbuIEX12P0bjzXiYAwU5pPr7aUw29UvoD0OYKxJXzlQ6o8sOAeXmoGK+aupGn6Rp+z3G8HHA0XrS6VpjoBkCBDQqVk+AVwAKWrUebUloEkNV7CE/O3Hy2oeK6bXCzN8EEHEkesh7c8cAQ6tOQNdDEEqCZDfcT2x9dZ7KHv9lNnBUmm2+LIGzpPPG8MgpzX+e4fQA/3x5U7ZLwHExhMfCWuAPBxnW8Q==" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

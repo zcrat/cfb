@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Serie="A" Folio="162" Fecha="2023-10-12T13:10:51" Sello="Lw/PdbBxvbsNTsxcaUD99/7yEvtTF+tz+SpNqxMJfL7AZXwiffRR1JSPe+c8Q34YHDE48PxI1CFSNSJPO8pKZixT6rhWRy8vUCRaFmGWPQHDSRDtpVScmMHaNq+K/H6IC+/2BE6vVO8ekhjV8KWh+lt1qNBJUMrM23665AWp8drL6y00XeHeNCRwPqE7RxUaJArCfh9eTVdJoKQQmbwdleMDdviV1URApdd1QjRNKtmEsG9GqAhv/pLozRmgnj70Q/G5FVAVTSmvJ3WaGXppc+OL/eSG5KcgySpjKaec3cS0faTB6ktsSDjtnHY164PrOFQSaZ3JqQ4Fdr1VUnC4LQ==" FormaPago="03" NoCertificado="00001000000517806025" Certificado="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" SubTotal="4090.00" Moneda="MXN" Total="4693.27" TipoDeComprobante="I" Exportacion="01" MetodoPago="PUE" LugarExpedicion="28100" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <cfdi:Emisor Rfc="MOGM7612038L9" Nombre="MIGUEL ANGEL MONTES GOMEZ" RegimenFiscal="626" />
+  <cfdi:Receptor Rfc="CFB190523NF1" Nombre="CAR FIX AND BEYOND" DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="626" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="CAMBIO DE ACUMULADOR D-47 PARA NISSAN NP300 ECO 0613" ValorUnitario="2890" Importe="2890.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="2890.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="462.40" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="2890.00" Impuesto="001" TipoFactor="Tasa" TasaOCuota="0.012500" Importe="36.13" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="MANO DE OBRA DE 2 HORAS DE SISTEMA ELECTRICO ATENCION EN CAMPO Y CAMBIO DE ACUMULADOR" ValorUnitario="1200" Importe="1200.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1200.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="192.00" />
+        </cfdi:Traslados>
+        <cfdi:Retenciones>
+          <cfdi:Retencion Base="1200.00" Impuesto="001" TipoFactor="Tasa" TasaOCuota="0.012500" Importe="15.00" />
+        </cfdi:Retenciones>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="654.40" TotalImpuestosRetenidos="51.13">
+    <cfdi:Retenciones>
+      <cfdi:Retencion Impuesto="001" Importe="51.13" />
+    </cfdi:Retenciones>
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="4090.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="654.40" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="780BEE35-22B4-4086-959F-006020CA40C5" FechaTimbrado="2023-10-12T13:11:34" RfcProvCertif="SAT970701NN3" SelloCFD="Lw/PdbBxvbsNTsxcaUD99/7yEvtTF+tz+SpNqxMJfL7AZXwiffRR1JSPe+c8Q34YHDE48PxI1CFSNSJPO8pKZixT6rhWRy8vUCRaFmGWPQHDSRDtpVScmMHaNq+K/H6IC+/2BE6vVO8ekhjV8KWh+lt1qNBJUMrM23665AWp8drL6y00XeHeNCRwPqE7RxUaJArCfh9eTVdJoKQQmbwdleMDdviV1URApdd1QjRNKtmEsG9GqAhv/pLozRmgnj70Q/G5FVAVTSmvJ3WaGXppc+OL/eSG5KcgySpjKaec3cS0faTB6ktsSDjtnHY164PrOFQSaZ3JqQ4Fdr1VUnC4LQ==" NoCertificadoSAT="00001000000504465028" SelloSAT="QQ2hTXuRhGIHG0KKh1397uIYFsaRzMM2Vq0Nh/f+pmtSgAhuSFM5M2m7HtIFzNnoPEl32Hi2D6DjSSHt8WwyzPtiCAMJId73dMG0vOTTCKI24ufz94jBv7zGYoLde8H2j2Ze/7sbpAqgZ0EiSBWHqtmDI9ysrjMtoSWF1Y3DFad4u31NrsvL/i8PiuBMn6gb+ti62uBHW+NJLFK9dnn4PwnJmjFJBCR27JNhTNNSl46aE479HlA/cMa41iaIfVYiH/Iwel1HoMkqfmnPngTqWvN8Gd56e2L9gP1fLrfU1GTVqisovkCYta1WRURHV5nyhBa/uIzwBcLqjXBW/Q9CDg==" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>

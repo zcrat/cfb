@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xsi:schemaLocation="http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd" Version="4.0" Fecha="2022-08-23T17:30:00" Sello="LOIHl3uG+3OPw+osw7gG49iFaicnGGYidVs6gaidz3WTdZWSelXgM4Qek6kRBwM3xj/t95wIyfzwPc5zvPtPUPqcKWMPtOisdWnaioolGruYdGoyFfFrYQTN05yNYa9mauLy9uql2Dh8/B4Hg52YJYpmF9JEAwXO6FyOFJ5l3bIp9fb62p/gefS0z+f4JTqzE4XeMgEi82XqiAq7TwRI4DVW1F1JteYepMVlHhX9OzSq37DOGtigbGhU/nxAPIfcKo+hIPLi58dq/Ii6Q/GNoZrjk1PHdxTG2KVVTOARseNFp7XTUIvnTk/H9NQcI4QmZx/0e2ma0V30J7D3nKeqig==" FormaPago="99" NoCertificado="00001000000509883019" Certificado="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" SubTotal="8430.00" Moneda="MXN" Total="9778.80" TipoDeComprobante="I" Exportacion="01" MetodoPago="PPD" LugarExpedicion="28900" xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <cfdi:Emisor Rfc="CUAA740828850" Nombre="ARACELI DE LA CRUZ ARIAS" RegimenFiscal="612" />
+  <cfdi:Receptor Rfc="EIM110627PY3" Nombre="ECO IMPULSA" DomicilioFiscalReceptor="58337" RegimenFiscalReceptor="601" UsoCFDI="G03" />
+  <cfdi:Conceptos>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="CEPILLAR CABEZA DE MOTOR" ValorUnitario="600" Importe="600.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="600.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="96.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="MANO DE OBRA A NISSAN NO. ECO. 74955 PLACAFH74526" ValorUnitario="3000" Importe="3000.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="3000.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="480.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="24111818" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="SELLO DE AGUA" ValorUnitario="160" Importe="160.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="160.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="25.60" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="40151510" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="BOMBA DE AGUA" ValorUnitario="1150" Importe="1150.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1150.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="184.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="78181500" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="FLANCLATCHET" ValorUnitario="1300" Importe="1300.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="1300.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="208.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="26101732" Cantidad="4.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="CAMBIO DE BUJIAS" ValorUnitario="60" Importe="240.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="240.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="38.40" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="15101514" Cantidad="1.00" ClaveUnidad="LTR" Unidad="Litro" Descripcion="GASOLINA" ValorUnitario="80" Importe="80.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="80.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="12.80" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="40161504" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="FILTRO DE ACEITE" ValorUnitario="90" Importe="90.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="90.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="14.40" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="40161505" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="FILTRO DE AIRE" ValorUnitario="130" Importe="130.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="130.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="20.80" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="40101801" Cantidad="1.00" ClaveUnidad="E48" Unidad="Unidad de servicio" Descripcion="SONDEAR RADIADOR" ValorUnitario="400" Importe="400.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="400.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="64.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="31181701" Cantidad="1.00" ClaveUnidad="H87" Unidad="Pieza" Descripcion="EMPAQUES DE MOTOR" ValorUnitario="600" Importe="600.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="600.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="96.00" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+    <cfdi:Concepto ClaveProdServ="12181600" Cantidad="4.00" ClaveUnidad="LTR" Unidad="Litro" Descripcion="LITRO DE ACEITE" ValorUnitario="170" Importe="680.00" ObjetoImp="02">
+      <cfdi:Impuestos>
+        <cfdi:Traslados>
+          <cfdi:Traslado Base="680.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="108.80" />
+        </cfdi:Traslados>
+      </cfdi:Impuestos>
+    </cfdi:Concepto>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos TotalImpuestosTrasladados="1348.80">
+    <cfdi:Traslados>
+      <cfdi:Traslado Base="8430.00" Impuesto="002" TipoFactor="Tasa" TasaOCuota="0.160000" Importe="1348.80" />
+    </cfdi:Traslados>
+  </cfdi:Impuestos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd" Version="1.1" UUID="97CCF9CA-7377-4969-AC78-EAABC57C9105" FechaTimbrado="2022-08-23T17:31:26" RfcProvCertif="SAT970701NN3" SelloCFD="LOIHl3uG+3OPw+osw7gG49iFaicnGGYidVs6gaidz3WTdZWSelXgM4Qek6kRBwM3xj/t95wIyfzwPc5zvPtPUPqcKWMPtOisdWnaioolGruYdGoyFfFrYQTN05yNYa9mauLy9uql2Dh8/B4Hg52YJYpmF9JEAwXO6FyOFJ5l3bIp9fb62p/gefS0z+f4JTqzE4XeMgEi82XqiAq7TwRI4DVW1F1JteYepMVlHhX9OzSq37DOGtigbGhU/nxAPIfcKo+hIPLi58dq/Ii6Q/GNoZrjk1PHdxTG2KVVTOARseNFp7XTUIvnTk/H9NQcI4QmZx/0e2ma0V30J7D3nKeqig==" NoCertificadoSAT="00001000000504465028" SelloSAT="dwsX6o0yS63Gm6HX4rqDBmzZ9OCQUzSgVhI8EHzz4QkRpJzYqfb8gsPzJyRvOG0TsbzBjZ8PSrVtQ2bE8p5gSCZKpNy/5+uUk2Uc7H/e8Wkj6SQDhR4+NCZThwKuuAYVLptCrkqdkUS5vpto2cNxhDFSipBNX3bVe4HLTclL6J21jsp2N50HhDPBs4Wyo3m+G8gkVDkwECK7yKdUZH4ec20Go/OEUXeCGYc8PHk0/M/EKamE7/xshlrAhAGVRzWLn9p0jfovrt7mBNbp6auEp8sLx1TsrtJCqZJqpDcQrtQwNUaa7fhMryFI3QfwTTGboFpGmWdZYQB32E6ruxmWLQ==" />
+  </cfdi:Complemento>
+</cfdi:Comprobante>
