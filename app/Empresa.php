@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\Customer;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,6 +9,7 @@ class Empresa extends Model
 {
     protected $table = 'empresas';
     protected $fillable = [
+        'id',
         'nombre',
         'rfc',
         'logo',
@@ -22,6 +24,6 @@ class Empresa extends Model
     ];
 
     function customers(){
-        return $this->hasMany(Customer::class);
+        return $this->hasMany(Customer::class, 'empresa_id','id'); 
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Empresa;
 use App\Http\Requests\CustomerFormRequest;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,26 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function clientes(){
+       
+        $empresas = Empresa::select('id','nombre')->get();
+        $elementostotales = Customer::with(['empresa:id,nombre'])->has('empresa')->count();
+        
+        return view('pruebas.usuarios', compact('elementostotales','empresas'));
+    }
+    public function newcliente(){
+
+    }
+
+    public function empresas()
+    {
+        return view('pruebas.empresas');
+    }
+    public function obtenerusuarios()
+    {
+        $customers = Customer::with(['empresa:id,nombre'])->has('empresa')->get();
+        return response()->json(['usuarios'=>$customers]);
+    }
     public function index()
     {
         

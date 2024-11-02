@@ -11,16 +11,21 @@
 |
 */
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth/login');
 });
 
 Auth::routes();
-
+//routes prueba
+Route::get('clientes/usuarios', 'CustomerController@clientes')->name('cliente.usuarios')->middleware('auth');
+Route::get('clientes/empresas', 'CustomerController@empresas')->name('cliente.empresas')->middleware('auth');
+Route::get('clientes/newusuario', 'CustomerController@newusuario')->name('cliente.register')->middleware('auth');
+Route::get('clientes/obtenerusuarios', 'CustomerController@obtenerusuarios')->name('cliente.users')->middleware('auth');
 
 Route::middleware(['auth'])->group(function(){
-
+       
 
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
@@ -159,15 +164,15 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/sucursales/obtenerPlantel', 'SucursalesController@obtenerPlantel')->name('sucursales.index')
             ->middleware('permission:sucursales.index'); 
             
-     //Contratos        
-Route::get('/contratos', 'ContratosController@index')->name('contratos.index')
-    ->middleware('permission:contratos.index');
-Route::post('/contratos/registrar', 'ContratosController@store')->name('contratos.store')
-    ->middleware('permission:contratos.store');
-Route::post('/contratos/update', 'ContratosController@update')->name('contratos.update')
-    ->middleware('permission:contratos.update');
-Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos')->name('contratos.index')
-    ->middleware('permission:contratos.index'); 
+        //Contratos        
+        Route::get('/contratos', 'ContratosController@index')->name('contratos.index')
+        ->middleware('permission:contratos.index');
+        Route::post('/contratos/registrar', 'ContratosController@store')->name('contratos.store')
+        ->middleware('permission:contratos.store');
+        Route::post('/contratos/update', 'ContratosController@update')->name('contratos.update')
+        ->middleware('permission:contratos.update');
+        Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos')->name('contratos.index')
+        ->middleware('permission:contratos.index'); 
             
     //Cotizaciones3        
     Route::get('/cotizacion3', 'Cotizacion3Controller@index')->name('cotizacion.index')
@@ -213,7 +218,7 @@ Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos'
         ->middleware('permission:cfeB2023.index');  
         
 
-   //Ordenes       
+        //Ordenes       
         Route::get('/ordenesO2023', 'presupuestosCFEOccidente2023Controller@index')->name('cfeO2023.index')
         ->middleware('permission:cfeO2023.index');
         Route::get('/ordenesAllO2023', 'presupuestosCFEOccidente2023Controller@indexAll')->name('cfeO2023.index')
@@ -239,7 +244,8 @@ Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos'
         
         
         
-//Ordenes       
+
+        //Ordenes       
         Route::get('/ordenesCFEECO', 'presupuestosCFEECOController@index')->name('cfeO2023.index')
         ->middleware('permission:cfeO2023.index');
         Route::get('/ordenesAllCFEECO', 'presupuestosCFEECOController@indexAll')->name('cfeO2023.index')
@@ -663,18 +669,18 @@ Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos'
 
           
 
-//Conceptos   
-Route::post('/conceptos2/registrar', 'pConceptosController@store')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index');  
-Route::get('/conceptos2/selectConceptos', 'pConceptosController@selectConceptos')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index');
-Route::post('/conceptos2/obtenerDetallesmulti', 'pConceptosController@obtenerDetallesmulti')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index'); 
-Route::post('/conceptos2/delete', 'pConceptosController@delete')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index'); 
-Route::post('/conceptos/delete', 'pCFEConceptosController@delete')->name('ordenes.index')
-      ->middleware('permission:ordenes.index');     
-      
+        //Conceptos   
+        Route::post('/conceptos2/registrar', 'pConceptosController@store')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index');  
+        Route::get('/conceptos2/selectConceptos', 'pConceptosController@selectConceptos')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index');
+        Route::post('/conceptos2/obtenerDetallesmulti', 'pConceptosController@obtenerDetallesmulti')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index'); 
+        Route::post('/conceptos2/delete', 'pConceptosController@delete')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index'); 
+        Route::post('/conceptos/delete', 'pCFEConceptosController@delete')->name('ordenes.index')
+        ->middleware('permission:ordenes.index');     
+        
       
 
            //DetalleConceptos
@@ -689,55 +695,55 @@ Route::post('/conceptos/delete', 'pCFEConceptosController@delete')->name('ordene
            Route::post('/conceptosAkumas2023/exelarchivo', 'pConceptos2023Controller@exelimport')->name('ordenesNew.index')
            ->middleware('permission:ordenesNew.index');     
 
-//Conceptos   
-Route::post('/conceptos2023/registrar', 'pConceptos2023Controller@store')->name('ordenesNew.index')
-      ->middleware('permission:ordenesNew.index');  
-Route::get('/conceptos2023/selectConceptos', 'pConceptos2023Controller@selectConceptos')->name('ordenesNew.index')
-      ->middleware('permission:ordenesNew.index');
-Route::post('/conceptos2023/obtenerDetallesmulti', 'pConceptos2023Controller@obtenerDetallesmulti')->name('ordenesNew.index')
-      ->middleware('permission:ordenesNew.index'); 
-Route::post('/conceptos2023/delete', 'pConceptos2023Controller@delete')->name('ordenesNew.index')
-      ->middleware('permission:ordenesNew.index'); 
-      
-              
-      
-//DetalleConceptos
-Route::get('/detalleconceptos2', 'pCarritoController@index')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index');     
-Route::post('/detalleconceptos2/registrar', 'pCarritoController@store')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index'); 
-Route::get('/detalleconceptos2/delete', 'pCarritoController@delete')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index'); 
-Route::post('/detalleconceptos2/actualizar', 'pCarritoController@update')->name('ordenes2.index')
-      ->middleware('permission:ordenes2.index');  
+        //Conceptos   
+        Route::post('/conceptos2023/registrar', 'pConceptos2023Controller@store')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index');  
+        Route::get('/conceptos2023/selectConceptos', 'pConceptos2023Controller@selectConceptos')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index');
+        Route::post('/conceptos2023/obtenerDetallesmulti', 'pConceptos2023Controller@obtenerDetallesmulti')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index'); 
+        Route::post('/conceptos2023/delete', 'pConceptos2023Controller@delete')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index'); 
+        
+                
+        
+        //DetalleConceptos
+        Route::get('/detalleconceptos2', 'pCarritoController@index')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index');     
+        Route::post('/detalleconceptos2/registrar', 'pCarritoController@store')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index'); 
+        Route::get('/detalleconceptos2/delete', 'pCarritoController@delete')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index'); 
+        Route::post('/detalleconceptos2/actualizar', 'pCarritoController@update')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index');  
 
 
 
-      //DetalleConceptos
-Route::get('/detalleconceptos2023', 'pCarrito2023Controller@index')->name('ordenesNew.index')
-->middleware('permission:ordenesNew.index');     
-Route::post('/detalleconceptos2023/registrar', 'pCarrito2023Controller@store')->name('ordenesNew.index')
-->middleware('permission:ordenesNew.index'); 
-Route::post('/detalleconceptos2023h/registrar', 'pCarrito2023Controller@store2')->name('ordenesNew.index')
-->middleware('permission:ordenesNew.index'); 
-Route::get('/detalleconceptos2023/delete', 'pCarrito2023Controller@delete')->name('ordenesNew.index')
-->middleware('permission:ordenesNew.index'); 
-Route::post('/detalleconceptos2023/actualizar', 'pCarrito2023Controller@update')->name('ordenesNew.index')
-->middleware('permission:ordenesNew.index');  
+        //DetalleConceptos
+        Route::get('/detalleconceptos2023', 'pCarrito2023Controller@index')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index');     
+        Route::post('/detalleconceptos2023/registrar', 'pCarrito2023Controller@store')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index'); 
+        Route::post('/detalleconceptos2023h/registrar', 'pCarrito2023Controller@store2')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index'); 
+        Route::get('/detalleconceptos2023/delete', 'pCarrito2023Controller@delete')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index'); 
+        Route::post('/detalleconceptos2023/actualizar', 'pCarrito2023Controller@update')->name('ordenesNew.index')
+        ->middleware('permission:ordenesNew.index');  
 
 
-//Mensajes
-Route::get('/mensajes', 'MensajesController@index')->name('ordenes2.index')
-->middleware('permission:ordenes2.index');     
-Route::post('/mensajes/enviar', 'MensajesController@store')->name('ordenes2.index')
-->middleware('permission:ordenes2.index'); 
+        //Mensajes
+        Route::get('/mensajes', 'MensajesController@index')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index');     
+        Route::post('/mensajes/enviar', 'MensajesController@store')->name('ordenes2.index')
+        ->middleware('permission:ordenes2.index'); 
 
 
-//Mensajes CFE
-Route::get('/mensajesCFE', 'MensajesCFEController@index')->name('ordenes.index')
-->middleware('permission:ordenes.index');     
-Route::post('/mensajesCFE/enviar', 'MensajesCFEController@store')->name('ordenes.index')
-->middleware('permission:ordenes.index'); 
+        //Mensajes CFE
+        Route::get('/mensajesCFE', 'MensajesCFEController@index')->name('ordenes.index')
+        ->middleware('permission:ordenes.index');     
+        Route::post('/mensajesCFE/enviar', 'MensajesCFEController@store')->name('ordenes.index')
+        ->middleware('permission:ordenes.index'); 
     
 
             
@@ -995,48 +1001,48 @@ Route::post('/mensajesCFE/enviar', 'MensajesCFEController@store')->name('ordenes
       Route::post('/afconceptos/delete', 'AFConceptosController@delete')->name('cfbForaneos.index')
       ->middleware('permission:cfbForaneos.index'); 
 
-    //DetalleConceptos
-Route::get('/detalleCarritoAF', 'AFCarritoController@index')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');     
-Route::post('/detalleCarritoAF/registrar', 'AFCarritoController@store')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index'); 
-Route::get('/detalleCarritoAF/delete', 'AFCarritoController@delete')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index'); 
-Route::post('/detalleCarritoAF/actualizar', 'AFCarritoController@update')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');  
+        //DetalleConceptos
+        Route::get('/detalleCarritoAF', 'AFCarritoController@index')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');     
+        Route::post('/detalleCarritoAF/registrar', 'AFCarritoController@store')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index'); 
+        Route::get('/detalleCarritoAF/delete', 'AFCarritoController@delete')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index'); 
+        Route::post('/detalleCarritoAF/actualizar', 'AFCarritoController@update')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');  
 
- //AnexosForaneosRecepcionAcuse
- Route::get('/anexosFRA', 'anexosForaneosRecepcionAcuseController@index')->name('cfbForaneos.index')
- ->middleware('permission:cfbForaneos.index');     
- Route::post('/anexosFRA/registrar', 'anexosForaneosRecepcionAcuseController@store')->name('cfbForaneos.index')
- ->middleware('permission:cfbForaneos.index'); 
- Route::put('/anexosFRA/delete', 'anexosForaneosRecepcionAcuseController@delete')->name('cfbForaneos.index')
- ->middleware('permission:cfbForaneos.index'); 
- Route::post('/anexosFRA/actualizar', 'anexosForaneosRecepcionAcuseController@update')->name('cfbForaneos.index')
- ->middleware('permission:cfbForaneos.index');  
- Route::get('/anexosFRA/pdfAcuse/{id}', 'anexosForaneosRecepcionAcuseController@pdfacuse')->name('cfbForaneos.index')
- ->middleware('permission:cfbForaneos.index');     
+        //AnexosForaneosRecepcionAcuse
+        Route::get('/anexosFRA', 'anexosForaneosRecepcionAcuseController@index')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');     
+        Route::post('/anexosFRA/registrar', 'anexosForaneosRecepcionAcuseController@store')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index'); 
+        Route::put('/anexosFRA/delete', 'anexosForaneosRecepcionAcuseController@delete')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index'); 
+        Route::post('/anexosFRA/actualizar', 'anexosForaneosRecepcionAcuseController@update')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');  
+        Route::get('/anexosFRA/pdfAcuse/{id}', 'anexosForaneosRecepcionAcuseController@pdfacuse')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');     
 
 
-//DetalleConceptos
-Route::get('/categoriasForaneas', 'AFCategoriasController@index')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');     
-Route::post('/categoriasForaneas/registrar', 'AFCategoriasController@store')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');  
-Route::put('/categoriasForaneas/actualizar', 'AFCategoriasController@update')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');   
-Route::post('/categoriasForaneas/desactivar', 'AFCategoriasController@desactivar')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');  
+        //DetalleConceptos
+        Route::get('/categoriasForaneas', 'AFCategoriasController@index')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');     
+        Route::post('/categoriasForaneas/registrar', 'AFCategoriasController@store')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');  
+        Route::put('/categoriasForaneas/actualizar', 'AFCategoriasController@update')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');   
+        Route::post('/categoriasForaneas/desactivar', 'AFCategoriasController@desactivar')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');  
 
-//DetalleConceptos
-Route::get('/tiposForaneos', 'AFTiposController@index')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');     
-Route::post('/tiposForaneos/registrar', 'AFTiposController@store')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');  
-Route::put('/tiposForaneos/actualizar', 'AFTiposController@update')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');   
-Route::post('/tiposForaneos/desactivar', 'AFTiposController@desactivar')->name('cfbForaneos.index')
-->middleware('permission:cfbForaneos.index');  
+        //DetalleConceptos
+        Route::get('/tiposForaneos', 'AFTiposController@index')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');     
+        Route::post('/tiposForaneos/registrar', 'AFTiposController@store')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');  
+        Route::put('/tiposForaneos/actualizar', 'AFTiposController@update')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');   
+        Route::post('/tiposForaneos/desactivar', 'AFTiposController@desactivar')->name('cfbForaneos.index')
+        ->middleware('permission:cfbForaneos.index');  
 
 
 
