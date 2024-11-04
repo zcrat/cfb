@@ -34,6 +34,14 @@ class CustomerController extends Controller
         $customers = Customer::with(['empresa:id,nombre'])->has('empresa')->get();
         return response()->json(['usuarios'=>$customers]);
     }
+
+    public function obtenerusuario(Request $request)
+    {
+        if ($request->has('id')) {
+        $customer = Customer::where('id',$request->input('id'))->get();
+        return response()->json(['customer'=>$customer]);
+        }
+    }
     public function index()
     {
         

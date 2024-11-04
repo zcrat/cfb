@@ -24,6 +24,8 @@
     <link href="{{asset('css/plantilla.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     <link rel="stylesheet" href="{{ asset('css/misestilos.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
   </head>
   <body class="hold-transition skin-blue sidebar-mini">

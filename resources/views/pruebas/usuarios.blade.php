@@ -77,8 +77,9 @@ data-backdrop="static" data-keyboard="false">
                 </button>
             </div>
             <div class="modal-body">
-                <form id="customerForm" method="POST" action="{{ route('cliente.register') }}">
+                <form id="customerForm" >
                     @csrf
+                    <input id="customer-id" class="form-control" type="hidden" name="customer-id">
                     <div class="form-group">
                         <div class="input-group">
                             <i class="fas fa-building"></i>
@@ -211,27 +212,126 @@ data-backdrop="static" data-keyboard="false">
         </div>
     </div>
 </div>
+</main>
 
-<!-- Script para cerrar el modal -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function cerrarModal() {
         $('#usuarioStore').modal('hide');
     }
-</script>
+    $("#customerForm").submit(function(e) {
+                    e.preventDefault();
+                    $("#usuarioStore").modal("hide");
+                    $("#userupdated").attr("disabled", true);
+                    Swal.fire({
+                            icon: "question",
+                            text: "¿Estás seguro de Modificar las Caracteristicas?",
+                            showCancelButton: true,
+                            confirmButtonText: "Confirmar",
+                            cancelButtonText: "Cancelar",
+                            reverseButtons: true,
+                            customClass: {
+                                confirmButton: "btn-primary",
+                                cancelButton: "btn-light",
+                            },
+                        })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                var $request = $.post(
+                            "{{ route('administration.createTipo') }}",
+                            $("#formRegisterTipoCatalog").serialize()
+                        );
+                        $request.done(function(data) {
+                            $("#userupdated").attr("disabled", false);
+                            if (data == "success") {
 
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Se registró correctamente",
+                                    showConfirmButton: false,
+                                    timer: 4000,
+                                });
+                                Livewire.emitTo('admin-catalogo', 'render');
 
-
-
-
-
-    </main>
-
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    html: data,
+                                }).then((result) => {
+                                    $("#usuarioStore").modal("show");
+                                });
+                            }
+                        });
+                        $request.fail(function(error) {
+                            $("#userupdated").attr("disabled", false);
+                            $("#usuarioStore").modal("hide");
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Ocurrió un error",
+                            }).then((result) => {
+                                $("#usuarioStore").modal("show");
+                            });
+                        });
+                            } else {
+                                $("#usuarioStore").modal("show");
+                                $("#userupdated").attr("disabled", false);
+                            }
+                        });
+                });
+    function actualizar(id){
+        $.ajax({
+                        type: 'GET',
+                        url: '{{ route('cliente.user') }}',
+                        data: {'id' : id},
+                        success: function(response) {
+                            let customer= response.customer[0];
+                            console.log(customer);
+                            document.getElementById("customer-id").value = customer.id;
+                            document.getElementById("customer-idempresa").value = customer.empresa_id;
+                            document.getElementById("customer-usuario").value = customer.nombre;
+                            document.getElementById("customer-direccion").value = customer.direccion;
+                            document.getElementById("customer-ciudad").value = customer.ciudad;
+                            document.getElementById("customer-estado").value = customer.estado;
+                            document.getElementById("customer-cp").value = customer.cp;
+                            document.getElementById("customer-tel_casa").value = customer.tel_casa;
+                            document.getElementById("customer-tel_oficina").value = customer.tel_oficina;
+                            document.getElementById("customer-tel_celular").value = customer.tel_celular;
+                            document.getElementById("customer-email").value = customer.email;
+                            document.getElementById('userupdated').removeAttribute('hidden');
+                            document.getElementById('newuser').setAttribute('hidden', true);
+                            $('#usuarioStore').modal('show');
+        
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr);
+                        }
+                    });
+       
+                }
+    function eliminar(id){
+                    console.log('eliminar'+id)
+                    Swal.fire({
+                            icon: "question",
+                            text: "¿Estás seguro de Eliminar al Usuario "+id+" ?",
+                            showCancelButton: true,
+                            confirmButtonText: "Confirmar",
+                            cancelButtonText: "Cancelar",
+                            reverseButtons: true,
+                            customClass: {
+                                confirmButton: "btn-primary",
+                                cancelButton: "btn-light",
+                            },
+                        })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                
+                            } else {
+                               
+                            }
+                        });
+                }
     $(document).ready(function() {
                 let elements = [];
                 let originalelements = [];
@@ -249,7 +349,6 @@ data-backdrop="static" data-keyboard="false">
                             originalelements = elements = response.usuarios;
                             document.getElementById('loadingdata').setAttribute('hidden', true);
                             showElements();
-                            
                         },
                         error: function(xhr, status, error) {
                             console.error(xhr);
@@ -263,8 +362,6 @@ data-backdrop="static" data-keyboard="false">
                 function showElements() {
                     
                     ShowPagination();
-                    
-
                     let startIndex = (Page - 1) * itemsPerPage;
                     console.log(startIndex);
                     console.log(itemsPerPage);
@@ -281,8 +378,8 @@ data-backdrop="static" data-keyboard="false">
                     $.each(paginatedElements, function(index, element) {
                         let row = $('<tr>');
                         
-                        row.append('<td> <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#usuarioStore"'+
-                                            'onclick="actualizar()"><i class="fas fa-edit"></i>'+
+                        row.append('<td> <button class="btn btn-warning btn-sm" '+
+                                            'onclick="actualizar(\''+element.id+'\')"><i class="fas fa-edit"></i>'+
                                     '</button>'+
                                     '<button class="btn btn-danger btn-sm" onclick="eliminar(\''+element.id+'\')">'+
                                         '<i class="fas fa-trash-alt"></i></button></td>');
@@ -293,12 +390,7 @@ data-backdrop="static" data-keyboard="false">
                         $('#tablausuarios tbody').append(row);
                     });
                 }
-                function actualizar(id){
-                    console.log(id)
-                }
-                function eliminar(id){
-                    console.log('eliminar')
-                }
+                
 
                 function ShowPagination() {
                     

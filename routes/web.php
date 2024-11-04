@@ -21,8 +21,10 @@ Auth::routes();
 //routes prueba
 Route::get('clientes/usuarios', 'CustomerController@clientes')->name('cliente.usuarios')->middleware('auth');
 Route::get('clientes/empresas', 'CustomerController@empresas')->name('cliente.empresas')->middleware('auth');
-Route::get('clientes/newusuario', 'CustomerController@newusuario')->name('cliente.register')->middleware('auth');
+Route::post('clientes/newusuario', 'CustomerController@store')->name('cliente.register')->middleware('auth');
 Route::get('clientes/obtenerusuarios', 'CustomerController@obtenerusuarios')->name('cliente.users')->middleware('auth');
+Route::get('clientes/obtenerusuario', 'CustomerController@obtenerusuario')->name('cliente.user')->middleware('auth');
+
 
 Route::middleware(['auth'])->group(function(){
        
