@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Usuarios
-                        <button type="button" data-toggle="modal" data-target="#usuarioStore" @click="abrirModal" class="btn btn-secondary">
+                        <button type="button"  onclick="openmodal()" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                        
@@ -84,7 +84,7 @@ data-backdrop="static" data-keyboard="false">
                         <div class="input-group">
                             <i class="fas fa-building"></i>
                             <label class="encabezadomodal ">Empresa</label>
-                                <select id="customer-idempresa" class="form-control" name="idempresa" required>
+                                <select id="customer-idempresa" class="form-control" name="customer-idempresa" required>
                                 <option value="">Seleccione una empresa</option>
                                 @foreach($empresas as $empresa)
                                     <option value="{{ $empresa->id }}">{{ $empresa->nombre }}</option>
@@ -99,7 +99,7 @@ data-backdrop="static" data-keyboard="false">
                             <div class="input-group-addon">
                                 <i class="fas fa-user"></i>
                             </div>
-                            <input id="customer-usuario" class="form-control" type="text" name="usuario" placeholder="Ej. Alberto Esquivias Flores" required>
+                            <input id="customer-usuario" class="form-control" type="text" name="customer-usuario" placeholder="Ej. Alberto Esquivias Flores" required>
                         </div>
                     </div>
 
@@ -109,7 +109,7 @@ data-backdrop="static" data-keyboard="false">
                             <div class="input-group-addon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <input id="customer-direccion" class="form-control" type="text" name="direccion" placeholder="Ej. C. PUERTO DE ACAPULCO NO. 328, COL. TINIJARO, C.P. 58337" required>
+                            <input id="customer-direccion" class="form-control" type="text" name="customer-direccion" placeholder="Ej. C. PUERTO DE ACAPULCO NO. 328, COL. TINIJARO, C.P. 58337" required>
                         </div>
                     </div>
 
@@ -121,7 +121,7 @@ data-backdrop="static" data-keyboard="false">
                                     <div class="input-group-addon">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </div>
-                                    <input id="customer-ciudad" class="form-control" type="text" name="ciudad" placeholder="Ej. Morelia" required>
+                                    <input id="customer-ciudad" class="form-control" type="text" name="customer-ciudad" placeholder="Ej. Morelia" required>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ data-backdrop="static" data-keyboard="false">
                                     <div class="input-group-addon">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </div>
-                                    <input id="customer-estado" class="form-control" type="text" name="estado" placeholder="Ej. Michoacán" required>
+                                    <input id="customer-estado" class="form-control" type="text" name="customer-estado" placeholder="Ej. Michoacán" required>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@ data-backdrop="static" data-keyboard="false">
                                     <div class="input-group-addon">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </div>
-                                    <input id="customer-cp" class="form-control" type="text" name="cp" placeholder="Ej. 58000" required>
+                                    <input id="customer-cp" class="form-control" type="text" name="customer-cp" placeholder="Ej. 58000" required>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +159,7 @@ data-backdrop="static" data-keyboard="false">
                                     <div class="input-group-addon">
                                         <i class="fas fa-phone"></i>
                                     </div>
-                                    <input id="customer-tel_casa" class="form-control" type="text" name="tel_casa" placeholder="Ej. 4431040746" required>
+                                    <input id="customer-tel_casa" class="form-control" type="text" name="customer-tel_casa" placeholder="Ej. 4431040746" required>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +173,7 @@ data-backdrop="static" data-keyboard="false">
                                     <div class="input-group-addon">
                                         <i class="fas fa-phone"></i>
                                     </div>
-                                    <input id="customer-tel_oficina" class="form-control" type="text" name="tel_oficina" placeholder="Ej. 4431040746" required>
+                                    <input id="customer-tel_oficina" class="form-control" type="text" name="customer-tel_oficina" placeholder="Ej. 4431040746" required>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,7 @@ data-backdrop="static" data-keyboard="false">
                                     <div class="input-group-addon">
                                         <i class="fas fa-phone"></i>
                                     </div>
-                                    <input id="customer-tel_celular" class="form-control" type="text" name="tel_celular" placeholder="Ej. 4431040746" required>
+                                    <input id="customer-tel_celular" class="form-control" type="text" name="customer-tel_celular" placeholder="Ej. 4431040746" required>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +197,7 @@ data-backdrop="static" data-keyboard="false">
                             <div class="input-group-addon">
                                 <i class="fa fa-mail-forward"></i>
                             </div>
-                            <input id="customer-email" class="form-control" type="email" name="email" placeholder="Ej. designapp.mx@gmail.com" required>
+                            <input id="customer-email" class="form-control" type="email" name="customer-email" placeholder="Ej. designapp.mx@gmail.com" required>
                         </div>
                     </div>
                 </form>
@@ -207,7 +207,6 @@ data-backdrop="static" data-keyboard="false">
                 <!--<button type="button" class="btn btn-primary" onclick="document.getElementById('customerForm').submit()">Guardar</button>-->
                 <button type="submit" hidden id="userupdated" form="customerForm"class="btn btn-primary">Actualizar</button>
                 <button type="submit" id="newuser" form="customerForm" class="btn btn-primary">Guardar</button>
-            
             </div>
         </div>
     </div>
@@ -219,67 +218,16 @@ data-backdrop="static" data-keyboard="false">
     function cerrarModal() {
         $('#usuarioStore').modal('hide');
     }
-    $("#customerForm").submit(function(e) {
-                    e.preventDefault();
-                    $("#usuarioStore").modal("hide");
-                    $("#userupdated").attr("disabled", true);
-                    Swal.fire({
-                            icon: "question",
-                            text: "¿Estás seguro de Modificar las Caracteristicas?",
-                            showCancelButton: true,
-                            confirmButtonText: "Confirmar",
-                            cancelButtonText: "Cancelar",
-                            reverseButtons: true,
-                            customClass: {
-                                confirmButton: "btn-primary",
-                                cancelButton: "btn-light",
-                            },
-                        })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                var $request = $.post(
-                            "{{ route('administration.createTipo') }}",
-                            $("#formRegisterTipoCatalog").serialize()
-                        );
-                        $request.done(function(data) {
-                            $("#userupdated").attr("disabled", false);
-                            if (data == "success") {
-
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Se registró correctamente",
-                                    showConfirmButton: false,
-                                    timer: 4000,
-                                });
-                                Livewire.emitTo('admin-catalogo', 'render');
-
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Oops...",
-                                    html: data,
-                                }).then((result) => {
-                                    $("#usuarioStore").modal("show");
-                                });
-                            }
-                        });
-                        $request.fail(function(error) {
-                            $("#userupdated").attr("disabled", false);
-                            $("#usuarioStore").modal("hide");
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: "Ocurrió un error",
-                            }).then((result) => {
-                                $("#usuarioStore").modal("show");
-                            });
-                        });
-                            } else {
-                                $("#usuarioStore").modal("show");
-                                $("#userupdated").attr("disabled", false);
-                            }
-                        });
-                });
+    function openmodal(){
+        
+        document.getElementById('newuser').removeAttribute('hidden');
+        document.getElementById('userupdated').setAttribute('hidden', true);
+        $('#usuarioStore input').not('[name="_token"]').val('');
+        $('#usuarioStore select').val('');
+        $('#usuarioStore').modal('show');
+    }
+    
+    
     function actualizar(id){
         $.ajax({
                         type: 'GET',
@@ -310,11 +258,10 @@ data-backdrop="static" data-keyboard="false">
                     });
        
                 }
-    function eliminar(id){
-                    console.log('eliminar'+id)
+    function eliminar(id,nombre){
                     Swal.fire({
                             icon: "question",
-                            text: "¿Estás seguro de Eliminar al Usuario "+id+" ?",
+                            text: "¿Estás seguro de Eliminar al Usuario "+nombre+" ?",
                             showCancelButton: true,
                             confirmButtonText: "Confirmar",
                             cancelButtonText: "Cancelar",
@@ -326,7 +273,35 @@ data-backdrop="static" data-keyboard="false">
                         })
                         .then((result) => {
                             if (result.isConfirmed) {
-                                
+                                let $request = $.post("{{ route('cliente.delete') }}", {
+                                    "_token": "{{ csrf_token() }}",
+                                    id: id
+                                });
+                                $request.done(function(data) {
+                                    console.log(data);
+                                    if (data == "eliminado") {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Se elimino correctamente al usuario",
+                                            showConfirmButton: false,
+                                            timer: 4000,
+                                        });
+                                        window.executeSearchdata();
+                                    }else {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Oops...",
+                                            html: data,
+                                        });
+                                    }
+                                });
+                                $request.fail(function(error) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Ocurrió un error",
+                                    });
+                                });
                             } else {
                                
                             }
@@ -337,8 +312,7 @@ data-backdrop="static" data-keyboard="false">
                 let originalelements = [];
                 let Page = 1;
                 let itemsPerPage = parseInt($('#epp').val(),10);
-                searchdata()
-               
+                searchdata();
                 function searchdata() {
                     document.getElementById('loadingdata').removeAttribute('hidden');
                     document.getElementById('dataupload').setAttribute('hidden', true);
@@ -348,7 +322,7 @@ data-backdrop="static" data-keyboard="false">
                         success: function(response) {
                             originalelements = elements = response.usuarios;
                             document.getElementById('loadingdata').setAttribute('hidden', true);
-                            showElements();
+                            filtering();
                         },
                         error: function(xhr, status, error) {
                             console.error(xhr);
@@ -381,7 +355,7 @@ data-backdrop="static" data-keyboard="false">
                         row.append('<td> <button class="btn btn-warning btn-sm" '+
                                             'onclick="actualizar(\''+element.id+'\')"><i class="fas fa-edit"></i>'+
                                     '</button>'+
-                                    '<button class="btn btn-danger btn-sm" onclick="eliminar(\''+element.id+'\')">'+
+                                    '<button class="btn btn-danger btn-sm" onclick="eliminar(\''+element.id+'\',\''+element.nombre+'\')">'+
                                         '<i class="fas fa-trash-alt"></i></button></td>');
                         row.append('<td><div class="userDatatable-content">' + (element.empresa ? element.empresa.nombre : "Sin Empresa" )+ '</div></td>');
                         row.append('<td><div class="userDatatable-content">' + (element.nombre ? element.nombre : "Sin Nombre" ) + '</div></td>');
@@ -503,6 +477,79 @@ data-backdrop="static" data-keyboard="false">
                     }
                     showElements();
                 }
+                $("#customerForm").submit(function(e) {
+                    e.preventDefault();
+                    console.log("Formulario enviado");
+                    $("#usuarioStore").modal("hide");
+                    $("#userupdated").attr("disabled", true);
+                    $("#newuser").attr("disabled", true)
+                    Swal.fire({
+                            icon: "question",
+                            text: "¿Estás seguro de Modificar los datos del Usuario?",
+                            showCancelButton: true,
+                            confirmButtonText: "Confirmar",
+                            cancelButtonText: "Cancelar",
+                            reverseButtons: true,
+                            customClass: {
+                                confirmButton: "btn-primary",
+                                cancelButton: "btn-light",
+                            },
+                        })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                var $request = $.post(
+                            "{{ route('cliente.register') }}",
+                            $("#customerForm").serialize()
+                        );
+                        $request.done(function(data) {
+                            $("#userupdated").attr("disabled", false);
+                            $("#newuser").attr("disabled", false);
+                            console.log(data);
+                            if (data === "creado") {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Se registró correctamente al nuevo usuario",
+                                    showConfirmButton: false,
+                                    timer: 4000,
+                                });
+                                searchdata();
+                            }else if (data == "actualizado") {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "El usuario se actualizo Correctamente",
+                                    showConfirmButton: false,
+                                    timer: 4000,
+                                });
+                                searchdata();
+                            }  else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    html: data,
+                                }).then((result) => {
+                                    $("#usuarioStore").modal("show");
+                                });
+                            }
+                        });
+                        $request.fail(function(error) {
+                            $("#userupdated").attr("disabled", false);
+                            $("#newuser").attr("disabled", false);
+                            $("#usuarioStore").modal("hide");
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Ocurrió un error",
+                            }).then((result) => {
+                                $("#usuarioStore").modal("show");
+                            });
+                        });
+                            } else {
+                                $("#usuarioStore").modal("show");
+                                $("#userupdated").attr("disabled", false);
+                                $("#newuser").attr("disabled", false);
+                            }
+                        });
+                });
     });
 </script>
 

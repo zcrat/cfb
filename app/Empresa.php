@@ -21,6 +21,7 @@ class Empresa extends Model
         'tel_negocio',
         'tel_casa',
         'tel_celular',
+        'regimen'
     ];
 
     function customers(){

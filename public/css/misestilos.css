@@ -44,3 +44,20 @@
 .encabezado {
   font-size: 1rem;
 }
+.logos{
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 200px; /* Altura del contenedor */
+  
+}
+
+.modal-content {
+  max-height: 80vh; /* Limita la altura máxima */; 
+  margin: auto;
+}
+
+.modal-body {
+  max-height: 70vh; /* Ajusta este valor para cambiar la altura máxima del contenido */
+  overflow-y: auto; /* Habilita la barra de desplazamiento */
+}

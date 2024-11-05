@@ -20,10 +20,16 @@ Route::get('/', function () {
 Auth::routes();
 //routes prueba
 Route::get('clientes/usuarios', 'CustomerController@clientes')->name('cliente.usuarios')->middleware('auth');
-Route::get('clientes/empresas', 'CustomerController@empresas')->name('cliente.empresas')->middleware('auth');
-Route::post('clientes/newusuario', 'CustomerController@store')->name('cliente.register')->middleware('auth');
+Route::post('clientes/newusuario', 'CustomerController@create')->name('cliente.register');
+Route::post('clientes/deleteuser', 'CustomerController@deleteuser')->name('cliente.delete');
 Route::get('clientes/obtenerusuarios', 'CustomerController@obtenerusuarios')->name('cliente.users')->middleware('auth');
 Route::get('clientes/obtenerusuario', 'CustomerController@obtenerusuario')->name('cliente.user')->middleware('auth');
+
+Route::get('clientes/empresas', 'CustomerController@empresas')->name('cliente.empresas')->middleware('auth');
+Route::post('clientes/newempresa', 'CustomerController@create_empresa')->name('cliente.compani_register');
+Route::post('clientes/deletecompani', 'CustomerController@deletecompani')->name('cliente.deletecompani');
+Route::get('clientes/obtenerempresas', 'CustomerController@obtenerempresas')->name('cliente.companies')->middleware('auth');
+Route::get('clientes/obtenerempresa', 'CustomerController@obtenerempresa')->name('cliente.compani')->middleware('auth');
 
 
 Route::middleware(['auth'])->group(function(){
