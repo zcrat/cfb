@@ -3,57 +3,64 @@
 
 <main class="main">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa fa-align-justify"></i> Usuarios
-                <button type="button"  onclick="openmodal()" class="btn btn-secondary">
-                    <i class="icon-plus"></i>&nbsp;Nuevo
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="card-header color-dark fw-500" style="text-transform: none;">
-                    <div class="d-flex justify-content">
-                        <div class="d-flex align-items-left user-member__form">
-                            <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
-                            <input style="width: 200px; height: 30px;" class=" fs-18 rounded-pill bg-normal color-light row-cols-sm-3"
-                                type="text" id="search" name="s"
-                                placeholder="Busqueda por Nombre" min="1">
+    
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Empresas
+                    <button type="button"  onclick="openmodal()" class="btn btn-secondary">
+                        <i class="icon-plus"></i>&nbsp;Agregar
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="card-header color-dark fw-500" style="text-transform: none;">
+                        <div class="d-flex justify-content">
+                            <div class="d-flex align-items-left user-member__form">
+                                
+                                <input style="width: 200px; height: 30px;" class=" fs-18 rounded-pill bg-normal color-light row-cols-sm-3"
+                                    type="text" id="search" name="s"
+                                    placeholder="Busqueda por Nombre" min="1">
+                                    <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                            </div>
+                        </div>
+                    </div> 
+                    <div>
+                        <label style="font-size: 1rem;">Empresas maximas por pagina  </label>
+                        <select style="width: 200px; height: 30px;"  class="rounded" id="epp">
+                            @for ($i = 5; $i <= $elementostotales; $i += 5)
+                                <option value="{{ $i }}" >{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div style="height:20px;"></div>
+                    <div id="dataupload">
+                        <div id='pagination'></div>
+                        <div style="height:20px;"></div>
+                        <div  class="mitabla">
+                            <table id="tablausuarios" class="table table-bordered table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Opciones</th>
+                                        <th>Nombre</th>
+                                        <th>RFC</th>
+                                        <th>Correo</th>
+                                        <th>Telefono</th>
+                                        <th>Fecha Creacion</th>
+                                        <th>Fecha Actualizacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div> 
-                <div>
-                    <label style="font-size: 1rem;">Empresas maximas por pagina  </label>
-                    <select style="width: 200px; height: 30px;"  class="rounded" id="epp">
-                        @for ($i = 5; $i <= $elementostotales; $i += 5)
-                            <option value="{{ $i }}" >{{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
-                <div id='pagination'></div>
-                <div id="dataupload">
-                    <table id="tablausuarios" class="table table-bordered table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th>Opciones</th>
-                                <th>Nombre</th>
-                                <th>RFC</th>
-                                <th>Correo</th>
-                                <th>Telefono</th>
-                                <th>Fecha Creacion</th>
-                                <th>Fecha Actualizacion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div id='loadingdata'
-                    class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-                    <h3 class="text-center m-2">Cargando Datos</h3>
-                    <div class="spinnerp"></div>
+                    <div id='loadingdata'
+                        class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+                        <h3 class="text-center m-2">Cargando Datos</h3>
+                        <div class="spinnerp"></div>
+                    </div>
                 </div>
             </div>
-        </div>
+
     </div>
     <div class="modal fade modal-basic" id="Empresa_modal" tabindex="-1" aria-labelledby="taskModalLabal" aria-hidden="true" 
     data-backdrop="static" data-keyboard="false">
@@ -378,7 +385,7 @@
                     let totalPages = Math.ceil(elements.length / itemsPerPage);
                     let paginationHTML = '';
                    
-                    let paginas = 10
+                    let paginas = 7
                     if (Page > totalPages) {
                         Page = totalPages;
                     }
@@ -387,7 +394,7 @@
                     }
                     if (totalPages > 1) {
                         if (Page > 1) {
-                            paginationHTML += '<button class="pagina" data-page="' + (Page - 1) + '">Anterior</button>';
+                            paginationHTML += '<button class="pagina" data-page="' + (Page - 1) + '"><<<</button>';
                         }
                         if (Page == 1) {
                             paginationHTML += '<button class="paginaactive" data-page="1">1</button>';
@@ -436,7 +443,7 @@
                         }
                         if (Page < totalPages) {
                             paginationHTML += '<button class="pagina" data-page="' + (Page + 1) +
-                                '">Siguiente</button>';
+                                '">>>></button>';
                         }
                     }
                     $('#pagination').html(paginationHTML);
