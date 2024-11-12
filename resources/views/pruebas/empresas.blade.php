@@ -3,7 +3,6 @@
 
 <main class="main">
     <div class="container-fluid">
-    
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Empresas
@@ -12,8 +11,8 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <div class="card-header color-dark fw-500" style="text-transform: none;">
-                        <div class="d-flex justify-content">
+                    <div>
+                        <div class="d-flex">
                             <div class="d-flex align-items-left user-member__form">
                                 
                                 <input style="width: 200px; height: 30px;" class=" fs-18 rounded-pill bg-normal color-light row-cols-sm-3"
@@ -36,7 +35,7 @@
                         <div id='pagination'></div>
                         <div style="height:20px;"></div>
                         <div  class="mitabla">
-                            <table id="tablausuarios" class="table table-bordered table-striped table-sm">
+                            <table id="tablausuarios" class="mtable">
                                 <thead>
                                     <tr>
                                         <th>Opciones</th>
@@ -53,8 +52,7 @@
                             </table>
                         </div>
                     </div>
-                    <div id='loadingdata'
-                        class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+                    <div id='loadingdata' class="carga">
                         <h3 class="text-center m-2">Cargando Datos</h3>
                         <div class="spinnerp"></div>
                     </div>
@@ -364,17 +362,17 @@
                     $.each(paginatedElements, function(index, element) {
                         let row = $('<tr>');
                         
-                        row.append('<td> <button class="btn btn-warning btn-sm" '+
+                        row.append('<td > <div class="Datatable-content-button"> <button class="btn btn-warning btn-sm" '+
                                             'onclick="actualizar(\''+element.id+'\')"><i class="fas fa-edit"></i>'+
                                     '</button>'+
                                     '<button class="btn btn-danger btn-sm" onclick="eliminar(\''+element.id+'\',\''+element.nombre+'\')">'+
-                                        '<i class="fas fa-trash-alt"></i></button></td>');
-                        row.append('<td><div class="userDatatable-content">' + (element.nombre ? element.nombre : "Sin Nombre" ) + '</div></td>');
-                        row.append('<td><div class="userDatatable-content">' + (element.rfc ? element.rfc : "")+ '</div></td>');
-                        row.append('<td><div class="userDatatable-content">' + (element.email ? element.email : "") + '</div></td></tr>');
-                        row.append('<td><div class="userDatatable-content">' + (element.tel_negocio ? element.tel_negocio : "") + '</div></td></tr>');
-                        row.append('<td><div class="userDatatable-content">' + (element.created_at ? element.created_at : "") + '</div></td></tr>');
-                        row.append('<td><div class="userDatatable-content">' + (element.updated_at ? element.updated_at : "") + '</div></td></tr>');
+                                        '<i class="fas fa-trash-alt"></i></button></div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.nombre ? element.nombre : "Sin Nombre" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.rfc ? element.rfc : "")+ '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.email ? element.email : "") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.tel_negocio ? element.tel_negocio : "") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.created_at ? element.created_at : "") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.updated_at ? element.updated_at : "") + '</div></td></tr>');
                         $('#tablausuarios tbody').append(row);
                     });
                 }

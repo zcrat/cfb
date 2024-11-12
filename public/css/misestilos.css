@@ -1,22 +1,33 @@
 /*oculta elementos*/
 :root{
---sidebarwidht: 200px;
 --paginaactiva: #037E8C;
+--paginas:#044a52;
+/*tamaño barras*/
 --wsedb:200px;
 --msedb:10px;
---fondo:#252525;
---letra:#ffffff;
---letrar:#000000;
---fondor:#ffffff;
+/* variables barras*/
+--fondo:#f78800;
+--letra:#000000;
+--letrar:#f2f2f2;
+--fondor:#ffa200;
+/* fondos genenrales */
+--fondocla:#ffffff;
+--textoclaro:#000000;
+--textoobscuro:#ffffff;
+--fondoobs:#252525;
 }
-
+section{
+  position: relative;
+  height: 100%;
+}
 .hidden{
-    display: none;}
+    display: none !important;
+  }
 /* se encarga de los estilos de la paginacion*/
 .pagina {
     margin: 0px 1px;
     color: #fff;
-    background: #044a52;
+    background-color: var(--paginas);
     border: none;
     padding: 5px 10px;
     cursor: pointer;}
@@ -58,15 +69,22 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
 .container-fluid{
   padding-left: 0px !important;
   padding-right: 0px !important;}
 /* Barrasuperior */
+
+
+.loadingdata{
+  height: 100%;
+}
 .mtopbar {
   border-radius: 10px;
-  background-color: #252525;
-  color: white;
+  background-color: var(--fondo);
+  color:var(--letra);
   width: 100%;
   height: 50px;
   position: relative;
@@ -77,16 +95,35 @@ body {
   display: flex;
   align-items: center;
 }
+.mtopbar nav{
+  position: absolute;
+  width: 100%;
+}
 .mtopbar ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.mtopbar ul li  .sider{
+
+.mtopbar ul li{
+  display: inline-flex;
+
+}
+
+.mtopbar ul li a{
   padding: 10px;
   margin:10px;
-  color: #ffffff !important;
+  color: var(--letra);
 }
+ .mtopbar .topbar-center{
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+ }
+
 /* Estilos generales para la barra lateral */
 .msidebar {
   background-color: var(--fondo);
@@ -144,13 +181,11 @@ body {
   min-width: 40px;
   max-height: 50px;
 }
-
 .msidebar-links li:hover {
   background-color: var(--fondor);
   color:var(--letrar);
   transition: background-color 2s,color 1s;
 }
-
 /* Menú desplegable */
 .mdropdown-menu,.msubdropdown-menu {
   display: none;
@@ -183,34 +218,71 @@ body {
 .mdropdown-menu li a:hover, .msubdropdown-menu li a:hover {
   color: var(--letrar);
 }
-
 /*footer*/
 .body-container {
   display: flex;
   flex-direction: column;
   transition: 0.7s;
   margin: 10px;
-  margin-left:calc(var(--sidebarwidht) + 20px);
+  margin-left:calc(var(--wsedb) + 20px);
   overflow-x: hidden;
   overflow-y: hidden;
 }
-/* Contenido principal */
-.content {
-  min-height: calc(100vh - 130px); /* Toma todo el espacio disponible */
+.busqueda input{
+  height: 40px;
+  width: 300px;
 }
-
+/* Contenido principal */
+.content, .card {
+  min-height: calc(100vh - 136px); /* Toma todo el espacio disponible */
+}
+.encabezado select{
+  width: 200px;
+  height: 40px;}  
 /* Estilos del footer */
 .footer {
   min-height: 50px;
   max-height: 50px; ;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
   padding: 10px;
   text-align: center;
 }
 .mitabla{
   overflow-x: auto !important;
  }
+
+
+
+tr td {
+  height: 45px;
+   /* Color de fondo alternado */
+}
+
+td,th,tr{
+  border: 1px var(--textoobscuro) solid; 
+}
+.Datatable-content{
+  display: inline-block;
+  padding:5px ;
+}
+.Datatable-content-button{
+  display: flex;
+  width: 100%;
+  max-width: 73px;
+  justify-content: space-around;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+
+ .carga{
+  position: absolute;
+  display: grid;
+  width: 100%;
+height: 100%;
+  justify-content: center;
+  align-items:flex-end;
+ }
+
  .active-sidebar {
   transition: 1s;
   width: 50px;
@@ -234,9 +306,8 @@ body {
   display: none;
 }
 
-@media (max-width:500px){ 
+@media (max-width:750px){ 
   :root{
-    --sidebarwidht: 200px;
     --paginaactiva: #037E8C;
     --wsedb:200px;
     --msedb:10px;
@@ -247,7 +318,23 @@ body {
     --letrar:#000000;
     --fondor:#ffffff;
     }
-
+.superior{
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
+}
+.encabezado{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.busqueda input, .encabezado select{
+  width: 100%;
+}
+.busqueda input{
+  border-radius: 15px;
+}
 .msidebar {
   width: calc(100vw - 4px);
   transition: 2s;
@@ -255,6 +342,7 @@ body {
   left: -100vw;
   height: calc(100vh - 4px);
   background-color:var(--fondo);
+  overflow-y: auto;
 }
 .mtopbar{
   margin:2px;

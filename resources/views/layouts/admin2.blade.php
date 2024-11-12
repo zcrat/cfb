@@ -1,34 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="general" data-bs-theme="dark">
   <head>
     <meta charset="utf-8">
     <title>Akumas | www.akumas.mx</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 4.3.1 -->
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
+    <!-- Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Iconos-->
     <script src="https://kit.fontawesome.com/d675227da3.js" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- etsilos personalizados-->
     <link rel="stylesheet" href="{{ asset('css/misestilos.css') }}">
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=domain" />
-    <style>
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
-</style>
-  </head>
+      </head>
   <body>
 <div>
   <nav class="msidebar">
     <li class="logotipo">
-      <a href="#">
+      <a href="#"  @click="$store.state.menuc=2">
         <span class="logoimg"><img src="{{asset('img/logo_cfb.png')}}" width="50px"height="40px" alt=""></span>
         <span class="contraer"><i class="fa-solid fa-outdent"></i></span>
       </a>
@@ -37,8 +29,8 @@
       <li class="msubdropdown">
         <a><i class="fas fa-users"></i><span >Clientes</span></a>
         <ul class="msubdropdown-menu">
-          <li><a href="#"><i class="fas fa-city"></i>Empresas</a></li>
-          <li><a href="#"><i class="fas fa-user-friends"></i></i>Usuarios</a></li>
+          <li><a href="{{ route('cliente.empresas') }}"><i class="fas fa-city"></i>Empresas</a></li>
+          <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i></i>Usuarios</a></li>
         </ul>
       </li>
       <li class="mdropdown">
@@ -84,9 +76,9 @@
         <li class="msubdropdown">
           <a><i class="fa fa-building"></i> <span>Almacén</span> </a>
           <ul class="msubdropdown-menu">
-            <li  @click="$store.state.menuc=1" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cubes"></i> Productos & Servios</a></li>
-            <li  @click="$store.state.menuc=26" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cubes"></i> Productos por Grupos</a></li>
-            <li  @click="$store.state.menuc=2" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cube"></i> Categorías</a></li>
+            <li  @click="$store.state.menuc=1"><a href="#" class="nav-link"><i class="fa fa-cubes"></i> Productos & Servios</a></li>
+            <li  @click="$store.state.menuc=26"><a href="#" class="nav-link"><i class="fa fa-cubes"></i> Productos por Grupos</a></li>
+            <li  @click="$store.state.menuc=2"><a href="#" class="nav-link"><i class="fa fa-cube"></i> Categorías</a></li>
           </ul>
         </li>
       @endcan
@@ -125,10 +117,10 @@
         <li class="msubdropdown">
           <a><i class="fa fa-file"></i><span>Facturacion</span></a>
           <ul class="msubdropdown-menu">
-            <li  @click="$store.state.menuc=15" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-file"></i> Facturas</a></li>
-            <li  @click="$store.state.menuc=38" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-file"></i> Facturas por cobrar</a></li>
-            <li  @click="$store.state.menuc=52" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-file"></i> Facturas por contrato</a></li>
-            <li  @click="$store.state.menuc=16" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cog"></i> Configuracion</a></li>
+            <li  @click="$store.state.menuc=15"><a href="#" class="nav-link"><i class="fa fa-file"></i> Facturas</a></li>
+            <li  @click="$store.state.menuc=38"><a href="#" class="nav-link"><i class="fa fa-file"></i> Facturas por cobrar</a></li>
+            <li  @click="$store.state.menuc=52"><a href="#" class="nav-link"><i class="fa fa-file"></i> Facturas por contrato</a></li>
+            <li  @click="$store.state.menuc=16"><a href="#" class="nav-link"><i class="fa fa-cog"></i> Configuracion</a></li>
           </ul>
         </li>
       @endcan
@@ -140,13 +132,13 @@
                 
               </a>
               <ul class="msubdropdown-menu">
-                <li  @click="$store.state.menuc=13" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Recepción Vehicular</a></li>
-                <li  @click="$store.state.menuc=17" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Inspección Vehicular</a></li>
-                <li  @click="$store.state.menuc=18" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-                <li  @click="$store.state.menuc=19" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Reporte de Grúa</a></li>
-                <li  @click="$store.state.menuc=20" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Compra</a></li>
-                <li  @click="$store.state.menuc=21" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Reparación</a></li>
-                <li  @click="$store.state.menuc=25" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Cotización</a></li>
+                <li  @click="$store.state.menuc=13"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Recepción Vehicular</a></li>
+                <li  @click="$store.state.menuc=17"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Inspección Vehicular</a></li>
+                <li  @click="$store.state.menuc=18"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
+                <li  @click="$store.state.menuc=19"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Reporte de Grúa</a></li>
+                <li  @click="$store.state.menuc=20"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Compra</a></li>
+                <li  @click="$store.state.menuc=21"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Reparación</a></li>
+                <li  @click="$store.state.menuc=25"><a href="#" class="nav-link"><i class="fa fa-circle-o"></i> Cotización</a></li>
               </ul>
             </li>
             @endcan
@@ -159,13 +151,13 @@
                 
               </a>
               <ul class="msubdropdown-menu">
-                <li  @click="$store.state.menuc=22" class="nav-item">
+                <li  @click="$store.state.menuc=22">
                   <a href="#" class="nav-link">
                     <i class="fas fa-id-badge"></i>
                     Asignar Tecnico Recepción
                   </a>
                 </li>
-                <li  @click="$store.state.menuc=23" class="nav-item">
+                <li  @click="$store.state.menuc=23">
                   <a href="#" class="nav-link">
                     <i class="fas fa-clipboard"></i>
                     Mis recepciones
@@ -548,16 +540,40 @@
         
     <div class="body-container">
       
-        <header class="mtopbar">
-              <nav>
-                  <ul >
-                   <li><a class="sider"><i class="fa-solid fa-bars"></i></a></li>
-                  </ul>
-              </nav>
-        </header>
+    <header class="mtopbar">
+  <nav>
+    <ul>
+      <!-- Icono de barra lateral -->
+      <li><a title="Menu" class="sider"><i class="fa-solid fa-bars"></i></a></li>
+      
+      <!-- Bienvenida al usuario -->
+      <li class="topbar-center">
+        <a>
+          ¡Bienvenido a Akumas, {{ Auth::user()->name }}!
+        </a>
+      </li>
+      <li title="modo obscuro" class="dark hidden"><a><i class="fa-solid fa-moon"></i></a></li>
+      <li title="modo claro" class="light hidden"><a><i class="fa-solid fa-sun"></i></a></li>
+      <!-- Icono de notificación -->
+      <li><a href="#" title="Notificaciones"><i class="fa-solid fa-bell"></i></a></li>
+      
+      <!-- Botón de cerrar sesión -->
+      <li>
+        <a title="Cerrar Secion" href="{{ route('logout') }}" class="btn btn-default btn-flat">
+          <i class="fa-solid fa-right-to-bracket"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Formulario de cierre de sesión -->
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+  </form>
+</header>
         <div class="content">
         
-        <section class="misection">
+        <section>
           @yield('contenido')
         </section>
       </div>
@@ -568,9 +584,9 @@
           <strong>Copyright &copy; 2018-2025 </strong> All rights reserved.
         </footer>
     </div> 
-        <script href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')}}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
         <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
         <script>
           document.addEventListener('DOMContentLoaded', function() {
@@ -595,9 +611,43 @@
             s2.classList.toggle('active-msidebar-links');
         
             s3.classList.toggle('active-body-container');
-          });  
-        });
+          });
 
+
+        });
+        function toggleTheme(currentTheme) {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.querySelector('.dark').classList.toggle('hidden');
+    document.querySelector('.light').classList.toggle('hidden');
+    document.getElementById('general').setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme); // Guardar el nuevo tema
+    cambiarcolores(newTheme);
+}
+
+function cambiarcolores(savedTheme){
+  if (savedTheme === 'dark') {
+        document.documentElement.style.setProperty('--fondo', '#000000');
+        document.documentElement.style.setProperty('--letra', '#ffffff');
+        document.documentElement.style.setProperty('--fondor', '#ffffff');
+        document.documentElement.style.setProperty('--letrar', '#000000');
+    } else {        
+        document.documentElement.style.setProperty('--fondo', '#f78800');
+        document.documentElement.style.setProperty('--letra', '#000000');
+        document.documentElement.style.setProperty('--fondor', '#ffa200');
+        document.documentElement.style.setProperty('--letrar', '#f2f2f2')
+    }
+}
+document.querySelector('.dark').addEventListener('click', () => toggleTheme('dark'));
+document.querySelector('.light').addEventListener('click', () => toggleTheme('light'));
+
+// Al cargar la página, configurar el tema basado en `localStorage`
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.getElementById('general').setAttribute('data-bs-theme', savedTheme);
+    document.querySelector(`.${savedTheme}`).classList.remove('hidden');
+    cambiarcolores(savedTheme);
+
+});
 
         </script>
    
