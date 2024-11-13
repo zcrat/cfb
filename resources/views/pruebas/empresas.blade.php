@@ -10,52 +10,60 @@
                         <i class="icon-plus"></i>&nbsp;Agregar
                     </button>
                 </div>
-                <div class="card-body">
-                    <div>
-                        <div class="d-flex">
-                            <div class="d-flex align-items-left user-member__form">
-                                
-                                <input style="width: 200px; height: 30px;" class=" fs-18 rounded-pill bg-normal color-light row-cols-sm-3"
-                                    type="text" id="search" name="s"
-                                    placeholder="Busqueda por Nombre" min="1">
-                                    <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                <div class="card-body mycard">
+                    <div class="mycard-header">
+                        <div>
+                            <div class="d-flex">
+                                <div class="d-flex align-items-left user-member__form">
+                                    
+                                    <input style="width: 200px; height: 30px;" class=" fs-18 rounded-pill bg-normal color-light row-cols-sm-3"
+                                        type="text" id="search" name="s"
+                                        placeholder="Busqueda por Nombre" min="1">
+                                        <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                                </div>
+                            </div>
+                        </div> 
+                        <div>
+                            <label style="font-size: 1rem;">Empresas maximas por pagina  </label>
+                            <select style="width: 200px; height: 30px;"  class="rounded" id="epp">
+                                @for ($i = 5; $i <= $elementostotales; $i += 5)
+                                    <option value="{{ $i }}" >{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    
+                        <div class="dataupload" id="dataupload">
+                            <div id='pagination'></div>
+                            <div class="mitabla">
+                                <table id="tablausuarios" class="table table-sm  table-striped">
+                                    <thead  class= "thead-light">
+                                        <tr>
+                                            <th>Opciones</th>
+                                            <th>Nombre</th>
+                                            <th>RFC</th>
+                                            <th>Correo</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha Creacion</th>
+                                            <th>Fecha Actualizacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div> 
-                    <div>
-                        <label style="font-size: 1rem;">Empresas maximas por pagina  </label>
-                        <select style="width: 200px; height: 30px;"  class="rounded" id="epp">
-                            @for ($i = 5; $i <= $elementostotales; $i += 5)
-                                <option value="{{ $i }}" >{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div style="height:20px;"></div>
-                    <div id="dataupload">
-                        <div id='pagination'></div>
-                        <div style="height:20px;"></div>
-                        <div  class="mitabla">
-                            <table id="tablausuarios" class="mtable">
-                                <thead>
-                                    <tr>
-                                        <th>Opciones</th>
-                                        <th>Nombre</th>
-                                        <th>RFC</th>
-                                        <th>Correo</th>
-                                        <th>Telefono</th>
-                                        <th>Fecha Creacion</th>
-                                        <th>Fecha Actualizacion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                      
+                        <div  class="no-results-message" hidden>
+                        <span id="no-results-message"></span>
                         </div>
-                    </div>
-                    <div id='loadingdata' class="carga">
-                        <h3 class="text-center m-2">Cargando Datos</h3>
-                        <div class="spinnerp"></div>
-                    </div>
+                        
+                        <div id='loadingdata' class="carga">
+                            <h3 class="text-center m-2">Cargando Datos</h3>
+                            <div class="spinnerp"></div>
+                        </div>
+                
+                   
                 </div>
             </div>
 
@@ -95,7 +103,7 @@
                         <div class="form-group">
                             <label for="compani_logo">Logo:<i class="ml-2 color-required fas fa-asterisk"></i></label>
                             <div class="logos">
-                                <img id="logo_preview" src="#" alt="Logo Preview" style="width: 400px; height:auto; display: none;">
+                                <img id="logo_preview" src="#" alt="Logo Preview" class="mimagen" hidden>
                             </div>
                             <div class="input-group">
                                 <div class="input-group-addon">
@@ -221,20 +229,33 @@
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{asset('js/paginacion.js')}}"></script>
 <script>
     function cerrarModal() {
         $('#Empresa_modal').modal('hide');
     }
     function openmodal(){
-        
         document.getElementById('newempresa').removeAttribute('hidden');
         document.getElementById('empresaupdated').setAttribute('hidden', true);
         $('#Empresa_modal input').not('[name="_token"]').val('');
         $('#Empresa_modal select').val('');
+        document.getElementById('logo_preview').src = "";
+        document.getElementById('logo_preview').setAttribute('hidden',true);
         $('#Empresa_modal').modal('show');
     }
-    
-    
+    $('#compani_logo').change(function(){
+        
+        const file = this.files[0]; // Obtén el primer archivo seleccionado
+    if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+        reader.onload = function(e) {
+            // Asigna el resultado de la lectura al src de la imagen
+            document.getElementById('logo_preview').src = e.target.result;
+            document.getElementById('logo_preview').removeAttribute('hidden');
+        }
+    }
+    })
     function actualizar(id){
         $.ajax({
                         type: 'GET',
@@ -288,7 +309,6 @@
                                     id: id
                                 });
                                 $request.done(function(data) {
-                                    console.log(data);
                                     if (data == "eliminado") {
                                         Swal.fire({
                                             icon: "success",
@@ -320,8 +340,6 @@
     $(document).ready(function() {
                 let elements = [];
                 let originalelements = [];
-                let Page = 1;
-                let itemsPerPage = parseInt($('#epp').val(),10);
                 searchdata();
                 function searchdata() {
                     document.getElementById('loadingdata').removeAttribute('hidden');
@@ -342,17 +360,15 @@
                 window.executeSearchdata = function() {
                     eval("searchdata()");
                 };
-
+                window.executeshowElements = function() {
+                    eval("showElements()");
+                };
                 function showElements() {
-                    
-                    ShowPagination();
+                    ShowPagination(elements.length);
                     let startIndex = (Page - 1) * itemsPerPage;
-                    console.log(startIndex);
-                    console.log(itemsPerPage);
                     let endIndex = startIndex + itemsPerPage;
-                    console.log(endIndex);
                     let paginatedElements = elements.slice(startIndex, endIndex);
-                    console.log(paginatedElements);
+
                     $('#tablausuarios tbody').empty();
                     if (paginatedElements.length > 0) {
                         document.getElementById('dataupload').removeAttribute('hidden');
@@ -376,97 +392,23 @@
                         $('#tablausuarios tbody').append(row);
                     });
                 }
-                
-
-                function ShowPagination() {
-                    
-                    let totalPages = Math.ceil(elements.length / itemsPerPage);
-                    let paginationHTML = '';
-                   
-                    let paginas = 7
-                    if (Page > totalPages) {
-                        Page = totalPages;
-                    }
-                    if (Page < 1) {
-                        Page = 1;
-                    }
-                    if (totalPages > 1) {
-                        if (Page > 1) {
-                            paginationHTML += '<button class="pagina" data-page="' + (Page - 1) + '"><<<</button>';
-                        }
-                        if (Page == 1) {
-                            paginationHTML += '<button class="paginaactive" data-page="1">1</button>';
-                        } else {
-                            paginationHTML += '<button class="pagina" data-page="1">1</button>';
-                        }
-
-                        if (Page > paginas / 2 && totalPages > paginas) {
-                            paginationHTML += '<span>...</span>';
-                        }
-
-                        for (let i = 2; i <= totalPages - 1; i++) {
-                            if ((Page <= paginas / 2 && i <= paginas) || (Page > totalPages - paginas / 2 && i >=
-                                    totalPages - paginas + 1)) {
-                                if (Page == i) {
-                                    paginationHTML += '<button class="paginaactive" data-page="' + i + '">' + i +
-                                        '</button>';
-                                } else {
-                                    paginationHTML += '<button class="pagina" data-page="' + i + '">' + i + '</button>';
-                                }
-                            } else {
-                                if (i < Page + paginas / 2 && i > Page - paginas / 2) {
-                                    if (Page == i) {
-                                        paginationHTML += '<button class="paginaactive" data-page="' + i + '">' + i +
-                                            '</button>';
-                                    } else {
-                                        paginationHTML += '<button class="pagina" data-page="' + i + '">' + i +
-                                            '</button>';
-                                    }
-                                }
-                            }
-                        }
-
-                        if (Page < totalPages - paginas / 2 && totalPages > paginas) {
-                            paginationHTML += '<span>...</span>';
-                        }
-
-                        if (totalPages > 1) {
-                            if (Page == totalPages) {
-                                paginationHTML += '<button class="paginaactive" data-page="' + (totalPages) + '">' +
-                                    totalPages + '</button>';
-                            } else {
-                                paginationHTML += '<button class="pagina" data-page="' + (totalPages) + '">' +
-                                    totalPages + '</button>';
-                            }
-                        }
-                        if (Page < totalPages) {
-                            paginationHTML += '<button class="pagina" data-page="' + (Page + 1) +
-                                '">>>></button>';
-                        }
-                    }
-                    $('#pagination').html(paginationHTML);
-                }
-                $('#pagination').on('click', '.pagina', function() {
-                    Page = parseInt($(this).data('page'));
-                    showElements();
-
-                });
-                $('#epp').change(function(){
-                    itemsPerPage =  parseInt($('#epp').val(),10);
-                    showElements();});
                 $('#search').on('input', filtering);
                 function filtering() {
-                   
-                  
                     let search = $('#search').val().toLowerCase();
                     Page = 1
                     if (/^[\d.]+$/.test(search)) {
                         elements = originalelements.filter(function(element) {
-                             return (search === '' || element.nombre.toLowerCase().includes(search));
+                             return (search === '' || element.tel_negocio.toLowerCase().includes(search) );
                         });
-                    } else {
+                    }
+                    if (search.includes('@')) {
                         elements = originalelements.filter(function(element) {
-                        return (search === '' || element.nombre.toLowerCase().includes(search));
+                        return (search === '' || element.email.toLowerCase().includes(search));
+                        });
+                    }
+                    else {
+                        elements = originalelements.filter(function(element) {
+                        return (search === '' || element.nombre.toLowerCase().includes(search) || element.rfc.toLowerCase().includes(search)) ;
                         });
                     }
 
@@ -479,7 +421,6 @@
                 }
 $("#EmpresaForm").submit(function(e) {
                     e.preventDefault();
-                    console.log("Formulario enviado");
                     $("#Empresa_modal").modal("hide");
                     $("#empresaupdated").attr("disabled", true);
                     $("#newempresa").attr("disabled", true)
@@ -524,7 +465,6 @@ $("#EmpresaForm").submit(function(e) {
                 });
     });
 </script>
-
       
          
 @endsection

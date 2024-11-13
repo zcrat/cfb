@@ -595,24 +595,33 @@
             let s2=document.querySelector('.msidebar-links');
            
             let s3=document.querySelector('.body-container');
-            
+
+            let barra = localStorage.getItem('barra') || 'activa';
+            cambiarbarra(barra);
+           
+
           document.querySelector('.sider').addEventListener('click', function() {
-            
             s1.classList.toggle('active-sidebar');
-            
             s2.classList.toggle('active-msidebar-links');
-        
             s3.classList.toggle('active-body-container');
+            let barra = localStorage.getItem('barra');
+            barra = barra === "activa" ? "noactiva" : "activa";
+            localStorage.setItem('barra', barra);
           });  
           document.querySelector('.contraer').addEventListener('click', function() {
-            
             s1.classList.toggle('active-sidebar');
-            
             s2.classList.toggle('active-msidebar-links');
-        
             s3.classList.toggle('active-body-container');
+
           });
 
+          function cambiarbarra(barra){
+          if(barra ==="noactiva"){
+                    s1.classList.toggle('active-sidebar');
+                    s2.classList.toggle('active-msidebar-links');
+                    s3.classList.toggle('active-body-container');
+          }
+        }
 
         });
         function toggleTheme(currentTheme) {
@@ -631,12 +640,13 @@ function cambiarcolores(savedTheme){
         document.documentElement.style.setProperty('--fondor', '#ffffff');
         document.documentElement.style.setProperty('--letrar', '#000000');
     } else {        
-        document.documentElement.style.setProperty('--fondo', '#f78800');
-        document.documentElement.style.setProperty('--letra', '#000000');
+        document.documentElement.style.setProperty('--fondo', '#0073b7');
+        document.documentElement.style.setProperty('--letra', '#ffffff');
         document.documentElement.style.setProperty('--fondor', '#ffa200');
         document.documentElement.style.setProperty('--letrar', '#f2f2f2')
     }
 }
+
 document.querySelector('.dark').addEventListener('click', () => toggleTheme('dark'));
 document.querySelector('.light').addEventListener('click', () => toggleTheme('light'));
 
