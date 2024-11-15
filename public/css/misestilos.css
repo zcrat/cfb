@@ -23,38 +23,40 @@ section{
 .hidden{
     display: none !important;
   }
+.misearch{
+  width: 300px;
+  height: 40px;
+  border-radius: 15px;
+  border: 2px solid black;
+}
 /* se encarga de los estilos de la paginacion*/
-.pagina {
+.pagina,.paginad,.paginaactive {
     margin: 0px 1px;
     width: 35px;
+    height: 30px;
     color: #fff;
     background-color: var(--paginas);
     border: none;
-    padding: 5px 10px;
-    cursor: pointer;}
-.paginad {
-      width: 35px;
-      margin: 0px 1px;
-      color: #fff;
-      background-color: var(--paginas);
-      border: none;
-      padding: 5px 10px;
-      }
-.pagina:hover {
+    padding: 5px 10px;}
+.pagina {
+  cursor: pointer;}
+.pagina:hover,.paginaactive {
     background: var(--paginaactiva);}
+.elementosporpagina div{
+  display: inline;
+}
+.elementosporpagina select{
+  width: 40px; 
+  height: 30px;
+}
+.viewelements{
+  margin-top: 20px;
+}
 .mimagen{
   width: 100%;
-margin-top: 10px;
-margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.paginaactive {
-  width: 35px;
-    margin: 0px 1px;
-    color: #fff;
-    background: var(--paginaactiva);
-    font-weight: bold;
-    border: none;
-    padding: 5px 10px;}
 /* se encarga de las pantallas de carga*/
 .spinnerp {
     border: 8px solid #f3f3f3; /* Light grey */
@@ -78,6 +80,9 @@ margin-bottom: 10px;
 .modal-body {
   max-height: 80vh; 
   overflow-y: auto; }
+.modal-header{
+  justify-content: space-between;
+}
 /* Estilos generales del body */
 body {
   margin: 0;
@@ -89,11 +94,6 @@ body {
   padding-left: 0px !important;
   padding-right: 0px !important;}
 /* Barrasuperior */
-
-
-.loadingdata{
-  height: 100%;
-}
 .mtopbar {
   border-radius: 10px;
   background-color: var(--fondo);
@@ -263,9 +263,6 @@ body {
   margin-top: 10px;
   overflow-x: auto !important;
  }
-
-
-
 tr td {
   height: 45px;
    /* Color de fondo alternado */
@@ -286,8 +283,6 @@ td,th,tr{
   align-content: center;
   flex-wrap: wrap;
 }
-
-
  .carga{
   display: flex;
   flex-grow: 1;
@@ -329,10 +324,6 @@ td,th,tr{
 .mycard{
   display: flex;
   flex-direction: column;
-}
-
-.dataupload{
-  margin-top: 20px;
 }
 @media (max-width:750px){ 
   :root{

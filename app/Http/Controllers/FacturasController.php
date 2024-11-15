@@ -95,10 +95,6 @@ class FacturasController extends Controller
        }
 
    }
-
-        
-
-   
         return [
             'pagination' => [
                 'total'        => $facturas->total(),
@@ -111,6 +107,19 @@ class FacturasController extends Controller
             'facturas' => $facturas
         ];
     }
+
+    public function facturas(){
+        $empresas = Empresa::select('id','nombre')->get();
+        $elementostotales = Factura::with(['empresa:id,nombre'])->has('empresa')->count();
+        return view('facturacion.facturas', compact('elementostotales','empresas'));    
+    }
+    public function obtenerfacturas(){
+        $facturas = Factura::with(['empresa:id,nombre'])->has('empresa')->get();
+        return response()->json(['facturas'=>$facturas]);
+    }
+
+
+
 
     public function porcobrar(Request $request)
     {

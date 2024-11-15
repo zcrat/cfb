@@ -27,4 +27,7 @@ class Empresa extends Model
     function customers(){
         return $this->hasMany(Customer::class, 'empresa_id','id'); 
     }
+    function facturas(){
+        return $this->hasMany(Factura::class, 'empresa_id','id'); 
+    }
 }

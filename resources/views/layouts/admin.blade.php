@@ -94,8 +94,6 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li  @click="$store.state.menuc=3" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-building"></i> Empresas</a></li>
-                <li  @click="$store.state.menuc=12" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-user"></i> Usuarios</a></li>
                 <li class="nav-item"><a href="{{ route('cliente.usuarios') }}" class="nav-link"><i class="fa fa-user"></i> Usuarios</a></li>
                 <li class="nav-item"><a href="{{ route('cliente.empresas') }}" class="nav-link"><i class="fa fa-user"></i> Empresas</a></li>
 

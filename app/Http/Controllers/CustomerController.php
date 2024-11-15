@@ -19,7 +19,7 @@ class CustomerController extends Controller
         $empresas = Empresa::select('id','nombre')->get();
         $elementostotales = Customer::with(['empresa:id,nombre'])->has('empresa')->count();
         
-        return view('pruebas.usuarios', compact('elementostotales','empresas'));
+        return view('clientes.usuarios', compact('elementostotales','empresas'));
     }
     public function obtenerusuarios()
     {
@@ -126,7 +126,7 @@ class CustomerController extends Controller
             ['id' => '630', 'nombre' => '630 - Enajenación de acciones en bolsa de valores']
         ];
         $elementostotales = Empresa::count();
-        return view('pruebas.empresas', compact('elementostotales', 'Regimenes'));
+        return view('clientes.empresas', compact('elementostotales', 'Regimenes'));
     }
 
     public function obtenerempresas()
@@ -144,14 +144,81 @@ class CustomerController extends Controller
         }
     }
     public function create_empresa(Request $request)
-    {
-        if ($request->filled('compani_id')) {
+    {  
+        if ($request->filled('compani_id') ) {
+            $id = $request->input('compani_id');
+            try{
+            $compani = Empresa::findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                return response()->json(['error' => 'Empresa no encontrada'], 404);   
+            }
+                if($request->hasfile('compani_logo')){
+                $path = $request->file('compani_logo')->store('img/logos_empresas');
+                $path = explode('/',$path);
+                $path=$path[2];
+                }else{
+                $path=Empresas::select('logo')->where('id',$id)->first();    
+                }
+                if($path){
+                    DB::beginTransaction();
+                    try {
+                        $compani->nombre = $request->input('compani_nombre');
+                        $compani->rfc=$request->input('compani_rfc');
+                        $compani->logo=$path;
+                        $compani->email=$request->input('compani_email');
+                        $compani->direccion = $request->input('compani_direccion');
+                        $compani->ciudad =$request->input('compani_ciudad');
+                        $compani->estado = $request->input('compani_estado');
+                        $compani->cp =$request->input('compani_cp');
+                        $compani->tel_casa =$request->input('compani_tel_casa');
+                        $compani->tel_negocio = $request->input('compani_tel_negocio');
+                        $compani->tel_celular =$request->input('compani_tel_celular');
+                        $compani->regimen=$request->input('compani_regimen');
+                        $compani->save();
+                    DB::commit();
+                    return "actualizado";
+                    } catch (\Exception $e) {
+                    DB::rollBack();
+                    return abort(500, $e->getMessage());
+                    }
+                }else{
+                    return "imagennosubida";
+                }
            
-            $path = $request->file('compani_logo')->store('pruebas/logos_empresas');
-            return response()->json(['message' => 'Logo subido exitosamente', 'path' => $path]);
-
         } else {
-            return response()->json(['message' => 'Logo subido exitosamente', 'path' => $path]);
+                if($request->hasfile('compani_logo')){
+                $path = $request->file('compani_logo')->store('img/logos_empresas');
+                $path = explode('/',$path);
+                $path=$path[2];
+                }else{
+                $path="sinlogo.jpg";   
+                }
+                if($path){
+                    DB::beginTransaction();
+                    try {
+                        $compani = new Empresa;
+                        $compani->nombre = $request->input('compani_nombre');
+                        $compani->rfc=$request->input('compani_rfc');
+                        $compani->logo=$path;
+                        $compani->email=$request->input('compani_email');
+                        $compani->direccion = $request->input('compani_direccion');
+                        $compani->ciudad =$request->input('compani_ciudad');
+                        $compani->estado = $request->input('compani_estado');
+                        $compani->cp =$request->input('compani_cp');
+                        $compani->tel_casa =$request->input('compani_tel_casa');
+                        $compani->tel_negocio = $request->input('compani_tel_negocio');
+                        $compani->tel_celular =$request->input('compani_tel_celular');
+                        $compani->regimen=$request->input('compani_regimen');
+                        $compani->save();
+                        DB::commit();
+                        return "creado";
+                    } catch (\Exception $e) {
+                    DB::rollBack();
+                    return abort(500, $e->getMessage());
+                    }
+                }else{
+                    return "imagennosubida";
+                }
         }
     }
     public function deletecompani(Request $request){

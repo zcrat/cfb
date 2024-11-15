@@ -18,4 +18,10 @@ class Factura extends Model
         'movimiento',
         'n_movimiento'
      ];
+
+    function empresa(){
+        return $this->belongsTo(Empresa::class,'empresa_id','id');
+    }
+
+
 }
