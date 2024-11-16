@@ -5,19 +5,31 @@
     <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Empresas
-                    <button type="button"  onclick="openmodal('Nueva Empresa')" class="btn btn-secondary">
-                        <i class="icon-plus"></i>&nbsp;Agregar
+                    <i class="fa fa-align-justify"></i> Facturas
+                    <button type="button"  onclick="openmodal('nuevafacturamodal')" class="btn btn-secondary">
+                    <i class="fa-solid fa-circle-plus"></i></i>&nbsp;Nueva
+                    </button>
+                    <button type="button"  onclick="openmodal('nuevopagomodal')" class="btn btn-secondary">
+                    <i class="fa-solid fa-circle-plus"></i></i>&nbsp;Pago
                     </button>
                 </div>
                 <div class="card-body mycard">
                     <div class="dataupload" id="dataupload">
-                        <div class="d-flex">
-                            <div class="d-flex align-items-left user-member__form">
-                                <input class="misearch"
+                        <div class="d-flex superior">
+                            <div class="encabezado" >
+                                <label >Empresa:  </label>
+                                <select class="rounded" id="empresa">
+                                    <option value="">Todos</option>
+                                    @foreach ($empresas as $option)
+                                        <option value="{{ $option->id }}">{{ $option->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="d-flex busqueda">
+                                <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                                <input class="rounded-pill"
                                     type="text" id="search" name="s"
-                                    placeholder="Busqueda Por Nombre, RFC, Correo O Telefono" min="1">
-                                    <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                                    placeholder="Busqueda por Nombre" min="1">
                             </div>
                         </div>
                         <div class="viewelements" id="viewelements">
@@ -30,7 +42,7 @@
                                 <div id='pagination'></div>
                             </div>
                             <div class="mitabla">
-                                <table id="tablausuarios" class="table table-sm  table-striped">
+                                <table id="tablaufacturas" class="table table-sm  table-striped">
                                     <thead  class= "thead-light">
                                         <tr>
                                             <th>Opciones</th>
@@ -39,8 +51,7 @@
                                             <th>Razon Social</th>
                                             <th>Folio</th>
                                             <th>Total</th>
-                                            <th>Fecha Creacion</th>
-                                            <th>Fecha Actualizacion</th>
+                                            <th>Fecha</th>
                                             <th>Documento</th>
                                             <th>Estado</th>
                                         </tr>
@@ -61,231 +72,86 @@
                 </div>
             </div>
     </div>
-    <div class="modal fade modal-basic" id="Empresa_modal" tabindex="-1" aria-labelledby="taskModalLabal" aria-hidden="true" 
-    data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-uppercase" id="modalcompanititle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="EmpresaForm" method="post" enctype="multipart/form-data" >
-                        @csrf
-                        <input id="compani_id" class="form-control" type="hidden" name="compani_id">
-                        <div class="form-group">
-                            <label for="compani_nombre">Nombre:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <input id="compani_nombre" class="form-control" type="text" name="compani_nombre" placeholder="Ej. Akumas" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="compani_rfc">RFC:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <input id="compani_rfc" class="form-control" type="text" name="compani_rfc" placeholder="Ej. EUFA870518H53" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="compani_logo">Logo:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                            <div class="logos">
-                                <img id="logo_preview" src="#" alt="Logo Preview" class="mimagen" hidden>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <input id="compani_logo" class="form-control" type="file" accept="image/*" name="compani_logo">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="compani_email">Email:</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <input id="compani_email" class="form-control" type="email" name="compani_email" placeholder="Ej. designapp.mx@gmail.com" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label >Regimen Fiscal</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <select id="compani_regimen" class="form-control" name="compani_regimen" required>
-                                    <option value="">Seleccione El regimen </option>
-                                  
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="compani_direccion">Dirección:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <input id="compani_direccion" class="form-control" type="text" name="compani_direccion" placeholder="Ej. C. PUERTO DE ACAPULCO NO. 328, COL. TINIJARO, C.P. 58337" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="compani_ciudad">Ciudad:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                        </div>
-                                        <input id="compani_ciudad" class="form-control" type="text" name="compani_ciudad" placeholder="Ej. Morelia" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="compani_estado">Estado:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                        </div>
-                                        <input id="compani_estado" class="form-control" type="text" name="compani_estado" placeholder="Ej. Michoacán" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="compani_cp">C.P.:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                        </div>
-                                        <input id="compani_cp" class="form-control" type="text" name="compani_cp" placeholder="Ej. 58000" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label for="compani_tel_casa">Tel Casa:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fas fa-phone"></i>
-                                        </div>
-                                        <input id="compani_tel_casa" class="form-control" type="text" name="compani_tel_casa" placeholder="Ej. 4431040746" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="compani_tel_negocio">Tel Oficina:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fas fa-phone"></i>
-                                        </div>
-                                        <input id="compani_tel_negocio" class="form-control" type="text" name="compani_tel_negocio" placeholder="Ej. 4431040746" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="compani_tel_celular">Tel Celular:<i class="ml-2 color-required fas fa-asterisk"></i></label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fas fa-phone"></i>
-                                        </div>
-                                        <input id="compani_tel_celular" class="form-control" type="text" name="compani_tel_celular" placeholder="Ej. 4431040746" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>   
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cerrarModal()">Cancelar</button>
-                    <button type="submit" hidden id="empresaupdated" form="EmpresaForm"class="btn btn-primary">Actualizar</button>
-                    <button type="submit" id="newempresa" form="EmpresaForm" class="btn btn-primary">Guardar</button>
+    <div id="fileModal" class="modal fade modal-basic ajustarmodal" tabindex="-1" aria-labelledby="taskModalLabal"
+            aria-hidden="true" data-bs-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ver Archivo</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body viewfile">
+                        
+                            <iframe id="fileViewer" src=""></iframe>
+                      
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="cerrarModal('#fileModal')" class="btn btn-primary revokeURL"
+                            data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
+    <div id="cancelarfactura" class="modal fade modal-basic" tabindex="-1" aria-labelledby="taskModalLabal"
+            aria-hidden="true"data-bs-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Registro de Motivos de Cancelación</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                       <form id="cancelarfacturaform">
+                            @csrf
+                            <input id="factura_id" class="form-control" type="hidden" name="factura_id">
+                            <label class="form-control-label" for="text-input">Para cada CFDI que desea cancelar debe capturar el motivo de cancelación</label>
+                            <div class="form-group row">
+                                
+                                <div class="col-12 col-md-8">
+                                    <label class="col-12 col-md-12 form-control-label" for="text-input">Motivo de cancelación</label>
+                                    <select name="fpago" class="col-12 col-md-12 form-control" required>
+                                            <option value="">Seleccione el motivo</option>
+                                            <option value="01">01 - Comprobantes emitidos con errores con relación</option>
+                                            <option value="02">02 - Comprobantes emitidos con errores sin relación</option>
+                                            <option value="03">03 - No se llevó a cabo la operación</option>
+                                            <option value="04">04 - Operación nominativa relacionada en una factura global</option>
+                                                            
+                                    </select>
+                                </div>
+                                    <div class="col-12 col-md-4">
+                                <label class="col-12 col-md-12 form-control-label" for="text-input">Folio Relacionado</label>
+                                <input id="foliocancelacion" disabled type="text" value="" class="col-12 col-md-12 form-control">
+                                </div>
+                            </div>
+                       </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="cerrarModal('#cancelarfactura')" class="btn btn-secondary revokeURL"
+                         data-dismiss="modal">Cerrar</button>
+                         <button type="submit" id="btncancelarf" form="cancelarfacturaform" class="btn btn-danger">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{asset('js/paginacion.js')}}"></script>
 <script>
-    function cerrarModal() {
-        $('#Empresa_modal').modal('hide');
+    function cerrarModal(id) {
+        $(id).modal('hide');
     }
-    function openmodal(title){
-        document.getElementById('newempresa').removeAttribute('hidden');
-        document.getElementById('empresaupdated').setAttribute('hidden', true);
-        $('#Empresa_modal input').not('[name="_token"]').val('');
-        $('#Empresa_modal select').val('');
-        document.getElementById('logo_preview').src = "";
-        document.getElementById('logo_preview').setAttribute('hidden',true);
-        $('#modalcompanititle').text(title)
-        $('#Empresa_modal').modal('show');
+    function mostrar(archivo){
+        const fileViewer = document.getElementById('fileViewer');
+        fileViewer.src = '/facturas/'+archivo;
+        $('#fileModal').modal('show');
     }
-    $('#compani_logo').change(function(){ 
-        const file = this.files[0]; // Obtén el primer archivo seleccionado
-    if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file); // Lee el archivo como una URL de datos
-        reader.onload = function(e) {
-            // Asigna el resultado de la lectura al src de la imagen
-            document.getElementById('logo_preview').src = e.target.result;
-            document.getElementById('logo_preview').removeAttribute('hidden');
-        }
-    }
-    })
-    function actualizar(id){
-        $.ajax({
-                        type: 'GET',
-                        url: '{{ route('cliente.compani') }}',
-                        data: {'id' : id},
-                        success: function(response) {
-                            let compani= response.compani[0];
-                            document.getElementById("compani_id").value = compani.id;
-                            document.getElementById("compani_nombre").value = compani.nombre;
-                            document.getElementById("compani_rfc").value = compani.rfc;
-                            document.getElementById("compani_regimen").value = compani.regimen;
-                            document.getElementById("compani_email").value = compani.email;
-                            document.getElementById("compani_direccion").value = compani.direccion;
-                            document.getElementById("compani_ciudad").value = compani.ciudad;
-                            document.getElementById("compani_estado").value = compani.estado;
-                            document.getElementById("compani_cp").value = compani.cp;
-                            document.getElementById("compani_tel_negocio").value = compani.tel_negocio;
-                            document.getElementById("compani_tel_casa").value = compani.tel_casa;
-                            document.getElementById("compani_tel_celular").value = compani.tel_celular;
-                            document.getElementById('empresaupdated').removeAttribute('hidden');
-                            document.getElementById('newempresa').setAttribute('hidden', true);
-                            const imgElement = document.getElementById('logo_preview');
-                            imgElement.src = '/storage/img/logos_empresas/'+compani.logo; // Asignar la URL a la fuente de la imagen
-                            imgElement.removeAttribute('hidden');
-                            $('#modalcompanititle').text("Modificar Empresa")
-
-                            $('#Empresa_modal').modal('show');
-        
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr);
-                        }
-                    });
-       
-                }
-    function eliminar(id,nombre){
-                    Swal.fire({
+    function descargar(archivo){
+        Swal.fire({
                             icon: "question",
-                            text: "¿Estás seguro de Eliminar la Empresa "+nombre+" ?",
+                            text: "¿Estás Seguro De Descargar El Archivo "+archivo+" ?",
                             showCancelButton: true,
                             confirmButtonText: "Confirmar",
                             cancelButtonText: "Cancelar",
@@ -297,39 +163,19 @@
                         })
                         .then((result) => {
                             if (result.isConfirmed) {
-                                let $request = $.post("{{ route('cliente.deletecompani') }}", {
-                                    "_token": "{{ csrf_token() }}",
-                                    id: id
-                                });
-                                $request.done(function(data) {
-                                    if (data == "eliminado") {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "Se Elimino Correctamente La Empresa",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    }else {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "Oops...",
-                                            html: data,
-                                        });
-                                    }
-                                });
-                                $request.fail(function(error) {
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: "Ocurrió un error",
-                                    });
-                                });
+                                console.log("se debe de descargar el archivo "+ archivo)
                             } else {
                                
                             }
                         });
-                }
+    }
+    
+    function cancelarfactura(id,folio) {
+        document.getElementById("factura_id").value = id;
+        document.getElementById("foliocancelacion").value = folio;
+
+        $('#cancelarfactura').modal('show');
+    }
     $(document).ready(function() {
                 let elements = [];
                 let originalelements = [];
@@ -343,10 +189,9 @@
                         url: '{{ route('facturacion.obtenerfacturas') }}',
                         success: function(response) {
                             originalelements = elements = response.facturas;
-
                             document.getElementById('loadingdata').setAttribute('hidden', true);
                             document.getElementById('dataupload').removeAttribute('hidden');
-                            console.log(elements);
+                            filtering();
                         },
                         error: function(xhr, status, error) {
                             console.error(xhr);
@@ -365,7 +210,7 @@
                     let endIndex = startIndex + itemsPerPage;
                     let paginatedElements = elements.slice(startIndex, endIndex);
 
-                    $('#tablausuarios tbody').empty();
+                    $('#tablaufacturas tbody').empty();
                     if (paginatedElements.length > 0) {
                         document.getElementById('viewelements').removeAttribute('hidden');
                     } else {
@@ -373,31 +218,67 @@
                     }
                     $.each(paginatedElements, function(index, element) {
                         let row = $('<tr>');
-                        
-                        row.append('<td > <div class="Datatable-content-button"> <button class="btn btn-warning btn-sm" '+
-                                            'onclick="actualizar(\''+element.id+'\')"><i class="fas fa-edit"></i>'+
-                                    '</button>'+
-                                    '<button class="btn btn-danger btn-sm" onclick="eliminar(\''+element.id+'\',\''+element.folio+'\')">'+
-                                        '<i class="fas fa-trash-alt"></i></button></div></td>');
-                        $('#tablausuarios tbody').append(row);
+                        if(element.acuse){
+                            row.append('<td ><div class="Datatable-content-button2">'+
+                            '<button class="btn btn-danger btn-sm" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><i class="fa-solid fa-file"></i></button>'+
+                            '<button class="btn btn-warning btn-sm" onclick="descargar(\''+element.xml+'\')" title="Archivo XML"><i class="fa-solid fa-file"></i></button>'+
+                            '<button class="btn btn-success btn-sm" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><i class="fa-solid fa-file"></i></button>'+
+                            '</div></td>');
+                        }else{
+                            row.append('<td ><div class="Datatable-content-button2">'+
+                            '<button class="btn btn-danger btn-sm" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><i class="fa-solid fa-file"></i></button>'+
+                            '<button class="btn btn-warning btn-sm" onclick="descargar(\''+element.xml+'\')" title="Archivo XML"><i class="fa-solid fa-file"></i></button>'+
+                            '<button class="btn btn-secondary btn-sm" onclick="cancelarfactura(\''+element.id+'\',\''+element.folio+'\')" title="Sin Acuse"><i class="fa-solid fa-ban"></i></button>'+
+                            '</div></td>');   
+                        }
+                        row.append('<td><div class="Datatable-content">' + (element.id ? element.id : "Sin id" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.rfc ? element.rfc : "Sin rfc" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.razon_social ? element.razon_social : "Sin razon social" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.folio ? element.folio : "Sin folio" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.total ? element.total : "Sin total" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.created_at ? element.created_at : "Sin fecha" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.movimiento ? element.movimiento : "Sin movimiento" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.estado ? element.estado : "Sin estado" ) + '</div></td>');
+
+                        $('#tablaufacturas tbody').append(row);
                     });
                 }
                 $('#search').on('input', filtering);
+                $('#empresa').change(filtering);
                 function filtering() {
-                   
+                    const empresas = document.getElementById("empresa");
+                    let option1 = empresas.value;
+                    let empresa = empresas.options[empresas.selectedIndex].text;
+                    let search = $('#search').val().toLowerCase();
+                    Page = 1
+                    console.log(elements)
+                    elements = originalelements.filter(function(element) {
+                      
+                        return (option1 === '' || element.empresa_id == option1) &&
+                                (search === '' || element.rfc.toLowerCase().includes(search) || element.folio.toLowerCase().includes(search));
+                    });
+                    if (elements.length === 0) {
+                        document.querySelector('.no-results-message').removeAttribute('hidden');
+                        if(search !== '' && option1 === ''){
+                            $('#no-results-message').text('No Se Encontraron Facturas Con El RFC O Folio '+ search);
+                        }else if(search === '' && option1 !== ''){
+                            $('#no-results-message').text('No Se Encontraron Facturas Afiliados A La Empresa '+ empresa);
+                        }else{
+                            $('#no-results-message').text('No Se Encontraron Facturas Con El RFC O Folio '+search +' Afiliados A La Empresa '+ empresa);
+                        }
+
+
+                    } else {
+                        document.querySelector('.no-results-message').setAttribute('hidden',true);
+                        $('#no-results-message').text('');
+                    }
                     showElements();
                 }
-$("#EmpresaForm").submit(function(e) {
+                $("#cancelarfacturaform").submit(function(e) {
                     e.preventDefault();
-                    $("#Empresa_modal").modal("hide");
-                    $("#empresaupdated").attr("disabled", true);
-                    $("#newempresa").attr("disabled", true)
-                    let mensaje;
-                    if(document.getElementById("compani_id").val==null){
-                        mensaje ="¿Estás Seguro De Registrar A la Empresa "+ document.getElementById("compani_nombre").value+" ?"
-                    }else{
-                        mensaje ="¿Estás Seguro De Modificar Los Datos De La Empresa "+ document.getElementById("compani_nombre").value+" ?"
-                    }
+                    $("#cancelarfactura").modal("hide");
+                    $("#btncancelarf").attr("disabled", true);
+                    let mensaje="¿Estas Seguro de Cancelar la Factura Con El Folio "+document.getElementById("foliocancelacion").value+"?";
                     Swal.fire({
                             icon: "question",
                             text: mensaje,
@@ -412,79 +293,11 @@ $("#EmpresaForm").submit(function(e) {
                         })
                         .then((result) => {
                             if (result.isConfirmed) {
-                                var form = $("#EmpresaForm")[0];
-                                var formData = new FormData(form);
-                                let ruta="{{ route('cliente.compani_register') }}";
-                                $.ajax({
-                                url: ruta,
-                                type: "POST",
-                                data: formData,
-                                contentType: false, // Evita que jQuery establezca un tipo de contenido
-                                processData: false, // Evita que jQuery procese los datos
-                                success: function(response) {
-                                    
-                                    $("#empresaupdated").attr("disabled", true);
-                                    $("#newempresa").attr("disabled", true)
-                                    if (response == "actualizado") {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "Se Actualizo Correctamente La Empresa",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    }
-                                    else if (response == "creado") {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "Se Ha Creado Correctamente La Empresa",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    } 
-                                    else if (response == "imagennosubida") {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "No Se Pudo Subir El Logo",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    } 
-                                    else if (response == "noencontrado") {
-                                        
-                                    } 
-                                    else {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "Oops...",
-                                            html: data,
-                                        });
-                                    }
-                                },
-                                error: function(xhr) {
-                                    if (xhr.status === 404) {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "No Se Pudo Encontrar La Empresa Que Desea Modificar",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        $("#empresaupdated").attr("disabled", false);
-                                        $("#newempresa").attr("disabled", false);
-                                    } else {
-                                        alert('Ocurrió un error al procesar la solicitud');
-                                        $("#empresaupdated").attr("disabled", false);
-                                        $("#newempresa").attr("disabled", false);s
-                                    }
-                                }
-                            });
-                     
+                                console.log("aqui va la logica para cancelar");
+                            
                             } else {
-                                $("#Empresa_modal").modal("show");
-                                $("#empresaupdated").attr("disabled", false);
-                                $("#newempresa").attr("disabled", false);
+                                $("#cancelarfactura").modal("show");
+                                $("#btncancelarf").attr("disabled", false);
                             }
                         });
                 });

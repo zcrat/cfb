@@ -20,8 +20,9 @@
 <div>
   <nav class="msidebar">
     <li class="logotipo">
-      <a href="{{ route('homevue') }}"  @click="$store.state.menuc=0">
-        <span class="logoimg"><img src="{{asset('img/logo_cfb.png')}}" width="50px"height="40px" alt=""></span>
+      <a   @click="$store.state.menuc=0">
+        <a href="{{ route('homevue') }}"><span class="logoimg"><img  src="{{asset('img/logo_cfb.png')}}" width="50px"height="40px" alt=""></span>
+        </a>
         <span class="contraer"><i class="fa-solid fa-outdent"></i></span>
       </a>
     </li>

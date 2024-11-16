@@ -1,4 +1,4 @@
-[2024-10-29 15:31:42] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
+[2024-11-15 09:16:32] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php(13): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to get p...', 'C:\\\\xampp\\\\htdocs...', 13, Array)
 #1 [internal function]: App\\Http\\Controllers\\NotificationController->get()
@@ -52,9 +52,10 @@
 #49 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
 #50 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #51 C:\\xampp\\htdocs\\tac\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#52 {main}
+#52 C:\\xampp\\htdocs\\tac\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#53 {main}
 "} 
-[2024-10-29 15:31:45] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
+[2024-11-15 09:16:33] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php(13): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to get p...', 'C:\\\\xampp\\\\htdocs...', 13, Array)
 #1 [internal function]: App\\Http\\Controllers\\NotificationController->get()
@@ -108,9 +109,10 @@
 #49 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
 #50 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #51 C:\\xampp\\htdocs\\tac\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#52 {main}
+#52 C:\\xampp\\htdocs\\tac\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#53 {main}
 "} 
-[2024-10-29 16:57:55] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
+[2024-11-15 18:34:36] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php(13): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to get p...', 'C:\\\\xampp\\\\htdocs...', 13, Array)
 #1 [internal function]: App\\Http\\Controllers\\NotificationController->get()
@@ -164,9 +166,10 @@
 #49 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
 #50 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #51 C:\\xampp\\htdocs\\tac\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#52 {main}
+#52 C:\\xampp\\htdocs\\tac\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#53 {main}
 "} 
-[2024-10-29 16:57:56] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
+[2024-11-15 18:34:37] local.ERROR: Trying to get property 'unreadNotifications' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'unreadNotifications' of non-object at C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php:13)
 [stacktrace]
 #0 C:\\xampp\\htdocs\\tac\\app\\Http\\Controllers\\NotificationController.php(13): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to get p...', 'C:\\\\xampp\\\\htdocs...', 13, Array)
 #1 [internal function]: App\\Http\\Controllers\\NotificationController->get()
@@ -220,5 +223,6 @@
 #49 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
 #50 C:\\xampp\\htdocs\\tac\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
 #51 C:\\xampp\\htdocs\\tac\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
-#52 {main}
+#52 C:\\xampp\\htdocs\\tac\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#53 {main}
 "} 

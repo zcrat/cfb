@@ -32,7 +32,7 @@ section{
 /* se encarga de los estilos de la paginacion*/
 .pagina,.paginad,.paginaactive {
     margin: 0px 1px;
-    width: 35px;
+    min-width: 35px;
     height: 30px;
     color: #fff;
     background-color: var(--paginas);
@@ -75,7 +75,8 @@ section{
   justify-content: center;
   align-items: center; }
 .modal-content {
-  max-height: 90vh; 
+  max-height: 92vh;
+  width: auto;
   margin: auto;}
 .modal-body {
   max-height: 80vh; 
@@ -83,6 +84,21 @@ section{
 .modal-header{
   justify-content: space-between;
 }
+.viewfile{
+  height: 90vh;
+  max-height: none;
+  width: 700px;
+  overflow: hidden;
+  --bs-modal-width: none;
+}
+.ajustarmodal{
+  --bs-modal-width: none;
+}
+.viewfile iframe{
+  width: 100%;
+  height: 100%;
+}
+
 /* Estilos generales del body */
 body {
   margin: 0;
@@ -275,14 +291,20 @@ td,th,tr{
   display: inline-block;
   padding:5px ;
 }
-.Datatable-content-button{
+.Datatable-content-button,.Datatable-content-button2{
   display: flex;
   width: 100%;
-  max-width: 73px;
+  height: 100%;
   justify-content: space-around;
   align-content: center;
   flex-wrap: wrap;
+  max-width: 75px;
 }
+.Datatable-content-button2{
+max-width: 110px;
+min-width: 70px;
+}
+
  .carga{
   display: flex;
   flex-grow: 1;
@@ -325,6 +347,8 @@ td,th,tr{
   display: flex;
   flex-direction: column;
 }
+
+
 @media (max-width:750px){ 
   :root{
     --paginaactiva: #037E8C;
@@ -386,6 +410,13 @@ td,th,tr{
   transition: 2s;
   margin: 0;
   left: 0;
+}
+.viewfile{
+  height: 90vh;
+  max-height: none;
+  width: 95vw;
+  overflow: hidden;
+  --bs-modal-width: none;
 }
 .active-sidebar {
 left:0 ;

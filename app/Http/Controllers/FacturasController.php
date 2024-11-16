@@ -114,7 +114,49 @@ class FacturasController extends Controller
         return view('facturacion.facturas', compact('elementostotales','empresas'));    
     }
     public function obtenerfacturas(){
-        $facturas = Factura::with(['empresa:id,nombre'])->has('empresa')->get();
+        $facturas = Factura::has('empresa')->get();
+        libxml_use_internal_errors(true); // Manejo interno de errores XML
+
+        $cfdiNamespace = 'http://www.sat.gob.mx/cfd/3';
+        $tfdNamespace = 'http://www.sat.gob.mx/TimbreFiscalDigital';
+
+        foreach ($facturas as $fac) {
+            $archivoname = public_path() . '/facturas/' . $fac->xml;
+            try {
+                $xml = new \SimpleXMLElement($archivoname, null, true);
+                // Registrar namespaces para las consultas XPath
+                $xml->registerXPathNamespace('cfdi', $cfdiNamespace);
+                $xml->registerXPathNamespace('tfd', $tfdNamespace);
+
+                // Extraer información relevante
+                $comprobante = $xml->xpath('//cfdi:Comprobante')[0] ?? null;
+                $receptor = $xml->xpath('//cfdi:Comprobante//cfdi:Receptor')[0] ?? null;
+                $timbre = $xml->xpath('//cfdi:Comprobante//cfdi:Complemento//tfd:TimbreFiscalDigital')[0] ?? null;
+
+                if (!$comprobante || !$receptor || !$timbre) {
+                    // Información incompleta en el XML, asignar valores de error
+                    $fac->rfc = 'ERROR';
+                    $fac->razon_social = 'ERROR';
+                    $fac->folio = '0';
+                    $fac->total= '0';
+                    continue;
+                }else{
+
+                // Asignar valores extraídos
+                $fac->rfc = (string) $receptor['Rfc'];
+                $fac->razon_social = (string) $receptor['Nombre'];
+                $fac->folio = (string) ($comprobante['Serie'] . $comprobante['Folio']);
+                $fac->total = (float) $comprobante['Total'];}
+                } catch (\Exception $e) {
+                    $fac->rfc = 'ERROR';
+                    $fac->razon_social = 'ERROR';
+                    $fac->folio = '0';
+                    $fac->total= '0';
+                continue;
+            }
+
+            
+        }
         return response()->json(['facturas'=>$facturas]);
     }
 
@@ -151,6 +193,7 @@ class FacturasController extends Controller
         libxml_use_internal_errors(true);
         foreach($facturas as $fac){
         $archivoname = public_path().'/facturas/'.$fac->xml;
+        
         try { 
            $xml = new \SimpleXMLElement ($archivoname,null,true);
        } catch (\Exception $e) 
