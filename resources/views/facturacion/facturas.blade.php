@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Facturas
-                    <button type="button"  onclick="openmodal('nuevafacturamodal')" class="btn btn-secondary">
+                    <button type="button"  onclick="openwin('nuevafacturamodal')" class="btn btn-secondary">
                     <i class="fa-solid fa-circle-plus"></i></i>&nbsp;Nueva
                     </button>
                     <button type="button"  onclick="openmodal('nuevopagomodal')" class="btn btn-secondary">
@@ -61,6 +61,100 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    <div id="newfactur" hidden>
+                        <form id="newfactur">
+                            <div>
+                            <label>Empresas</label>
+                            <select class="rounded" id="empresa">
+                                    <option value=""></option>
+                                    @foreach ($empresas as $option)
+                                        <option value="{{ $option->id }}">{{ $option->nombre }}</option>
+                                    @endforeach
+                            </select>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                     <label>Tipo de Comprobante</label>
+                                      <select name="tipo_comprobante" class="form-control">
+                                      <option value=""></option>
+                                    @foreach ($tcomprobante as $option)
+                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                    @endforeach
+                                   </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="uso_cfdi">Uso de CFDI por parte del Receptor</label>
+                                        <select name="uso_cfdi" class="form-control" >
+                                        <option value=""></option>
+                                    @foreach ($cfdi as $option)
+                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                    @endforeach
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                   <label for="tipo_impuesto">Tipo de Impuesto Local</label>
+                                  <select name="tipo_impuesto_local" class="form-control">
+                                  <option value=""></option>
+                                    @foreach ($timpuesto as $option)
+                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                            </div>
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="moneda">Moneda</label>
+                                  <select name="moneda" class="form-control" >
+                                  <option value=""></option>
+                                    @foreach ($moneda as $option)
+                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                            </div>
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                     <label for="formadepago">Forma de pago</label>
+                                  <select name="fpago" class="form-control" >
+                                  <option value=""></option>
+                                    @foreach ($formapago as $option)
+                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                   <label for="metododepago">Metodo de pago</label>
+                                  <select name="mpago" class="form-control">
+                                  <option value=""></option>
+                                    @foreach ($metodopago as $option)
+                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                    @endforeach
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                   <label for="metododepago">articulos</label>
+                                  <select name="mpago" class="js-Select2" >
+                                  <option value=""></option>
+                                   
+                                  </select>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div id="newpay" hidden>
+                        <form id="newfactur">
+
+                        </form>
                     </div>
                     <div  class="no-results-message" hidden>
                         <span id="no-results-message"></span>
@@ -138,10 +232,25 @@
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{asset('js/paginacion.js')}}"></script>
 <script>
     function cerrarModal(id) {
         $(id).modal('hide');
+    }
+    function openwin(){
+        var dataUploadElement = document.getElementById('dataupload');
+        var newFacturElement = document.getElementById('newfactur');
+
+    // Si 'dataupload' está visible, lo ocultamos y mostramos 'newfactur'
+    if (dataUploadElement.hasAttribute('hidden')) {
+        dataUploadElement.removeAttribute('hidden'); // Mostramos 'dataupload'
+        newFacturElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
+    } else {
+        dataUploadElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
+        newFacturElement.removeAttribute('hidden'); // Mostramos 'newfactur'
+    }
     }
     function mostrar(archivo){
         const fileViewer = document.getElementById('fileViewer');
@@ -300,6 +409,39 @@
                                 $("#btncancelarf").attr("disabled", false);
                             }
                         });
+                });
+
+                $('.js-Select2').select2({
+                    placeholder: 'Escribe para buscar...',
+                    allowClear: true,
+                    minimumInputLength: 0,
+                    ajax: {
+                        url: '{{ route('facturacion.articulos') }}',
+                        dataType: 'json',
+                        data: function(params) {
+                            var query = {
+                                term: params.term,
+                            };
+                            return query;
+                        },
+                        delay: 500,
+                        processResults: function(data) {
+                            console.log(data);
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        text: item.descripcion,
+                                        id: item.id
+                                    };
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                }).on('select2:open', function(e) {
+                    selectActivo = $(e.target); // Almacena el select actualmente abierto
+                }).on('change', function(e) {
+                    selectChange = $(e.target); // Almacena el select actualmente abierto
                 });
     });
 </script>
