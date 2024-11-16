@@ -153,9 +153,9 @@ class CustomerController extends Controller
                 return response()->json(['error' => 'Empresa no encontrada'], 404);   
             }
                 if($request->hasfile('compani_logo')){
-                $path = $request->file('compani_logo')->store('img/logos_empresas');
+                $path = $request->file('compani_logo')->store('public/img/logos_empresas');
                 $path = explode('/',$path);
-                $path=$path[2];
+                $path=$path[3];
                 }else{
                 $path=Empresas::select('logo')->where('id',$id)->first();    
                 }
@@ -187,9 +187,9 @@ class CustomerController extends Controller
            
         } else {
                 if($request->hasfile('compani_logo')){
-                $path = $request->file('compani_logo')->store('img/logos_empresas');
+                $path = $request->file('compani_logo')->store('public/img/logos_empresas');
                 $path = explode('/',$path);
-                $path=$path[2];
+                $path=$path[3];
                 }else{
                 $path="sinlogo.jpg";   
                 }
