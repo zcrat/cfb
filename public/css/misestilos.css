@@ -1,10 +1,18 @@
 /*oculta elementos*/
+html{
+  font-size: 9.5px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+}
 :root{
 --paginaactiva: #037E8C;
 --paginas:#044a52;
 /*tamaño barras*/
---wsedb:13rem;
---msedb:1rem;
+--wsedb:25rem;
 /* variables barras*/
 --fondo:#000000;
 --letra:#ffffff;
@@ -18,27 +26,25 @@
 }
 .boton1, .boton2{
   background-color:#6c757d ;
-  border-radius: 10px;
-  padding: 5px;
-  padding-right: 15px;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  padding-right: 1.5rem;
   border: 1px solid #000000;
-}
+} 
 .brojo{
   background-color: #ff0000;
 }
-
 .icono,.icono2,.icono3 {
   padding: 0;
   margin: 0;
 }
-
 .icono img{
-  width:30px;
-  height: 30px;
+  width:3rem;
+  height: 3rem;
 }
 .icono2 img,.icono3{
-  width:25px;
-  height: 30px;
+  width:2.5rem;
+  height: 3rem;
 }
 section{
   position: relative;
@@ -48,20 +54,20 @@ section{
     display: none !important;
   }
 .misearch{
-  width: 300px;
-  height: 40px;
+  width: 65rem;
+  height: 6rem;
   border-radius: 15px;
-  border: 2px solid black;
+  border: 2px solid rgb(0, 0, 0);
 }
 /* se encarga de los estilos de la paginacion*/
 .pagina,.paginad,.paginaactive {
     margin: 0px 1px;
-    min-width: 35px;
-    height: 30px;
+    min-width: 5rem;
+    height: 4rem;
     color: #fff;
     background-color: var(--paginas);
     border: none;
-    padding: 5px 10px;}
+   }
 .pagina {
   cursor: pointer;}
 .pagina:hover,.paginaactive {
@@ -70,8 +76,8 @@ section{
   display: inline;
 }
 .elementosporpagina select{
-  width: 40px; 
-  height: 30px;
+  width: 5rem; 
+  height: 3rem;
 }
 .viewelements{
   margin-top: 20px;
@@ -111,7 +117,7 @@ section{
 .viewfile{
   height: 90vh;
   max-height: none;
-  width: 700px;
+  width: 75rem;
   overflow: hidden;
   --bs-modal-width: none;
 }
@@ -123,12 +129,6 @@ section{
   height: 100%;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-}
 .container-fluid{
   padding-left: 0px !important;
   padding-right: 0px !important;}
@@ -138,12 +138,12 @@ body {
   background-color: var(--fondo);
   color:var(--letra);
   width: 100%;
-  height: 50px;
+  height: 7rem;
   position: relative;
   top: 0;
   left: 0;
   z-index: 1000;
-  margin-bottom: 10px;
+  margin-bottom: 3rem;
   display: flex;
   align-items: center;
 }
@@ -166,8 +166,8 @@ body {
 }
 
 .mtopbar ul li a{
-  padding: 10px;
-  margin:10px;
+  padding: 1.5rem;
+  margin: 1.5rem;
   color: var(--letra);
 }
  .mtopbar .topbar-center{
@@ -180,42 +180,36 @@ body {
 .msidebar {
   background-color: var(--fondo);
   width: var(--wsedb);
-  height: calc(100% - 20px);
+  height: calc(100% - 4rem);
   border-radius: 15px;
   position: fixed;
-  margin: 10px;
+  margin: 2rem;
   top: 0;
   left: 0;
   z-index: 1000;
   transition: width 0.7s;
 }
-@media screen and (max-height: 850px) {
-  .msidebar {
-      position: absolute;
-      height: auto;
-  }
-}
+
 
 .logotipo{
   display:flex;
-  height: 50px;
+  height: 7rem;
   color: #000000;
   list-style: none;
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 3rem;
 }
 .logotipo a{
   color: #000000;
 }
 .logoimg{
-  display: inline-block;
-
+  height: 7rem;
 }
 .msidebar-links {
   list-style: none;
-  padding: 2px;
+  padding: 1rem;
   margin: 0;
 }
 .msidebar-links li {
@@ -228,17 +222,16 @@ body {
 .msidebar-links li a{
   display: flex;
   align-items: center;
-  left: 10px;
-  min-height: 35px;
-  width: calc(100% - 20px);
+  min-height: 7rem;
+  width: calc(100% - 4rem);
   text-decoration: none;
 }
 .msidebar-links li a i{
   display: flex; 
   align-items:center;
   justify-content: center;
-  min-width: 40px;
-  max-height: 50px;
+  min-width: 8rem;
+  height: 2rem;
 }
 .msidebar-links li:hover {
   background-color: var(--fondor);
@@ -283,7 +276,7 @@ body {
   flex-direction: column;
   transition: 0.7s;
   margin: 10px;
-  margin-left:calc(var(--wsedb) + 20px);
+  margin-left:calc(var(--wsedb) + 3rem);
   overflow-x: hidden;
   overflow-y: hidden;
 }

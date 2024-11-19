@@ -21,58 +21,106 @@
   <nav class="msidebar">
     <li class="logotipo">
       <a   @click="$store.state.menuc=0">
-        <a href="{{ route('homevue') }}"><span class="logoimg"><img  src="{{asset('img/logo_cfb.png')}}" width="50px"height="40px" alt=""></span>
+        <a href="{{ route('homevue') }}"><img class="logoimg" src="{{asset('img/logo_cfb.png')}}" alt="">
         </a>
         <span class="contraer"><i class="fa-solid fa-outdent"></i></span>
       </a>
     </li>
     <ul class="msidebar-links" id="msidebar">
-      <li class="msubdropdown">
-        <a><i class="fas fa-users"></i><span >Clientes</span></a>
-        <ul class="msubdropdown-menu">
-          <li><a href="{{ route('cliente.empresas') }}"><i class="fas fa-city"></i>Empresas</a></li>
-          <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i></i>Usuarios</a></li>
-        </ul>
-      </li>
-      <li class="mdropdown">
-        <a><i class="fas fa-users"></i><span >CFE 2024</span></a>
-        <ul class="mdropdown-menu">
-          <li class="msubdropdown">
-            <a><i class="fas fa-users"></i>Bajio</a>
-            <ul class="msubdropdown-menu">
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star CFE</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
-            </ul>
-          </li>
-          <li class="msubdropdown">
-            <a><i class="fas fa-users"></i>Occidente</a>
-            <ul class="msubdropdown-menu">
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star CFE</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
-            </ul>
-          </li>
-          <li class="msubdropdown">
-            <a><i class="fas fa-users"></i>ECO</a>
-            <ul class="msubdropdown-menu">
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
-              <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>  
+      @can('clientes.index')
+        <li class="msubdropdown">
+          <a><i class="fas fa-users"></i><span >Clientes</span></a>
+          <ul class="msubdropdown-menu">
+            <li><a href="{{ route('cliente.empresas') }}"><i class="fas fa-city"></i>Empresas</a></li>
+            <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i></i>Usuarios</a></li>
+          </ul>
+        </li>
+      @endcan
+      @canany(['cfeB2023.index', 'cfeO2023.index','cfeeco.index'])
+        <li class="mdropdown">
+          <a><i class="fas fa-users"></i><span >CFE 2024</span></a>
+          <ul class="mdropdown-menu">
+          @can('cfeB2023.index')
+            <li class="msubdropdown">
+              <a><i class="fas fa-users"></i>Bajio</a>
+              <ul class="msubdropdown-menu">
+                @can('cfeB2023.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                @endcan
+                @can('cfeB2023.recepcion')  
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
+                @endcan
+                @can('cfeB2023.externos')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
+                @endcan
+                @can('cfeB2023.akumas')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
+                @endcan
+                @can('cfeB2023.aptaller')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
+                @endcan
+                @can('cfeB2023.aptaller')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones CFE Taller</a></li>
+                @endcan
+                @can('cfeB2023.apcfe')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
+                @endcan            
+              </ul>
+            </li>
+          @endcan
+          @can('cfeO2023.index')
+            <li class="msubdropdown">
+              <a><i class="fas fa-users"></i>Occidente</a>
+              <ul class="msubdropdown-menu">
+                @can('cfeO2023.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                @endcan
+                @can('cfeO2023.recepcion')  
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
+                @endcan
+                @can('cfeO2023.externos')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
+                @endcan
+                @can('cfeO2023.akumas')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
+                @endcan
+                @can('cfeO2023.aptallar')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
+                @endcan
+                @can('cfeO2023.start')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star CFE</a></li>
+                @endcan
+                @can('cfeO2023.apcfe')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
+                @endcan
+              </ul>
+            </li>
+          @endcan
+          @can('cfeeco.index')
+            <li class="msubdropdown">
+              <a><i class="fas fa-users"></i>ECO</a>
+              <ul class="msubdropdown-menu">
+                @can('cfeeco.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                @endcan
+                @can('cfeeco.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
+                @endcan
+                @can('cfeeco.externos')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
+                @endcan
+                @can('cfeeco.akumas')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
+                @endcan
+                @can('cfeeco.aptaller')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
+                @endcan
+              </ul>
+            </li>
+          @endcan
+          </ul>
+        </li>
+      @endcan  
       @can('almacen.index') 
         <li class="msubdropdown">
           <a><i class="fa fa-building"></i> <span>Almacén</span> </a>
@@ -125,416 +173,238 @@
           </ul>
         </li>
       @endcan
-            @can('formatos.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-laptop"></i>
-                <span>Formatos</span>
-                
+      @can('formatos.index') 
+        <li class="msubdropdown">
+          <a>
+            <i class="fa fa-laptop"></i>
+            <span>Formatos</span>
+          </a>
+          <ul class="msubdropdown-menu">
+            <li  @click="$store.state.menuc=13"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Recepción Vehicular</a></li>
+            <li  @click="$store.state.menuc=17"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Inspección Vehicular</a></li>
+            <li  @click="$store.state.menuc=18"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
+            <li  @click="$store.state.menuc=19"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Reporte de Grúa</a></li>
+            <li  @click="$store.state.menuc=20"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Compra</a></li>
+            <li  @click="$store.state.menuc=21"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Reparación</a></li>
+            <li  @click="$store.state.menuc=25"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Cotización</a></li>
+          </ul>
+        </li>
+      @endcan
+      @can('tecnico.index') 
+        <li class="msubdropdown">
+          <a>
+            <i class="fas fa-wrench"></i>
+            <span>Tecnico</span>
+          </a>
+          <ul class="msubdropdown-menu">
+            <li  @click="$store.state.menuc=22">
+              <a href="{{ route('homevue') }}" class="nav-link">
+                <i class="fas fa-id-badge"></i>
+                Asignar Tecnico Recepción
               </a>
-              <ul class="msubdropdown-menu">
-                <li  @click="$store.state.menuc=13"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Recepción Vehicular</a></li>
-                <li  @click="$store.state.menuc=17"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Inspección Vehicular</a></li>
-                <li  @click="$store.state.menuc=18"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-                <li  @click="$store.state.menuc=19"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Reporte de Grúa</a></li>
-                <li  @click="$store.state.menuc=20"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Compra</a></li>
-                <li  @click="$store.state.menuc=21"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Reparación</a></li>
-                <li  @click="$store.state.menuc=25"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Cotización</a></li>
-              </ul>
             </li>
-            @endcan
-
-            @can('tecnico.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fas fa-wrench"></i>
-                <span>Tecnico</span>
-                
+            <li  @click="$store.state.menuc=23">
+              <a href="{{ route('homevue') }}" class="nav-link">
+                <i class="fas fa-clipboard"></i>
+                Mis recepciones
               </a>
-              <ul class="msubdropdown-menu">
-                <li  @click="$store.state.menuc=22">
-                  <a href="{{ route('homevue') }}" class="nav-link">
-                    <i class="fas fa-id-badge"></i>
-                    Asignar Tecnico Recepción
-                  </a>
-                </li>
-                <li  @click="$store.state.menuc=23">
-                  <a href="{{ route('homevue') }}" class="nav-link">
-                    <i class="fas fa-clipboard"></i>
-                    Mis recepciones
-                  </a>
-                </li>
-              </ul>
             </li>
-            @endcan
-
-            @can('sucursales.index') 
-
-          <li class="msubdropdown">
-              <a>
-                <i class="fa fa-cog"></i> <span>Configuraciòn</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-              <li @click="$store.state.menuc=24"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Sucursales</a></li>
-              <li @click="$store.state.menuc=37"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Contratos</a></li>
-              <li @click="$store.state.menuc=42"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Ubicaciones</a></li>
-              <li @click="$store.state.menuc=43"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Areas</a></li>
-              <li @click="$store.state.menuc=44"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFE</a></li>
-              <li @click="$store.state.menuc=45"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO</a></li>
-              <li @click="$store.state.menuc=100"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO 2024</a></li>
-              <li @click="$store.state.menuc=93"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias Foraneas</a></li>
-              <li @click="$store.state.menuc=46"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFE</a></li>
-              <li @click="$store.state.menuc=47"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO</a></li>
-              <li @click="$store.state.menuc=99"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO 2024</a></li>
-              <li @click="$store.state.menuc=94"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos Foraneas</a></li>
-              <li @click="$store.state.menuc=48"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFE</a></li>
-              <li @click="$store.state.menuc=49"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO</a></li>
-              <li @click="$store.state.menuc=77"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO 2024</a></li>
-              <li @click="$store.state.menuc=92"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos Foraneos</a></li>
-              <li @click="$store.state.menuc=68"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tareas Admin</a></li>
-              
-              </ul>
-            </li>
-
-            @endcan
-
-
-            @can('reportes.index') 
+          </ul>
+        </li>
+      @endcan
+      @can('sucursales.index') 
+        <li class="msubdropdown">
+          <a>
+            <i class="fa fa-cog"></i> <span>Configuraciòn</span>  
+          </a>
+          <ul class="msubdropdown-menu">
+            <li @click="$store.state.menuc=24"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Sucursales</a></li>
+            <li @click="$store.state.menuc=37"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Contratos</a></li>
+            <li @click="$store.state.menuc=42"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Ubicaciones</a></li>
+            <li @click="$store.state.menuc=43"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Areas</a></li>
+            <li @click="$store.state.menuc=44"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFE</a></li>
+            <li @click="$store.state.menuc=45"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO</a></li>
+            <li @click="$store.state.menuc=100"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO 2024</a></li>
+            <li @click="$store.state.menuc=93"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias Foraneas</a></li>
+            <li @click="$store.state.menuc=46"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFE</a></li>
+            <li @click="$store.state.menuc=47"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO</a></li>
+            <li @click="$store.state.menuc=99"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO 2024</a></li>
+            <li @click="$store.state.menuc=94"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos Foraneas</a></li>
+            <li @click="$store.state.menuc=48"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFE</a></li>
+            <li @click="$store.state.menuc=49"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO</a></li>
+            <li @click="$store.state.menuc=77"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO 2024</a></li>
+            <li @click="$store.state.menuc=92"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos Foraneos</a></li>
+            <li @click="$store.state.menuc=68"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tareas Admin</a></li>
+          </ul>
+        </li>
+      @endcan
+      @can('reportes.index') 
+        <li class="msubdropdown">
+          <a>
+            <i class="fa fa-folder"></i> <span>Reportes</span>
+          </a>
+          <ul class="msubdropdown-menu">
+            <li @click="$store.state.menuc=10"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ingresos</a></li>
+            <li @click="$store.state.menuc=11"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ventas</a></li>
+          </ul>
+        </li>
+      @endcan
+      @can('caja.index') 
+        <li class="msubdropdown">
+          <a>
+            <i class="fa fa-money"></i> <span>Control de caja</span>
+          </a>
+          <ul class="msubdropdown-menu">
+            <li @click="$store.state.menuc=29"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Caja</a></li>
+            <li @click="$store.state.menuc=50"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Bancos</a></li>
+            <li @click="$store.state.menuc=27"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Bancos</a></li>
+            <li @click="$store.state.menuc=28"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Cuentas</a></li>
+            <li @click="$store.state.menuc=51"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Saldos</a></li>
+          </ul>
+        </li>
+      @endcan
+      @canany(['akumas2023.index', 'akumas.index','cfbForaneos.index'])
+        <li class="mdropdown">
+          <a><i class="fas fa-users"></i><span >Presupuestos CFB</span></a>
+          <ul class="mdropdown-menu">
+          @can('akumas.index')
             <li class="msubdropdown">
-              <a>
-                <i class="fa fa-folder"></i> <span>Reportes</span>
-                
-              </a>
+              <a><i class="fas fa-users"></i>Presupuestos CFB</a>
               <ul class="msubdropdown-menu">
-                <li @click="$store.state.menuc=10"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ingresos</a></li>
-                <li @click="$store.state.menuc=11"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ventas</a></li>
-              </ul>
-            </li>
-            @endcan
-
-            @can('caja.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Control de caja</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                <li @click="$store.state.menuc=29"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Caja</a></li>
-                <li @click="$store.state.menuc=50"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Bancos</a></li>
-                <li @click="$store.state.menuc=27"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Bancos</a></li>
-                <li @click="$store.state.menuc=28"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Cuentas</a></li>
-                <li @click="$store.state.menuc=51"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Saldos</a></li>
-              </ul>
-            </li>
-            @endcan
-
-             {{-- @can('cfe.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>CFE Bajio 2022</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                @can('cfe.recepcion') 
-                <li @click="$store.state.menuc=78"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
+                @can('akumas.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
-                @can('cfe.externos') 
-                <li @click="$store.state.menuc=31"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Talleres Externos</a></li>
+                @can('akumas.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
                 @endcan
-                @can('cfe.akumas') 
-                <li @click="$store.state.menuc=30"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos CFE</a></li>
+                @can('akumas.presupuestos')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos Taller</a></li>
                 @endcan
-                @can('cfe.aptaller') 
-                <li @click="$store.state.menuc=32"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones Taller</a></li>
+                @can('akumas.aprobaciones')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
-                {{-- @can('cfe.aptaller') 
-                <li @click="$store.state.menuc=41"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones CFE Taller</a></li>
+                @can('akumas.start')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star Akumas</a></li>
                 @endcan
-                @can('cfe.apcfe') 
-                <li @click="$store.state.menuc=33"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones CFE</a></li>
-                @endcan --}}
-                 {{-- @can('cfe.start') 
-                <li @click="$store.state.menuc=39"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Start CFE</a></li>
-                @endcan
-               
-                @can('cfe.apcfe') 
-                <li @click="$store.state.menuc=11"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
-                @endcan
-              </ul>
-            </li>
-            @endcan--}}
-
-            
-
-            @can('cfeB2023.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>CFE Bajio 2024</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                @can('cfeB2023.recepcion') 
-                <li @click="$store.state.menuc=79"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
-                @endcan
-                @can('cfeB2023.recepcion') 
-                <li @click="$store.state.menuc=98"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-                @endcan
-                @can('cfeB2023.externos') 
-                <li @click="$store.state.menuc=53"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Talleres Externos</a></li>
-                @endcan
-                @can('cfeB2023.akumas') 
-                <li @click="$store.state.menuc=54"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos CFE</a></li>
-                @endcan
-                @can('cfeB2023.aptaller') 
-                <li @click="$store.state.menuc=55"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones Taller</a></li>
-                @endcan
-                @can('cfeB2023.aptaller') 
-                <li @click="$store.state.menuc=57"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones CFE Taller</a></li>
-                @endcan
-                {{-- @can('cfeB2023.apcfe') 
-                <li @click="$store.state.menuc=56"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones CFE</a></li>
-                @endcan
-                @can('cfeB2023.start') 
-                <li @click="$store.state.menuc=58"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Start CFE</a></li>
-                @endcan --}}
-               
-                @can('cfeB2023.apcfe') 
-                <li @click="$store.state.menuc=59"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
+                @can('akumas.reportes')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
                 @endcan
               </ul>
             </li>
             @endcan
-
-            @can('cfeO2023.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>CFE Occidente 2024</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                @can('cfeO2023.recepcion') 
-                <li @click="$store.state.menuc=80"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
-                @endcan
-                @can('cfeO2023.recepcion') 
-                <li @click="$store.state.menuc=97"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-                @endcan
-                @can('cfeO2023.externos') 
-                <li @click="$store.state.menuc=60"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Talleres Externos</a></li>
-                @endcan
-                @can('cfeO2023.akumas') 
-                <li @click="$store.state.menuc=61"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos CFE</a></li>
-                @endcan
-                @can('cfeO2023.aptaller') 
-                <li @click="$store.state.menuc=62"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones Taller</a></li>
-                @endcan
-                {{-- @can('cfeO2023.aptaller') 
-                <li @click="$store.state.menuc=64"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones CFE Taller</a></li>
-                @endcan
-                @can('cfeO2023.apcfe') 
-                <li @click="$store.state.menuc=63"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones CFE</a></li>
-                @endcan --}}
-                @can('cfeO2023.start') 
-                <li @click="$store.state.menuc=65"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Start CFE</a></li>
-                @endcan
-               
-                @can('cfeO2023.apcfe') 
-                <li @click="$store.state.menuc=66"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
-                @endcan
-              </ul>
-            </li>
-            @endcan
-
-            @can('akumas.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Presupuestos CFB</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                @can('akumas.recepcion') 
-                <li @click="$store.state.menuc=81"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
-                @endcan
-                @can('akumas.recepcion') 
-                <li @click="$store.state.menuc=96"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-                @endcan
-                @can('akumas.presupuestos') 
-                <li @click="$store.state.menuc=34"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos Taller</a></li>
-                @endcan
-                @can('akumas.aprobaciones') 
-                <li @click="$store.state.menuc=35"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones</a></li>
-                @endcan
-                @can('akumas.start') 
-                <li @click="$store.state.menuc=40"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Start Akumas</a></li>
-                @endcan
-                @can('akumas.reportes') 
-                <li @click="$store.state.menuc=36"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
-                @endcan
-              </ul>
-             
-            </li>
-            @endcan
-
             @can('akumas2023.index') 
             <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Presupuestos CFB 2024</span>
-                
-              </a>
+              <a><i class="fas fa-users"></i>Presupuestos CFB 2024</a>
               <ul class="msubdropdown-menu">
                 @can('akumas2023.recepcion') 
-                <li @click="$store.state.menuc=82"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
-
                 @can('akumas2023.recepcion') 
-                <li @click="$store.state.menuc=95"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
                 @endcan
                 @can('akumas2023.presupuestos') 
-                <li @click="$store.state.menuc=69"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos Taller</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos Taller</a></li>
                 @endcan
                 @can('akumas2023.aprobaciones') 
-                <li @click="$store.state.menuc=70"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
                 @can('akumas2023.start') 
-                <li @click="$store.state.menuc=72"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Start Akumas</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star Akumas</a></li>
                 @endcan
                 @can('akumas2023.reportes') 
-                <li @click="$store.state.menuc=71"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
                 @endcan
-              </ul>
-             
-            </li>
-            @endcan
-
-           
-
-
-            @can('cfbForaneos.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Presupuestos CFB Foraneos</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                @can('cfbForaneos.recepcion') 
-                <li @click="$store.state.menuc=87"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular (Acuse)</a></li>
-                @endcan
-                @can('cfbForaneos.presupuestos') 
-                <li @click="$store.state.menuc=88"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos Taller</a></li>
-                @endcan
-                @can('cfbForaneos.aprobaciones') 
-                <li @click="$store.state.menuc=89"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones</a></li>
-                @endcan
-                @can('cfbForaneos.start') 
-                <li @click="$store.state.menuc=90"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Start Akumas</a></li>
-                @endcan
-                @can('cfbForaneos.reportes') 
-                <li @click="$store.state.menuc=91"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
-                @endcan
-              </ul>
-             
-            </li>
-            @endcan
-
-            @can('cfeeco.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>CFE ECO 2024</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                @can('cfeeco.recepcion') 
-                <li @click="$store.state.menuc=101"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
-                @endcan
-                @can('cfeeco.recepcion') 
-                <li @click="$store.state.menuc=102"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-                @endcan
-                @can('cfeeco.externos') 
-                <li @click="$store.state.menuc=103"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Talleres Externos</a></li>
-                @endcan
-                @can('cfeeco.akumas') 
-                <li @click="$store.state.menuc=104"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos CFE</a></li>
-                @endcan
-                @can('cfeeco.aptaller') 
-                <li @click="$store.state.menuc=105"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones Taller</a></li>
-                @endcan
-              
               </ul>
             </li>
             @endcan
-
-            @can('akumas2023.index') 
+            @can('cfbForaneos.index')
             <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Presupuestos ECO</span>
-                
-              </a>
+              <a><i class="fas fa-users"></i>Presupuestos CFB Foraneos</a>
               <ul class="msubdropdown-menu">
+                @can('cfbForaneos.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular (Acuse)</a></li>
+                @endcan
+                @can('cfbForaneos.presupuestos')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos Taller</a></li>
+                @endcan
+                @can('cfbForaneos.aprobaciones')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
+                @endcan
+                @can('cfbForaneos.start')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star Akumas</a></li>
+                @endcan
+                @can('cfbForaneos.reportes')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
+                @endcan
+              </ul>
+            </li>
+            @endcan
+          </ul>
+        </li>
+      @endcan
+      @canany(['akumas2023.index', 'cfbECOForaneos.index']) 
+        <li class="mdropdown">
+          <a><i class="fas fa-users"></i><span >Presupuestos ECO</span></a>
+          <ul class="mdropdown-menu">
+          @can('akumas2023.index') 
+            <li class="msubdropdown">
+              <a><i class="fas fa-users"></i>Presupuestos ECO</a>
+              <ul class="msubdropdown-menu">
+              @can('akumas2023.recepcion') 
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                @endcan
                 @can('akumas2023.recepcion') 
-                <li @click="$store.state.menuc=106"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
-                @endcan
-
-                @can('akumas2023.recepcion') 
-                <li @click="$store.state.menuc=107"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
                 @endcan
                 @can('akumas2023.presupuestos') 
-                <li @click="$store.state.menuc=108"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos Taller</a></li>
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos Taller</a></li>
                 @endcan
-                @can('akumas2023.aprobaciones') 
-                <li @click="$store.state.menuc=109"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones</a></li>
+                @can('akumas2023.reportes') 
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
-            
               </ul>
-             
             </li>
             @endcan
-
-            @can('cfbECOForaneos.index') 
+            @can('cfbECOForaneos.index')
             <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Presupuestos ECO Foraneos</span>
-                
-              </a>
+              <a><i class="fas fa-users"></i>Presupuestos ECO Foranea</a>
               <ul class="msubdropdown-menu">
-                @can('cfbECOForaneos.recepcion') 
-                <li @click="$store.state.menuc=110"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Recepcion Vehicular (Acuse)</a></li>
+                @can('cfbECOForaneos.recepcion')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular (Acuse)</a></li>
                 @endcan
-                @can('cfbECOForaneos.presupuestos') 
-                <li @click="$store.state.menuc=111"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Anexos Taller</a></li>
+                @can('cfbECOForaneos.presupuestos')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
                 @endcan
-                @can('cfbECOForaneos.aprobaciones') 
-                <li @click="$store.state.menuc=112"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Aprobaciones</a></li>
+                @can('cfbECOForaneos.aprobaciones')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos Taller</a></li>
                 @endcan
-          
-                @can('cfbECOForaneos.reportes') 
-                <li @click="$store.state.menuc=114"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reportes</a></li>
+                @can('cfbECOForaneos.reportes')
+                <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
               </ul>
-             
             </li>
             @endcan
-
-            @can('tareas.index') 
-            <li class="msubdropdown">
-              <a>
-                <i class="fa fa-money"></i> <span>Tareas</span>
-                
-              </a>
-              <ul class="msubdropdown-menu">
-                <li @click="$store.state.menuc=76"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tareas Ejecutivas</a></li>
-             
-                <li @click="$store.state.menuc=67"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Revisar Tareas</a></li>
-                <li @click="$store.state.menuc=73"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tecnicos</a></li>
-                <li @click="$store.state.menuc=74"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Trasladistas</a></li>
-                <li @click="$store.state.menuc=75"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Vehiculos</a></li>
-                <li @click="$store.state.menuc=83"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Entradas y Salidas</a></li>
-                <li @click="$store.state.menuc=84"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes</a></li>
-                <li @click="$store.state.menuc=85"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes Foraneas</a></li>
-                <li @click="$store.state.menuc=86"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> ES Foraneas</a></li>
-              </ul>
-        
-            </li>
-            @endcan
+          </ul>
+        </li>
+      @endcan   
+      @can('tareas.index') 
+        <li class="msubdropdown">
+          <a>
+            <i class="fa fa-money"></i> <span>Tareas</span>
+          </a>
+          <ul class="msubdropdown-menu">
+            <li @click="$store.state.menuc=76"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tareas Ejecutivas</a></li>
+            <li @click="$store.state.menuc=67"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Revisar Tareas</a></li>
+            <li @click="$store.state.menuc=73"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tecnicos</a></li>
+            <li @click="$store.state.menuc=74"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Trasladistas</a></li>
+            <li @click="$store.state.menuc=75"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Vehiculos</a></li>
+            <li @click="$store.state.menuc=83"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Entradas y Salidas</a></li>
+            <li @click="$store.state.menuc=84"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes</a></li>
+            <li @click="$store.state.menuc=85"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes Foraneas</a></li>
+            <li @click="$store.state.menuc=86"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> ES Foraneas</a></li>
+          </ul>
+        </li>
+      @endcan
     </ul>
   </nav>
 </div>
@@ -560,7 +430,7 @@
       
       <!-- Botón de cerrar sesión -->
       <li>
-        <a title="Cerrar Secion" href="{{ route('logout') }}" class="btn btn-default btn-flat">
+        <a title="Cerrar Secion" href="{{ route('logout') }}">
           <i class="fa-solid fa-right-to-bracket"></i>
         </a>
       </li>

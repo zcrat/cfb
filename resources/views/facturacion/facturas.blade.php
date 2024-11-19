@@ -27,7 +27,7 @@
                             </div>
                             <div class="d-flex busqueda">
                                 <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
-                                <input class="rounded-pill"
+                                <input class="misearch"
                                     type="text" id="search" name="s"
                                     placeholder="Busqueda por Nombre" min="1">
                             </div>
@@ -35,7 +35,7 @@
                         <div class="viewelements" id="viewelements">
                             <div class="elementosporpagina">
                                 <select   class="rounded" id="epp">
-                                    @for ($i = 10; $i <= $elementostotales/3; $i += 5)
+                                    @for ($i = 5; $i <= $elementostotales/3; $i += 5)
                                         <option value="{{ $i }}" >{{ $i }}</option>
                                     @endfor
                                 </select>
