@@ -3,8 +3,8 @@
 --paginaactiva: #037E8C;
 --paginas:#044a52;
 /*tamaño barras*/
---wsedb:200px;
---msedb:10px;
+--wsedb:13rem;
+--msedb:1rem;
 /* variables barras*/
 --fondo:#000000;
 --letra:#ffffff;
@@ -15,6 +15,30 @@
 --textoclaro:#000000;
 --textoobscuro:#ffffff;
 --fondoobs:#252525;
+}
+.boton1, .boton2{
+  background-color:#6c757d ;
+  border-radius: 10px;
+  padding: 5px;
+  padding-right: 15px;
+  border: 1px solid #000000;
+}
+.brojo{
+  background-color: #ff0000;
+}
+
+.icono,.icono2,.icono3 {
+  padding: 0;
+  margin: 0;
+}
+
+.icono img{
+  width:30px;
+  height: 30px;
+}
+.icono2 img,.icono3{
+  width:25px;
+  height: 30px;
 }
 section{
   position: relative;
@@ -99,12 +123,11 @@ section{
   height: 100%;
 }
 
-/* Estilos generales del body */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 12px;
+  font-size: 1rem;
 }
 .container-fluid{
   padding-left: 0px !important;
@@ -157,7 +180,7 @@ body {
 .msidebar {
   background-color: var(--fondo);
   width: var(--wsedb);
-  height: calc(100vh - 20px);
+  height: calc(100% - 20px);
   border-radius: 15px;
   position: fixed;
   margin: 10px;
@@ -166,6 +189,13 @@ body {
   z-index: 1000;
   transition: width 0.7s;
 }
+@media screen and (max-height: 850px) {
+  .msidebar {
+      position: absolute;
+      height: auto;
+  }
+}
+
 .logotipo{
   display:flex;
   height: 50px;

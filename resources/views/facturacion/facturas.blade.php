@@ -6,11 +6,11 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Facturas
-                    <button type="button"  onclick="openwin('nuevafacturamodal')" class="btn btn-secondary">
-                    <i class="fa-solid fa-circle-plus"></i></i>&nbsp;Nueva
+                    <button type="button"  onclick="openwin()" class="boton1">
+                    <i class="fa-solid fa-circle-plus nuevafactura"></i></i>&nbsp;Nueva
                     </button>
-                    <button type="button"  onclick="openmodal('nuevopagomodal')" class="btn btn-secondary">
-                    <i class="fa-solid fa-circle-plus"></i></i>&nbsp;Pago
+                    <button type="button"  onclick="openpay()" class="boton2">
+                    <i class="fa-solid fa-circle-plus nuevopago"></i></i>&nbsp;Pago
                     </button>
                 </div>
                 <div class="card-body mycard">
@@ -242,14 +242,48 @@
     function openwin(){
         var dataUploadElement = document.getElementById('dataupload');
         var newFacturElement = document.getElementById('newfactur');
-
+        var newpayElement = document.getElementById('newpay');
     // Si 'dataupload' está visible, lo ocultamos y mostramos 'newfactur'
-    if (dataUploadElement.hasAttribute('hidden')) {
-        dataUploadElement.removeAttribute('hidden'); // Mostramos 'dataupload'
-        newFacturElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
+    if (newFacturElement.hasAttribute('hidden')) {
+        newFacturElement.removeAttribute('hidden'); // Mostramos 'dataupl
+        dataUploadElement.setAttribute('hidden', true);
+        newpayElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
+        
+        document.querySelector('.boton1').classList.add('brojo');
+        document.querySelector('.boton2').classList.remove('brojo');
+        document.querySelector('.nuevafactura').classList.remove('fa-circle-plus');
+        document.querySelector('.nuevafactura').classList.add('fa-circle-xmark');
+        document.querySelector('.nuevopago').classList.add('fa-circle-plus');
+        document.querySelector('.nuevopago').classList.remove('fa-circle-xmark');
     } else {
-        dataUploadElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
-        newFacturElement.removeAttribute('hidden'); // Mostramos 'newfactur'
+        document.querySelector('.nuevafactura').classList.add('fa-circle-plus');
+        document.querySelector('.nuevafactura').classList.remove('fa-circle-xmark');
+        document.querySelector('.boton1').classList.remove('brojo');
+        newFacturElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
+        dataUploadElement.removeAttribute('hidden'); // Mostramos 'newfactur'
+    }
+    }
+    function openpay(){
+        var dataUploadElement = document.getElementById('dataupload');
+        var newFacturElement = document.getElementById('newfactur');
+        var newpayElement = document.getElementById('newpay');
+    
+    if (newpayElement.hasAttribute('hidden')) {
+        newpayElement.removeAttribute('hidden'); // Mostramos 'dataupload'
+        dataUploadElement.setAttribute('hidden', true);
+        newFacturElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
+        document.querySelector('.boton2').classList.add('brojo');
+        document.querySelector('.boton1').classList.remove('brojo');
+        document.querySelector('.nuevafactura').classList.add('fa-circle-plus');
+        document.querySelector('.nuevafactura').classList.remove('fa-circle-xmark');
+        document.querySelector('.nuevopago').classList.remove('fa-circle-plus');
+        document.querySelector('.nuevopago').classList.add('fa-circle-xmark');
+    } else {
+        document.querySelector('.boton2').classList.remove('brojo');
+        document.querySelector('.nuevopago').classList.add('fa-circle-plus');
+        document.querySelector('.nuevopago').classList.remove('fa-circle-xmark');
+        newpayElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
+        dataUploadElement.removeAttribute('hidden'); // Mostramos 'newfactur'
     }
     }
     function mostrar(archivo){
@@ -292,7 +326,6 @@
                 function searchdata() {
                     document.getElementById('loadingdata').removeAttribute('hidden');
                     document.getElementById('dataupload').setAttribute('hidden', true);
-                    console.log("entra")
                     $.ajax({
                         type: 'GET',
                         url: '{{ route('facturacion.obtenerfacturas') }}',
@@ -329,15 +362,15 @@
                         let row = $('<tr>');
                         if(element.acuse){
                             row.append('<td ><div class="Datatable-content-button2">'+
-                            '<button class="btn btn-danger btn-sm" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><i class="fa-solid fa-file"></i></button>'+
-                            '<button class="btn btn-warning btn-sm" onclick="descargar(\''+element.xml+'\')" title="Archivo XML"><i class="fa-solid fa-file"></i></button>'+
-                            '<button class="btn btn-success btn-sm" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><i class="fa-solid fa-file"></i></button>'+
+                            '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
+                            '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
+                            '<button class="btn btn-danger icono2" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><img  src="{{asset('storage/img/iconos/iconoacuse.png')}}"alt=""></button>'+
                             '</div></td>');
                         }else{
                             row.append('<td ><div class="Datatable-content-button2">'+
-                            '<button class="btn btn-danger btn-sm" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><i class="fa-solid fa-file"></i></button>'+
-                            '<button class="btn btn-warning btn-sm" onclick="descargar(\''+element.xml+'\')" title="Archivo XML"><i class="fa-solid fa-file"></i></button>'+
-                            '<button class="btn btn-secondary btn-sm" onclick="cancelarfactura(\''+element.id+'\',\''+element.folio+'\')" title="Sin Acuse"><i class="fa-solid fa-ban"></i></button>'+
+                            '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
+                            '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
+                            '<button class="btn btn-secondary icono3" onclick="cancelarfactura(\''+element.id+'\',\''+element.folio+'\')" title="Sin Acuse"><i class="fa-solid fa-ban"></i></button>'+
                             '</div></td>');   
                         }
                         row.append('<td><div class="Datatable-content">' + (element.id ? element.id : "Sin id" ) + '</div></td>');
