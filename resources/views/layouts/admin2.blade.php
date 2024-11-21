@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <title>Akumas | www.akumas.mx</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta content="initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Iconos-->
@@ -19,31 +17,35 @@
   <body>
 <div>
   <nav class="msidebar">
+    
+  <ul class="msidebar-links" id="msidebar">
     <li class="logotipo">
-      <a   @click="$store.state.menuc=0">
         <a href="{{ route('homevue') }}"><img class="logoimg" src="{{asset('img/logo_cfb.png')}}" alt="">
         </a>
         <span class="contraer"><i class="fa-solid fa-outdent"></i></span>
-      </a>
     </li>
-    <ul class="msidebar-links" id="msidebar">
       @can('clientes.index')
         <li class="msubdropdown">
           <a><i class="fas fa-users"></i><span >Clientes</span></a>
           <ul class="msubdropdown-menu">
+            <div>
             <li><a href="{{ route('cliente.empresas') }}"><i class="fas fa-city"></i>Empresas</a></li>
-            <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i></i>Usuarios</a></li>
-          </ul>
+            <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i>Usuarios</a></li>
+          </div>           
+              </ul> 
         </li>
       @endcan
       @canany(['cfeB2023.index', 'cfeO2023.index','cfeeco.index'])
         <li class="mdropdown">
           <a><i class="fas fa-users"></i><span >CFE 2024</span></a>
           <ul class="mdropdown-menu">
+
+          <div>
           @can('cfeB2023.index')
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Bajio</a>
               <ul class="msubdropdown-menu">
+              <div>
                 @can('cfeB2023.recepcion')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
@@ -64,7 +66,9 @@
                 @endcan
                 @can('cfeB2023.apcfe')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
-                @endcan            
+                @endcan 
+                       
+              </div>           
               </ul>
             </li>
           @endcan
@@ -72,6 +76,8 @@
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Occidente</a>
               <ul class="msubdropdown-menu">
+                <div>
+              <div>
                 @can('cfeO2023.recepcion')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
@@ -93,6 +99,8 @@
                 @can('cfeO2023.apcfe')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
                 @endcan
+              </div>
+              </div>           
               </ul>
             </li>
           @endcan
@@ -100,6 +108,8 @@
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>ECO</a>
               <ul class="msubdropdown-menu">
+                <div>
+              <div>
                 @can('cfeeco.recepcion')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
@@ -115,62 +125,78 @@
                 @can('cfeeco.aptaller')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
                 @endcan
+              </div>
+              </div>           
               </ul>
+              
             </li>
           @endcan
-          </ul>
+          </div>           
+              </ul>
         </li>
       @endcan  
       @can('almacen.index') 
         <li class="msubdropdown">
           <a><i class="fa fa-building"></i> <span>Almacén</span> </a>
           <ul class="msubdropdown-menu">
-            <li  @click="$store.state.menuc=1"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cubes"></i> Productos & Servios</a></li>
-            <li  @click="$store.state.menuc=26"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cubes"></i> Productos por Grupos</a></li>
-            <li  @click="$store.state.menuc=2"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cube"></i> Categorías</a></li>
-          </ul>
+            <div>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cubes"></i> Productos & Servios</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cubes"></i> Productos por Grupos</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cube"></i> Categorías</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('compras.index') 
         <li class="msubdropdown">
           <a><i class="fa fa-th"></i><span>Compras</span></a>
           <ul class="msubdropdown-menu">
-            <li @click="$store.state.menuc=4"><a href="{{ route('homevue') }}"><i class="fa fa-bar-chart"></i> Ingresos</a></li>
-            <li @click="$store.state.menuc=5"><a href="{{ route('homevue') }}"><i class="fa fa-user"></i> Proveedores</a></li>
-          </ul>
+            <div>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-bar-chart"></i> Ingresos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user"></i> Proveedores</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('ventas.index') 
         <li class="msubdropdown">
           <a><i class="fa fa-shopping-cart"></i><span>Ventas</span></a>
           <ul class="msubdropdown-menu">
-            <li @click="$store.state.menuc=6"><a href="{{ route('homevue') }}"><i class="fa fa-bar-chart"></i> Ventas</a></li>
-            <li @click="$store.state.menuc=7"><a href="{{ route('homevue') }}"><i class="fa fa-user"></i> Clientes</a></li>
-          </ul>
+            <div>
+            <div>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-bar-chart"></i> Ventas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user"></i> Clientes</a></li>
+            </div>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('acceso.index') 
         <li class="msubdropdown">
           <a><i class="fa fa-address-card "></i> <span>Acceso</span></a>
           <ul class="msubdropdown-menu">
+            <div>
           @can('user.index') 
-            <li @click="$store.state.menuc=8"><a href="{{ route('homevue') }}"><i class="fa fa-user"></i> Usuarios</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user"></i> Usuarios</a></li>
           @endcan
           @can('roles.index') 
-            <li @click="$store.state.menuc=9"><a href="{{ route('homevue') }}"><i class="fa fa-cubes"></i> Roles</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-cubes"></i> Roles</a></li>
           @endcan
-          </ul>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('facturacion.index') 
         <li class="msubdropdown">
           <a><i class="fa fa-file"></i><span>Facturacion</span></a>
           <ul class="msubdropdown-menu">
-            <li  @click="$store.state.menuc=15"><a href="{{ route('facturacion.facturas') }}" class="nav-link"><i class="fa fa-file"></i> Facturas</a></li>
-            <li  @click="$store.state.menuc=38"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-file"></i> Facturas por cobrar</a></li>
-            <li  @click="$store.state.menuc=52"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-file"></i> Facturas por contrato</a></li>
-            <li  @click="$store.state.menuc=16"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cog"></i> Configuracion</a></li>
-          </ul>
+            <div>
+            <li ><a href="{{ route('facturacion.facturas') }}" class="nav-link"><i class="fa fa-file"></i> Facturas</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-file"></i> Facturas por cobrar</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-file"></i> Facturas por contrato</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-cog"></i> Configuracion</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('formatos.index') 
@@ -180,14 +206,16 @@
             <span>Formatos</span>
           </a>
           <ul class="msubdropdown-menu">
-            <li  @click="$store.state.menuc=13"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Recepción Vehicular</a></li>
-            <li  @click="$store.state.menuc=17"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Inspección Vehicular</a></li>
-            <li  @click="$store.state.menuc=18"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
-            <li  @click="$store.state.menuc=19"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Reporte de Grúa</a></li>
-            <li  @click="$store.state.menuc=20"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Compra</a></li>
-            <li  @click="$store.state.menuc=21"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Reparación</a></li>
-            <li  @click="$store.state.menuc=25"><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Cotización</a></li>
-          </ul>
+            <div>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Recepción Vehicular</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Inspección Vehicular</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Reporte de Grúa</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Compra</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Orden de Reparación</a></li>
+            <li ><a href="{{ route('homevue') }}" class="nav-link"><i class="fa fa-circle-o"></i> Cotización</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('tecnico.index') 
@@ -197,19 +225,21 @@
             <span>Tecnico</span>
           </a>
           <ul class="msubdropdown-menu">
-            <li  @click="$store.state.menuc=22">
+            <div>
+            <li >
               <a href="{{ route('homevue') }}" class="nav-link">
                 <i class="fas fa-id-badge"></i>
                 Asignar Tecnico Recepción
               </a>
             </li>
-            <li  @click="$store.state.menuc=23">
+            <li >
               <a href="{{ route('homevue') }}" class="nav-link">
                 <i class="fas fa-clipboard"></i>
                 Mis recepciones
               </a>
             </li>
-          </ul>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('sucursales.index') 
@@ -218,24 +248,26 @@
             <i class="fa fa-cog"></i> <span>Configuraciòn</span>  
           </a>
           <ul class="msubdropdown-menu">
-            <li @click="$store.state.menuc=24"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Sucursales</a></li>
-            <li @click="$store.state.menuc=37"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Contratos</a></li>
-            <li @click="$store.state.menuc=42"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Ubicaciones</a></li>
-            <li @click="$store.state.menuc=43"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Areas</a></li>
-            <li @click="$store.state.menuc=44"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFE</a></li>
-            <li @click="$store.state.menuc=45"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO</a></li>
-            <li @click="$store.state.menuc=100"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO 2024</a></li>
-            <li @click="$store.state.menuc=93"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias Foraneas</a></li>
-            <li @click="$store.state.menuc=46"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFE</a></li>
-            <li @click="$store.state.menuc=47"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO</a></li>
-            <li @click="$store.state.menuc=99"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO 2024</a></li>
-            <li @click="$store.state.menuc=94"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos Foraneas</a></li>
-            <li @click="$store.state.menuc=48"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFE</a></li>
-            <li @click="$store.state.menuc=49"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO</a></li>
-            <li @click="$store.state.menuc=77"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO 2024</a></li>
-            <li @click="$store.state.menuc=92"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos Foraneos</a></li>
-            <li @click="$store.state.menuc=68"><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tareas Admin</a></li>
-          </ul>
+            <div>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Sucursales</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Contratos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Ubicaciones</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Areas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFE</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias CFB/ECO 2024</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Categorias Foraneas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFE</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos CFB/ECO 2024</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tipos Foraneas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFE</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO 2024</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Conceptos Foraneos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-user-tag"></i> Tareas Admin</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('reportes.index') 
@@ -244,9 +276,11 @@
             <i class="fa fa-folder"></i> <span>Reportes</span>
           </a>
           <ul class="msubdropdown-menu">
-            <li @click="$store.state.menuc=10"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ingresos</a></li>
-            <li @click="$store.state.menuc=11"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ventas</a></li>
-          </ul>
+            <div>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ingresos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Reporte Ventas</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @can('caja.index') 
@@ -255,22 +289,26 @@
             <i class="fa fa-money"></i> <span>Control de caja</span>
           </a>
           <ul class="msubdropdown-menu">
-            <li @click="$store.state.menuc=29"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Caja</a></li>
-            <li @click="$store.state.menuc=50"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Bancos</a></li>
-            <li @click="$store.state.menuc=27"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Bancos</a></li>
-            <li @click="$store.state.menuc=28"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Cuentas</a></li>
-            <li @click="$store.state.menuc=51"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Saldos</a></li>
-          </ul>
+            <div>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Caja</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Operaciones Bancos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Bancos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Cuentas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Saldos</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
       @canany(['akumas2023.index', 'akumas.index','cfbForaneos.index'])
         <li class="mdropdown">
           <a><i class="fas fa-users"></i><span >Presupuestos CFB</span></a>
           <ul class="mdropdown-menu">
+            <div>
           @can('akumas.index')
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Presupuestos CFB</a>
               <ul class="msubdropdown-menu">
+                <div>
                 @can('akumas.recepcion')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
@@ -289,6 +327,7 @@
                 @can('akumas.reportes')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
                 @endcan
+              </div>           
               </ul>
             </li>
             @endcan
@@ -296,6 +335,7 @@
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Presupuestos CFB 2024</a>
               <ul class="msubdropdown-menu">
+                <div>
                 @can('akumas2023.recepcion') 
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
@@ -314,6 +354,7 @@
                 @can('akumas2023.reportes') 
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
                 @endcan
+              </div>           
               </ul>
             </li>
             @endcan
@@ -321,6 +362,7 @@
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Presupuestos CFB Foraneos</a>
               <ul class="msubdropdown-menu">
+                <div>
                 @can('cfbForaneos.recepcion')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular (Acuse)</a></li>
                 @endcan
@@ -336,20 +378,24 @@
                 @can('cfbForaneos.reportes')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
                 @endcan
+              </div>           
               </ul>
             </li>
             @endcan
-          </ul>
+          </div>           
+              </ul>
         </li>
       @endcan
       @canany(['akumas2023.index', 'cfbECOForaneos.index']) 
         <li class="mdropdown">
           <a><i class="fas fa-users"></i><span >Presupuestos ECO</span></a>
           <ul class="mdropdown-menu">
+            <div>
           @can('akumas2023.index') 
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Presupuestos ECO</a>
               <ul class="msubdropdown-menu">
+                <div>
               @can('akumas2023.recepcion') 
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
                 @endcan
@@ -362,6 +408,7 @@
                 @can('akumas2023.reportes') 
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
+              </div>           
               </ul>
             </li>
             @endcan
@@ -369,6 +416,7 @@
             <li class="msubdropdown">
               <a><i class="fas fa-users"></i>Presupuestos ECO Foranea</a>
               <ul class="msubdropdown-menu">
+                <div>
                 @can('cfbECOForaneos.recepcion')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular (Acuse)</a></li>
                 @endcan
@@ -381,9 +429,11 @@
                 @can('cfbECOForaneos.reportes')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
+              </div>           
               </ul>
             </li>
             @endcan
+          </div>           
           </ul>
         </li>
       @endcan   
@@ -393,18 +443,21 @@
             <i class="fa fa-money"></i> <span>Tareas</span>
           </a>
           <ul class="msubdropdown-menu">
-            <li @click="$store.state.menuc=76"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tareas Ejecutivas</a></li>
-            <li @click="$store.state.menuc=67"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Revisar Tareas</a></li>
-            <li @click="$store.state.menuc=73"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tecnicos</a></li>
-            <li @click="$store.state.menuc=74"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Trasladistas</a></li>
-            <li @click="$store.state.menuc=75"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Vehiculos</a></li>
-            <li @click="$store.state.menuc=83"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Entradas y Salidas</a></li>
-            <li @click="$store.state.menuc=84"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes</a></li>
-            <li @click="$store.state.menuc=85"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes Foraneas</a></li>
-            <li @click="$store.state.menuc=86"><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> ES Foraneas</a></li>
-          </ul>
+            <div>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tareas Ejecutivas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Revisar Tareas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tecnicos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Trasladistas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Vehiculos</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Entradas y Salidas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Ordenes Foraneas</a></li>
+            <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> ES Foraneas</a></li>
+          </div>           
+              </ul>
         </li>
       @endcan
+               
     </ul>
   </nav>
 </div>
@@ -433,7 +486,7 @@
         <a title="Cerrar Secion" href="{{ route('logout') }}">
           <i class="fa-solid fa-right-to-bracket"></i>
         </a>
-      </li>
+      </li>           
     </ul>
   </nav>
 

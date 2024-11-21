@@ -6,8 +6,8 @@
             <div class="card">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Empresas
-                    <button type="button"  onclick="openmodal('Nueva Empresa')" class="btn btn-secondary">
-                        <i class="icon-plus"></i>&nbsp;Agregar
+                    <button type="button"  onclick="openmodal('Nueva Empresa')" class="boton1">
+                        <i class="fa-solid fa-circle-plus"></i>&nbsp;Nueva
                     </button>
                 </div>
                 <div class="card-body mycard">
@@ -31,6 +31,10 @@
                             </div>
                             <div class="mitabla">
                                 <table id="tablausuarios" class="table table-sm  table-striped">
+                                <colgroup>
+                            <col class="button_options"> <!-- Columna con ancho fijo del 20% -->
+                                
+                            </colgroup>
                                     <thead  class= "thead-light">
                                         <tr>
                                             <th>Opciones</th>
@@ -38,8 +42,8 @@
                                             <th>RFC</th>
                                             <th>Correo</th>
                                             <th>Telefono</th>
-                                            <th>Fecha Creacion</th>
-                                            <th>Fecha Actualizacion</th>
+                                            <th>Creacion</th>
+                                            <th>Actualizacion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,14 +62,14 @@
                 </div>
             </div>
     </div>
-    <div class="modal fade modal-basic" id="Empresa_modal" tabindex="-1" aria-labelledby="taskModalLabal" aria-hidden="true" 
-    data-backdrop="static" data-keyboard="false">
+    <div class="modal fade modal-basic" id="Empresa_modal" tabindex="-1" aria-labelledby="taskModalLabal"  
+    data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-uppercase" id="modalcompanititle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        
                     </button>
                 </div>
                 <div class="modal-body">

@@ -6,8 +6,8 @@
         <div class="card">
             <div class="card-header">
                 <i class="fa fa-align-justify"></i> Usuarios
-                <button type="button"  onclick="openmodal()" class="btn btn-secondary">
-                    <i class="icon-plus"></i>&nbsp;Nuevo
+                <button type="button"  onclick="openmodal()" class="boton1">
+                <i class="fa-solid fa-circle-plus"></i>&nbsp;Nuevo
                 </button>
             </div>
             <div class="card-body mycard" >
@@ -24,7 +24,7 @@
                         </div>
                         <div class="d-flex busqueda">
                             <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
-                            <input class="rounded-pill"
+                            <input class="misearch"
                                 type="text" id="search" name="s"
                                 placeholder="Busqueda por Nombre" min="1">
                         </div>
@@ -40,9 +40,13 @@
                         </div>
                         <div class="mitabla">
                             <table id="tablausuarios" class="table table-sm table-striped">
+                            <colgroup>
+                            <col class="button_options"> <!-- Columna con ancho fijo del 20% -->
+                                
+                            </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>Opciones</th>
+                                        <th>Opciones</th> 
                                         <th>Empresa</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
@@ -67,13 +71,12 @@
         </div>
     </div>
     <div class="modal fade" id="usuarioStore" tabindex="-1" role="dialog" aria-labelledby="usuarioStoreLabel" aria-hidden="true" 
-    data-backdrop="static" data-keyboard="false">
+    data-bs-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document" >
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-uppercase" id="modalusertitle">Nuevo cliente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModal()">
-                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ">
                     </button>
                 </div>
                 <div class="modal-body">

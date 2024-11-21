@@ -1,7 +1,6 @@
 @extends ('layouts.admin2')
 @section ('contenido')
 
-<main class="main">
     <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
@@ -43,6 +42,10 @@
                             </div>
                             <div class="mitabla">
                                 <table id="tablaufacturas" class="table table-sm  table-striped">
+                                <colgroup>
+                            <col class="button_options2"> <!-- Columna con ancho fijo del 20% -->
+                                
+                            </colgroup>
                                     <thead  class= "thead-light">
                                         <tr>
                                             <th>Opciones</th>
@@ -228,9 +231,6 @@
                 </div>
             </div>
     </div>
-
-</main>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -361,17 +361,17 @@
                     $.each(paginatedElements, function(index, element) {
                         let row = $('<tr>');
                         if(element.acuse){
-                            row.append('<td ><div class="Datatable-content-button2">'+
+                            row.append('<td ><div class="Datatable-content-button">'+
                             '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
                             '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
-                            '<button class="btn btn-danger icono2" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><img  src="{{asset('storage/img/iconos/iconoacuse.png')}}"alt=""></button>'+
+                            '<button class="btn icono2" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><img  src="{{asset('storage/img/iconos/iconoacuse.png')}}"alt=""></button>'+
                             '</div></td>');
                         }else{
-                            row.append('<td ><div class="Datatable-content-button2">'+
+                            row.append('<td ><div class="Datatable-content-button">'+
                             '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
                             '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
                             '<button class="btn btn-secondary icono3" onclick="cancelarfactura(\''+element.id+'\',\''+element.folio+'\')" title="Sin Acuse"><i class="fa-solid fa-ban"></i></button>'+
-                            '</div></td>');   
+                            '</di></td>');   
                         }
                         row.append('<td><div class="Datatable-content">' + (element.id ? element.id : "Sin id" ) + '</div></td>');
                         row.append('<td><div class="Datatable-content">' + (element.rfc ? element.rfc : "Sin rfc" ) + '</div></td>');
