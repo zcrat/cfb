@@ -378,15 +378,17 @@ width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td
  display: none;
  color: #000000;
 }
+  
+.table{
+  min-width: 100%;
+  width: auto;;
+}
 @media (max-width:1200px), (max-height:1200px){ 
   html{
    font-size: 17px;
   }
   .modal ,.modal .btn,.modal input,.modal select ,.modal h5{font-size: 18px;}
-  
-  .table{
-    max-width: 1100px;
-  }
+
 }
 
 
@@ -395,10 +397,7 @@ width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td
    font-size: 15px;
   }
   .modal ,.modal .btn,.modal input,.modal select ,.modal h5{font-size: 16px;}
-  
-  .table{
-    max-width: 900px;
-  }
+
 }
 
 @media (max-width:768px), (max-height:768px){ 
@@ -407,9 +406,6 @@ width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td
   }
   .modal ,.modal .btn,.modal input,.modal select ,.modal h5{font-size: 16px;}
 
-  .table{
-    max-width: 800px;
-  }
 }
 @media (max-width:576px), (max-height:576px){ 
  html{
