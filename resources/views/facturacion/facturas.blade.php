@@ -13,6 +13,155 @@
                     </button>
                 </div>
                 <div class="card-body mycard">
+                    <div id="newfactur" class="pleft" hidden>
+                        <div>
+                            <form id="newfactur">
+                                <div class="encabezado">
+
+                                <label>Empresas</label>
+                                <select class="rounded" id="facturaempresa">
+                                        <option value=""></option>
+                                        @foreach ($empresas as $option)
+                                            <option value="{{ $option->id }}">{{ $option->nombre }}</option>
+                                        @endforeach
+                                </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tipo de Comprobante</label>
+                                        <select name="tipo_comprobante" class="form-control">
+                                        <option value=""></option>
+                                        @foreach ($tcomprobante as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="uso_cfdi">Uso de CFDI por parte del Receptor</label>
+                                            <select name="uso_cfdi" class="form-control" >
+                                            <option value=""></option>
+                                        @foreach ($cfdi as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                    <label for="tipo_impuesto">Tipo de Impuesto Local</label>
+                                    <select name="tipo_impuesto_local" class="form-control">
+                                    <option value=""></option>
+                                        @foreach ($timpuesto as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="moneda">Moneda</label>
+                                    <select name="moneda" class="form-control" >
+                                    <option value=""></option>
+                                        @foreach ($moneda as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="formadepago">Forma de pago</label>
+                                    <select name="fpago" class="form-control" >
+                                    <option value=""></option>
+                                        @foreach ($formapago as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                    <label for="metododepago">Metodo de pago</label>
+                                    <select name="mpago" class="form-control">
+                                    <option value=""></option>
+                                        @foreach ($metodopago as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                    <label for="metododepago">articulos</label>
+                                    <select id="mpago"name="mpago" class="js-Select2" >
+                                    <option value=""></option>
+                                    </select>
+                                    <button type="button" class="btn btn-primary" onclick="añadir()">+</button>
+                                    <button type="button"class="btn btn-warning" onclick="mostrarlista()">Lista</button>
+                                    </div>
+                                </div>
+                                <div class="mitabla">
+                                    <table id="tablaproductos"clase="table table-sm">
+                                        <thead>
+                                            <th>Opciones</th>
+                                            <th>Articulo</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal</th>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                <label for="">Total Parcial</label>
+                                <input type="text"  disabled id="parcial">
+                                <label for="">Impuestos</label>
+                                <input type="text" id="impuestos" disabled>
+                                <label for="">Total</label>
+                                <input type="text" id="total" disabled>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div id="lista" class="lista" hidden>
+                            <h3>Seleccione Los Productos Que Desea Agregar</h3>
+                            <div class="d-flex busqueda">
+                                <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                                <input class="misearch"
+                                    type="text" id="search2" name="s2"
+                                    placeholder="Busqueda por Nombre" min="1">
+                            </div>
+                            <div id='pagination2'></div>
+                            <table id="tablaproductoslista"clase="table table-sm">
+                                        <thead>
+                                            <th>Opciones</th>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Categoria</th>
+                                            <th>Precio Venta</th>
+                                            <th>Stock</th>
+                                            <th>Estado</th>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                        </div>
+                        <div id='listacarga' class="carga">
+                            <h3 class="text-center m-2">Cargando Datos</h3>
+                            <div class="spinnerp"></div>
+                        </div>
+                        <div  class="no-results-message2" hidden>
+                        <span id="no-results-message2"></span>
+                    </div>
+                    </div>
+                    <div id="newpay" class="pleft" hidden>
+                        <form id="newfactur">
+
+                        </form>
+                    </div>
                     <div class="dataupload" id="dataupload">
                         <div class="d-flex superior">
                             <div class="encabezado" >
@@ -41,7 +190,7 @@
                                 <div id='pagination'></div>
                             </div>
                             <div class="mitabla">
-                                <table id="tablaufacturas" class="table table-sm  table-striped">
+                                <table id="tablafacturas" class="table table-sm  table-striped">
                                 <colgroup>
                             <col class="button_options2"> <!-- Columna con ancho fijo del 20% -->
                                 
@@ -65,100 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="newfactur" hidden>
-                        <form id="newfactur">
-                            <div>
-                            <label>Empresas</label>
-                            <select class="rounded" id="empresa">
-                                    <option value=""></option>
-                                    @foreach ($empresas as $option)
-                                        <option value="{{ $option->id }}">{{ $option->nombre }}</option>
-                                    @endforeach
-                            </select>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                     <label>Tipo de Comprobante</label>
-                                      <select name="tipo_comprobante" class="form-control">
-                                      <option value=""></option>
-                                    @foreach ($tcomprobante as $option)
-                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
-                                    @endforeach
-                                   </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="uso_cfdi">Uso de CFDI por parte del Receptor</label>
-                                        <select name="uso_cfdi" class="form-control" >
-                                        <option value=""></option>
-                                    @foreach ($cfdi as $option)
-                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
-                                    @endforeach
-                                        </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                   <label for="tipo_impuesto">Tipo de Impuesto Local</label>
-                                  <select name="tipo_impuesto_local" class="form-control">
-                                  <option value=""></option>
-                                    @foreach ($timpuesto as $option)
-                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
-                                    @endforeach
-                                  </select>
-                                </div>
-                            </div>
-                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="moneda">Moneda</label>
-                                  <select name="moneda" class="form-control" >
-                                  <option value=""></option>
-                                    @foreach ($moneda as $option)
-                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
-                                    @endforeach
-                                  </select>
-                                </div>
-                            </div>
-                             <div class="col-md-4">
-                                <div class="form-group">
-                                     <label for="formadepago">Forma de pago</label>
-                                  <select name="fpago" class="form-control" >
-                                  <option value=""></option>
-                                    @foreach ($formapago as $option)
-                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
-                                    @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="col-md-4">
-                                <div class="form-group">
-                                   <label for="metododepago">Metodo de pago</label>
-                                  <select name="mpago" class="form-control">
-                                  <option value=""></option>
-                                    @foreach ($metodopago as $option)
-                                        <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
-                                    @endforeach
-                                  </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                   <label for="metododepago">articulos</label>
-                                  <select name="mpago" class="js-Select2" >
-                                  <option value=""></option>
-                                   
-                                  </select>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                    <div id="newpay" hidden>
-                        <form id="newfactur">
-
-                        </form>
-                    </div>
+                    
                     <div  class="no-results-message" hidden>
                         <span id="no-results-message"></span>
                     </div>
@@ -175,7 +231,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Ver Archivo</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         </button>
                     </div>
                     <div class="modal-body viewfile">
@@ -235,56 +291,222 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{asset('js/paginacion.js')}}"></script>
+<script src="{{asset('js/paginacion2.js')}}"></script>
 <script>
     function cerrarModal(id) {
         $(id).modal('hide');
     }
-    function openwin(){
-        var dataUploadElement = document.getElementById('dataupload');
-        var newFacturElement = document.getElementById('newfactur');
-        var newpayElement = document.getElementById('newpay');
-    // Si 'dataupload' está visible, lo ocultamos y mostramos 'newfactur'
-    if (newFacturElement.hasAttribute('hidden')) {
-        newFacturElement.removeAttribute('hidden'); // Mostramos 'dataupl
-        dataUploadElement.setAttribute('hidden', true);
-        newpayElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
-        
-        document.querySelector('.boton1').classList.add('brojo');
-        document.querySelector('.boton2').classList.remove('brojo');
-        document.querySelector('.nuevafactura').classList.remove('fa-circle-plus');
-        document.querySelector('.nuevafactura').classList.add('fa-circle-xmark');
-        document.querySelector('.nuevopago').classList.add('fa-circle-plus');
-        document.querySelector('.nuevopago').classList.remove('fa-circle-xmark');
-    } else {
-        document.querySelector('.nuevafactura').classList.add('fa-circle-plus');
-        document.querySelector('.nuevafactura').classList.remove('fa-circle-xmark');
-        document.querySelector('.boton1').classList.remove('brojo');
-        newFacturElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
-        dataUploadElement.removeAttribute('hidden'); // Mostramos 'newfactur'
+    let lista=[];
+    function eliminarproducto(id){
+        console.log("se debe de eliminar "+id);
+        lista=lista.filter(item => item.id != id);
+        llenartabla();
     }
+    $(document).on('change', '.producto', function () {
+        const objeto = lista.find(obj => obj.id == $(this).attr('id'))
+        if (objeto) {
+            objeto.cantidad = $(this).val();
+            objeto.subtotal =$(this).val() * parseFloat(objeto.precio_venta);
+            console.log('Objeto modificado:', objeto);
+            lista=lista.filter(item => item.id != $(this).attr('id'));
+            lista.push(objeto);
+            llenartabla();
+        } else {
+            console.log('El objeto no existe en la lista.');
+        }
+    });
+    function añadir(id2){
+      
+        let id=$("#mpago").val();
+        if(id2){id=id2}
+        if(id){
+            console.log('Contenido de lista:', lista);
+            console.log('Valor de id:', id);
+            if(lista.some(obj => obj.id == id)){
+                Swal.fire({
+                            icon: "error",
+                            text: "El producto ya se ha agrego",
+                            confirmButtonText: "acceptar",
+                            reverseButtons: true,
+                            customClass: {
+                            confirmButton: "btn-primary",
+                            },
+                        })
+            }
+            else{
+                $.ajax({
+                        type: 'get',
+                        url: '{{ route('facturacion.articulo') }}',
+                        data:{
+                            'id':id,
+                        },
+                        success: function(response) {
+                            response.cantidad = '0';
+                            response.subtotal = '0';
+                            lista.push(response)
+                            llenartabla();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr);
+                        }
+                    });
+                }
+            }else{
+            Swal.fire({
+                            icon: "error",
+                            text: "Seleccione un producto",
+                            confirmButtonText: "acceptar",
+                            reverseButtons: true,
+                            customClass: {
+                                confirmButton: "btn-primary",
+                            },
+                        })
+                        .then((result) => {
+                          
+                        });}
+    }
+    function mostrarlista(){
+        searchdata();
+        let elements=[];
+        let originalelements=[];
+
+                function searchdata() {
+                    document.getElementById('listacarga').removeAttribute('hidden');
+                    document.getElementById('lista').setAttribute('hidden', true);
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('facturacion.obtenerproductos') }}',
+                        success: function(response) {
+                            console.log(response);
+                            originalelements = elements = response;
+                            document.getElementById('listacarga').setAttribute('hidden', true);
+                            document.getElementById('lista').removeAttribute('hidden');
+                            filtering();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr);
+                        }
+                    });
+                }
+                function filtering() {
+                    let search = $('#search2').val().toLowerCase();
+                    Page2 = 1
+                    elements = originalelements.filter(function(element) {
+                      
+                        return (search === '' || element.codigo_sat.toLowerCase().includes(search));
+                    });
+                    if (elements.length === 0) {
+                        document.querySelector('.no-results-message2').removeAttribute('hidden');
+                            $('#no-results-message2').text('No Se Encontraron Productos Con El Codigo o Venta '+search );
+                    } else {
+                        document.querySelector('.no-results-message2').setAttribute('hidden',true);
+                        $('#no-results-message2').text('');
+                    }
+
+                    showElements();
+                }
+                window.executeshowElements2 = function() {
+                    eval("showElements()");
+                };
+                function showElements() {
+    
+                    ShowPagination2(elements.length,5,10);
+                    let startIndex = (Page2 - 1) * itemsPerPage;
+                    let endIndex = startIndex + itemsPerPage;
+                    let paginatedElements = elements.slice(startIndex, endIndex);
+                    
+
+                    $('#tablaproductoslista tbody').empty();
+                    if (paginatedElements.length > 0) {
+                        document.getElementById('viewelements').removeAttribute('hidden');
+                    } else {
+                        document.getElementById('viewelements').setAttribute('hidden', true);
+                    }
+                    $.each(paginatedElements, function(index, element) {
+                        let row = $('<tr>');
+                        row.append('<td ><button class="btn btn-danger" onclick="añadir(\''+element.id+'\')" title="Archivo PDF"></button></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.codigo_sat ? element.codigo_sat : "Sin id" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.idcategoria ? element.idcategoria : "Sin razon social" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.precio_venta ? element.precio_venta : "Sin precio_venta" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.stock ? element.stock : "Sin stock" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.condicion ? element.condicion : "Sin estado" ) + '</div></td>');
+
+                        $('#tablaproductoslista tbody').append(row);
+                    });
+                    $('#search2').on('input', filtering);
+                }
+    }
+    function llenartabla(){
+        $('#tablaproductos tbody').empty();
+        let total=0
+        $.each(lista, function(index, element) {
+                        let row = $('<tr>');
+                        row.append('<td >'+
+                            '<button class="btn btn-danger" onclick="eliminarproducto(\''+element.id+'\')" title="eliminar producto">X</button>'+
+                            '</td>');
+                        row.append('<td><div class="Datatable-content">' + (element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.precio_venta ? element.precio_venta : "Sin precio_venta" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content"> <select id=\''+element.id+'\' class="producto">'+ (() => {
+                            let options = '';
+                            for (let i = 0; i <= element.stock; i++) {
+                                options += `<option value="${i}" ${i == element.cantidad ? 'selected':''}>${i}</option>`;
+                            }
+                            return options;
+                        })()+ '</select></div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.subtotal ? element.subtotal : "Sin subtotal" ) + '</div></td>');
+                        $('#tablaproductos tbody').append(row);
+                    total+=parseFloat(element.subtotal);
+                    });
+                    $('#parcial').val((total/1.16).toFixed(2));
+                    $('#impuestos').val(((total/1.16)*0.16).toFixed(2));
+                    $('#total').val(total);
+    }
+    function openwin(){
+        var newFacturElement = document.getElementById('newfactur');
+        var newdta = document.getElementById('dataupload');
+        var newpayElement = document.getElementById('newpay');
+        // Si 'dataupload' está visible, lo ocultamos y mostramos 'newfactur'
+        if (newFacturElement.hasAttribute('hidden')) {
+            newdta.setAttribute('hidden',true); // Mostramos 'dataupl
+            newFacturElement.removeAttribute('hidden'); 
+            newpayElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
+            
+            document.querySelector('.boton1').classList.add('brojo');
+            document.querySelector('.boton2').classList.remove('brojo');
+            document.querySelector('.nuevafactura').classList.remove('fa-circle-plus');
+            document.querySelector('.nuevafactura').classList.add('fa-circle-xmark');
+            document.querySelector('.nuevopago').classList.add('fa-circle-plus');
+            document.querySelector('.nuevopago').classList.remove('fa-circle-xmark');
+        } else {
+            document.querySelector('.nuevafactura').classList.add('fa-circle-plus');
+            document.querySelector('.nuevafactura').classList.remove('fa-circle-xmark');
+            document.querySelector('.boton1').classList.remove('brojo');
+            newFacturElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
+            newdta.removeAttribute('hidden'); 
+        }
     }
     function openpay(){
-        var dataUploadElement = document.getElementById('dataupload');
         var newFacturElement = document.getElementById('newfactur');
         var newpayElement = document.getElementById('newpay');
-    
-    if (newpayElement.hasAttribute('hidden')) {
-        newpayElement.removeAttribute('hidden'); // Mostramos 'dataupload'
-        dataUploadElement.setAttribute('hidden', true);
-        newFacturElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
-        document.querySelector('.boton2').classList.add('brojo');
-        document.querySelector('.boton1').classList.remove('brojo');
-        document.querySelector('.nuevafactura').classList.add('fa-circle-plus');
-        document.querySelector('.nuevafactura').classList.remove('fa-circle-xmark');
-        document.querySelector('.nuevopago').classList.remove('fa-circle-plus');
-        document.querySelector('.nuevopago').classList.add('fa-circle-xmark');
-    } else {
-        document.querySelector('.boton2').classList.remove('brojo');
-        document.querySelector('.nuevopago').classList.add('fa-circle-plus');
-        document.querySelector('.nuevopago').classList.remove('fa-circle-xmark');
-        newpayElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
-        dataUploadElement.removeAttribute('hidden'); // Mostramos 'newfactur'
-    }
+        var newdta = document.getElementById('dataupload');
+        if (newpayElement.hasAttribute('hidden',true)) {
+            newdta.setAttribute('hidden'); 
+            newpayElement.removeAttribute('hidden'); // Mostramos 'dataupload'
+            newFacturElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
+            document.querySelector('.boton2').classList.add('brojo');
+            document.querySelector('.boton1').classList.remove('brojo');
+            document.querySelector('.nuevafactura').classList.add('fa-circle-plus');
+            document.querySelector('.nuevafactura').classList.remove('fa-circle-xmark');
+            document.querySelector('.nuevopago').classList.remove('fa-circle-plus');
+            document.querySelector('.nuevopago').classList.add('fa-circle-xmark');
+        } else {
+            newdta.removeAttribute('hidden'); 
+            document.querySelector('.boton2').classList.remove('brojo');
+            document.querySelector('.nuevopago').classList.add('fa-circle-plus');
+            document.querySelector('.nuevopago').classList.remove('fa-circle-xmark');
+            newpayElement.setAttribute('hidden', true); // Ocultamos 'dataupload'
+        }
     }
     function mostrar(archivo){
         const fileViewer = document.getElementById('fileViewer');
@@ -312,7 +534,6 @@
                             }
                         });
     }
-    
     function cancelarfactura(id,folio) {
         document.getElementById("factura_id").value = id;
         document.getElementById("foliocancelacion").value = folio;
@@ -352,7 +573,7 @@
                     let endIndex = startIndex + itemsPerPage;
                     let paginatedElements = elements.slice(startIndex, endIndex);
 
-                    $('#tablaufacturas tbody').empty();
+                    $('#tablafacturas tbody').empty();
                     if (paginatedElements.length > 0) {
                         document.getElementById('viewelements').removeAttribute('hidden');
                     } else {
@@ -382,7 +603,7 @@
                         row.append('<td><div class="Datatable-content">' + (element.movimiento ? element.movimiento : "Sin movimiento" ) + '</div></td>');
                         row.append('<td><div class="Datatable-content">' + (element.estado ? element.estado : "Sin estado" ) + '</div></td>');
 
-                        $('#tablaufacturas tbody').append(row);
+                        $('#tablafacturas tbody').append(row);
                     });
                 }
                 $('#search').on('input', filtering);
@@ -393,7 +614,7 @@
                     let empresa = empresas.options[empresas.selectedIndex].text;
                     let search = $('#search').val().toLowerCase();
                     Page = 1
-                    console.log(elements)
+                    console.log(454)
                     elements = originalelements.filter(function(element) {
                       
                         return (option1 === '' || element.empresa_id == option1) &&

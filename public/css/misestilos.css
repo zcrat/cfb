@@ -371,17 +371,33 @@ width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td
 }
 .mycard{
   display: flex;
-  flex-direction: column;
+
+}
+.dataupload{
+  width: 100%;
 }
 .modal ,.modal .btn,.modal input,.modal select ,.modal h5{font-size: 22px;}
 .contraer{
  display: none;
  color: #000000;
 }
-  
-.table{
+.pleft{
+  position: relative;
+  left: 0;
+  width: 100%;
+  border: 3px solid #000000;
+  border-radius: 0.75rem;
+  margin-right: 1rem;
+  padding: 0.75rem;
+  display: flex
+
+}  
+table{
   min-width: 100%;
   width: auto;;
+}
+.lista{
+  width:50%;
 }
 @media (max-width:1200px), (max-height:1200px){ 
   html{

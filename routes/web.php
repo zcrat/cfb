@@ -35,8 +35,9 @@ Route::get('clientes/obtenerempresa', 'CustomerController@obtenerempresa')->name
 //facturacion
 Route::get('facturacion/facturas', 'FacturasController@facturas')->name('facturacion.facturas')->middleware('auth');
 Route::get('facturacion/obtenerfacturas', 'FacturasController@obtenerfacturas')->name('facturacion.obtenerfacturas')->middleware('auth');
-Route::get('facturacion/obtenerarticulo', 'FacturasController@obtenerarticulo')->name('facturacion.articulos')->middleware('auth');
-
+Route::get('facturacion/obtenerarticulos', 'FacturasController@obtenerarticulos')->name('facturacion.articulos')->middleware('auth');
+Route::get('facturacion/obtenerarticulo', 'FacturasController@obtenerarticulo')->name('facturacion.articulo')->middleware('auth');
+Route::get('facturacion/obtenerproductos', 'FacturasController@obtenerproductos')->name('facturacion.obtenerproductos')->middleware('auth');
 
 
 Route::middleware(['auth'])->group(function(){
