@@ -235,12 +235,6 @@ class FacturasController extends Controller
         
         return response()->json($productos);
         }
-    public function obtenerarticulos(Request $request){
-    $term = str_replace(' ', '%', $request->input('term'));
-    $articulos=Articulo::select('id','descripcion')->where('descripcion', 'like', '%' . $term . '%')->take(15)->get();
-    
-    return response()->json($articulos);
-    }
     public function obtenerarticulo(Request $request){
         $id =$request->input('id');
         $articulo=Articulo::where('id',$id)->first();

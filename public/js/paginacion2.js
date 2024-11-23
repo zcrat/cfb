@@ -1,7 +1,10 @@
 
 let Page2 = 1;
 
-function ShowPagination2(elements,paginas,itemsPerPage) {
+function ShowPagination2(elements,paginas,item) {
+    if(item){
+        itemsPerPage=item;
+    }
     const totalPages = Math.ceil(elements / itemsPerPage);
     const mpagina = Math.floor(paginas / 2);
     let paginationHTML = '';

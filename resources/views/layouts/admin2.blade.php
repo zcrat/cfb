@@ -559,15 +559,17 @@
 
 function cambiarcolores(savedTheme){
   if (savedTheme === 'dark') {
-        document.documentElement.style.setProperty('--fondo', '#000000');
-        document.documentElement.style.setProperty('--letra', '#ffffff');
-        document.documentElement.style.setProperty('--fondor', '#ffffff');
-        document.documentElement.style.setProperty('--letrar', '#000000');
+    document.documentElement.removeAttribute("style");
+
     } else {        
         document.documentElement.style.setProperty('--fondo', '#0073b7');
         document.documentElement.style.setProperty('--letra', '#ffffff');
         document.documentElement.style.setProperty('--fondor', '#ffa200');
-        document.documentElement.style.setProperty('--letrar', '#f2f2f2')
+        document.documentElement.style.setProperty('--letrar', '#f2f2f2');
+        document.documentElement.style.setProperty('--fondos2', '#DEE2E6');
+        document.documentElement.style.setProperty('--fondobody', '#DEE2E6');
+        document.documentElement.style.setProperty('--letrasbody', '#212529');
+        
     }
 }
 

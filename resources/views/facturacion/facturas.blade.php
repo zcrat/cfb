@@ -16,14 +16,12 @@
                     <div id="newfactur" class="pleft" hidden>
                         <div>
                             <form id="newfactur">
-                                <div class="encabezado">
+                                <div class="form-group">
 
                                 <label>Empresas</label>
-                                <select class="rounded" id="facturaempresa">
+                                <select class="empresas-Select2" id="facturaempresa">
                                         <option value=""></option>
-                                        @foreach ($empresas as $option)
-                                            <option value="{{ $option->id }}">{{ $option->nombre }}</option>
-                                        @endforeach
+                                        
                                 </select>
                                 </div>
                                 <div class="col-md-4">
@@ -49,6 +47,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
+                                <div class="form-group">
+                                        <label>Tipo de Comprobante</label>
+                                        <select name="tipo_comprobante" class="form-control">
+                                        <option value=""></option>
+                                        @foreach ($tcomprobante as $option)
+                                            <option value="{{ $option['id'] }}">{{ $option['nombre'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
                                     <div class="form-group">
                                     <label for="tipo_impuesto">Tipo de Impuesto Local</label>
                                     <select name="tipo_impuesto_local" class="form-control">
@@ -149,7 +156,7 @@
                                         </tbody>
                                     </table>
                         </div>
-                        <div id='listacarga' class="carga">
+                        <div id='listacarga' class="carga" hidden>
                             <h3 class="text-center m-2">Cargando Datos</h3>
                             <div class="spinnerp"></div>
                         </div>
@@ -158,15 +165,82 @@
                     </div>
                     </div>
                     <div id="newpay" class="pleft" hidden>
-                        <form id="newfactur">
-
-                        </form>
+                        <div>
+                            <div class="form-group"><label for="">Empresa</label>
+                            <input type="text" name="" id=""></div>
+                            <div class="d-flex">
+                                <div class="form-group"><label for="">fecha y hora</label>
+                                <input type="text" name="" id=""></div>
+                                <div class="form-group"><label for="">Forma de pago</label>
+                                <input type="text" name="" id=""></div>
+                                <div class="form-group"><label for="">Moneda</label>
+                                <select name="" id="" disabled="disabled"></select></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-group"><label for="">Monto</label><input type="text"></div>
+                                <div class="form-group"><label for="">N. Operacion</label><input type="text"></div>
+                            </div>
+                            <label for="">Documentos Relacionados</label>
+                            <div class="form-group"><label for="">Factura</label><select name="" id=""></select></div>
+                            <div class="d-flex">
+                                <div class="form-froup"><label for="">Folio</label><input type="text" name="" id="" disabled="disabled"></div>
+                                <div class="form-froup"><label for="">Documento</label><input type="text" name="" id="" disabled="disabled"></div>
+                                <div class="form-froup"><label for="">Serie</label><input type="text" name="" id="" disabled="disabled"></div>
+                                <div class="form-froup"><label for="">Total Factura</label><input type="text" name="" id="" disabled="disabled"></div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-group"><label for="">Metodo de Pago</label><select name="" id="" disabled="disabled"></select></div>
+                                <div class="form-group"><label for="">Moneda</label><select name="" id="" disabled="disabled"></select></div>
+                                <div class="form-group"><label for="">Importe Pagado</label><input type="text"></div>                            
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-group"><label>Saldo Anterior<input type="text"></label></div>
+                                <div class="form-group"><label>Saldo Insoluto<input type="text"></label></div>
+                                <button class="btn btn-danger"> <i class="fa-solid fa-circle-plus"></i></i>&nbsp;Agregar</button>
+                            </div>
+                            <div>
+                                <table class="table">
+                                    <thead>
+                                        <th>UUID</th>
+                                        <th>Serie</th>
+                                        <th>Folio</th>
+                                        <th>Moneda</th>
+                                        <th>TipoCambio</th>
+                                        <th>MetodoPago</th>
+                                        <th>#Parcialidades</th>
+                                        <th>SaldoAnterior</th>
+                                        <th>Pagado</th>
+                                        <th>SaldoInsoluto</th>
+                                        <th>Total</th>
+                                        <th>Eliminar</th>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                
+                            </div>
+                            <div class="form-group d-flex">
+                                <button class="btn btn-primary">Guardar Pago</button>
+                                <input type="text" class="text" disabled="disabled" value="Total Pagado: $0">
+                            </div>
+                            <label for="">REGISTRO DE PAGOS</label>
+                            <table class="table">
+                                <thead>
+                                    <th>#Operacion</th>
+                                    <th>Monto</th>
+                                    <th>Opciones</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="form-group">
+                            <button class="btn btn-secundary">Cerrar</button>
+                            <button class="btn btn-danger">Tiembrar</button></div>
+                        </div>
                     </div>
-                    <div class="dataupload" id="dataupload">
+                    <div class="dataupload" id="dataupload" hidden>
                         <div class="d-flex superior">
                             <div class="encabezado" >
                                 <label >Empresa:  </label>
-                                <select class="rounded" id="empresa">
+                                <select class="rounded empresa" id="empresa">
                                     <option value="">Todos</option>
                                     @foreach ($empresas as $option)
                                         <option value="{{ $option->id }}">{{ $option->nombre }}</option>
@@ -218,7 +292,7 @@
                     <div  class="no-results-message" hidden>
                         <span id="no-results-message"></span>
                     </div>
-                    <div id='loadingdata' class="carga">
+                    <div id='loadingdata' class="carga" hidden>
                         <h3 class="text-center m-2">Cargando Datos</h3>
                         <div class="spinnerp"></div>
                     </div>
@@ -303,17 +377,17 @@
         llenartabla();
     }
     $(document).on('change', '.producto', function () {
-        const objeto = lista.find(obj => obj.id == $(this).attr('id'))
-        if (objeto) {
-            objeto.cantidad = $(this).val();
-            objeto.subtotal =$(this).val() * parseFloat(objeto.precio_venta);
-            console.log('Objeto modificado:', objeto);
-            lista=lista.filter(item => item.id != $(this).attr('id'));
-            lista.push(objeto);
+        lista = lista.map(item => {
+    if (item.id == $(this).attr('id')) {
+        // Modifica solo el objeto que coincide
+        item.cantidad = $(this).val();
+        item.subtotal = $(this).val() * parseFloat(item.precio_venta);
+       
+    }
+    return item; // Retorna el objeto, modificado o no
+});
             llenartabla();
-        } else {
-            console.log('El objeto no existe en la lista.');
-        }
+       
     });
     function añadir(id2){
       
@@ -491,7 +565,7 @@
         var newpayElement = document.getElementById('newpay');
         var newdta = document.getElementById('dataupload');
         if (newpayElement.hasAttribute('hidden',true)) {
-            newdta.setAttribute('hidden'); 
+            newdta.setAttribute('hidden',true); 
             newpayElement.removeAttribute('hidden'); // Mostramos 'dataupload'
             newFacturElement.setAttribute('hidden', true); // Ocultamos 'newfactur'
             document.querySelector('.boton2').classList.add('brojo');
@@ -541,162 +615,197 @@
         $('#cancelarfactura').modal('show');
     }
     $(document).ready(function() {
-                let elements = [];
-                let originalelements = [];
-                searchdata();
-                function searchdata() {
-                    document.getElementById('loadingdata').removeAttribute('hidden');
-                    document.getElementById('dataupload').setAttribute('hidden', true);
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ route('facturacion.obtenerfacturas') }}',
-                        success: function(response) {
-                            originalelements = elements = response.facturas;
-                            document.getElementById('loadingdata').setAttribute('hidden', true);
-                            document.getElementById('dataupload').removeAttribute('hidden');
-                            filtering();
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr);
-                        }
-                    });
+        let elements = [];
+        let originalelements = [];
+        searchdata();
+        function searchdata() {
+            document.getElementById('loadingdata').removeAttribute('hidden');
+            document.getElementById('dataupload').setAttribute('hidden', true);
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('facturacion.obtenerfacturas') }}',
+                success: function(response) {
+                    originalelements = elements = response.facturas;
+                    document.getElementById('loadingdata').setAttribute('hidden', true);
+                    document.getElementById('dataupload').removeAttribute('hidden');
+                    filtering();
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr);
                 }
-                window.executeSearchdata = function() {
-                    eval("searchdata()");
-                };
-                window.executeshowElements = function() {
-                    eval("showElements()");
-                };
-                function showElements() {
-                    ShowPagination(elements.length,8);
-                    let startIndex = (Page - 1) * itemsPerPage;
-                    let endIndex = startIndex + itemsPerPage;
-                    let paginatedElements = elements.slice(startIndex, endIndex);
+            });
+        }
+        window.executeSearchdata = function() {
+            eval("searchdata()");
+        };
+        window.executeshowElements = function() {
+            eval("showElements()");
+        };
+        function showElements() {
+            ShowPagination(elements.length,8);
+            let startIndex = (Page - 1) * itemsPerPage;
+            let endIndex = startIndex + itemsPerPage;
+            let paginatedElements = elements.slice(startIndex, endIndex);
 
-                    $('#tablafacturas tbody').empty();
-                    if (paginatedElements.length > 0) {
-                        document.getElementById('viewelements').removeAttribute('hidden');
+            $('#tablafacturas tbody').empty();
+            if (paginatedElements.length > 0) {
+                document.getElementById('viewelements').removeAttribute('hidden');
+            } else {
+                document.getElementById('viewelements').setAttribute('hidden', true);
+            }
+            $.each(paginatedElements, function(index, element) {
+                let row = $('<tr>');
+                if(element.acuse){
+                    row.append('<td ><div class="Datatable-content-button">'+
+                    '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
+                    '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
+                    '<button class="btn icono2" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><img  src="{{asset('storage/img/iconos/iconoacuse.png')}}"alt=""></button>'+
+                    '</div></td>');
+                }else{
+                    row.append('<td ><div class="Datatable-content-button">'+
+                    '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
+                    '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
+                    '<button class="btn btn-secondary icono3" onclick="cancelarfactura(\''+element.id+'\',\''+element.folio+'\')" title="Sin Acuse"><i class="fa-solid fa-ban"></i></button>'+
+                    '</di></td>');   
+                }
+                row.append('<td><div class="Datatable-content">' + (element.id ? element.id : "Sin id" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.rfc ? element.rfc : "Sin rfc" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.razon_social ? element.razon_social : "Sin razon social" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.folio ? element.folio : "Sin folio" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.total ? element.total : "Sin total" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.created_at ? element.created_at : "Sin fecha" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.movimiento ? element.movimiento : "Sin movimiento" ) + '</div></td>');
+                row.append('<td><div class="Datatable-content">' + (element.estado ? element.estado : "Sin estado" ) + '</div></td>');
+
+                $('#tablafacturas tbody').append(row);
+            });
+        }
+        $('#search').on('input', filtering);
+        $('#empresa').change(filtering);
+        function filtering() {
+            const empresas = document.getElementById("empresa");
+            let option1 = empresas.value;
+            let empresa = empresas.options[empresas.selectedIndex].text;
+            let search = $('#search').val().toLowerCase();
+            Page = 1
+            console.log(454)
+            elements = originalelements.filter(function(element) {
+                
+                return (option1 === '' || element.empresa_id == option1) &&
+                        (search === '' || element.rfc.toLowerCase().includes(search) || element.folio.toLowerCase().includes(search));
+            });
+            if (elements.length === 0) {
+                document.querySelector('.no-results-message').removeAttribute('hidden');
+                if(search !== '' && option1 === ''){
+                    $('#no-results-message').text('No Se Encontraron Facturas Con El RFC O Folio '+ search);
+                }else if(search === '' && option1 !== ''){
+                    $('#no-results-message').text('No Se Encontraron Facturas Afiliados A La Empresa '+ empresa);
+                }else{
+                    $('#no-results-message').text('No Se Encontraron Facturas Con El RFC O Folio '+search +' Afiliados A La Empresa '+ empresa);
+                }
+
+
+            } else {
+                document.querySelector('.no-results-message').setAttribute('hidden',true);
+                $('#no-results-message').text('');
+            }
+            showElements();
+        }
+        $("#cancelarfacturaform").submit(function(e) {
+            e.preventDefault();
+            $("#cancelarfactura").modal("hide");
+            $("#btncancelarf").attr("disabled", true);
+            let mensaje="¿Estas Seguro de Cancelar la Factura Con El Folio "+document.getElementById("foliocancelacion").value+"?";
+            Swal.fire({
+                    icon: "question",
+                    text: mensaje,
+                    showCancelButton: true,
+                    confirmButtonText: "Confirmar",
+                    cancelButtonText: "Cancelar",
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: "btn-primary",
+                        cancelButton: "btn-light",
+                    },
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        console.log("aqui va la logica para cancelar");
+                    
                     } else {
-                        document.getElementById('viewelements').setAttribute('hidden', true);
+                        $("#cancelarfactura").modal("show");
+                        $("#btncancelarf").attr("disabled", false);
                     }
-                    $.each(paginatedElements, function(index, element) {
-                        let row = $('<tr>');
-                        if(element.acuse){
-                            row.append('<td ><div class="Datatable-content-button">'+
-                            '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
-                            '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
-                            '<button class="btn icono2" onclick="descargar(\''+element.acuse+'\')" title="Acuse"><img  src="{{asset('storage/img/iconos/iconoacuse.png')}}"alt=""></button>'+
-                            '</div></td>');
-                        }else{
-                            row.append('<td ><div class="Datatable-content-button">'+
-                            '<button class="btn icono" onclick="mostrar(\''+element.pdf+'\')" title="Archivo PDF"><img  src="{{asset('storage/img/iconos/iconopdf.png')}}"alt=""></button>'+
-                            '<button class="btn icono2" onclick="mostrar(\''+element.xml+'\')" title="Archivo XML"><img  src="{{asset('storage/img/iconos/iconoxml.png')}}"alt=""></button>'+
-                            '<button class="btn btn-secondary icono3" onclick="cancelarfactura(\''+element.id+'\',\''+element.folio+'\')" title="Sin Acuse"><i class="fa-solid fa-ban"></i></button>'+
-                            '</di></td>');   
-                        }
-                        row.append('<td><div class="Datatable-content">' + (element.id ? element.id : "Sin id" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.rfc ? element.rfc : "Sin rfc" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.razon_social ? element.razon_social : "Sin razon social" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.folio ? element.folio : "Sin folio" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.total ? element.total : "Sin total" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.created_at ? element.created_at : "Sin fecha" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.movimiento ? element.movimiento : "Sin movimiento" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.estado ? element.estado : "Sin estado" ) + '</div></td>');
-
-                        $('#tablafacturas tbody').append(row);
-                    });
-                }
-                $('#search').on('input', filtering);
-                $('#empresa').change(filtering);
-                function filtering() {
-                    const empresas = document.getElementById("empresa");
-                    let option1 = empresas.value;
-                    let empresa = empresas.options[empresas.selectedIndex].text;
-                    let search = $('#search').val().toLowerCase();
-                    Page = 1
-                    console.log(454)
-                    elements = originalelements.filter(function(element) {
-                      
-                        return (option1 === '' || element.empresa_id == option1) &&
-                                (search === '' || element.rfc.toLowerCase().includes(search) || element.folio.toLowerCase().includes(search));
-                    });
-                    if (elements.length === 0) {
-                        document.querySelector('.no-results-message').removeAttribute('hidden');
-                        if(search !== '' && option1 === ''){
-                            $('#no-results-message').text('No Se Encontraron Facturas Con El RFC O Folio '+ search);
-                        }else if(search === '' && option1 !== ''){
-                            $('#no-results-message').text('No Se Encontraron Facturas Afiliados A La Empresa '+ empresa);
-                        }else{
-                            $('#no-results-message').text('No Se Encontraron Facturas Con El RFC O Folio '+search +' Afiliados A La Empresa '+ empresa);
-                        }
-
-
-                    } else {
-                        document.querySelector('.no-results-message').setAttribute('hidden',true);
-                        $('#no-results-message').text('');
-                    }
-                    showElements();
-                }
-                $("#cancelarfacturaform").submit(function(e) {
-                    e.preventDefault();
-                    $("#cancelarfactura").modal("hide");
-                    $("#btncancelarf").attr("disabled", true);
-                    let mensaje="¿Estas Seguro de Cancelar la Factura Con El Folio "+document.getElementById("foliocancelacion").value+"?";
-                    Swal.fire({
-                            icon: "question",
-                            text: mensaje,
-                            showCancelButton: true,
-                            confirmButtonText: "Confirmar",
-                            cancelButtonText: "Cancelar",
-                            reverseButtons: true,
-                            customClass: {
-                                confirmButton: "btn-primary",
-                                cancelButton: "btn-light",
-                            },
-                        })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                console.log("aqui va la logica para cancelar");
-                            
-                            } else {
-                                $("#cancelarfactura").modal("show");
-                                $("#btncancelarf").attr("disabled", false);
-                            }
-                        });
                 });
-
-                $('.js-Select2').select2({
-                    placeholder: 'Escribe para buscar...',
-                    allowClear: true,
-                    minimumInputLength: 0,
-                    ajax: {
-                        url: '{{ route('facturacion.articulos') }}',
-                        dataType: 'json',
-                        data: function(params) {
-                            var query = {
-                                term: params.term,
-                            };
-                            return query;
-                        },
-                        delay: 500,
-                        processResults: function(data) {
-                            console.log(data);
+        });
+        $('.js-Select2').select2({
+            placeholder: 'Escribe para buscar...',
+            allowClear: true,
+            minimumInputLength: 0,
+            ajax: {
+                url: '{{ route('select2.articulos') }}',
+                dataType: 'json',
+                data: function(params) {
+                    var query = {
+                        term: params.term,
+                    };
+                    return query;
+                },
+                delay: 500,
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data, function(item) {
                             return {
-                                results: $.map(data, function(item) {
-                                    return {
-                                        text: item.descripcion,
-                                        id: item.id
-                                    };
-                                })
+                                text: item.descripcion,
+                                id: item.id
                             };
-                        },
-                        cache: true
-                    }
-                }).on('select2:open', function(e) {
-                    selectActivo = $(e.target); // Almacena el select actualmente abierto
-                }).on('change', function(e) {
-                    selectChange = $(e.target); // Almacena el select actualmente abierto
-                });
+                        })
+                    };
+                },
+                cache: true
+            }
+        }).on('select2:open', function(e) {
+            selectActivo = $(e.target); // Almacena el select actualmente abierto
+        }).on('change', function(e) {
+            selectChange = $(e.target); // Almacena el select actualmente abierto
+        });
+        
+        $('.empresas-Select2').select2({
+            placeholder: 'Escribe para buscar...',
+            allowClear: true,
+            minimumInputLength: 0,
+            ajax: {
+                url: '{{ route('select2.empresas') }}',
+                dataType: 'json',
+                data: function(params) {
+                    var query = {
+                        term: params.term,
+                    };
+                    return query;
+                },
+                delay: 500,
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item.nombre,
+                                id: item.id
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        }).on('select2:open', function(e) {
+            selectActivo = $(e.target); // Almacena el select actualmente abierto
+        }).on('change', function(e) {
+            selectChange = $(e.target); // Almacena el select actualmente abierto
+        });
+        $(".empresa").select2({
+        tags: true
+        });
     });
 </script>
       
