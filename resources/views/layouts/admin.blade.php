@@ -23,7 +23,8 @@
     <script href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')}}"></script>
     <link href="{{asset('css/plantilla.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="app">
@@ -623,7 +624,8 @@
       
     <!-- jQuery 3.4.1 -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+
     @stack('scripts')
     <!-- Bootstrap 4.3.1 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>

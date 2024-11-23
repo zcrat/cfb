@@ -572,6 +572,18 @@
                                         
                                     </v-select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="">RFC(*)</label>
+                                    <v-select
+                                        :on-search="selectEmpresa"
+                                        label="nombre"
+                                        :options="arrayEmpresa"
+                                        placeholder="Buscar Empresas..."
+                                        :onChange="getDatosEmpresa"
+                                    >
+                                        
+                                    </v-select>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -1523,8 +1535,12 @@
                                             <td v-text="detalle.descripcion"></td>
                                             <td v-text="detalle.precio"></td>
                                             <td v-text="detalle.cantidad"></td>
-                                            <td v-text="detalle.precio*detalle.cantidad"><input type="hidden" name="customfield" class="form-control" :value="detalle.idarticulo" ></td>
+                                            <td>
+                                        <input type="hidden" name="customfield" class="form-control" :value="detalle.idarticulo">
+                                        <span>{{ detalle.precio * detalle.cantidad }}</span>
+                                        </td>
 
+                                        </tr>
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="3" align="right"><strong>Total Parcial:</strong></td>
                                             <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
