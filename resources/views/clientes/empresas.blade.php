@@ -509,7 +509,7 @@ $("#EmpresaForm").submit(function(e) {
                                     } else {
                                         alert('Ocurrió un error al procesar la solicitud');
                                         $("#empresaupdated").attr("disabled", false);
-                                        $("#newempresa").attr("disabled", false);s
+                                        $("#newempresa").attr("disabled", false);
                                     }
                                 }
                             });

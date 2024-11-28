@@ -344,6 +344,9 @@ td,th,tr{
 .button_options{
  width: 5.3rem;/* la suma de los icono mas el pading del div mas el pading del td mas un poco de separacion*/
 }
+.colum_piezas{
+  width: 2.5rem;
+}
 .button_options2{
 width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td mas un poco de separacion*/
  }
