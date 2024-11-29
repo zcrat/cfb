@@ -321,7 +321,6 @@
                 @can('akumas.aprobaciones')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones</a></li>
                 @endcan
-                <li><a href="{{ route('presupuestos.vales')}}"><i class="fas fa-city"></i>Vales</a></li>
               
                 @can('akumas.start')
                 <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star Akumas</a></li>
@@ -459,7 +458,8 @@
               </ul>
         </li>
       @endcan
-               
+         
+      <li><a href="{{ route('presupuestos.vales')}}"><i class="fas fa-city"></i>Vales</a></li>      
     </ul>
   </nav>
 </div>

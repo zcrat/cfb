@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Facturas
                     <button type="button"  onclick="openwin()" class="boton1">
-                    <i class="fa-solid fa-circle-plus nuevafactura"></i></i>&nbsp;Nueva
+                    <i class="fa-solid fa-circle-plus nuevafactura"></i>&nbsp;Nueva
                     </button>
                     <button type="button"  onclick="openpay()" class="boton2">
                     <i class="fa-solid fa-circle-plus nuevopago"></i></i>&nbsp;Pago

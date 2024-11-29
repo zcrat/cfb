@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\zcrat;
+use App\Http\Controllers\controller;
 use Illuminate\Http\Request;
-use App\Empresa;
-use App\Articulo;
+use App\Models\Empresa;
+use App\Models\Articulo;
+use App\RecepcionVehicular;
 
 class SelecController extends Controller
 {
@@ -19,4 +20,10 @@ class SelecController extends Controller
         
         return response()->json($articulos);
         }
+    public function select2rr(Request $request){
+            $term = str_replace(' ', '%', $request->input('term'));
+            $rr=RecepcionVehicular::select('id','folioNum')->where('folioNum', 'like', '%' . $term . '%')->orderby("folioNum","desc")->take(15)->get();
+            
+            return response()->json($rr);
+            }
 }

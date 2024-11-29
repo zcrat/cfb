@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\Empresa;
+use App\Models\Recepcionvehicular;
 use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
@@ -23,5 +24,8 @@ class Customer extends Model
 
     function empresa(){
         return $this->belongsTo(Empresa::class,'empresa_id','id');
+    }
+    function recepcionvehicular(){
+        return $this->hasMany(Recepcionvehicular::class,'customer_id','id');
     }
 }

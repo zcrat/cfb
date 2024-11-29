@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\Customer;
 use App\Models\Factura;
+use App\Models\Recepcionvehicular;
 use Illuminate\Database\Eloquent\Model;
 
 class Empresa extends Model
@@ -29,5 +30,8 @@ class Empresa extends Model
     }
     function facturas(){
         return $this->hasMany(Factura::class, 'empresa_id','id'); 
+    }
+    function recepcionvehicular(){
+        return $this->hasMany(Recepcionvehicular::class,'empresa_id','id');
     }
 }
