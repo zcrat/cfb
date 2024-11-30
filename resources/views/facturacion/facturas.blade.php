@@ -584,7 +584,8 @@
     }
     function mostrar(archivo){
         const fileViewer = document.getElementById('fileViewer');
-        fileViewer.src = '/facturas/'+archivo;
+        fileViewer.src = "{{ asset('facturas/') }}" + '/'+archivo;
+
         $('#fileModal').modal('show');
     }
     function descargar(archivo){

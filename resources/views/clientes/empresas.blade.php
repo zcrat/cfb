@@ -272,7 +272,7 @@
                             document.getElementById('empresaupdated').removeAttribute('hidden');
                             document.getElementById('newempresa').setAttribute('hidden', true);
                             const imgElement = document.getElementById('logo_preview');
-                            imgElement.src = '/storage/img/logos_empresas/'+compani.logo; // Asignar la URL a la fuente de la imagen
+                            imgElement.src = "{{asset('/storage/img/logos_empresas')}}"+'/'+compani.logo; // Asignar la URL a la fuente de la imagen
                             imgElement.removeAttribute('hidden');
                             $('#modalcompanititle').text("Modificar Empresa")
 

@@ -1724,6 +1724,7 @@ data (){
         fecha_final:'',
         pciva:0.0,
         tipo_servicio:0,
+        nombre_buscar:'',
         kmservicio:'',
         servicio:0,
         listado:1,
