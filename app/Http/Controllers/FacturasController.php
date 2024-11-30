@@ -23,7 +23,7 @@ use App\FacturasSave;
 use App\FacturasSaveDetalle;
 use App\Articulo;
 use Carbon\Carbon;
-
+use Illuminate\support\facades\log;
 class FacturasController extends Controller
 {
 
@@ -305,7 +305,7 @@ class FacturasController extends Controller
         
         $logotipo = '';
         $emisorid = $request->emisor_id; 
-
+log::info($request->emisor_id);
         if($emisorid == 2){
             $logotipo = 'logo_akumas_fct.png';
             $emisorid = 2;
