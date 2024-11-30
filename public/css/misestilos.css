@@ -20,10 +20,7 @@ body {
 .select2-container .select2-selection--single {
   height: 2.5rem !important;
 }
-.select2-selection__rendered{
-  
-  color: var(--letrasbody) !important;
-}
+
 .select2{
   width: 100% !important;
 }
@@ -31,6 +28,15 @@ body {
 
   height: 100%;
   padding: 0.375rem 0.75rem !important;
+}
+.mismall .select2-container--default .select2-selection--single .select2-selection__rendered{
+  padding: 0 !important;
+  padding-top: 0.75rem !important;
+  padding-left: 0.25rem !important;
+}
+.select2-selection__rendered{
+ 
+  color: var(--letrasbody) !important;
 }
 .select2-container--default .select2-selection--single {
   border: var(--bs-border-width) solid var(--bs-border-color) !important;
@@ -344,6 +350,9 @@ td,th,tr{
 .button_options{
  width: 5.3rem;/* la suma de los icono mas el pading del div mas el pading del td mas un poco de separacion*/
 }
+.colum_piezas{
+  width: 2.5rem;
+}
 .button_options2{
 width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td mas un poco de separacion*/
  }
@@ -361,7 +370,16 @@ width: 7.5rem;/* la suma de los icono mas el pading del div mas el pading del td
   padding: 0.25rem;
 }
 
-
+.mismall small{
+  position: absolute;
+  font-size: 0.5rem;
+  padding: 0.25rem;
+  z-index: 1000;
+}
+.mismall input{
+  padding-top: 0.75rem;
+  padding-left: 0.25rem;
+}
  .carga{
   display: flex;
   flex-grow: 1;

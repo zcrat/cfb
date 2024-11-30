@@ -272,7 +272,7 @@
                             document.getElementById('empresaupdated').removeAttribute('hidden');
                             document.getElementById('newempresa').setAttribute('hidden', true);
                             const imgElement = document.getElementById('logo_preview');
-                            imgElement.src = "{{asset('/storage/img/logos_empresas')}}"+'/'+compani.logo; // Asignar la URL a la fuente de la imagen
+                            imgElement.src = '/storage/img/logos_empresas/'+compani.logo; // Asignar la URL a la fuente de la imagen
                             imgElement.removeAttribute('hidden');
                             $('#modalcompanititle').text("Modificar Empresa")
 
@@ -509,7 +509,7 @@ $("#EmpresaForm").submit(function(e) {
                                     } else {
                                         alert('Ocurrió un error al procesar la solicitud');
                                         $("#empresaupdated").attr("disabled", false);
-                                        $("#newempresa").attr("disabled", false);s
+                                        $("#newempresa").attr("disabled", false);
                                     }
                                 }
                             });

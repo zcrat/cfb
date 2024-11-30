@@ -12,7 +12,6 @@
 */
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
-
 Route::get('/', function () {
     return view('auth/login');
 });
@@ -20,27 +19,31 @@ Route::get('/', function () {
 Auth::routes();
 //routes clientes
 //routes select2
-Route::get('select2/obtenerarticulos', 'SelecController@obtenerarticulos')->name('select2.articulos')->middleware('auth');
-Route::get('select2/obtenerempresas', 'SelecController@select2empresas')->name('select2.empresas')->middleware('auth');
-
+Route::get('select2/obtenerarticulos', 'zcrat\SelecController@obtenerarticulos')->name('select2.articulos')->middleware('auth');
+Route::get('select2/obtenerempresas', 'zcrat\SelecController@select2empresas')->name('select2.empresas')->middleware('auth');
+Route::get('select2/obtenerrr', 'zcrat\SelecController@select2rr')->name('select2.rr')->middleware('auth');
 //users
-Route::get('clientes/usuarios', 'CustomerController@clientes')->name('cliente.usuarios')->middleware('auth');
-Route::post('clientes/newusuario', 'CustomerController@create')->name('cliente.register');
-Route::post('clientes/deleteuser', 'CustomerController@deleteuser')->name('cliente.delete');
-Route::get('clientes/obtenerusuarios', 'CustomerController@obtenerusuarios')->name('cliente.users')->middleware('auth');
-Route::get('clientes/obtenerusuario', 'CustomerController@obtenerusuario')->name('cliente.user')->middleware('auth');
+Route::get('clientes/usuarios', 'zcrat\Customers@clientes')->name('cliente.usuarios')->middleware('auth');
+Route::post('clientes/newusuario', 'zcrat\Customers@create')->name('cliente.register');
+Route::post('clientes/deleteuser', 'zcrat\Customers@deleteuser')->name('cliente.delete');
+Route::get('clientes/obtenerusuarios', 'zcrat\Customers@obtenerusuarios')->name('cliente.users')->middleware('auth');
+Route::get('clientes/obtenerusuario', 'zcrat\Customers@obtenerusuario')->name('cliente.user')->middleware('auth');
 //companis
-Route::get('clientes/empresas', 'CustomerController@empresas')->name('cliente.empresas')->middleware('auth');
-Route::post('clientes/newempresa', 'CustomerController@create_empresa')->name('cliente.compani_register');
-Route::post('clientes/deletecompani', 'CustomerController@deletecompani')->name('cliente.deletecompani');
-Route::get('clientes/obtenerempresas', 'CustomerController@obtenerempresas')->name('cliente.companies')->middleware('auth');
-Route::get('clientes/obtenerempresa', 'CustomerController@obtenerempresa')->name('cliente.compani')->middleware('auth');
+Route::get('clientes/empresas', 'zcrat\Customers@empresas')->name('cliente.empresas')->middleware('auth');
+Route::post('clientes/newempresa', 'zcrat\Customers@create_empresa')->name('cliente.compani_register');
+Route::post('clientes/deletecompani', 'zcrat\Customers@deletecompani')->name('cliente.deletecompani');
+Route::get('clientes/obtenerempresas', 'zcrat\Customers@obtenerempresas')->name('cliente.companies')->middleware('auth');
+Route::get('clientes/obtenerempresa', 'zcrat\Customers@obtenerempresa')->name('cliente.compani')->middleware('auth');
 
 //facturacion
-Route::get('facturacion/facturas', 'FacturasController@facturas')->name('facturacion.facturas')->middleware('auth');
-Route::get('facturacion/obtenerfacturas', 'FacturasController@obtenerfacturas')->name('facturacion.obtenerfacturas')->middleware('auth');
-Route::get('facturacion/obtenerarticulo', 'FacturasController@obtenerarticulo')->name('facturacion.articulo')->middleware('auth');
-Route::get('facturacion/obtenerproductos', 'FacturasController@obtenerproductos')->name('facturacion.obtenerproductos')->middleware('auth');
+Route::get('facturacion/facturas', 'zcrat\Facturas@facturas')->name('facturacion.facturas')->middleware('auth');
+Route::get('facturacion/obtenerfacturas', 'zcrat\Facturas@obtenerfacturas')->name('facturacion.obtenerfacturas')->middleware('auth');
+Route::get('facturacion/obtenerarticulo', 'zcrat\Facturas@obtenerarticulo')->name('facturacion.articulo')->middleware('auth');
+Route::get('facturacion/obtenerproductos', 'zcrat\Facturas@obtenerproductos')->name('facturacion.obtenerproductos')->middleware('auth');
+
+//Presupuestos
+Route::get('presupuestos/vales', 'zcrat\Presupuestos@valesview')->name('presupuestos.vales')->middleware('auth');
+Route::get('presupuestos/vale', 'zcrat\Presupuestos@vale')->name('vales.rr')->middleware('auth');
 
 
 Route::middleware(['auth'])->group(function(){
