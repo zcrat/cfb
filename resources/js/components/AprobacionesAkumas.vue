@@ -1177,7 +1177,14 @@
                                     </v-select>
                                 </div>
                             </div>
-                            
+                            <div class="col-md-12"><div class="form-group">
+                                <label for="">MIS RFCS(*)</label> 
+                                <select v-model="emisor_id" id="rfcs"class="form-control">
+                                     <option value="2">ECO IMPULSA</option>
+                                     <option value="1">CAR FIX AND BEYOND</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                      <label>Tipo de Comprobante</label>
@@ -1433,6 +1440,7 @@ import { constants } from 'crypto';
                     tipo_impuesto_local:"1",
                     mpago:"PUE"
                 },
+                emisor_id:1,
                 detallefactura:[],
                 ingreso_id: 0,
                 idempresa:0,
@@ -1999,7 +2007,7 @@ import { constants } from 'crypto';
                    {
                     'factura' : me.factura,   
                     'data' : me.detallefactura,
-                    'emisor_id':'1'
+                    'emisor_id':me.emisor_id
                     }).then(function (response) {
                     console.log(response.data);
                    if(response.data == '1'){

@@ -482,7 +482,15 @@ log::info($request->emisor_id);
     public function storePago(Request $request)
     {
 
-        
+        $logotipo = '';
+        $emisorid = $request->emisor_id;
+
+        if($emisorid == 2){
+            $logotipo = 'logo_akumas_fct.png';
+        } else {
+            $logotipo = 'logo_cfb_fact.png';
+            $emisorid = 1;
+        } 
        
         $dato = [];
 
@@ -496,7 +504,7 @@ log::info($request->emisor_id);
             
             $factura = new Factura();
             $factura->empresa_id = $request->empresa_id;
-            $factura->emisor_id = '1';
+            $factura->emisor_id = $emisorid;
             $factura->idusuario = \Auth::user()->id;
             $factura->xml = '';
             $factura->pdf = '';
@@ -630,7 +638,7 @@ log::info($request->emisor_id);
            fwrite($file, $response->stampResult->xml);
            fclose($file);
 
-           $pdfarch = $cfdi->generarPDFPagos($nombre,'logo_cfb_fact.png',$texto1);
+           $pdfarch = $cfdi->generarPDFPagos($nombre,$logotipo,$texto1);
 
            $napdf = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.pdf';
            $naxml = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.xml';
@@ -726,7 +734,16 @@ log::info($request->emisor_id);
 
 
     public function store2(Request $request)
-    {
+    {   
+        $logotipo = '';
+        $emisorid = $request->emisor_id;
+        if($emisorid == 2){
+            $logotipo = 'logo_akumas_fct.png';
+            $emisorid = 2;
+        } else {
+            $logotipo = 'logo_cfb_fact.png';
+            $emisorid = 1;
+        } 
        
         $dato = [];
 
@@ -740,7 +757,7 @@ log::info($request->emisor_id);
             
             $factura = new Factura();
             $factura->empresa_id = $request->factura['empresa_id'];
-            $factura->emisor_id = '1';
+            $factura->emisor_id = $emisorid;
             $factura->idusuario = \Auth::user()->id;
             $factura->xml = '';
             $factura->pdf = '';
@@ -875,7 +892,7 @@ log::info($request->emisor_id);
            fwrite($file, $response->stampResult->xml);
            fclose($file);
 
-           $pdfarch = $cfdi->generarPDF($nombre,'logo_cfb_fact.png',$texto1);
+           $pdfarch = $cfdi->generarPDF($nombre,$logotipo,$texto1);
 
            $napdf = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.pdf';
            $naxml = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.xml';
@@ -1494,8 +1511,15 @@ log::info($request->emisor_id);
 
     public function storeprevia(Request $request)
     {
-
-
+        $logotipo = '';
+        $emisorid = $request->emisor_id;
+        if($emisorid == 2){
+            $logotipo = 'logo_akumas_fct.png';
+            $emisorid = 2;
+        } else {
+            $logotipo = 'logo_cfb_fact.png';
+            $emisorid = 1;
+        }
         $dato = [];
 
         if (!$request->ajax()) return redirect('/');
@@ -1592,7 +1616,7 @@ log::info($request->emisor_id);
             fclose($xml_file);
 	
             $nombre = public_path().'/facturas/factura_vista.xml';
-            $pdfarch = $cfdi->generarPDFprueba($nombre,'logo_cfb_fact.png',''); 
+            $pdfarch = $cfdi->generarPDFprueba($nombre,$logotipo,''); 
         
            
             DB::commit();
@@ -1606,8 +1630,15 @@ log::info($request->emisor_id);
 
     public function storepreviamas(Request $request)
     {
-
-        
+        $logotipo = '';
+        $emisorid = $request->emisor_id;
+        if($emisorid == 2){
+            $logotipo = 'logo_akumas_fct.png';
+            $emisorid = 2;
+        } else {
+            $logotipo = 'logo_cfb_fact.png';
+            $emisorid = 1;
+        }
        
         $dato = [];
 
@@ -1688,7 +1719,7 @@ log::info($request->emisor_id);
             fclose($xml_file);
 	
             $nombre = public_path().'/facturas/factura_vista.xml';
-            $pdfarch = $cfdi->generarPDFprueba($nombre,'logo_cfb_fact.png',$texto1); 
+            $pdfarch = $cfdi->generarPDFprueba($nombre,$logotipo,$texto1); 
         
            
             DB::commit();
@@ -1709,8 +1740,15 @@ log::info($request->emisor_id);
     }
 
     public function storemas(Request $request)
-    {
-
+    {   $logotipo = '';
+        $emisorid = $request->emisor_id;
+        if($emisorid == 2){
+            $logotipo = 'logo_akumas_fct.png';
+            $emisorid = 2;
+        } else {
+            $logotipo = 'logo_cfb_fact.png';
+            $emisorid = 1;
+        }
         
        
         $dato = [];
@@ -1756,7 +1794,7 @@ log::info($request->emisor_id);
 
             $factura = new Factura();
             $factura->empresa_id = $request->factura['empresa_id'];
-            $factura->emisor_id = '1';
+            $factura->emisor_id = $emisorid;
             $factura->idusuario = \Auth::user()->id;
             $factura->xml = '';
             $factura->pdf = '';
@@ -1841,7 +1879,7 @@ log::info($request->emisor_id);
            fwrite($file, $response->stampResult->xml);
            fclose($file);
 
-           $pdfarch = $cfdi->generarPDFmas($nombre,'logo_cfb_fact.png',$texto1);
+           $pdfarch = $cfdi->generarPDFmas($nombre,$logotipo,$texto1);
 
            $napdf = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.pdf';
            $naxml = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.xml';
