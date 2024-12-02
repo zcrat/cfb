@@ -850,6 +850,7 @@ log::info($request->emisor_id);
             $cfdi = new Facturar();
             $docxml = $cfdi->crearXML($empresa, $factura_emisor, $detalles_todo, $dato);          
             $keypem = new Certificados();
+           
             $keypem->generaKeyPem($archivo_key,$factura_emisor->clave_key);
             $selladoxml = $cfdi->satxmlsv40_sella($docxml, $numero_certificado, $archivo_cer.'.pem',$archivo_key.'.pem');
             file_put_contents(public_path().'/facturas/factura.xml',$selladoxml);
@@ -862,8 +863,8 @@ log::info($request->emisor_id);
             $xml_file = fopen($invoice_path, "rb");
             $xml_content = fread($xml_file, filesize($invoice_path));
             fclose($xml_file);
-             
- 
+        
+            return '';
             $url = "https://facturacion.finkok.com/servicios/soap/stamp.wsdl";
             $client = new \SoapClient($url);
             $params = array(
@@ -936,7 +937,7 @@ log::info($request->emisor_id);
         $dato = [];
 
         if (!$request->ajax()) return redirect('/');
- 
+        log::info('emisor');
         try{
             DB::beginTransaction();
  
