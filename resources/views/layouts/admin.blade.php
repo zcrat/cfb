@@ -624,7 +624,7 @@
       
     <!-- jQuery 3.4.1 -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{asset('js/app.js')}}"></script>
 
     @stack('scripts')
     <!-- Bootstrap 4.3.1 -->
