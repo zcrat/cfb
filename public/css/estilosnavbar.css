@@ -1,0 +1,267 @@
+/*barrasuperior*/
+:root{
+    /*tamaño barras*/
+    --wsedb:calc(clamp(1px, 0.0185 * 100vh - 1.1px, 22px)* 14);
+    /* variables barras*/
+    --fondo:#000000;
+    --letra:#ffffff;
+    --letrar:#000000;
+    --fondor:#ffffff;
+    --navtpb:#176cb3;
+    --sidbrt:#1e282c;
+
+    }
+.mtopbar {
+    border-radius: 0.7em;
+    background-color: var(--navtpb);
+    color:var(--letra);
+    width: 100%;
+    height: 3.5em;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+  }
+  .mtopbar nav{
+    position: absolute;
+    width: 100%;
+  }
+  .mtopbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mtopbar ul li{
+    display: inline-flex;
+  }
+  
+  .mtopbar ul li a{
+    padding: 0.75em;
+    margin: 0.75em;
+    color: var(--letra);
+  }
+  .mtopbar .topbar-center{
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+   }
+
+   .mtopbar .btn{
+        color: var(--letra);
+        margin-right: 1em;
+    }
+/*barra lateral*/
+.msidebar {
+    background-color: var(--sidbrt);
+    width: var(--wsedb);
+    height: calc(100% - 2em);
+    border-radius: 0.75em;
+    position: fixed;
+    font-size: 1em;
+    margin: 0.5em;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: width 0.7s;
+  }
+  .logotipo{
+    display:flex !important;
+    height: 3.5em;
+    color: #000000;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1em;
+    border: 1px solid black;
+    background-color: #fff;
+    border-top-right-radius:0.75em;
+    border-top-left-radius: 0.75em;
+  }
+  .logotipo a{
+    border-left: 0 !important;
+    border-right: 0 !important;
+    width: auto !important;
+  }
+  .logoimg{
+    height: 2.6em;
+  }
+  .msidebar-links {
+    padding: 0;
+    margin: 0;
+  }
+  .msidebar-links li {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+  
+  }
+  .msidebar-links li a{
+    display: flex;
+    align-items: center;
+    min-height: 3em;
+    width: 100%;
+    border-radius: 0.75em;
+    border-left:0.3em solid var(--sidbrt);
+    border-right:0.3em solid var(--sidbrt);
+    color: var(--letra) !important;
+    text-decoration: none;
+  }
+  .msidebar-links li a i{
+    display: flex; 
+    align-items:center;
+    justify-content: center;
+    min-width: 4em;
+    height: 1em;
+  } 
+  .msidebar-links li:hover > a {
+    background-color: var(--fondor);
+    color:var(--letrar) !important;
+    transition: background-color 1s,color 1s;
+  }
+  
+  .msidebar-links li ul {
+    display: none;
+    padding:0;
+    margin: 0;
+    border-left: 0.3em solid transparent;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%); 
+    min-width: 12em;
+  } 
+  .msidebar-links li .menuup{
+    transform: translateY(0%);
+    bottom: 0%; 
+    top: inherit;
+  }
+  .msidebar-links li .menudown{
+    transform: translateY(0%);
+    top: 0%; 
+  }
+  .msidebar-links li ul div{
+    background-color: var(--sidbrt);
+    border-radius: 0.75em;
+    padding-bottom: 0.4em;
+    padding-top: 0.4em;
+  }
+  
+  .msidebar-links li:hover > ul {
+    display: block;
+  }
+  /*Ajustar contenido*/
+  .body-container {
+    display: flex;
+    flex-direction: column;
+    transition: 0.7s;
+    margin: calc(clamp(1px, 0.0185 * 100vh - 1.1px, 22px)*0.7);
+    margin-left: calc(clamp(1px, 0.0185 * 100vh - 1.1px, 22px)*15);
+    min-height: calc(100vh - clamp(1px, 0.0185 * 100vh - 1.1px, 22px)*1.4);
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  .container-fluid{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+  }
+  .content{
+    padding: 0;
+    margin:0;
+    flex-grow: 1;
+    display: flex;
+}
+.main{
+  flex-grow: 1;
+}
+.footer {
+    font-size: 1em;
+    height: 3em;
+    padding: 1em;
+  }
+/*Barra Lateral contraida*/
+.active-sidebar {
+    width: 3.5em;
+  }
+  .active-msidebar-links{
+    padding: 0; /* Ajuste del padding cuando active está presente */
+  }
+  
+  .active-msidebar-links li a span {
+    display: none; /* Ajuste del padding cuando active está presente */
+  }
+  .active-msidebar-links li a i {
+    min-width: 2.9em; /* Ajuste del padding cuando active está presente */
+  }
+  .active-body-container {
+    margin-left: calc(clamp(1px, 0.0185 * 100vh - 1.1px, 22px)*4.5); /* Margen cuando active está presente */
+  }
+  .contraer{
+    left: 35vw;
+    font-size: 1.3em;
+    position: relative;
+    display: none;
+  }
+/*barra cuando la ventana es pequenia*/
+.msidebar, .mtopbar, .mtopbar .btn {
+  font-size: clamp(1px, 0.0185 * 100vh - 1.1px, 22px);
+
+}
+
+
+
+
+
+
+@media (max-width:576px){ 
+    .contraer{
+     display: inline;
+     color: #000000;
+    }
+    .msidebar {
+     display: none;
+     width:calc(100vw - 0.5em);
+     height: calc(100vh - 0.5em);
+     left: 100%;
+     position: relative;
+     margin:0.25em;
+     transition: width 0.7s;
+     overflow: auto;
+   }
+   .msidebar-links li ul {
+     display: none;
+     padding:0;
+     margin: 0;
+     border-left:0;
+     position: relative;
+     transform: translateY(0%);
+     left: 10%;
+     top: 0%;
+     width: 90%;
+   } 
+   .body-container {
+     margin: 0.25em;
+   }
+   .active-sidebar {
+     left: 0;
+     display: block;
+   }
+   .active-msidebar-links li a span {
+     display:inline; /* Ajuste del padding cuando active está presente */
+   }
+   .active-msidebar-links li a i {
+     min-width: 3.5em; /* Ajuste del padding cuando active está presente */
+   }
+   .active-body-container {
+     transition: 1s;
+     display: none;
+     left: 100%; /* Margen cuando active está presente */
+   }
+   }
+   
