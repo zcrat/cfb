@@ -1,9 +1,9 @@
 @extends ('layouts.admin2')
 @section ('contenido')
 
-<main class="main">
-    <div class="container-fluid">
-            <div class="card">
+<main class="main vaniflex vanigrow">
+    <div class="container-fluid vaniflex vanigrow">
+            <div class="card vanigrow">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Empresas
                     <button type="button"  onclick="openmodal('Nueva Empresa')" class="boton1">
@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="card-body mycard">
-                    <div class="dataupload" id="dataupload">
+                    <div class="dataupload" id="dataupload" hidden>
                         <div class="d-flex">
                             <div class="d-flex align-items-left user-member__form">
                                 <input class="misearch"
@@ -51,9 +51,9 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <div  class="no-results-message" hidden>
+                        <div  class="no-results-message" hidden>
                         <span id="no-results-message"></span>
+                    </div>
                     </div>
                     <div id='loadingdata' class="carga">
                         <h3 class="text-center m-2">Cargando Datos</h3>

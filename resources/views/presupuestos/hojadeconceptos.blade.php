@@ -11,25 +11,25 @@
                     <button type="button" class="btn"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
                     </div>
                     <div class="viewelements" id="viewelements">
-                        <div>
+                        <div class="dataconcept">
                             <div class="mismall">
                                 <small>RR:</small>
                                 <select class="rr-select2"name="rr" id="rr">
                                     <option value="">Seleccione Para Comenzar</option>
                                 </select>
                             </div>
-                            <div class="mismall"><small>Nombre:</small><input id="nombre" type="text" disabled="disabled"></div> 
-                            <div class="mismall"><small>#Economico:</small><input id="economico" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Odes:</small><input id="odes" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Id:</small><input id="id" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Tecnico:</small><input id="tecnico" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Año:</small><input id="anio" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Marca:</small><input id="marca" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Modelo:</small><input id="modelo" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Color:</small><input id="color" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Placas:</small><input id="placas" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>Km:</small><input id="km" type="text" disabled="disabled"></div>
-                            <div class="mismall"><small>VIN:</small><input id="vin" type="text" disabled="disabled"></div>
+                            <div class="mismall"><small>Nombre:</small><label id="nombre" ></label></div> 
+                            <div class="mismall"><small>#Economico:</small><label id="economico" ></label></div>
+                            <div class="mismall"><small>Odes:</small><label id="odes" ></label></div>
+                            <div class="mismall"><small>Id:</small><label id="id" ></label></div>
+                            <div class="mismall"><small>Tecnico:</small><label id="tecnico" ></label></div>
+                            <div class="mismall"><small>Año:</small><label id="anio" ></label></div>
+                            <div class="mismall"><small>Marca:</small><label id="marca" ></label></div>
+                            <div class="mismall"><small>Modelo:</small><label id="modelo" ></label></div>
+                            <div class="mismall"><small>Color:</small><label id="color" ></label></div>
+                            <div class="mismall"><small>Placas:</small><label id="placas" ></label></div>
+                            <div class="mismall"><small>Km:</small><label id="km" ></label></div>
+                            <div class="mismall"><small>VIN:</small><label id="vin" ></label></div>
                             
                             
                         </div>
@@ -114,18 +114,18 @@ $.ajax({
     success:function(response){
         console.log(response)
         
-       $('#nombre').val(response.empresa.nombre)
-       $('#economico').val(response.vehiculo.no_economico)
-       $('#odes').val(response.orden_seguimiento)
-       $('#id').val(response.id)
-       $('#tecnico').val(response.tecnico ? response.tecnico : "Sin Tecnico" )
-       $('#anio').val(response.vehiculo.anio)
-       $('#marca').val(response.vehiculo.marca.nombre)
-       $('#modelo').val(response.vehiculo.modelo.nombre)
-       $('#color').val(response.vehiculo.color.nombre)
-       $('#placas').val(response.vehiculo.placas)
-       $('#km').val(response.km_entrada)
-       $('#vin').val(response.vehiculo.vim)
+       $('#nombre').text(response.empresa.nombre)
+       $('#economico').text(response.vehiculo.no_economico)
+       $('#odes').text(response.orden_seguimiento)
+       $('#id').text(response.id)
+       $('#tecnico').text(response.tecnico ? response.tecnico : "Sin Tecnico" )
+       $('#anio').text(response.vehiculo.anio)
+       $('#marca').text(response.vehiculo.marca.nombre)
+       $('#modelo').text(response.vehiculo.modelo.nombre)
+       $('#color').text(response.vehiculo.color.nombre)
+       $('#placas').text(response.vehiculo.placas)
+       $('#km').text(response.km_entrada)
+       $('#vin').text(response.vehiculo.vim)
     },
     error:function(xhr, status, error){
         console.error(xhr);
