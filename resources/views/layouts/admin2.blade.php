@@ -27,7 +27,7 @@
         @can('clientes.index')
           <li class="msubdropdown">
             <a><i class="fas fa-users"></i><span >Clientes</span></a>
-            <ul class="msubdropdown-menu">
+            <ul class="msubdropdown-menu menudown">
               <div>
               <li><a href="{{ route('cliente.empresas') }}"><i class="fas fa-city"></i>Empresas</a></li>
               <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i>Usuarios</a></li>
@@ -35,106 +35,7 @@
                 </ul> 
           </li>
         @endcan
-        @canany(['cfeB2023.index', 'cfeO2023.index','cfeeco.index'])
-          <li class="mdropdown">
-            <a><i class="fas fa-users"></i><span >CFE 2024</span></a>
-            <ul class="mdropdown-menu">
-
-            <div>
-            @can('cfeB2023.index')
-              <li class="msubdropdown">
-                <a><i class="fas fa-users"></i>Bajio</a>
-                <ul class="msubdropdown-menu">
-                <div>
-                  @can('cfeB2023.recepcion')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
-                  @endcan
-                  @can('cfeB2023.recepcion')  
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
-                  @endcan
-                  @can('cfeB2023.externos')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
-                  @endcan
-                  @can('cfeB2023.akumas')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
-                  @endcan
-                  @can('cfeB2023.aptaller')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
-                  @endcan
-                  @can('cfeB2023.aptaller')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones CFE Taller</a></li>
-                  @endcan
-                  @can('cfeB2023.apcfe')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
-                  @endcan 
-                        
-                </div>           
-                </ul>
-              </li>
-            @endcan
-            @can('cfeO2023.index')
-              <li class="msubdropdown">
-                <a><i class="fas fa-users"></i>Occidente</a>
-                <ul class="msubdropdown-menu">
-                  <div>
-                <div>
-                  @can('cfeO2023.recepcion')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
-                  @endcan
-                  @can('cfeO2023.recepcion')  
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
-                  @endcan
-                  @can('cfeO2023.externos')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
-                  @endcan
-                  @can('cfeO2023.akumas')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
-                  @endcan
-                  @can('cfeO2023.aptallar')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
-                  @endcan
-                  @can('cfeO2023.start')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star CFE</a></li>
-                  @endcan
-                  @can('cfeO2023.apcfe')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
-                  @endcan
-                </div>
-                </div>           
-                </ul>
-              </li>
-            @endcan
-            @can('cfeeco.index')
-              <li class="msubdropdown">
-                <a><i class="fas fa-users"></i>ECO</a>
-                <ul class="msubdropdown-menu">
-                  <div>
-                <div>
-                  @can('cfeeco.recepcion')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
-                  @endcan
-                  @can('cfeeco.recepcion')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
-                  @endcan
-                  @can('cfeeco.externos')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
-                  @endcan
-                  @can('cfeeco.akumas')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
-                  @endcan
-                  @can('cfeeco.aptaller')
-                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
-                  @endcan
-                </div>
-                </div>           
-                </ul>
-                
-              </li>
-            @endcan
-            </div>           
-                </ul>
-          </li>
-        @endcan  
+       
         @can('almacen.index') 
           <li class="msubdropdown">
             <a><i class="fa fa-building"></i> <span>Almacén</span> </a>
@@ -299,6 +200,106 @@
                 </ul>
           </li>
         @endcan
+        @canany(['cfeB2023.index', 'cfeO2023.index','cfeeco.index'])
+          <li class="mdropdown">
+            <a><i class="fas fa-users"></i><span >CFE 2024</span></a>
+            <ul class="mdropdown-menu">
+
+            <div>
+            @can('cfeB2023.index')
+              <li class="msubdropdown">
+                <a><i class="fas fa-users"></i>Bajio</a>
+                <ul class="msubdropdown-menu">
+                <div>
+                  @can('cfeB2023.recepcion')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                  @endcan
+                  @can('cfeB2023.recepcion')  
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
+                  @endcan
+                  @can('cfeB2023.externos')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
+                  @endcan
+                  @can('cfeB2023.akumas')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
+                  @endcan
+                  @can('cfeB2023.aptaller')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
+                  @endcan
+                  @can('cfeB2023.aptaller')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones CFE Taller</a></li>
+                  @endcan
+                  @can('cfeB2023.apcfe')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
+                  @endcan 
+                        
+                </div>           
+                </ul>
+              </li>
+            @endcan
+            @can('cfeO2023.index')
+              <li class="msubdropdown">
+                <a><i class="fas fa-users"></i>Occidente</a>
+                <ul class="msubdropdown-menu">
+                  <div>
+                <div>
+                  @can('cfeO2023.recepcion')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                  @endcan
+                  @can('cfeO2023.recepcion')  
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
+                  @endcan
+                  @can('cfeO2023.externos')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
+                  @endcan
+                  @can('cfeO2023.akumas')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
+                  @endcan
+                  @can('cfeO2023.aptallar')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
+                  @endcan
+                  @can('cfeO2023.start')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Star CFE</a></li>
+                  @endcan
+                  @can('cfeO2023.apcfe')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Reportes</a></li>
+                  @endcan
+                </div>
+                </div>           
+                </ul>
+              </li>
+            @endcan
+            @can('cfeeco.index')
+              <li class="msubdropdown">
+                <a><i class="fas fa-users"></i>ECO</a>
+                <ul class="msubdropdown-menu">
+                  <div>
+                <div>
+                  @can('cfeeco.recepcion')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Recepcion Vehicular</a></li>
+                  @endcan
+                  @can('cfeeco.recepcion')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Hoja de Conceptos</a></li>
+                  @endcan
+                  @can('cfeeco.externos')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Talleres Externos</a></li>
+                  @endcan
+                  @can('cfeeco.akumas')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Anexos CFE</a></li>
+                  @endcan
+                  @can('cfeeco.aptaller')
+                  <li><a href="{{ route('homevue') }}"><i class="fas fa-city"></i>Aprobaciones Taller</a></li>
+                  @endcan
+                </div>
+                </div>           
+                </ul>
+                
+              </li>
+            @endcan
+            </div>           
+                </ul>
+          </li>
+        @endcan  
         @canany(['akumas2023.index', 'akumas.index','cfbForaneos.index'])
           <li class="mdropdown">
             <a><i class="fas fa-users"></i><span >Presupuestos CFB</span></a>
@@ -332,6 +333,7 @@
                 </ul>
               </li>
               @endcan
+            
               @can('akumas2023.index') 
               <li class="msubdropdown">
                 <a><i class="fas fa-users"></i>Presupuestos CFB 2024</a>
@@ -443,7 +445,7 @@
             <a>
               <i class="fa fa-money"></i> <span>Tareas</span>
             </a>
-            <ul class="msubdropdown-menu">
+            <ul class="msubdropdown-menu menuup">
               <div>
               <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Tareas Ejecutivas</a></li>
               <li><a href="{{ route('homevue') }}"><i class="fa fa-circle-o"></i> Revisar Tareas</a></li>
@@ -459,7 +461,7 @@
           </li>
         @endcan
           
-        <li><a href="{{ route('presupuestos.vales')}}"><i class="fas fa-city"></i>Vales</a></li>      
+        <li><a href="{{ route('presupuestos.vales')}}"><i class="fas fa-city"></i><span>Vales</span></a></li>      
       </ul>
     </nav>  
     <div class="body-container">

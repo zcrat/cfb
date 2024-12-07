@@ -1,14 +1,14 @@
 @extends ('layouts.admin2')
 @section ('contenido')
 
-<main class="main">
-    <div class="container-fluid">
-        <div class="card">
+<main class="main vaniwidth vaniflex">
+    <div class="container-fluid vanigrow vaniflex">
+        <div class="card vanigrow">
             <div class="card-body mycard" >
-                <div class="dataupload" id="dataupload">
+                <div class="vaniwidth" id="dataupload">
                     <div class="d-flex superior">
-                    <button type="button" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
-                    <button type="button" class="btn"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevosconceptos"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
+                    <button type="button" class="btn btn-secundary" data-bs-toggle="modal" data-bs-target="#conceptos"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
                     </div>
                     <div class="viewelements" id="viewelements">
                         <div class="dataconcept">
@@ -66,7 +66,83 @@
             </div>
         </div>
     </div>
-    
+    <div class="modal fade" id="conceptos" tabindex="-1" aria-labelledby="miModalLabel" data-bs-backdrop="static" data-keyboard="false"s>
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <!-- Encabezado del modal -->
+        <div class="modal-header">
+            <h5 class="modal-title" id="miModalLabel">Título del Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <!-- Cuerpo del modal -->
+        <div class="modal-body">
+            Contenido del modal aquí...
+        </div>
+        <!-- Pie del modal -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary">Guardar cambios</button>
+        </div>
+        </div>
+     </div>
+    </div>
+<div class="modal fade" id="nuevosconceptos" tabindex="-1" aria-labelledby="miModalLabel" data-bs-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Encabezado del modal -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="miModalLabel">Catalogo de Conceptos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <!-- Cuerpo del modal -->
+      <div class="modal-body">
+        <div class="vaniflex">
+            <label>Tipo de Concepto</label>
+            <select class="Conceptos-Select2" id="Conceptos">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="vaniflex">
+            <div class="mismall vaniw25">
+                <small>
+                    Codigo Sat
+                </small>
+                <label id="ncsatcde">hajhgzx</label>
+            </div>
+            <div class="mismall  vaniw25">
+                <small>
+                    Codigo Unidad
+                </small>
+                <label id="ncundcde"></label>
+            </div>
+            <div class="mismall  vaniw20">
+                <small>
+                    Codigo
+                </small>
+                <label id="nccde"></label>
+            </div>
+            <div class="mismall  vaniw15">
+                <small>
+                    Unidad
+                </small>
+                <label id="ncund"></label>
+            </div>
+            <div class="mismall  vaniw15">
+                <small>
+                    Tiempo
+                </small>
+                <label id="nctm"></label>
+            </div>
+        </div>
+      </div>
+      <!-- Pie del modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

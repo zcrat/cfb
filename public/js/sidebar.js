@@ -9,3 +9,16 @@ $(function() {
         s3.toggleClass('active-body-container');
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    $('.vista').on('click', function(){
+    let barraId = $(this).attr('data-id') || 'none';
+    localStorage.setItem('barra', barraId);
+    cambiarbarra();
+    });
+    function cambiarbarra(){
+      $('.subbarra').attr('hidden',true);
+      if(localStorage.getItem('barra')!= 'none'){
+      $('#'+ localStorage.getItem('barra')).removeAttr('hidden');
+      }
+    }
+  });

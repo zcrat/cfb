@@ -1,18 +1,18 @@
 @extends ('layouts.admin2')
 @section ('contenido')
 
-<main class="main">
-    <div class="container-fluid">
-        <div class="card">
+<main class="main vaniflex">
+    <div class="container-fluid vanigrow vaniflex">
+        <div class="card vanigrow">
             <div class="card-header">
                 <i class="fa fa-align-justify"></i> Usuarios
                 <button type="button"  onclick="openmodal()" class="boton1">
                 <i class="fa-solid fa-circle-plus"></i>&nbsp;Nuevo
                 </button>
             </div>
-            <div class="card-body mycard" >
-                <div class="dataupload" id="dataupload">
-                    <div class="d-flex superior">
+            <div class="card-body vaniflex" >
+                <div class="vaniwidth" id="dataupload" hidden>
+                    <div class="vaniflex">
                         <div class="encabezado" >
                             <label >Empresa:  </label>
                             <select class="rounded" id="empresa">
@@ -22,11 +22,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="d-flex busqueda">
-                            <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                        <div class="iconoin">
                             <input class="misearch"
                                 type="text" id="search" name="s"
                                 placeholder="Busqueda por Nombre" min="1">
+                                <i class="fa fa-search" aria-hidden="true"></i>
                         </div>
                     </div>
                     <div class="viewelements" id="viewelements">
@@ -59,10 +59,11 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div  class="no-results-message" hidden>
+                    <div  class="no-results-message" hidden>
                     <span id="no-results-message"></span>
                 </div>
+                </div>
+               
                 <div id='loadingdata' class="carga">
                     <h3 class="text-center m-2">Cargando Datos</h3>
                     <div class="spinnerp"></div>

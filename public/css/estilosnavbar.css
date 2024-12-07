@@ -9,6 +9,7 @@
     --fondor:#ffffff;
     --navtpb:#176cb3;
     --sidbrt:#1e282c;
+    --subbarra: #e9ecef;
 
     }
 .mtopbar {
@@ -43,8 +44,7 @@
   }
   
   .mtopbar ul li a{
-    padding: 0.75em;
-    margin: 0.75em;
+    padding: 0.5em;
     color: var(--letra);
   }
   .mtopbar .topbar-center{
@@ -176,6 +176,7 @@
     margin:0;
     flex-grow: 1;
     display: flex;
+    flex-direction: column;
 }
 .main{
   flex-grow: 1;
@@ -214,10 +215,44 @@
 
 }
 
+.subbarra{
+  padding: 0;
+}
+.subbarra div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #e9ecef;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  justify-content: space-between;
+}
+.subbarra div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #e9ecef;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  justify-content: space-between;
+}
 
+.subbarra div li{
+  list-style: none ;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+.subbarra div li a{
+  color: var(--letra);
+}
+.subbarra div li:hover{
+  color: var(--letrar);
+  background-color: var(--fondor);
+}
 
-
-
+.subbarra div li:hover>a{
+  color: var(--letrar);
+}
 
 @media (max-width:576px){ 
     .contraer{
