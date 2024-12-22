@@ -41,11 +41,11 @@ final class Runtime
             return false;
         }
 
-        if (\PHP_SAPI === 'cli' && \ini_get('opcache.enable_cli') === '1') {
+        if ((\PHP_SAPI === 'cli' || \PHP_SAPI === 'phpdbg') && \ini_get('opcache.enable_cli') === '1') {
             return true;
         }
 
-        if (\PHP_SAPI !== 'cli' && \ini_get('opcache.enable') === '1') {
+        if (\PHP_SAPI !== 'cli' && \PHP_SAPI !== 'phpdbg' && \ini_get('opcache.enable') === '1') {
             return true;
         }
 
@@ -150,11 +150,11 @@ final class Runtime
     {
         if ($this->isHHVM()) {
             // @codeCoverageIgnoreStart
-            return 'http://hhvm.com/';
+            return 'https://hhvm.com/';
             // @codeCoverageIgnoreEnd
         }
 
-        return 'https://secure.php.net/';
+        return 'https://www.php.net/';
     }
 
     public function getVersion(): string

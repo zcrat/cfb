@@ -55,6 +55,7 @@ Route::get('pdf', function(){
 
 });
 ```
+
 ##OR
 
 ```
@@ -67,3 +68,4 @@ Route::get('pdf', function(){
         exit;
 
 });
+```

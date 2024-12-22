@@ -6,6 +6,7 @@ body {
 .select2-dropdown{
   background-color:var(--fondos2) !important;
   color: var(--letrasbody) !important;
+  z-index: 1055 !important;
 }
 
 .select2-selection{
@@ -306,6 +307,9 @@ flex-wrap: wrap;
   outline: 0;
   box-shadow:0 0 0 .25rem rgba(13, 110, 253, 0.25)
 } 
+.select2-container--default .select2-results__option--selected {
+  background-color: #585858 !important;
+}
 table{
   min-width: 100%;
   width: auto;;
@@ -330,11 +334,12 @@ max-width: 45%;
   .iconoin{
     display: flex;
     align-items: center;
-    margin-inline: 0.75rem;
+  
   }
   .iconoin i{
     position: absolute;
     padding-left: 0.5rem;
+    z-index: 50;
   }
   .vaniw25{
     width: 25%;
@@ -350,3 +355,13 @@ max-width: 45%;
   .vaniw10{
     width: 10%;
   }
+  .zdlins2 {
+    position: absolute;
+
+  }
+  
+  canvas {
+    width: 100%; /* Tamaño visual adaptable */
+    height: 300px; /* Altura visual fija */
+    border: 1px solid black;
+}

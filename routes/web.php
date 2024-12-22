@@ -46,9 +46,18 @@ Route::get('presupuestos/vales', 'zcrat\Presupuestos@valesview')->name('presupue
 Route::get('presupuestos/vale', 'zcrat\Presupuestos@vale')->name('vales.rr')->middleware('auth');
 
 
-Route::middleware(['auth'])->group(function(){
-       
 
+
+
+
+
+Route::middleware(['auth'])->group(function(){
+        Route::get('cfe2025/eco/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@vistarecepcioneco')->name('2025.cfe.recepcion.eco');
+        Route::get('cfe2025/bajio/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@vistarecepcionbajio')->name('2025.cfe.recepcion.bajio');
+        Route::get('cfe2025/occidente/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@vistarecepcionoccidente')->name('2025.cfe.recepcion.occidente');
+
+        Route::get('cfe2025/Obtener/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@ObtenerRecepciones')->name('2025.cfe.obtener.Recepcionvehicular');
+        
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
     ->middleware('permission:tareas.index');

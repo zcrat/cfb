@@ -33,7 +33,8 @@ class RecepcionVehicular extends Model
         'administrador',
         'jefedeprocesos',
         'telefonojefe',
-        'trabajador'
+        'trabajador',
+        'id_anio_correspondiente'
 
     ];
 

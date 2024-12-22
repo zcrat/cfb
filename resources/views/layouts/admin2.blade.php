@@ -13,6 +13,8 @@
     <!-- etsilos personalizados-->
     <link rel="stylesheet" href="{{asset('css/estilosnavbar.css')}}">
     <link rel="stylesheet" href="{{asset('css/misestilos.css')}}">
+    
+    <link rel="stylesheet" href="{{asset('css/generales.css')}}">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       </head>
@@ -31,6 +33,18 @@
               <div>
               <li><a href="{{ route('cliente.empresas') }}"><i class="fas fa-city"></i>Empresas</a></li>
               <li><a href="{{ route('cliente.usuarios') }}"><i class="fas fa-user-friends"></i>Usuarios</a></li>
+            </div>           
+                </ul> 
+          </li>
+        @endcan
+        @can('clientes.index')
+          <li class="msubdropdown">
+            <a><i class="fas fa-users"></i><span >CFE 2025</span></a>
+            <ul class="msubdropdown-menu menudown">
+              <div>
+              <li><a href="{{ route('2025.cfe.recepcion.bajio') }}"><i class="fas fa-city"></i>BAJIO</a></li>
+              <li><a href="{{ route('2025.cfe.recepcion.eco') }}"><i class="fas fa-user-friends"></i>ECO</a></li>
+              <li><a href="{{ route('2025.cfe.recepcion.occidente') }}"><i class="fas fa-user-friends"></i>OCCIDENTE</a></li>
             </div>           
                 </ul> 
           </li>
@@ -506,11 +520,17 @@
       </div>
       <strong>Copyright &copy; 2018-2025 </strong> All rights reserved.
     </footer>
+
     </div> 
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
         <script src="{{asset('js/bootstrap-select.min.js')}}"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script type="module" src="{{asset('js/select2.js')}}"></script>
         <script>
           document.addEventListener('DOMContentLoaded', function() {
             let s1=document.querySelector('.msidebar');
