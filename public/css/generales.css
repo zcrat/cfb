@@ -48,6 +48,13 @@
 .zdw-r48 { width: 48rem; }
 .zdw-r49 { width: 49rem; }
 .zdw-r50 { width: 50rem; }
+.zdw-35pct{width: 35%;}
+.zdw-40pct{width: 40%;}
+.zdw-45pct{width: 45%;}
+.zdw-50pct{width: 50%;}
+.zdw-55pct{width: 55%;}
+.zdw-60pct{width: 60%;}
+.zdw-65pct{width: 65%;}
 .zdmg-r01 { margin: 0.1rem; }
 .zdmg-r02 { margin: 0.2rem; }
 .zdmg-r03 { margin: 0.3rem; }
@@ -138,6 +145,14 @@
 .zdmgr-r28 { margin-right: 2.8rem; }
 .zdmgr-r29 { margin-right: 2.9rem; }
 .zdmgr-r30 { margin-right: 3.0rem; }
+.zdmgy-r10 {margin-block: 1rem;}
+.zd4col{
+column-count: 4;
+column-gap: 5%;
+}
+.zd2col{
+  column-count: 2;
+  }
 .zditemscenter{ align-items: center;
 }
 /* Clases para alinear elementos en el eje secundario (verticalmente) */
@@ -190,4 +205,86 @@
 }
 .zdfw-w{
     flex-wrap: wrap;
+}
+
+/* Estilo general del input */
+input[type="datetime-local"] {
+  background-color: #f9f9f9; /* Color de fondo */
+  border: 2px solid #4caf50; /* Borde */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 10px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  color: #333; /* Color del texto */
+  width: 100%; /* Adaptar al contenedor */
+  box-sizing: border-box; /* Incluir padding y borde en el ancho total */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación suave */
+}
+
+/* Estilo del placeholder */
+input[type="datetime-local"]::placeholder {
+  color: #aaa; /* Color del placeholder */
+  font-style: italic; /* Fuente en cursiva */
+}
+
+/* Quitar iconos internos (flechas y calendario) */
+
+
+input[type="datetime-local"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Eliminar las flechas */
+  margin: 0;
+}
+
+/* Estado cuando el input está enfocado */
+input[type="datetime-local"]:focus {
+  outline: none; /* Quitar el borde azul predeterminado */
+  border-color: #ff5722; /* Color del borde al enfocar */
+  box-shadow: 0 0 5px rgba(255, 87, 34, 0.5); /* Sombra al enfocar */
+}
+
+/* Estilo cuando el input está deshabilitado */
+input[type="datetime-local"]:disabled {
+  background-color: #e0e0e0; /* Fondo gris claro */
+  color: #999; /* Texto más claro */
+  cursor: not-allowed; /* Cursor no permitido */
+}
+
+/* Estilo para inputs con validación */
+input[type="datetime-local"]:valid {
+  border-color: #4caf50; /* Verde si es válido */
+}
+
+input[type="datetime-local"]:invalid {
+  border-color: #f44336; /* Rojo si es inválido */
+}
+
+/* Estilo cuando está en estado de error */
+input[type="datetime-local"].error {
+  border-color: #f44336; /* Borde rojo */
+  background-color: #ffe6e6; /* Fondo ligeramente rosado */
+}
+
+/* Estado hover */
+input[type="datetime-local"]:hover {
+  border-color: #2196f3; /* Cambia el borde al pasar el cursor */
+  background-color: #f1f1f1; /* Fondo más claro */
+}
+
+/* Agregar íconos o estilos adicionales */
+.custom-datetime-icon {
+  position: relative;
+}
+
+.custom-datetime-icon input {
+  padding-right: 40px; /* Espacio para el icono */
+}
+
+.custom-datetime-icon::after {
+  content: "📅"; /* Emoji como icono */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 18px;
+  color: #4caf50;
 }

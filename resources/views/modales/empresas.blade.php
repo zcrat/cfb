@@ -3,7 +3,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-uppercase" id="modalcompanititle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn-close closenewempresa" >
                         
                     </button>
                 </div>
@@ -148,7 +148,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cerrarModal()">Cancelar</button>
+                    <button type="button" class="btn btn-secondary closenewempresa" data-dismiss="modal">Cancelar</button>
                     <button type="submit" hidden id="empresaupdated" form="EmpresaForm"class="btn btn-primary">Actualizar</button>
                     <button type="submit" id="newempresa" form="EmpresaForm" class="btn btn-primary">Guardar</button>
                 </div>

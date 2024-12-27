@@ -6,7 +6,7 @@
             <div class="card vanigrow">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Recepcion Vehicular
-                    <button type="button"  class="boton1"  data-bs-toggle="modal" data-bs-target="#RecepcionVehicular">
+                    <button type="button"  class="boton1" data-bs-toggle="modal" data-bs-target="#RecepcionVehicular">
                         <i class="fa-solid fa-circle-plus"></i>&nbsp;Nueva
                     </button>
                 </div>
@@ -70,103 +70,16 @@
                 </div>
             </div>
     </div>
-    @include('modales.recepcionvehicular')
     @include('modales.empresas')
+    @include('modales.recepcionvehicular')
+  
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{asset('js/paginacion.js')}}"></script>
+<script src="{{asset('js/canvas.js')}}"></script>
+<script src="{{asset('js/resepcionmodal.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
-
-
-<script>
-        const canvas = document.getElementById('miCanvas');
-        const ctx = canvas.getContext('2d');
-
-        let dibujando = false;
-        const historial = []; // Historial de estados del canvas
-
-        // Ajustar dimensiones del canvas
-        function ajustarCanvas() {
-            const rect = canvas.getBoundingClientRect();
-        }
-        ajustarCanvas();
-        window.addEventListener('resize', ajustarCanvas);
-
-        // Guardar el estado del canvas
-        function guardarEstado() {
-            historial.push(canvas.toDataURL());
-        }
-
-        // Restaurar el último estado del canvas
-        function deshacer() {
-            if (historial.length > 0) {
-                const ultimoEstado = historial.pop();
-                const img = new Image();
-                img.src = ultimoEstado;
-                img.onload = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
-                    ctx.drawImage(img, 0, 0); // Dibujar el estado anterior
-                };
-            }
-        }
-
-        // Obtener coordenadas ajustadas
-        function obtenerCoordenadas(event) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: (event.clientX - rect.left) * (canvas.width / rect.width),
-                y: (event.clientY - rect.top) * (canvas.height / rect.height),
-            };
-        }
-
-        // Eventos de dibujo
-        canvas.addEventListener('mousedown', (e) => {
-            guardarEstado(); // Guardar el estado antes de empezar a dibujar
-            dibujando = true;
-            const { x, y } = obtenerCoordenadas(e);
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        });
-
-        canvas.addEventListener('mousemove', (e) => {
-            if (dibujando) {
-                const { x, y } = obtenerCoordenadas(e);
-                ctx.lineTo(x, y);
-                ctx.strokeStyle = 'black';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            }
-        });
-
-        canvas.addEventListener('mouseup', () => {
-            dibujando = false;
-            ctx.closePath();
-        });
-
-        // Botones
-        document.getElementById('deshacer').addEventListener('click', dibujarImagen);
-        document.getElementById('limpiar').addEventListener('click', () => {
-            guardarEstado(); // Guardar el estado antes de limpiar
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        });
-
-        function dibujarImagen() {
-            const imagen = new Image();  // Creamos un objeto de imagen
-            imagen.src = '/img/carro4.png';  // Asignamos la URL de la imagen
-
-            // Cuando la imagen se carga, la dibujamos en el canvas
-            imagen.onload = () => {
-                const x = 0;  // Posición X en el canvas
-                const y = 0;  // Posición Y en el canvas
-                const ancho = 100;  // Ancho de la imagen
-                const alto = 100;   // Alto de la imagen
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el canvas
-                ctx.fromDataURL('img/carro1.png');  // Dibujar la imagen
-            };
-        }
-    </script>
-</script>
 <script>
      $(document).ready(function() {
                 let elements = [];
