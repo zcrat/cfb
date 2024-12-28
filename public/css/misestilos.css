@@ -6,7 +6,6 @@ body {
 .select2-dropdown{
   background-color:var(--fondos2) !important;
   color: var(--letrasbody) !important;
-  z-index: 1055 !important;
 }
 
 .select2-selection{

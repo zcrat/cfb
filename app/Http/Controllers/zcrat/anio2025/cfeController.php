@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\RecepcionVehicular;
 use App\Models\Modulo;
 use App\Models\AnioCorrespondiente;
+use App\Models\Empresa;
+use App\Models\Color;
+use Illuminate\Support\Facades\DB;
 class cfeController extends Controller
 {
     public $Regimenes = [
@@ -34,29 +37,33 @@ class cfeController extends Controller
         ['id' => '629', 'nombre' => '629 - De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales'],
         ['id' => '630', 'nombre' => '630 - Enajenación de acciones en bolsa de valores']
     ];
+
     public function vistarecepcioneco(){
         $Regimenes=$this->Regimenes;
+        $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE ECO')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');;
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
-        return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes'));
+        return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
     public function vistarecepcionbajio(){
         $Regimenes=$this->Regimenes;
+        $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');;
         $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');;
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
-        return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes'));
+        return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
     public function vistarecepcionoccidente(){
         $Regimenes=$this->Regimenes;
+        $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');;
         $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');;
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
-        return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes'));
+        return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
 
     public function ObtenerRecepciones(Request $request){
@@ -69,4 +76,27 @@ class cfeController extends Controller
             'recepciones' => $recepciones
         ]);
     }
+    public function guardarnuevocolor(Request $request){
+        $request->validate([
+            'newcolor' => 'required|max:255',
+        ], [
+            'newcolor.required' => 'El color es obligatorio.',
+        ]);
+            DB::beginTransaction();
+            try {
+            $color = new Color;
+            $color->nombre= $request->input('newcolor');
+            $color->save();
+            DB::commit();
+            return "guardado";
+            }catch (\Exception $e) {
+                DB::rollBack();
+                return abort(500, $e->getMessage());
+            }
+                
+    }
+
+
+
+
 }

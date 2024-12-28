@@ -71,7 +71,14 @@
             </div>
     </div>
     @include('modales.empresas')
+    @include('modales.clientes')
+    @include('modales.vehiculo')
+    @include('modales.marca')
+    @include('modales.modelo')
+    @include('modales.color')
     @include('modales.recepcionvehicular')
+
+
   
 </main>
 
@@ -80,6 +87,7 @@
 <script src="{{asset('js/canvas.js')}}"></script>
 <script src="{{asset('js/resepcionmodal.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
+@stack('scripts')
 <script>
      $(document).ready(function() {
                 let elements = [];

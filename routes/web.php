@@ -22,6 +22,12 @@ Auth::routes();
 Route::get('select2/obtenerarticulos', 'zcrat\SelecController@obtenerarticulos')->name('select2.articulos')->middleware('auth');
 Route::get('select2/obtenerempresas', 'zcrat\SelecController@select2empresas')->name('select2.empresas')->middleware('auth');
 Route::get('select2/obtenerrr', 'zcrat\SelecController@select2rr')->name('select2.rr')->middleware('auth');
+Route::get('select2/obtenerclientes', 'zcrat\SelecController@select2clientes')->name('select2.clientes')->middleware('auth');
+Route::get('select2/obtenervehiculos', 'zcrat\SelecController@select2vehiculos')->name('select2.vehiculos')->middleware('auth');
+Route::get('select2/obtenermarcasvehiculos', 'zcrat\SelecController@select2marcasvehiculo')->name('select2.marcasvehiculo')->middleware('auth');
+Route::get('select2/obtenermodelosvehiculo', 'zcrat\SelecController@select2modelosvehiculo')->name('select2.modelosvehiculo')->middleware('auth');
+Route::get('select2/obtenertipovehiculo', 'zcrat\SelecController@select2tipovehiculo')->name('select2.tipovehiculo')->middleware('auth');
+Route::get('select2/obtenercoloresvehiculo', 'zcrat\SelecController@select2coloresvehiculo')->name('select2.coloresvehiculo')->middleware('auth');
 //users
 Route::get('clientes/usuarios', 'zcrat\Customers@clientes')->name('cliente.usuarios')->middleware('auth');
 Route::post('clientes/newusuario', 'zcrat\Customers@create')->name('cliente.register');
@@ -51,12 +57,18 @@ Route::get('presupuestos/vale', 'zcrat\Presupuestos@vale')->name('vales.rr')->mi
 
 
 
-Route::middleware(['auth'])->group(function(){
-        Route::get('cfe2025/eco/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@vistarecepcioneco')->name('2025.cfe.recepcion.eco');
-        Route::get('cfe2025/bajio/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@vistarecepcionbajio')->name('2025.cfe.recepcion.bajio');
-        Route::get('cfe2025/occidente/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@vistarecepcionoccidente')->name('2025.cfe.recepcion.occidente');
 
-        Route::get('cfe2025/Obtener/Recepcionvehicular', 'zcrat\anio2025\cfeControlLer@ObtenerRecepciones')->name('2025.cfe.obtener.Recepcionvehicular');
+
+
+
+
+Route::middleware(['auth'])->group(function(){
+        Route::get('cfe2025/eco/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcioneco')->name('2025.cfe.recepcion.eco');
+        Route::get('cfe2025/bajio/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionbajio')->name('2025.cfe.recepcion.bajio');
+        Route::get('cfe2025/occidente/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionoccidente')->name('2025.cfe.recepcion.occidente');
+
+        Route::get('cfe2025/Obtener/Recepcionvehicular', 'zcrat\anio2025\cfeController@ObtenerRecepciones')->name('2025.cfe.obtener.Recepcionvehicular');
+        Route::post('cfe2025/nuevo/color', 'zcrat\anio2025\cfeController@guardarnuevocolor')->name('2025.cfe.guardar.nuevocolor');
         
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')

@@ -19,5 +19,46 @@ $(function(){
         $('#Empresa_modal').modal('hide');
         $('#RecepcionVehicular').modal('show');
     });
-    
+
+    $('#newcustomer').on('click',function(){
+        $('#RecepcionVehicular').modal('hide');
+        $('#usuarioStore').modal('show');
+    });
+    $('.closenewcustomer').on('click', function(){
+        $('#usuarioStore').modal('hide');
+        $('#RecepcionVehicular').modal('show');
+    });
+    $('#newcar').on('click',function(){
+        $('#RecepcionVehicular').modal('hide');
+        $('#newcarmodal').modal('show');
+    });
+    $('.closenewcar').on('click', function(){
+        $('#newcarmodal').modal('hide');
+        $('#RecepcionVehicular').modal('show');
+    });
+
+    $('#newcolorcar').on('click',function(){
+        $('#newcarmodal').modal('hide');
+        $('#newcolorcarmodal').modal('show');
+    });
+    $('.closenewcolorcar').on('click', function(){
+        $('#newcolorcarmodal').modal('hide');
+        $('#newcarmodal').modal('show');
+    });
+    $('#newmodelocar').on('click',function(){
+        $('#newcarmodal').modal('hide');
+        $('#newmodelocarmodal').modal('show');
+    });
+    $('.closemodelonewcar').on('click', function(){
+        $('#newmodelocarmodal').modal('hide');
+        $('#newcarmodal').modal('show');
+    });
+    $('#newmarcacar').on('click',function(){
+        $('#newcarmodal').modal('hide');
+        $('#newmarcacarmodal').modal('show');
+    });
+    $('.closemarcanewcar').on('click', function(){
+        $('#newmarcacarmodal').modal('hide');
+        $('#newcarmodal').modal('show');
+    });
 })

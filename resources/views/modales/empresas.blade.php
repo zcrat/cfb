@@ -2,7 +2,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-uppercase" id="modalcompanititle"></h5>
+                    <h4 class="modal-title text-uppercase" id="modalcompanititle">Nueva Empresa</h4>
                     <button type="button" class="btn-close closenewempresa" >
                         
                     </button>

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <!--  del modal -->
             <div class="modal-header">
-                <h5 class="modal-title" id="miModalLabel">Nueva Recepcion Vehicular</h5>
+                <h4 class="modal-title" id="miModalLabel">Nueva Recepcion Vehicular</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" id="formnewrecepcion">
@@ -17,20 +17,22 @@
                 <h4>Datos Cliente</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
                     <div class="select2conlabel zdw-45pct">
-                        <label for="">Empresa</label><div><select class="empresas-Select2" id="empresasrecepcion" name="empresasrecepcion"></select>
+                        <label for="">Empresa</label><div><select id="empresasrecepcion" name="empresasrecepcion"></select>
                         <button id="newempresas"class="btnin" type="button">+</button>
                     </div>
                     </div>
                     <div class="select2conlabel zdw-40pct">
                         <label for="">Clientes <strong>*</strong></label>
-                        <select class="empresas-Select2" id="clientesrecepcion"name="clientesrecepcion" required></select>
-                        <button class="btnin" type="button">+</button>
+                        <select  id="clientesrecepcion"name="clientesrecepcion" required></select>
+                        <button id="newcustomer"class="btnin" type="button">+</button>
                     </div>
                 </div>
                 <h4>Datos Del Vehiculo</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
                     <div class="vaniwidth">
-                    <div class="select2conlabel"><label for="">Vehiculo <span class="spanrelleno"> #Econonomico- Placas</span><strong>*</strong></label><select required class="empresas-Select2" id="vehiculo"></select><button class="btnin"type="button">+</button></div>
+                    <div class="select2conlabel"><label for="">Vehiculo <span class="spanrelleno"> #Econonomico- Placas</span><strong>*</strong></label><select required id="vehiculo"></select>
+                    <button class="btnin" id="newcar"type="button">+</button>
+                </div>
                     </div>
                     <div class="selectconlabel"><label for="kmentrada">Km Entrada <strong>*</strong></label><input required class="form-control" type="number" name="kmentrada" id="kmentrada"></div>
                     <div class="selectconlabel"><label for="kmsalida">Km Salida<strong>*</strong></label><input required class="form-control" type="number" name="kmsalida" id="kmsalida"></div>
