@@ -10,8 +10,8 @@
                 <div class="modal-body">
                 <h4>Datos Generales</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
-                    <div class=" selectconlabel zdmg-r02"><label for="folio">Folio<strong>*</strong></label><input required class="form-control" type="text" placeholder="Ej.100A " id="folio" name="folio"></div>
-                    <div class="selectconlabel zdmg-r02"><label for="ord_segumineto">Ord. Segumineto<strong>*</strong></label><input class="form-control" required type="text" placeholder="Ej. 100ABC " id="ord_segumineto" name="ord_segumineto"></div>
+                    <div class=" selectconlabel zdmg-r02"><label for="ord_seguimiento">Ord. seguimiento<strong>*</strong></label><input required class="form-control" type="text" placeholder="Ej.100A " id="ord_seguimiento" name="ord_seguimiento"></div>
+                    <div class="selectconlabel zdmg-r02"><label for="folio">Id<strong></strong></label><input class="form-control"  type="text" placeholder="Ej. 100ABC " id="folio" name="folio"></div>
                     <div class="selectconlabel zdmg-r02"><label for="fecha">Fecha<strong>*</strong></label><input id="fecha"   class="form-control" required type="datetime-local" class="custom-datetime-icon-input form-control"></div>
                 </div>
                 <h4>Datos Cliente</h4>
@@ -30,7 +30,7 @@
                 <h4>Datos Del Vehiculo</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
                     <div class="vaniwidth">
-                    <div class="select2conlabel"><label for="">Vehiculo <span class="spanrelleno"> #Econonomico- Placas</span><strong>*</strong></label><select required id="vehiculo"></select>
+                    <div class="select2conlabel"><label for="">Vehiculo <span class="spanrelleno"> #Econonomico- Placas</span><strong>*</strong></label><select required id="vehiculo" name="vehiculo"></select>
                     <button class="btnin" id="newcar"type="button">+</button>
                 </div>
                     </div>
@@ -84,11 +84,11 @@
                     <div class="col-12 col-lg-6 zdw-35pct">
                         <div class="selectconlabel zdmgy-r10">
                             <label for="fecha_esperada_id">Fecha esperada</label>
-                            <input required id="fecha_esperada_id" type="datetime-local">
+                            <input required id="fecha_esperada" type="datetime-local">
                         </div>
                         <div class="selectconlabel zdmgy-r10">
                             <label for="fecha_entrega_id">Fecha de entrega:</label>
-                            <input required id="fecha_entrega_id" type="datetime-local" class="custom-datetime-icon-input form-control"> 
+                            <input required id="fecha_entrega" type="datetime-local" class="custom-datetime-icon-input form-control"> 
                         </div>
                     </div>
                 </div>
@@ -142,31 +142,31 @@
                     
                     <div class="vaniflex zdmg-r05 form-control zdjc-between zdfw-w zdw-45pct">
                         <h4>Varios Equipos - Inventario</h4>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario1">Llanta Refacccion</label><input type="checkbox" name="inventario1" id="inventario1" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario2">Cubreruedas</label><input type="checkbox" name="inventario2" id="inventario2" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario3">Cables para Corriente</label><input type="checkbox" name="inventario3" id="inventario3" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario4">Candado de rueda</label><input type="checkbox" name="inventario4" id="inventario4" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario5">Estuche De Herramienta</label><input type="checkbox" name="inventario5" id="inventario5" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario6">Extinguidor</label><input type="checkbox" name="inventario6" id="inventario6" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario7">Llave tuercas de rueda</label><input type="checkbox" name="inventario7" id="inventario7" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario8">Gato</label><input type="checkbox" name="inventario8" id="inventario8" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario9">Triangulo de Seguridad</label><input type="checkbox" name="inventario9" id="inventario9" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario10">Placas</label><input type="checkbox" name="inventario10" id="inventario10" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario11">Tarjeta de Circulacion</label><input type="checkbox" name="inventario11" id="inventario11" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario1">Llanta Refacccion</label><input type="checkbox" value="1" name="inventario1" id="inventario1" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario2">Cubreruedas</label><input type="checkbox" value="1" name="inventario2" id="inventario2" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario3">Cables para Corriente</label><input type="checkbox" value="1" name="inventario3" id="inventario3" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario4">Candado de rueda</label><input type="checkbox" value="1" name="inventario4" id="inventario4" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario5">Estuche De Herramienta</label><input type="checkbox" value="1" name="inventario5" id="inventario5" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario6">Extinguidor</label><input type="checkbox" value="1" name="inventario6" id="inventario6" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario7">Llave tuercas de rueda</label><input type="checkbox" value="1" name="inventario7" id="inventario7" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario8">Gato</label><input type="checkbox" value="1" name="inventario8" id="inventario8" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario9">Triangulo de Seguridad</label><input type="checkbox" value="1" name="inventario9" id="inventario9" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario10">Placas</label><input type="checkbox" value="1" name="inventario10" id="inventario10" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario11">Tarjeta de Circulacion</label><input type="checkbox" value="1" name="inventario11" id="inventario11" class="inventariocheckbox"></div>
                     </div>
                     
                     <div class="vaniflex zdmg-r05 form-control zdjc-between zdfw-w zdw-45pct">
                     <h4>Condiciones De Pintura</h4>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura1">Decolorada</label><input type="checkbox" name="conpintura1" id="conpintura1" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura2">Emblemas completos</label><input type="checkbox" name="conpintura2" id="conpintura2" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura3">Color no Igualado</label><input type="checkbox" name="conpintura3" id="conpintura3" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura4">Logos en buen estado </label><input type="checkbox" name="conpintura4" id="conpintura4" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura5">Exceso de rayones</label><input type="checkbox" name="conpintura5" id="conpintura5" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura6">Exceso de rociado</label><input type="checkbox" name="conpintura6" id="conpintura6" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura7">Pequeñas grietas</label><input type="checkbox" name="conpintura7" id="conpintura7" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura8">Daños por granizo</label><input type="checkbox" name="conpintura8" id="conpintura8" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura9">Carroceria con gopes</label><input type="checkbox" name="conpintura9" id="conpintura9" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="cnopintura10">Lluvia acida</label><input type="checkbox" name="conpintura10" id="conpintura10" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura1">Decolorada</label><input type="checkbox" value="1" name="conpintura1" id="conpintura1" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura2">Emblemas completos</label><input type="checkbox" value="1" name="conpintura2" id="conpintura2" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura3">Color no Igualado</label><input type="checkbox" value="1" name="conpintura3" id="conpintura3" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura4">Logos en buen estado </label><input type="checkbox" value="1" name="conpintura4" id="conpintura4" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura5">Exceso de rayones</label><input type="checkbox" value="1" name="conpintura5" id="conpintura5" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura6">Exceso de rociado</label><input type="checkbox" value="1" name="conpintura6" id="conpintura6" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura7">Pequeñas grietas</label><input type="checkbox" value="1" name="conpintura7" id="conpintura7" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura8">Daños por granizo</label><input type="checkbox" value="1" name="conpintura8" id="conpintura8" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura9">Carroceria con gopes</label><input type="checkbox" value="1" name="conpintura9" id="conpintura9" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="cnopintura10">Lluvia acida</label><input type="checkbox" value="1" name="conpintura10" id="conpintura10" class="conpinturacheckbox"></div>
                     </div>
                 </div>
                 <h4>Notas Adicionales</h4>

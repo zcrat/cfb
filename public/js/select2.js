@@ -120,6 +120,36 @@ $('#clientesrecepcion').select2({
     }
 });
 
+$('#marcanewmodelo').select2({
+    language: { searching: ()=> "Buscando opciones...",noResults: () => "Sin Resultados",},
+    dropdownParent: $("#newmodelocarmodal"),
+    placeholder: 'Escribe para buscar...',
+    allowClear: true,
+    minimumInputLength: 0,
+    ajax: {
+        url: '/select2/obtenermarcasvehiculos',
+        dataType: 'json',
+        data: function(params) {
+            var query = {
+                term: params.term,
+            };
+            return query;
+        },
+        delay: 500,
+        processResults: function(data) {
+            console.log(data);
+            return {
+                results: $.map(data, function(item) {
+                    return {
+                        text: item.nombre,
+                        id: item.id
+                    };
+                })
+            };
+        },
+        cache: true
+    }
+});
 $('#marcanewvehiculo').select2({
     language: { searching: ()=> "Buscando opciones...",noResults: () => "Sin Resultados",},
     dropdownParent: $("#newcarmodal"),
@@ -164,6 +194,7 @@ $('#modelonewvehiculo').select2({
         data: function(params) {
             var query = {
                 term: params.term,
+                marcaid:$('#marcanewvehiculo').val(),
             };
             return query;
         },
@@ -242,4 +273,9 @@ $('#tiponewvehiculo').select2({
         },
         cache: true
     }
+
 });
+
+$('#marcanewvehiculo').on('change',function(){
+    $('#modelonewvehiculo').val(null).empty().trigger('change');
+})

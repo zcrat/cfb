@@ -14,7 +14,7 @@
           <div class="select2conlabel zdw-40pct">
               <label for="marcanewmodelo">Marca <strong>*</strong></label>
               <select class="marcasvehiculo-Select2" id="marcanewmodelo"name="marcanewmodelo" required></select>
-              <button id="newmarcacar"class="btnin" type="button">+</button>
+              <button class="btnin newmarcacar" type="button">+</button>
           </div>
           <div class=" selectconlabel zdmg-r02">
               <label for="newmodelo">Modelo<strong>*</strong></label>

@@ -146,10 +146,16 @@
                         '</div></td></tr>');
                         row.append('<td><div class="Datatable-content">' + (element.fecha ? element.fecha : "No Se Registro") + '</div></td></tr>');
                         row.append('<td><div class="Datatable-content">' + (element.fecha_compromiso ? element.fecha_compromiso : "No Se Registro") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content"> Opciones</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">'+
+                        '<button class="btn btn-success"><i aria-hidden="true" class="fa fa-eye"></i></button>'+
+                        '<button class="btn btn-warning"><i aria-hidden="true" class="fa fa-pencil-square-o"></i></button>'+
+                        '<button class="btn btn-danger"><i aria-hidden="true" class="fa-solid fa-trash"></i></button>'+
+                        '<button class="btn btn-info"><i aria-hidden="true" class="fa-solid fa-file"></i></button>'+
+                        '</div></td></tr>');
                         $('#tablarecepciones tbody').append(row);
                     });
                 }
+                
                 $('#search').on('input', filtering);
                 $("#empresas").change(filtering);
                 function filtering() { 

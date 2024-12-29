@@ -9,56 +9,45 @@ $(function(){
             $(this).append('<option value="6">Reparacion necesaria</option>');
             $(this).append('<option value="7">No Aplica</option>');
         });
+const modalrecepcion=$('#RecepcionVehicular');
+const modalempresas=$('#Empresa_modal');
+const modalclientes=$('#usuarioStore');
+const modalvehiculo=$('#newcarmodal');
+const modalcolor=$('#newcolorcarmodal');
+const modalmarca=$('#newmarcacarmodal');
+const modalmodelo=$('#newmodelocarmodal');
 
-    $('#newempresas').on('click',function(){
-        console.log('sdsds');
-        $('#RecepcionVehicular').modal('hide');
-        $('#Empresa_modal').modal('show');
-    });
-    $('.closenewempresa').on('click', function(){
-        $('#Empresa_modal').modal('hide');
-        $('#RecepcionVehicular').modal('show');
-    });
+    function modalprincipal(hide,show){
+        hide.modal('hide')
+        show.modal('show')
+    }
+    //se abren desde una modal
+    $('#newempresas').on('click',function(){modalprincipal(modalrecepcion,modalempresas)});
+    $('.closenewempresa').on('click', function(){modalprincipal(modalempresas,modalrecepcion)});
 
-    $('#newcustomer').on('click',function(){
-        $('#RecepcionVehicular').modal('hide');
-        $('#usuarioStore').modal('show');
-    });
-    $('.closenewcustomer').on('click', function(){
-        $('#usuarioStore').modal('hide');
-        $('#RecepcionVehicular').modal('show');
-    });
-    $('#newcar').on('click',function(){
-        $('#RecepcionVehicular').modal('hide');
-        $('#newcarmodal').modal('show');
-    });
-    $('.closenewcar').on('click', function(){
-        $('#newcarmodal').modal('hide');
-        $('#RecepcionVehicular').modal('show');
-    });
+    $('#newcustomer').on('click',function(){modalprincipal(modalrecepcion,modalclientes) });
+    $('.closenewcustomer').on('click', function(){ modalprincipal(modalclientes,modalrecepcion) });
 
-    $('#newcolorcar').on('click',function(){
-        $('#newcarmodal').modal('hide');
-        $('#newcolorcarmodal').modal('show');
-    });
-    $('.closenewcolorcar').on('click', function(){
-        $('#newcolorcarmodal').modal('hide');
-        $('#newcarmodal').modal('show');
-    });
-    $('#newmodelocar').on('click',function(){
-        $('#newcarmodal').modal('hide');
-        $('#newmodelocarmodal').modal('show');
-    });
-    $('.closemodelonewcar').on('click', function(){
-        $('#newmodelocarmodal').modal('hide');
-        $('#newcarmodal').modal('show');
-    });
-    $('#newmarcacar').on('click',function(){
-        $('#newcarmodal').modal('hide');
-        $('#newmarcacarmodal').modal('show');
-    });
-    $('.closemarcanewcar').on('click', function(){
-        $('#newmarcacarmodal').modal('hide');
-        $('#newcarmodal').modal('show');
-    });
+    $('#newcar').on('click',function(){modalprincipal(modalrecepcion,modalvehiculo)});
+    $('.closenewcar').on('click', function(){modalprincipal(modalvehiculo,modalrecepcion) });
+
+    $('#newcolorcar').on('click',function(){modalprincipal(modalvehiculo,modalcolor)});
+    $('.closenewcolorcar').on('click', function(){modalprincipal(modalcolor,modalvehiculo)});
+
+    $('#newmodelocar').on('click',function(){modalprincipal(modalvehiculo,modalmodelo)});
+    $('.closemodelonewcar').on('click', function(){modalprincipal(modalmodelo,modalvehiculo)});
+    
+    //se abre de dos posibles modales
+    $('.newmarcacar').on('click',function(){cerrarpadre(modalmarca);});
+    $('.closemarcanewcar').on('click', function(){abrirpadre(modalmarca);});
+
+    function cerrarpadre(segundomodal){
+     modalVisible = $('.modal.show');
+     modalprincipal( modalVisible,segundomodal)
+    }
+    function abrirpadre(segundomodal){
+        modalprincipal(segundomodal,modalVisible)
+    }
+
+
 })

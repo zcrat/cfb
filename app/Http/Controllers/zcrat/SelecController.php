@@ -6,13 +6,19 @@ use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Articulo;
 use App\Models\Color;
+use App\Models\Customer;
+use App\Models\Marca;
+use App\Models\Modelo;
+use App\Models\TipoAuto;
+use App\Models\Vehiculo;
+use Illuminate\Support\Facades\DB;
 use App\RecepcionVehicular;
 
 class SelecController extends Controller
 {
     public function select2empresas(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
+        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($s2empresas);
     }
     public function obtenerarticulos(Request $request){
@@ -28,32 +34,32 @@ class SelecController extends Controller
             }
     public function select2clientes(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
+        $s2empresas=Customer::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($s2empresas);
     }
     public function select2vehiculos(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
-        return response()->json($s2empresas);
+        $vehiculos=Vehiculo::select('id',DB::raw("CONCAT(no_economico, '-',placas) as nombre"))->where('placas','LIKE','%'.$term.'%')->orwhere('no_economico','LIKE','%'.$term.'%')->take(15)->get();
+        return response()->json($vehiculos);
     }
     public function select2marcasvehiculo(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
+        $s2empresas=Marca::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($s2empresas);
     }
     public function select2modelosvehiculo(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
+        $s2empresas=Modelo::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->where('marca_id',$request->input('marcaid'))->take(15)->get();
         return response()->json($s2empresas);
     }
     public function select2tipovehiculo(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $s2empresas=Empresa::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
+        $s2empresas=TipoAuto::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($s2empresas);
     }
     public function select2coloresvehiculo(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $colores=Color::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(10)->get();
+        $colores=Color::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($colores);
     }
 }
