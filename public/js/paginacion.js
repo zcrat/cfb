@@ -2,6 +2,7 @@ let itemsPerPage = parseInt($('#epp').val(), 10);
 let Page = 1;
 
 function ShowPagination(elements,paginas) {
+    console.log(itemsPerPage)
     const totalPages = Math.ceil(elements / itemsPerPage);
     const mpagina = Math.floor(paginas / 2);
     let paginationHTML = '';

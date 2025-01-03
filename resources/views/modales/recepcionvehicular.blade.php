@@ -7,12 +7,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" id="formnewrecepcion">
+                @csrf
                 <div class="modal-body">
                 <h4>Datos Generales</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
                     <div class=" selectconlabel zdmg-r02"><label for="ord_seguimiento">Ord. seguimiento<strong>*</strong></label><input required class="form-control" type="text" placeholder="Ej.100A " id="ord_seguimiento" name="ord_seguimiento"></div>
                     <div class="selectconlabel zdmg-r02"><label for="folio">Id<strong></strong></label><input class="form-control"  type="text" placeholder="Ej. 100ABC " id="folio" name="folio"></div>
-                    <div class="selectconlabel zdmg-r02"><label for="fecha">Fecha<strong>*</strong></label><input id="fecha"   class="form-control" required type="datetime-local" class="custom-datetime-icon-input form-control"></div>
+                    <div class="selectconlabel zdmg-r02"><label for="fecha">Fecha<strong>*</strong></label><input id="fecha" name="fecha"  class="form-control" required type="datetime-local" class="custom-datetime-icon-input form-control"></div>
                 </div>
                 <h4>Datos Cliente</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
@@ -76,7 +77,7 @@
                     <div class="zdw-60pct">
                         <div class="canvasconlabel">
                             <label for="canvasfirma"> Firma <strong>*</strong></label>
-                            <canvas required id="canvasfirma"required  class="canvasfirma form-control"></canvas>
+                            <canvas required id="canvasfirma" name="canvasfirma" class="canvasfirma form-control"></canvas>
                             <button type="button" id="deshacerfirma" class="btn btn-secondary">Deshacer</button>
                         </div>
                         
@@ -84,89 +85,89 @@
                     <div class="col-12 col-lg-6 zdw-35pct">
                         <div class="selectconlabel zdmgy-r10">
                             <label for="fecha_esperada_id">Fecha esperada</label>
-                            <input required id="fecha_esperada" type="datetime-local">
+                            <input required id="fecha_esperada" name="fecha_esperada" type="datetime-local">
                         </div>
                         <div class="selectconlabel zdmgy-r10">
                             <label for="fecha_entrega_id">Fecha de entrega:</label>
-                            <input required id="fecha_entrega" type="datetime-local" class="custom-datetime-icon-input form-control"> 
+                            <input required id="fecha_entrega" name="fecha_entrega" type="datetime-local" class="custom-datetime-icon-input form-control"> 
                         </div>
                     </div>
                 </div>
                 <h4>Condiciones De Interiores Y Equipo</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w zdfd-column">
-                    <div class="form-control zdmgy-r10">
-                        <h6>Paneles de Puerta</h6>
+                    <div class="form-control zdmgy-r10"><h6>Paneles de Puerta</h6>
                         <div class="subdivicion vaniflex zdfw-w">
-                        <div class="selectconlabel "><label for="opcion_1">Interior Frontal<strong>*</strong></label><select required name="pcondicion1" id="pcondicion1" class="condiciones "></select></div>
-                        <div class="selectconlabel "><label for="opcion_2">Interior Trasera<strong>*</strong></label><select required name="pcondicion2" id="pcondicion2" class="condiciones "></select></div>
-                        <div class="selectconlabel "><label for="opcion_3">Delantera Frontal<strong>*</strong></label><select required name="pcondicion3" id="pcondicion3" class="condiciones "></select></div>
-                        <div class="selectconlabel "><label for="opcion_4">Delantera Trasera<strong>*</strong></label><select required name="pcondicion4" id="pcondicion4" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="puerta_interior_frontal">Interior Frontal<strong>*</strong></label><select required name="puerta_interior_frontal" id="puerta_interior_frontal" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="puerta_interior_trasera">Interior Trasera<strong>*</strong></label><select required name="puerta_interior_trasera" id="puerta_interior_trasera" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="puerta_delantera_frontal">Delantera Frontal<strong>*</strong></label><select required name="puerta_delantera_frontal" id="puerta_delantera_frontal" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="puerta_delantera_trasera">Delantera Trasera<strong>*</strong></label><select required name="puerta_delantera_trasera" id="puerta_delantera_trasera" class="condiciones "></select></div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-control zdmgy-r10"><h6>Asientos</h6>
-                    <div class="subdivicion vaniflex  zdfw-w">
-                        <div class="selectconlabel "><label for="opcion_1">Interior Frontal<strong>*</strong></label><select required name="acondicion1" id="acondicion1" class="condiciones "></select></div>
-                        <div class="selectconlabel "><label for="opcion_2">Interior Trasera<strong>*</strong></label><select required name="acondicion2" id="acondicion2" class="condiciones "></select></div>
-                        <div class="selectconlabel "><label for="opcion_3">Delantera Frontal<strong>*</strong></label><select required name="acondicion3" id="acondicion3" class="condiciones "></select></div>
-                        <div class="selectconlabel "><label for="opcion_4">Delantera Trasera<strong>*</strong></label><select required name="acondicion4" id="acondicion4" class="condiciones "></select></div>
+                    <div class="form-control zdmgy-r10"><h6>Asientos</h6>
+                        <div class="subdivicion vaniflex  zdfw-w">
+                            <div class="selectconlabel "><label for="asiento_interior_frontal">Interior Frontal<strong>*</strong></label><select required name="asiento_interior_frontal" id="asiento_interior_frontal" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="asiento_interior_trasera">Interior Trasera<strong>*</strong></label><select required name="asiento_interior_trasera" id="asiento_interior_trasera" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="asiento_delantera_frontal">Delantera Frontal<strong>*</strong></label><select required name="asiento_delantera_frontal" id="asiento_delantera_frontal" class="condiciones "></select></div>
+                            <div class="selectconlabel "><label for="asiento_delantera_trasera">Delantera Trasera<strong>*</strong></label><select required name="asiento_delantera_trasera" id="asiento_delantera_trasera" class="condiciones "></select></div>
+                        </div>
                     </div>
-                </div>
-                <div class="subdivicion vaniflex  form-control zdmgy-r10 zdfw-w">
-                    <div class="selectconlabel "><label for="opcion_1">Consola Central<strong>*</strong></label><select required name="condicion1" id="condicion1" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_2">Claxon<strong>*</strong></label><select required name="condicion2" id="condicion2" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_3">Tablero<strong>*</strong></label><select required name="condicion3" id="condicion3" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_4">Quemacocos<strong>*</strong></label><select required name="condicion4" id="condicion4" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_5">Toldo<strong>*</strong></label><select required name="condicion5" id="condicion5" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_6">Elevadores Electricos<strong>*</strong></label><select required name="condicion6" id="condicion6" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_7">Luces Interiores<strong>*</strong></label><select required name="condicion7" id="condicion7" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_8">Seguros Electricos<strong>*</strong></label><select required name="condicion8" id="condicion8" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_5">Climatizador<strong>*</strong></label><select required name="condicion9" id="condicion9" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_6">Radio<strong>*</strong></label><select required name="condicion10" id="condicion10" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_7">Espejo Retrovisor<strong>*</strong></label><select required name="condicion11" id="condicion11" class="condiciones "></select></div>
-                    <div class="selectconlabel "><label for="opcion_8">Tapetes<strong>*</strong></label><select required name="condicion12" id="condicion12" class="condiciones "></select></div>
+                    <div class="subdivicion vaniflex  form-control zdmgy-r10 zdfw-w">
+                        <div class="selectconlabel "><label for="consola_central">Consola Central<strong>*</strong></label><select required name="consola_central" id="consola_central" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="claxon">Claxon<strong>*</strong></label><select required name="claxon" id="claxon" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="tablero">Tablero<strong>*</strong></label><select required name="tablero" id="tablero" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="quemacocos">Quemacocos<strong>*</strong></label><select required name="quemacocos" id="quemacocos" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="toldo">Toldo<strong>*</strong></label><select required name="toldo" id="toldo" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="elevadores_eletricos">Elevadores Electricos<strong>*</strong></label><select required name="elevadores_eletricos" id="elevadores_eletricos" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="luces_interiores">Luces Interiores<strong>*</strong></label><select required name="luces_interiores" id="luces_interiores" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="seguros_eletricos">Seguros Electricos<strong>*</strong></label><select required name="seguros_eletricos" id="seguros_eletricos" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="climatizador">Climatizador<strong>*</strong></label><select required name="climatizador" id="climatizador" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="radio">Radio<strong>*</strong></label><select required name="radio" id="radio" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="espejos_retrovizor">Espejo Retrovisor<strong>*</strong></label><select required name="espejos_retrovizor" id="espejos_retrovizor" class="condiciones "></select></div>
+                        <div class="selectconlabel "><label for="tapetes">Tapetes<strong>*</strong></label><select required name="tapetes" id="tapetes" class="condiciones "></select></div>
+                    </div>
                 </div>
                 <h4>Condiciones De Exteriores y Equipo</h4>
                 <div class="vaniflex zdmg-r05  zdjc-between zdfw-w">
-                    <div class="selectconlabel"><label for="condicionext">Antena/Radio<strong>*</strong></label><select required name="condicionext1" id="condicionext1" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Estribos<strong>*</strong></label><select required name="condicionext2" id="condicionext2" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Antena/Telefoono<strong>*</strong></label><select required name="condicionext3" id="condicionext3" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Guardafangos<strong>*</strong></label><select required name="condicionext4" id="condicionext4" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Antena/C.B<strong>*</strong></label><select required name="condicionext5" id="condicionext5" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Parabrisas<strong>*</strong></label><select required name="condicionext6" id="condicionext6" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Sist. Alarma<strong>*</strong></label><select required name="condicionext7" id="condicionext7" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Limpia Parabrisas<strong>*</strong></label><select required name="condicionext8" id="condicionext8" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Luces Exteriores<strong>*</strong></label><select required name="condicionext9" id="condicionext9" class="condiciones "></select></div>
-                    <div class="selectconlabel"><label for="condicionext">Espejos Laterales<strong>*</strong></label><select required name="condicionext10" id="condicionext10" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="antena_radio">Antena/Radio<strong>*</strong></label><select required name="antena_radio" id="antena_radio" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="estribos">Estribos<strong>*</strong></label><select required name="estribos" id="estribos" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="antena_telefono">Antena/Telefoono<strong>*</strong></label><select required name="antena_telefono" id="antena_telefono" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="guardafangos">Guardafangos<strong>*</strong></label><select required name="guardafangos" id="guardafangos" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="antena_cb">Antena/C.B<strong>*</strong></label><select required name="antena_cb" id="antena_cb" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="parabrisas">Parabrisas<strong>*</strong></label><select required name="parabrisas" id="parabrisas" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="sistema_alarma">Sist. Alarma<strong>*</strong></label><select required name="sistema_alarma" id="sistema_alarma" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="limpia_parabrisas">Limpia Parabrisas<strong>*</strong></label><select required name="limpia_parabrisas" id="limpia_parabrisas" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="luces_exteriores">Luces Exteriores<strong>*</strong></label><select required name="luces_exteriores" id="luces_exteriores" class="condiciones "></select></div>
+                    <div class="selectconlabel"><label for="espejos_laterales">Espejos Laterales<strong>*</strong></label><select required name="espejos_laterales" id="espejos_laterales" class="condiciones "></select></div>
                 </div>
                 <div class="vaniflex vaniwidth zdfd-row zdfw-w zdjc-between">
                     
                     <div class="vaniflex zdmg-r05 form-control zdjc-between zdfw-w zdw-45pct">
                         <h4>Varios Equipos - Inventario</h4>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario1">Llanta Refacccion</label><input type="checkbox" value="1" name="inventario1" id="inventario1" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario2">Cubreruedas</label><input type="checkbox" value="1" name="inventario2" id="inventario2" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario3">Cables para Corriente</label><input type="checkbox" value="1" name="inventario3" id="inventario3" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario4">Candado de rueda</label><input type="checkbox" value="1" name="inventario4" id="inventario4" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario5">Estuche De Herramienta</label><input type="checkbox" value="1" name="inventario5" id="inventario5" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario6">Extinguidor</label><input type="checkbox" value="1" name="inventario6" id="inventario6" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario7">Llave tuercas de rueda</label><input type="checkbox" value="1" name="inventario7" id="inventario7" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario8">Gato</label><input type="checkbox" value="1" name="inventario8" id="inventario8" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario9">Triangulo de Seguridad</label><input type="checkbox" value="1" name="inventario9" id="inventario9" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario10">Placas</label><input type="checkbox" value="1" name="inventario10" id="inventario10" class="inventariocheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="inventario11">Tarjeta de Circulacion</label><input type="checkbox" value="1" name="inventario11" id="inventario11" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="llanta">Llanta Refacccion</label><input type="checkbox" value="1" name="llanta" id="llanta" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="cubreruedas">Cubreruedas</label><input type="checkbox" value="1" name="cubreruedas" id="cubreruedas" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="cables_corriente">Cables para Corriente</label><input type="checkbox" value="1" name="cables_corriente" id="cables_corriente" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="candado_ruedas">Candado de rueda</label><input type="checkbox" value="1" name="candado_ruedas" id="candado_ruedas" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="estuche_herramientas">Estuche De Herramienta</label><input type="checkbox" value="1" name="estuche_herramientas" id="estuche_herramientas" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="extinguidor">Extinguidor</label><input type="checkbox" value="1" name="extinguidor" id="extinguidor" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="llave_tuercas">Llave tuercas de rueda</label><input type="checkbox" value="1" name="llave_tuercas" id="llave_tuercas" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="gato">Gato</label><input type="checkbox" value="1" name="gato" id="gato" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="triangulo_seguridad">Triangulo de Seguridad</label><input type="checkbox" value="1" name="triangulo_seguridad" id="triangulo_seguridad" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="placas">Placas</label><input type="checkbox" value="1" name="placas" id="placas" class="inventariocheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="tarjeta_circulacion">Tarjeta de Circulacion</label><input type="checkbox" value="1" name="tarjeta_circulacion" id="tarjeta_circulacion" class="inventariocheckbox"></div>
                     </div>
                     
                     <div class="vaniflex zdmg-r05 form-control zdjc-between zdfw-w zdw-45pct">
                     <h4>Condiciones De Pintura</h4>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura1">Decolorada</label><input type="checkbox" value="1" name="conpintura1" id="conpintura1" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura2">Emblemas completos</label><input type="checkbox" value="1" name="conpintura2" id="conpintura2" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura3">Color no Igualado</label><input type="checkbox" value="1" name="conpintura3" id="conpintura3" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura4">Logos en buen estado </label><input type="checkbox" value="1" name="conpintura4" id="conpintura4" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura5">Exceso de rayones</label><input type="checkbox" value="1" name="conpintura5" id="conpintura5" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura6">Exceso de rociado</label><input type="checkbox" value="1" name="conpintura6" id="conpintura6" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura7">Pequeñas grietas</label><input type="checkbox" value="1" name="conpintura7" id="conpintura7" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura8">Daños por granizo</label><input type="checkbox" value="1" name="conpintura8" id="conpintura8" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="conpintura9">Carroceria con gopes</label><input type="checkbox" value="1" name="conpintura9" id="conpintura9" class="conpinturacheckbox"></div>
-                        <div class="vaniflex zdai-center checkboxconlabel"><label for="cnopintura10">Lluvia acida</label><input type="checkbox" value="1" name="conpintura10" id="conpintura10" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="decolorada">Decolorada</label><input type="checkbox" value="1" name="decolorada" id="decolorada" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="emblemas_completos">Emblemas completos</label><input type="checkbox" value="1" name="emblemas_completos" id="emblemas_completos" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="color_no_igual">Color no Igualado</label><input type="checkbox" value="1" name="color_no_igual" id="color_no_igual" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="color">Logos en buen estado </label><input type="checkbox" value="1" name="color" id="color" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="exeso_rayones">Exceso de rayones</label><input type="checkbox" value="1" name="exeso_rayones" id="exeso_rayones" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="exeso_rociado">Exceso de rociado</label><input type="checkbox" value="1" name="exeso_rociado" id="exeso_rociado" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="pequenias_grietas">Pequeñas grietas</label><input type="checkbox" value="1" name="pequenias_grietas" id="pequenias_grietas" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="danios_granizado">Daños por granizo</label><input type="checkbox" value="1" name="danios_granizado" id="danios_granizado" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="carroceria_golpes">Carroceria con gopes</label><input type="checkbox" value="1" name="carroceria_golpes" id="carroceria_golpes" class="conpinturacheckbox"></div>
+                        <div class="vaniflex zdai-center checkboxconlabel"><label for="lluvia_acido">Lluvia acida</label><input type="checkbox" value="1" name="lluvia_acido" id="lluvia_acido" class="conpinturacheckbox"></div>
                     </div>
                 </div>
                 <h4>Notas Adicionales</h4>
@@ -184,9 +185,141 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" id="guardarrecepcion" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+@push('scripts')
+  <script>
+     $(function(){
+        window.executeeditarrecepcion = function(id) {
+                    eval("editarrecepcion(id)");
+                };
+        function editarrecepcion(id){
+    $.ajax({
+        type: 'GET',
+        url: '{{ route('2025.cfe.obtener.Recepcionvehicular') }}',
+        data:{
+            id:id,
+            modulo : @json($modulo),
+        },
+        success: function(response) {
+            console.log(response);
+            editaruinputsrecepcion(response.recepcion)
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr);
+        }
+    });
+    }
+
+function editaruinputsrecepcion(element){
+    console.log(element);
+        $("#empresasrecepcion").append('<option value="'+element.empresa_id+'">'+element.empresa.nombre+'</option>');
+        $("#vehiculo").append('<option value="'+element.vehiculo.id+'">'+element.vehiculo.no_economico+'-'+element.vehiculo.placas+'</option>');
+        $("#clientesrecepcion").append('<option value="'+element.customer.id+'">'+element.customer.nombre+'</option>');
+        $("#empresasrecepcion").val(element.empresa_id).trigger('change');
+        $("#vehiculo").val(element.vehiculo.id).trigger('change');
+        $("#clientesrecepcion").val(element.customer.id).trigger('change');
+        $("#fecha").val(element.fecha);
+        let modal=$("#RecepcionVehicular");
+        modal.modal("show");
+
+        $('#RecepcionVehicular').on('shown.bs.modal', function () {
+            executedibujarImagen("/storage/carror/"+element.carro)
+            executedibujarImagenfr("/storage/firmas/"+element.firma)
+            
+        });
+        
+    }   
+     });
+     
+
+    $("#formnewrecepcion").submit(function(e) {
+      e.preventDefault();
+      let canvas = document.getElementById("miCanvas");
+      let canvas2 = document.getElementById("canvasfirma");
+      let canvasImage = canvas.toDataURL();
+      let canvasImage2 = canvas2.toDataURL();
+      let modal=$("#RecepcionVehicular");
+      let guardar=$("#guardarrecepcion")
+      let ruta="{{ route('2025.cfe.guardar.nuevarecepcion') }}";
+      let form= $("#formnewrecepcion");
+      let data=  form.serialize() + '&miCanvas=' + encodeURIComponent(canvasImage) + '&canvasfirma=' + encodeURIComponent(canvasImage2)+ '&modulo='+@json($modulo);
+      modal.modal("hide");
+      guardar.attr("disabled", true);
+      Swal.fire({
+              icon: "question",
+              text: "¿Estás seguro de guardar la nueva recepcion?",
+              showCancelButton: true,
+              confirmButtonText: "Confirmar",
+              cancelButtonText: "Cancelar",
+              reverseButtons: true,
+              customClass: {
+                  confirmButton: "btn-primary",
+                  cancelButton: "btn-light",
+              },
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              $(".error-message").remove();
+              var $request = $.post(ruta,data);
+              $request.done(function(data) {
+                guardar.attr("disabled", false);
+                if (data === "guardado") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Se registró correctamente al nuevo color",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                }  else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        html: data,
+                    }).then((result) => {
+                        modal.modal("show");
+                    });
+                }
+              });
+              $request.fail(function(error) {
+                  guardar.attr("disabled", false);
+                  if (error.status === 422) {
+                    let errors = error.responseJSON.errors;
+                    let errorMessages = Object.values(errors)
+                        .map((msgs) => msgs.join("<br>"))
+                        .join("<br>");
+                    for (let field in errors) {
+                      let input = form.find(`[name="${field}"]`);
+                      let errorMessage = `<small class="text-danger error-message">${errors[field].join("<br>")}</small>`;
+                      input.after(errorMessage);
+                    }
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Errores",
+                        html: errorMessages,
+                    }).then(() => {
+                        modal.modal("show");
+                    });
+                } else {
+                    modal.modal("hide");
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Ocurrió un error inesperado",
+                    }).then(() => {
+                        modal.modal("show");
+                    });
+                }
+              });
+            } else {
+                modal.modal("show");
+                guardar.attr("disabled", false);
+            }
+      });
+    });
+  </script>
+@endpush 

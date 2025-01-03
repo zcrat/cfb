@@ -1173,7 +1173,7 @@
     @endforeach
     <div class="layo-car bor "> <!--carro -->
         <div class="ffond">
-            <img src="{{asset('img/carros/'.$c->carro.'')}}" alt="Tipo de vehiculo" id="v" alt="Carros" width="100%" height="156"
+            <img src="{{asset('/storage/carror/'.$c->carro.'')}}" alt="Tipo de vehiculo" id="v" alt="Carros" width="100%" height="156"
                  usemap="#carro_8" border="0"/>
         </div>
        
@@ -1195,7 +1195,7 @@
                 </p>
                 <div class="recibido cent">
                     {{--todo ruta imagen--}}
-                    <img src="{{asset('img/firmas/'.$c->firma)}}"
+                    <img src="{{asset('/storage/firmas/'.$c->firma)}}"
                          width="100%"
                          height="80px"/>
                     <p>Firma de Recibido</p></div>

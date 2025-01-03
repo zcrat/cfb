@@ -8,6 +8,7 @@ $(function() {
   $('#RecepcionVehicular').on('shown.bs.modal', function () {
     ajustarCanvas();
     ajustarfirma();
+    
   });
   $("#tipo_auto").on('change', function(){
     let imagenurl = "/img/carro" + $("#tipo_auto").val() + ".png";
@@ -102,6 +103,7 @@ $(function() {
   }
 
   function dibujarImagen(urlimagen) {
+    console.log("imprim")
     let img = new Image();
     img.src = urlimagen;
     img.onload = function () {
@@ -141,4 +143,11 @@ $(function() {
       ctxf.drawImage(img, 0, 0, firma.width, firma.height);
     };
   }
+  window.executedibujarImagenfr = function(img) {
+    dibujarImagensinajustafr(img);
+  };
+  window.executedibujarImagen = function(img) {
+    dibujarImagensinajustar(img);
+  };
+  
 });

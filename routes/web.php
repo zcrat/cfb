@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function(){
 
         Route::get('cfe2025/Obtener/Recepcionvehicular', 'zcrat\anio2025\cfeController@ObtenerRecepciones')->name('2025.cfe.obtener.Recepcionvehicular');
         Route::post('cfe2025/nuevo/color', 'zcrat\anio2025\cfeController@guardarnuevocolor')->name('2025.cfe.guardar.nuevocolor');
+        Route::post('cfe2025/nuevarecepcion', 'zcrat\anio2025\cfeController@nuevarecepcion')->name('2025.cfe.guardar.nuevarecepcion');
+        Route::post('cfe2025/recepcion/delete', 'zcrat\anio2025\cfeController@deleterecpcion')->name('2025.cfe.recepcion.delete');
         
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')

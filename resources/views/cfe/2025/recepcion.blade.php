@@ -30,7 +30,8 @@
                         <div class="viewelements" id="viewelements">
                             <div class="elementosporpagina">
                                 <select   class="rounded" id="epp">
-                                    @for ($i = 10; $i <= $elementostotales/3; $i += 5)
+                                <option value="10" >10</option>
+                                    @for ($i = 15; $i <= $elementostotales/3; $i += 5)
                                         <option value="{{ $i }}" >{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -89,7 +90,64 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
 @stack('scripts')
 <script>
-     $(document).ready(function() {
+     $(function() {
+function recepciondelete(id) {
+    let ruta = "{{ route('2025.cfe.recepcion.delete') }}";
+    Swal.fire({
+        icon: "question",
+        text: "¿Estás seguro de eliminar la recepción?",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true,
+        customClass: {
+            confirmButton: "btn-primary",
+            cancelButton: "btn-light",
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: ruta,
+                method: "POST",
+                data: { id: id, _token: "{{ csrf_token() }}" },
+                success: function (data) {
+                    if (data === "eliminado") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Recepción eliminada correctamente",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                        searchdata();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            html: data,
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    if (error.status === 422) {
+                        Swal.fire({
+                            icon: "warning",
+                            title:error.responseJSON.error,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Ocurrió un error inesperado. Por favor, inténtalo nuevamente.",
+                        });
+                    }
+                },
+            });
+        }
+    });
+}
+
+
                 let elements = [];
                 let originalelements = [];
                 const modulo = @json($modulo);
@@ -120,15 +178,27 @@
                 window.executeSearchdata = function() {
                     eval("searchdata()");
                 };
+                
+                window.executedelete = function(id) {
+                    eval("recepciondelete("+id+")");
+                };
                 window.executeshowElements = function() {
                     eval("showElements()");
                 };
+                window.executereporte = function(id) {
+                    eval("reporte("+id+")");
+                };
+                function reporte(id){
+                    window.open('/recepcion/reporte/'+ id,'_blank');
+                };
                 function showElements() {
                     ShowPagination(elements.length,8);
+                    console.log(Page);
                     let startIndex = (Page - 1) * itemsPerPage;
                     let endIndex = startIndex + itemsPerPage;
+                    console.log(itemsPerPage)
                     let paginatedElements = elements.slice(startIndex, endIndex);
-
+                    console.log(paginatedElements)
                     $('#tablarecepciones tbody').empty();
                     if (paginatedElements.length > 0) {
                         document.getElementById('viewelements').removeAttribute('hidden');
@@ -147,13 +217,13 @@
                         row.append('<td><div class="Datatable-content">' + (element.fecha ? element.fecha : "No Se Registro") + '</div></td></tr>');
                         row.append('<td><div class="Datatable-content">' + (element.fecha_compromiso ? element.fecha_compromiso : "No Se Registro") + '</div></td></tr>');
                         row.append('<td><div class="Datatable-content">'+
-                        '<button class="btn btn-success"><i aria-hidden="true" class="fa fa-eye"></i></button>'+
-                        '<button class="btn btn-warning"><i aria-hidden="true" class="fa fa-pencil-square-o"></i></button>'+
-                        '<button class="btn btn-danger"><i aria-hidden="true" class="fa-solid fa-trash"></i></button>'+
-                        '<button class="btn btn-info"><i aria-hidden="true" class="fa-solid fa-file"></i></button>'+
+                        '<button class="btn btn-success reporte" onclick="executereporte('+(element.id ? element.id : 1 )+')" ><i aria-hidden="true"  class="fa fa-eye "></i></button>'+
+                        '<button class="btn btn-warning" onclick="executeeditarrecepcion('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa fa-pencil-square-o"></i></button>'+
+                        '<button class="btn btn-danger" onclick="executedelete('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa-solid fa-trash"></i></button>'+
+                        '<button class="btn btn-info" onclick="executereporte('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa-solid fa-file"></i></button>'+
                         '</div></td></tr>');
                         $('#tablarecepciones tbody').append(row);
-                    });
+                    });recepciondelete
                 }
                 
                 $('#search').on('input', filtering);
@@ -190,6 +260,7 @@
                     showElements();
                 
             }
+        
 
         $("#EmpresaForm").submit(function(e) {
                     e.preventDefault();

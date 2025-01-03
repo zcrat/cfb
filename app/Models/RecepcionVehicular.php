@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Vehiculo;
 use App\Models\Empresa;
 use App\Models\Customer;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class RecepcionVehicular extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'recepcion_vehicular';
     protected $fillable = [
         'folioNum',
@@ -38,7 +41,7 @@ class RecepcionVehicular extends Model
 
     ];
 
-    protected $with = ['vehiculo', 'empresa'];
+    protected $with = ['vehiculo', 'empresa','customer'];
     function empresa(){
         return $this->belongsTo(Empresa::class,'empresa_id','id');
     }
