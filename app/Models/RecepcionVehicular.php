@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Vehiculo;
 use App\Models\Empresa;
 use App\Models\Customer;
+use App\CondicionesPintura;
+use App\EquipoInventario;
+use App\ExterioresEquipo;
+use App\InterioresEquipo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class RecepcionVehicular extends Model
 {
@@ -41,15 +45,26 @@ class RecepcionVehicular extends Model
 
     ];
 
-    protected $with = ['vehiculo', 'empresa','customer'];
+    protected $with = ['vehiculo', 'empresa','customer','condicionespintura','inventario','exteriores','interiores'];
     function empresa(){
         return $this->belongsTo(Empresa::class,'empresa_id','id');
     }
     function vehiculo(){
         return $this->belongsTo(Vehiculo::class, 'vehiculo_id','id'); 
-    
     }
     function customer(){
         return $this->belongsTo(Customer::class,'customer_id','id');
     }
+     function condicionespintura(){
+        return $this->belongsTo(CondicionesPintura::class,'id','recepcion_vehicular_id');
+     }
+     function inventario(){
+        return $this->belongsTo(EquipoInventario::class,'id','recepcion_vehicular_id');
+     }
+     function exteriores(){
+        return $this->belongsTo(ExterioresEquipo::class,'id','recepcion_vehicular_id');
+     }
+     function interiores(){
+        return $this->belongsTo(InterioresEquipo::class,'id','recepcion_vehicular_id');
+     }
 }

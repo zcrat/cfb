@@ -139,7 +139,6 @@ class cfeController extends Controller
     }
 
     public function nuevarecepcion (Request $request){
-
         $checkbox=[
             'llanta',
             'cubreruedas',
@@ -194,7 +193,6 @@ class cfeController extends Controller
             'limpia_parabrisas',
             'luces_exteriores',
         ];
-
         $messages = [
             'ord_seguimiento.required' => 'La Orden de seguimiento es obligatoria.',
             'ord_seguimiento.max'=>'La Orden de seguimineto es muy larga',
@@ -232,6 +230,34 @@ class cfeController extends Controller
             'admintrasporte.max' => 'la información de administración de transporte es muy larga.',
             'jefedelproceso.max' => 'el nombre del jefe de proceso es muy largo.',
         ];
+        if($request->has('id')){
+            $request->validate([
+                'id'=>'exists:recepcion_vehicular,id',
+                'ord_seguimiento' => 'required|string|max:15|min:5',
+                'folio' => 'nullable|string|max:15|min:3',
+                'fecha' => 'required|date',
+                'empresasrecepcion' => 'nullable|exists:empresas,id',
+                'clientesrecepcion' => 'required|exists:customers,id',
+                'vehiculo' => 'required|exists:vehiculos,id',
+                'kmentrada' => 'required|numeric|min:0',
+                'kmsalida' => 'required|numeric|min:0',
+                'gasentrada' => 'required|in:0,1,2,3',
+                'gassalida' => 'required|in:0,1,2,3',
+                'tecnico' => 'nullable|string|max:255',
+                'tipo_auto' => 'nullable|in:1,2,3,4',
+                'miCanvas' => 'nullable|string',
+                'canvasfirma' => 'nullable|string',
+                'fecha_esperada' => 'required|date',
+                'fecha_entrega' => 'required|date',
+                ...array_map(fn($field) => [ "{$field}"=> 'required|in:1,2,3,4,5'],$selects),
+                ...array_map(fn($field) => [ "{$field}"=>'nullable|boolean'],$checkbox),
+                'notasadicionales' => 'nullable|string|max:500',
+                'indicacionescliente' => 'nullable|string|max:500',
+                'admintrasporte' => 'nullable|string|max:255',
+                'jefedelproceso' => 'nullable|string|max:255',
+            ]);   
+        }
+        else{
         $request->validate([
             'ord_seguimiento' => 'required|string|max:15|min:5',
             'folio' => 'nullable|string|max:15|min:3',
@@ -255,7 +281,7 @@ class cfeController extends Controller
             'indicacionescliente' => 'nullable|string|max:500',
             'admintrasporte' => 'nullable|string|max:255',
             'jefedelproceso' => 'nullable|string|max:255',
-        ]);
+        ]);}
         $img = $request->input('miCanvas');
         $img2 = $request->input('canvasfirma');
         if (!$img) {
@@ -277,16 +303,13 @@ class cfeController extends Controller
         
         DB::beginTransaction();
             try {
+            if(!$request->has('id')){
             $recepcion = new RecepcionVehicular;
             $ExterioresEquipo = new ExterioresEquipo();
             $CondicionesPintura = new CondicionesPintura();
             $EquipoInventario = new EquipoInventario();
             $InterioresEquipo = new InterioresEquipo();
-            $HojaConcepto = new HojaConcepto();
-            $EntradasSalidas = new EntradasSalidas();
-            $OrdenesPagadas = new OrdenesPagadas();
-            
-            //iniciorecepcion
+           
             $idsucursal = \Auth::user()->sucursal_id;
             $sucu = Sucursales::select('clave')->where('id',$idsucursal)->get();
             $num = RecepcionVehicular::where('sucursal_id','=',$idsucursal)->orderBy('id','desc')->get();
@@ -301,9 +324,24 @@ class cfeController extends Controller
                     $numeroConCeros = str_pad($numeros, 5, "0", STR_PAD_LEFT);
                     $clave = $sucu[0]['clave'].$numeroConCeros;
                 }
-        }
+            }
             $recepcion->folioNum=$clave;
             $recepcion->usuario_id= \Auth::user()->id;
+            $recepcion->sucursal_id=$idsucursal;
+            $recepcion->status= 0;
+            $recepcion->id_anio_correspondiente=3;
+            }
+            else{
+                $recepcion=RecepcionVehicular::find($request->input('id'));
+                $ExterioresEquipo =ExterioresEquipo::where('recepcion_vehicular_id',$recepcion->id)->first();
+                $CondicionesPintura =CondicionesPintura::where('recepcion_vehicular_id',$recepcion->id)->first();
+                $EquipoInventario =EquipoInventario::where('recepcion_vehicular_id',$recepcion->id)->first();
+                $InterioresEquipo =InterioresEquipo::where('recepcion_vehicular_id',$recepcion->id)->first();
+            }
+            $HojaConcepto = new HojaConcepto();
+            $EntradasSalidas = new EntradasSalidas();
+            $OrdenesPagadas = new OrdenesPagadas();
+
             $recepcion->empresa_id= $request->input('empresasrecepcion');
             $recepcion->customer_id= $request->input('clientesrecepcion');
             $recepcion->vehiculo_id= $request->input('vehiculo');
@@ -320,18 +358,14 @@ class cfeController extends Controller
             $recepcion->firma= $fileName2;
             $recepcion->carro= $fileName;
             $recepcion->fecha_compromiso= $request->input('fecha_esperada');
-            $recepcion->sucursal_id=$idsucursal;
-            $recepcion->status= 0;
             $recepcion->fecha_entrega= $request->input('fecha_entrega');
             $recepcion->modulo= $request->input('modulo');
-            $recepcion->administrador= $request->input('admintrasporte');
+            $recepcion->administrador= $request->input('admintrasportes');
             $recepcion->jefedeprocesos= $request->input('jefedelproceso');
             $recepcion->telefonojefe= $request->input('telefonorecepcion');
             $recepcion->trabajador= $request->input('Trabajador');
-            $recepcion->id_anio_correspondiente=3;
             $recepcion->save();
 
-            
             $ExterioresEquipo->recepcion_vehicular_id= $recepcion->id;
             $ExterioresEquipo->antena_radio = $request->input('antena_radio');
             $ExterioresEquipo->antena_telefono = $request->input('antena_telefono');
@@ -428,23 +462,24 @@ class cfeController extends Controller
             $OrdenesPagadas->folio_sistema = $recepcion->folioNum;  
             $OrdenesPagadas->status = 0; 
             $OrdenesPagadas->save();
-           
-            if($request->input('modulo')== 7 ){
-                $vehiculo1 = new pVehiculos2023();
-                $generales1 = new pGenerales2023();
-                $cotizacion = new presupuestos2023();
-                $origen='ECO';
-            }else if($request->input('modulo')== 2 ){
-                $vehiculo1 = new pCFEVehiculos();
-                $generales1 = new pCFEGenerales();
-                $cotizacion = new presupuestosCFE();
-                $origen='BAJIO';
-            }else if($request->input('modulo')== 3 ){
-                $vehiculo1 = new pCFEVehiculos();
-                $generales1 = new pCFEGenerales();
-                $cotizacion = new presupuestosCFE();
-                $origen='OCCIDENTE';}
-
+            
+                if($request->input('modulo')== 7 ){
+                    $vehiculo1 = new pVehiculos2023();
+                    $generales1 = new pGenerales2023();
+                    $cotizacion = new presupuestos2023();
+                    $origen='ECO';
+                }else if($request->input('modulo')== 2 ){
+                    $vehiculo1 = new pCFEVehiculos();
+                    $generales1 = new pCFEGenerales();
+                    $cotizacion = new presupuestosCFE();
+                    $origen='BAJIO';
+                }else if($request->input('modulo')== 3 ){
+                    $vehiculo1 = new pCFEVehiculos();
+                    $generales1 = new pCFEGenerales();
+                    $cotizacion = new presupuestosCFE();
+                    $origen='OCCIDENTE';}
+            
+            $vehiculo1->fecha = $fecha123;
             $vehiculo1->identificador = $vehiculo[0]->no_economico;
             $vehiculo1->modelo = $modelo[0]->nombre;
             $vehiculo1->vin =  $vehiculo[0]->vim;
@@ -452,18 +487,17 @@ class cfeController extends Controller
             $vehiculo1->ano = $vehiculo[0]->anio;
             $vehiculo1->kilometraje = $recepcion->km_entrada;
             $vehiculo1->marca = $marca[0]->nombre;
-            $vehiculo1->fecha = $fecha123;
             $vehiculo1->save();
 
-            $generales1->NSolicitud = $recepcion->folioNum;
             $generales1->FechaAlta = $fecha123;
+            $generales1->Fecha = $fecha123;
+            $generales1->Conductor = 'Conductor';
+            $generales1->NSolicitud = $recepcion->folioNum;
             $generales1->OrdenServicio = $recepcion->orden_seguimiento;
             $generales1->KmDeIngreso = $recepcion->km_entrada;
             $generales1->ClienteYRazonSocial = $empresa[0]->nombre;
             $generales1->Mail = $empresa[0]->email;
             $generales1->Telefono = $empresa[0]->tel_negocio;
-            $generales1->Conductor = 'Conductor';
-            $generales1->Fecha = $fecha123;
             $generales1->save();
 
             if($origen=='ECO'){
@@ -477,22 +511,19 @@ class cfeController extends Controller
             $cotizacion->CFE_id=$request->input('modulo');
             }
 
-            $cotizacion->descripcionMO = $recepcion->indicaciones_del_cliente;
             $cotizacion->fechaDeVigencia = $fecha123;
             $cotizacion->tiempo = '1';
             $cotizacion->importe ='0';
-            $cotizacion->observaciones = $recepcion->indicaciones_del_cliente;
             $cotizacion->user_id = \Auth::user()->id;
             $cotizacion->ubicacion = 'Ubicacion';
             $cotizacion->area = 'Area';
+            $cotizacion->descripcionMO = $recepcion->indicaciones_del_cliente;
+            $cotizacion->observaciones = $recepcion->indicaciones_del_cliente;
             $cotizacion->save();   
 
             $HojaConcepto->modulo                       = $request->input('modulo');
             $HojaConcepto->presupuesto_id               = $cotizacion->id;
             $HojaConcepto->id_recepcion                 = $recepcion->id;
-            $HojaConcepto->id_tecnico                   = $recepcion->tecnico;
-            $HojaConcepto->odes                         = $recepcion->folioNum;
-            $HojaConcepto->r_r                          = $recepcion->orden_seguimiento;
             $HojaConcepto->fecha_hoja_concepto          = Carbon::parse($fecha123)->timezone('America/Mexico_City')->toDateTimeString();
             $HojaConcepto->subtotal_partes              = '0';
             $HojaConcepto->subtotal_mano_obra           = '0';
@@ -510,8 +541,12 @@ class cfeController extends Controller
             $HojaConcepto->total_otros                  = '0';
             $HojaConcepto->total_subtotal_costos        = '0';
             $HojaConcepto->autorizacion                 = '';
+            $HojaConcepto->id_tecnico                   = $recepcion->tecnico;
+            $HojaConcepto->odes                         = $recepcion->folioNum;
+            $HojaConcepto->r_r                          = $recepcion->orden_seguimiento;
             $HojaConcepto->save();
-
+  
+    
             DB::commit();
             return "guardado";
             }catch (\Exception $e) {

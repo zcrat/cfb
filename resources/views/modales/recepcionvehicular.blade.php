@@ -70,7 +70,7 @@
                         <option value="1">Camioneta</option>
                         <option value="2">Subirban</option></select>
                     <canvas id="miCanvas" required name="miCanvasmiCanvas" class="form-control canvasdetalles"></canvas>
-                    <button id="deshacer" name="deshacer" class="btn btn-secondary">Deshacer</button>
+                    <button type="button" id="deshacer" name="deshacer" class="btn btn-secondary">Deshacer</button>
                 </div>
                 <h4>Datos Del Responsable</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
@@ -193,52 +193,131 @@
 </div>
 @push('scripts')
   <script>
+    let origen="nuevo";
      $(function(){
+        let ideditar=""
         window.executeeditarrecepcion = function(id) {
-                    eval("editarrecepcion(id)");
-                };
+            eval("editarrecepcion(id)");
+        };
         function editarrecepcion(id){
-    $.ajax({
-        type: 'GET',
-        url: '{{ route('2025.cfe.obtener.Recepcionvehicular') }}',
-        data:{
-            id:id,
-            modulo : @json($modulo),
-        },
-        success: function(response) {
-            console.log(response);
-            editaruinputsrecepcion(response.recepcion)
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr);
-        }
-    });
-    }
-
-function editaruinputsrecepcion(element){
-    console.log(element);
-        $("#empresasrecepcion").append('<option value="'+element.empresa_id+'">'+element.empresa.nombre+'</option>');
-        $("#vehiculo").append('<option value="'+element.vehiculo.id+'">'+element.vehiculo.no_economico+'-'+element.vehiculo.placas+'</option>');
-        $("#clientesrecepcion").append('<option value="'+element.customer.id+'">'+element.customer.nombre+'</option>');
-        $("#empresasrecepcion").val(element.empresa_id).trigger('change');
-        $("#vehiculo").val(element.vehiculo.id).trigger('change');
-        $("#clientesrecepcion").val(element.customer.id).trigger('change');
-        $("#fecha").val(element.fecha);
-        let modal=$("#RecepcionVehicular");
-        modal.modal("show");
-
-        $('#RecepcionVehicular').on('shown.bs.modal', function () {
-            executedibujarImagen("/storage/carror/"+element.carro)
-            executedibujarImagenfr("/storage/firmas/"+element.firma)
-            
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('2025.cfe.obtener.Recepcionvehicular') }}',
+            data:{
+                id:id,
+                modulo : @json($modulo),
+            },
+            success: function(response) {
+                console.log(response);
+                origen="existe";
+                editaruinputsrecepcion(response.recepcion)
+                ideditar=response.recepcion.id;
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
         });
-        
-    }   
-     });
-     
+        }
+        function editaruinputsrecepcion(element){
+            console.log(element);
+           
+            $("#empresasrecepcion").append('<option value="'+element.empresa_id+'">'+element.empresa.nombre+'</option>');
+            $("#vehiculo").append('<option value="'+element.vehiculo.id+'">'+element.vehiculo.no_economico+'-'+element.vehiculo.placas+'</option>');
+            $("#clientesrecepcion").append('<option value="'+element.customer.id+'">'+element.customer.nombre+'</option>');
+            $("#empresasrecepcion").val(element.empresa_id).trigger('change');
+            $("#vehiculo").val(element.vehiculo.id).trigger('change');
+            $("#clientesrecepcion").val(element.customer.id).trigger('change');
+            const textFields = {
+                'orden_seguimiento': 'ord_seguimiento',
+                'folio': 'folio',
+                'notas_adicionales': 'notasadicionales',
+                'indicaciones_del_cliente': 'indicacionescliente',
+                'km_entrada': 'kmentrada',
+                'km_salida': 'kmsalida',
+                'gas_entrada': 'gasentrada',
+                'gas_salida': 'gassalida',
+                'tecnico': 'tecnico',
+                'tipo_auto': 'tipo_auto',
+                'fecha': 'fecha',
+                'fecha_compromiso': 'fecha_esperada',
+                'fecha_entrega': 'fecha_entrega',
+                'administrador': 'admintrasportes',
+                'jefedeprocesos': 'jefedelproceso',
+                'telefonojefe': 'telefonorecepcion',
+                'trabajador': 'Trabajador',
+            };
 
+            // Asignar los valores a los campos de texto
+            for (let field in textFields) {
+                $(`#${textFields[field]}`).val(element[field]);  // Usar element[field] para obtener el valor correcto
+            }
+            const exterioresEquipoFields = [
+                'antena_radio', 'antena_telefono', 'antena_cb', 'estribos', 'espejos_laterales', 
+                'guardafangos', 'parabrisas', 'sistema_alarma', 'limpia_parabrisas', 'luces_exteriores'
+            ];
+
+            const interioresEquipoFields = [
+                'puerta_interior_frontal', 'puerta_interior_trasera', 'puerta_delantera_frontal', 'puerta_delantera_trasera',
+                'asiento_interior_frontal', 'asiento_interior_trasera', 'asiento_delantera_frontal', 'asiento_delantera_trasera',
+                'consola_central', 'claxon', 'tablero', 'quemacocos', 'toldo', 'elevadores_eletricos',
+                'luces_interiores', 'seguros_eletricos', 'tapetes', 'climatizador', 'radio', 'espejos_retrovizor'
+            ];
+
+            // Asignar los valores a los campos de ExterioresEquipo
+            exterioresEquipoFields.forEach(field => {
+                $(`#${field}`).val(element.exteriores[field]);  // Asignar el valor correspondiente de element
+            });
+
+            // Asignar los valores a los campos de InterioresEquipo
+            interioresEquipoFields.forEach(field => {
+                $(`#${field}`).val(element.interiores[field]);  // Asignar el valor correspondiente de element
+            });
+
+                    let checkboxFields = [
+                        'llanta', 'cubreruedas', 'cables_corriente', 'candado_ruedas', 'estuche_herramientas',
+                        'gato', 'llave_tuercas', 'tarjeta_circulacion', 'triangulo_seguridad', 'extinguidor',
+                        'placas'
+                    ];
+                    checkboxFields.forEach(field => {
+                        $(`#${field}`).prop('checked', !!element.inventario[field]);
+                    });
+                    checkboxFields = [
+                    'decolorada', 'emblemas_completos', 'color_no_igual', 'logos', 'exeso_rayones',
+                        'exeso_rociado', 'pequenias_grietas', 'danios_granizado', 'carroceria_golpes', 'lluvia_acido'
+                    ];
+
+                    checkboxFields.forEach(field => {
+                        $(`#${field}`).prop('checked', !!element.condicionespintura[field]);
+                    });
+
+                    let modal=$("#RecepcionVehicular");
+                    modal.modal("show");
+                    $("#formnewrecepcion").find(".error-message").remove();
+                    modal.on('shown.bs.modal', function () {
+                    console.log(origen);
+                        if(origen=="existe"){
+                        executedibujarImagen("/storage/carror/"+element.carro)
+                        executedibujarImagenfr("/storage/firmas/"+element.firma)
+                        }
+                    });
+                    
+        }   
+        window.limpiarmodalrecepciones = function(id) {
+                    eval("limpiarmodalrecepcion()");
+                };
+        function limpiarmodalrecepcion(){
+            origen="nuevo";
+            $("#formnewrecepcion").find(".error-message").remove();
+            $('#RecepcionVehicular input').not('input[name="_token"]').val('');
+            $('#RecepcionVehicular textarea').val('');
+            $('#RecepcionVehicular select').val('').trigger('change');;  // O puedes usar $('#RecepcionVehicular select').prop('selectedIndex', -1);
+            $('#RecepcionVehicular input[type="checkbox"]').prop('checked', false);
+        }
+       
+ 
     $("#formnewrecepcion").submit(function(e) {
       e.preventDefault();
+      origen="espera";
       let canvas = document.getElementById("miCanvas");
       let canvas2 = document.getElementById("canvasfirma");
       let canvasImage = canvas.toDataURL();
@@ -248,11 +327,16 @@ function editaruinputsrecepcion(element){
       let ruta="{{ route('2025.cfe.guardar.nuevarecepcion') }}";
       let form= $("#formnewrecepcion");
       let data=  form.serialize() + '&miCanvas=' + encodeURIComponent(canvasImage) + '&canvasfirma=' + encodeURIComponent(canvasImage2)+ '&modulo='+@json($modulo);
+      if(ideditar){
+        data=data +'&id='+ideditar
+      }
+      
+      console.log(ideditar);
       modal.modal("hide");
       guardar.attr("disabled", true);
       Swal.fire({
               icon: "question",
-              text: "¿Estás seguro de guardar la nueva recepcion?",
+              text: "¿Estás seguro de guardar la recepcion?",
               showCancelButton: true,
               confirmButtonText: "Confirmar",
               cancelButtonText: "Cancelar",
@@ -271,10 +355,11 @@ function editaruinputsrecepcion(element){
                 if (data === "guardado") {
                     Swal.fire({
                         icon: "success",
-                        title: "Se registró correctamente al nuevo color",
+                        title: "Se registró correctamente",
                         showConfirmButton: false,
                         timer: 2000,
                     });
+                    executeSearchdata();
                 }  else {
                     Swal.fire({
                         icon: "error",
@@ -282,12 +367,14 @@ function editaruinputsrecepcion(element){
                         html: data,
                     }).then((result) => {
                         modal.modal("show");
+                       
                     });
                 }
               });
               $request.fail(function(error) {
                   guardar.attr("disabled", false);
                   if (error.status === 422) {
+                    $("#formnewrecepcion").find(".error-message").remove();
                     let errors = error.responseJSON.errors;
                     let errorMessages = Object.values(errors)
                         .map((msgs) => msgs.join("<br>"))
@@ -303,6 +390,7 @@ function editaruinputsrecepcion(element){
                         html: errorMessages,
                     }).then(() => {
                         modal.modal("show");
+                       
                     });
                 } else {
                     modal.modal("hide");
@@ -312,14 +400,23 @@ function editaruinputsrecepcion(element){
                         text: "Ocurrió un error inesperado",
                     }).then(() => {
                         modal.modal("show");
+                       
                     });
                 }
               });
             } else {
                 modal.modal("show");
                 guardar.attr("disabled", false);
+                
             }
       });
+      modal.on('shown.bs.modal', function () {
+            if(origen=="espera"){
+            executedibujarImagen(canvasImage)
+            executedibujarImagenfr(canvasImage2)
+            }
+        });
     });
+});
   </script>
 @endpush 

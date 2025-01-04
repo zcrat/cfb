@@ -6,7 +6,7 @@
             <div class="card vanigrow">
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Recepcion Vehicular
-                    <button type="button"  class="boton1" data-bs-toggle="modal" data-bs-target="#RecepcionVehicular">
+                    <button type="button"  class="boton1" data-bs-toggle="modal" onclick="limpiarmodalrecepciones()" data-bs-target="#RecepcionVehicular">
                         <i class="fa-solid fa-circle-plus"></i>&nbsp;Nueva
                     </button>
                 </div>

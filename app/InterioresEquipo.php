@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\RecepcionVehicular;
 class InterioresEquipo extends Model
 {
     protected $table = 'interiores_equipo';
@@ -31,6 +31,6 @@ class InterioresEquipo extends Model
         'espejos_retrovizor',
     ];
     function recepcionVehicular(){
-        return $this->hasOne(RecepcionVehicular::class);
+        return $this->hasOne(RecepcionVehicular::class, 'recepcion_vehicular_id');
     }
 }

@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\RecepcionVehicular;
 class CondicionesPintura extends Model
 {
     protected $table = 'condiciones_pintura';
@@ -22,6 +22,6 @@ class CondicionesPintura extends Model
     ];
 
     function recepcionVehicular(){
-        return $this->hasOne(RecepcionVehicular::class);
+        return $this->hasMany(RecepcionVehicular::class,'recepcion_vehicular_id');
     }
 }

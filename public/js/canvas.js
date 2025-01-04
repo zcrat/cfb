@@ -8,10 +8,12 @@ $(function() {
   $('#RecepcionVehicular').on('shown.bs.modal', function () {
     ajustarCanvas();
     ajustarfirma();
-    
   });
   $("#tipo_auto").on('change', function(){
-    let imagenurl = "/img/carro" + $("#tipo_auto").val() + ".png";
+
+    let imagenurl = "";
+    if($("#tipo_auto").val()){
+    imagenurl = "/img/carro" + $("#tipo_auto").val() + ".png";}
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     dibujarImagen(imagenurl);
     historial = [];
@@ -35,6 +37,7 @@ $(function() {
     ctx.moveTo(e.offsetX, e.offsetY);
 
     const dibujar = (event) => {
+      ctx.strokeStyle = "red";  
       ctx.lineTo(event.offsetX, event.offsetY);
       ctx.stroke();
     };
@@ -77,7 +80,6 @@ $(function() {
     ajustarfirma();
     dibujarImagensinajustar(ultimoEstado);
     dibujarImagensinajustafr(ultimoEstadof);
-
   }
 
   function guardarEstado() {
@@ -103,7 +105,7 @@ $(function() {
   }
 
   function dibujarImagen(urlimagen) {
-    console.log("imprim")
+    if(urlimagen){
     let img = new Image();
     img.src = urlimagen;
     img.onload = function () {
@@ -124,6 +126,9 @@ $(function() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, renderWidth, renderHeight);
     };
+  }else{
+    ajustarCanvas();
+  }
   }
 
   function dibujarImagensinajustar(urlimagen) {
@@ -144,6 +149,7 @@ $(function() {
     };
   }
   window.executedibujarImagenfr = function(img) {
+    console.log('dib')
     dibujarImagensinajustafr(img);
   };
   window.executedibujarImagen = function(img) {

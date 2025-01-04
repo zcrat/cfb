@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\RecepcionVehicular;
 class ExterioresEquipo extends Model
 {
     protected $table = 'exteriores_equipo';
@@ -22,6 +23,6 @@ class ExterioresEquipo extends Model
     ];
 
     function recepcionVehicular(){
-        return $this->hasOne(RecepcionVehicular::class);
+        return $this->hasOne(RecepcionVehicular::class,'recepcion_vehicular_id');
     }
 }
