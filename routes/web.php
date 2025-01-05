@@ -28,6 +28,7 @@ Route::get('select2/obtenermarcasvehiculos', 'zcrat\SelecController@select2marca
 Route::get('select2/obtenermodelosvehiculo', 'zcrat\SelecController@select2modelosvehiculo')->name('select2.modelosvehiculo')->middleware('auth');
 Route::get('select2/obtenertipovehiculo', 'zcrat\SelecController@select2tipovehiculo')->name('select2.tipovehiculo')->middleware('auth');
 Route::get('select2/obtenercoloresvehiculo', 'zcrat\SelecController@select2coloresvehiculo')->name('select2.coloresvehiculo')->middleware('auth');
+Route::get('select2/obtenerubicaciones', 'zcrat\SelecController@select2ubicaciones')->name('select2.ubicaciones')->middleware('auth');
 //users
 Route::get('clientes/usuarios', 'zcrat\Customers@clientes')->name('cliente.usuarios')->middleware('auth');
 Route::post('clientes/newusuario', 'zcrat\Customers@create')->name('cliente.register');
@@ -68,10 +69,12 @@ Route::middleware(['auth'])->group(function(){
         Route::get('cfe2025/occidente/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionoccidente')->name('2025.cfe.recepcion.occidente');
 
         Route::get('cfe2025/Obtener/Recepcionvehicular', 'zcrat\anio2025\cfeController@ObtenerRecepciones')->name('2025.cfe.obtener.Recepcionvehicular');
+        Route::get('cfe2025/Obtener/datosservicio', 'zcrat\anio2025\cfeController@Obtenerdatosservicio')->name('2025.cfe.obtener.datosservicio');
         Route::post('cfe2025/nuevo/color', 'zcrat\anio2025\cfeController@guardarnuevocolor')->name('2025.cfe.guardar.nuevocolor');
         Route::post('cfe2025/nuevarecepcion', 'zcrat\anio2025\cfeController@nuevarecepcion')->name('2025.cfe.guardar.nuevarecepcion');
+        Route::post('cfe2025/nuevarecepcionservicio', 'zcrat\anio2025\cfeController@nuevarecepcionservicio')->name('2025.cfe.guardar.nuevarecepcionservicio');
         Route::post('cfe2025/recepcion/delete', 'zcrat\anio2025\cfeController@deleterecpcion')->name('2025.cfe.recepcion.delete');
-        
+
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
     ->middleware('permission:tareas.index');
@@ -522,7 +525,7 @@ Route::middleware(['auth'])->group(function(){
          ->middleware('permission:ordenesNew.index');
          Route::get('/ordenesNew/start', 'presupuestos2023Controller@indexStart')->name('ordenesNew.index')
          ->middleware('permission:ordenesNew.index');
-         Route::post('/ordenesNew/registrar', 'presupuestos2023Controller@store')->name('ordenesNew.store')
+        Route::post('/ordenesNew/registrar', 'presupuestos2023Controller@store')->name('ordenesNew.store')
          ->middleware('permission:ordenesNew.store');  
          Route::post('/ordenesNew/update', 'presupuestos2023Controller@update')->name('ordenesNew.update')
          ->middleware('permission:ordenesNew.update');   

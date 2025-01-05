@@ -77,6 +77,7 @@
     @include('modales.marca')
     @include('modales.modelo')
     @include('modales.color')
+    @include('modales.recepcionservicio')
     @include('modales.recepcionvehicular')
 
 
@@ -188,6 +189,9 @@ function recepciondelete(id) {
                 window.executereporte = function(id) {
                     eval("reporte("+id+")");
                 };
+                window.executeservicio = function(id) {
+                    $('#recepcionservicio').modal("show");
+                };
                 function reporte(id){
                     window.open('/recepcion/reporte/'+ id,'_blank');
                 };
@@ -220,7 +224,7 @@ function recepciondelete(id) {
                         '<button class="btn btn-success reporte" onclick="executereporte('+(element.id ? element.id : 1 )+')" ><i aria-hidden="true"  class="fa fa-eye "></i></button>'+
                         '<button class="btn btn-warning" onclick="executeeditarrecepcion('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa fa-pencil-square-o"></i></button>'+
                         '<button class="btn btn-danger" onclick="executedelete('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa-solid fa-trash"></i></button>'+
-                        '<button class="btn btn-info" onclick="executereporte('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa-solid fa-file"></i></button>'+
+                        '<button class="btn btn-info" onclick="executeagregarservicio(\''+(element.folioNum ? element.folioNum : 1 )+'\','+ (element.empresa ? element.empresa.id : 1) +')"><i aria-hidden="true" class="fa-solid fa-file"></i></button>'+
                         '</div></td></tr>');
                         $('#tablarecepciones tbody').append(row);
                     });recepciondelete

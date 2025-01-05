@@ -218,6 +218,7 @@
             }
         });
         }
+        
         function editaruinputsrecepcion(element){
             console.log(element);
            

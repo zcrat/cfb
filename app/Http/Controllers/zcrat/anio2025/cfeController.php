@@ -12,6 +12,7 @@ use App\Models\Color;
 use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\Vehiculo;
+use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\CondicionesPintura;
@@ -28,6 +29,10 @@ use App\pCFEGenerales;
 use App\presupuestosCFE;
 use App\HojaConcepto;
 use App\Sucursales;
+use App\TipoServicioOrden2023;
+use App\CorrectivosOrden2023;
+use App\ServicioOrden2023;
+use App\ServicioOrden;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -106,6 +111,53 @@ class cfeController extends Controller
             'recepciones' => $recepciones
         ]);}
     }
+    public function  Obtenerdatosservicio(Request $request){
+
+        $res = RecepcionVehicular::where('folioNum','=',$request->input('orden'))->first();
+        
+        if($res){
+            if($res->empresa_id){
+                $ubi = Empresa::where('id','=', $res->empresa_id)->first();
+                $data['ciudad'] = $ubi->ciudad;
+            }
+            $r = Vehiculo::where('id', '=', $res->vehiculo_id)->first();
+            $modelo = $r->modelo_id;
+
+            $marca = Marca::where('id','=',$r->marca_id)->first();
+            $marca = $marca->nombre;
+
+            $Modelo = Modelo::where('id','=',$modelo)->first();
+            $modelo = $Modelo->nombre;
+
+            $rcus = Customer::where('id','=',$res->customer_id)->first();
+            $data['ubicacion'] = $rcus->nombre;
+            $data['km'] = $res->km_entrada;
+            $data['idRecepcion'] = $res->id;
+            $data['folio'] = $res->folioNum;
+            $data['administrador'] = $res->administrador;
+            $data['jefedeprocesos'] = $res->jefedeprocesos;
+            $data['telefonojefe'] = $res->telefonojefe;
+            $data['trabajador'] = $res->trabajador;
+            $data['notas'] = $res->notas_adicionales;
+            $data['fecha'] = $res->fecha;
+            $data['placas'] = $r->placas;
+            $data['vin'] = $r->vim;
+            $data['economico'] = $r->no_economico;
+            $data['anio'] = $r->anio;
+            $data['marca'] = $marca;
+            $data['modelo'] = $modelo;
+            $data['id'] =  $res->folio;
+
+
+            return response()->json([
+                'data' => $data
+            ]);
+        }else{
+            return "No existe";
+        }
+
+       
+    }
     public function guardarnuevocolor(Request $request){
         $request->validate([
             'newcolor' => 'required|max:255',
@@ -137,7 +189,127 @@ class cfeController extends Controller
         }
                 
     }
+    public function nuevarecepcionservicio (Request $request){
+        
+        try{
+            DB::beginTransaction();
+ 
+            $mytime= Carbon::now('America/Lima');
+            $fechita = Carbon::parse($request->fecha)->format('Y-m-d H:m');
 
+            if($request->input('modulo')== 7 ){
+                $vehiculo = new pVehiculos2023();
+                $generales = new pGenerales2023();
+                $cotizacion = new presupuestos2023();
+               
+                $origen='ECO';
+            }else if($request->input('modulo')== 2 ){
+                $vehiculo = new pCFEVehiculos();
+                $generales = new pCFEGenerales();
+                $cotizacion = new presupuestosCFE();
+                
+                $origen='BAJIO';
+            }else if($request->input('modulo')== 3 ){
+                $vehiculo1 = new pCFEVehiculos();
+                $generales1 = new pCFEGenerales();
+                $cotizacion = new presupuestosCFE();
+                
+                $origen='OCCIDENTE';}
+
+            $vehiculo->identificador = $request->input('rsEconomico');
+            $vehiculo->modelo = $request->input('rsmodelo');
+            $vehiculo->vin = $request->input('rsvin');
+            $vehiculo->placas = $request->input('rsplacas');
+            $vehiculo->ano = $request->input('rsAño');
+            $vehiculo->kilometraje = $request->input('rsKilometraje');
+            $vehiculo->marca = $request->input('rsMarca');
+            $vehiculo->fecha = $fechita;
+            $vehiculo->save();
+
+            $fechaAl =$request->input('rsFecha_Alta');
+
+            $generales->NSolicitud = $request->input('rsFolio');
+            $generales->FechaAlta = $fechaAl;
+            $generales->OrdenServicio = $request->input('rsid');
+            $generales->KmDeIngreso = $request->input('rsKm_De_Ingreso');
+            $generales->ClienteYRazonSocial = $request->input('rsAdministrador_de_Transportes');
+            $generales->Mail = $request->input('rsJefe_de_Proceso');
+            $generales->Telefono = $request->input('rsTeléfono');
+            $generales->Conductor = $request->input('rsTrabajador');
+            $generales->Fecha = $fechita;
+            $generales->save();
+
+            if($origen=='ECO'){
+                $cotizacion->pVehiculos_id = $vehiculo->id;
+                $cotizacion->pGenerales_id = $generales->id;
+                $cotizacion->empresa_id = $request->input('empresa_id');
+                $cotizacion->eco_id ='1';
+               
+                }else if($origen=='OCCIDENTE'|| $origen=='BAJIO') {
+                $cotizacion->pCFEVehiculos_id = $vehiculo->id;
+                $cotizacion->pCFEGenerales_id = $generales->id;
+                $cotizacion->CFE_id=$request->input('modulo');
+            }
+
+            $cotizacion->descripcionMO = "";
+            $cotizacion->fechaDeVigencia = $fechita;
+            $cotizacion->tiempo = "12:00";
+            // $cotizacion->importe ="";
+            $cotizacion->observaciones =$request->input('rsObservaciones');
+            $cotizacion->user_id = \Auth::user()->id;
+            $cotizacion->ubicacion =$request->input('rsUbicación');
+            $cotizacion->area =$request->input('rsArea');
+            $cotizacion->save();
+            
+            if($origen=='ECO'){
+                $coti = new ServicioOrden2023();
+            $coti->presupuesto_id = $cotizacion->id;
+            $coti->preocorr_id = $request->input('rsServicio');  
+            $coti->ubicacion = $request->input('rsUbicacion2');
+            $coti->area = $request->input('rsArea');
+            $coti->save();
+               
+                }else if($origen=='OCCIDENTE'|| $origen=='BAJIO') {
+                    $coti = new ServicioOrden();
+                    $coti->presupuestoCFE_id = $cotizacion->id;
+                    $coti->preocorr_id = $request->input('rsServicio');  
+                    $coti->ubicacion = $request->input('rsUbicacion2');
+                    $coti->area = $request->input('rsArea');
+                    $coti->save();
+            }
+
+
+
+            if($request->input('rsServicio') == "2"){
+
+                $detalles = $request->input("rsCorrectivos");//Array de detalles
+                foreach($detalles as $det)
+                {
+                    $detalle = new CorrectivosOrden2023();
+                    $detalle->presupuesto_id = $cotizacion->id;
+                    $detalle->correctivo_id = $det;      
+                    $detalle->save();
+                }     
+
+            } 
+            if($request->input('rsServicio') == "1"){
+                $ser = new TipoServicioOrden2023();
+                $ser->presupuesto_id = $cotizacion->id;
+                $ser->tipo_servicio = $request->input('rsTipo_de_Servicio');
+                $ser->kilometros = $request->input('rsKilometraje2');
+                $ser->save();
+
+            }
+
+          
+           
+            DB::commit();
+            return "guardado";
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+    
+    }
     public function nuevarecepcion (Request $request){
         $checkbox=[
             'llanta',

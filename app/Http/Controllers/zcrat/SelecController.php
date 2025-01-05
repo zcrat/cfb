@@ -11,6 +11,7 @@ use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\TipoAuto;
 use App\Models\Vehiculo;
+use App\Models\Ubicaciones;
 use Illuminate\Support\Facades\DB;
 use App\RecepcionVehicular;
 
@@ -61,5 +62,10 @@ class SelecController extends Controller
         $term = str_replace(' ', '%', $request->input('term'));
         $colores=Color::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($colores);
+    }
+    public function select2ubicaciones(Request $request){
+        $term = str_replace(' ', '%', $request->input('term'));
+        $Ubicaciones=Ubicaciones::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
+        return response()->json($Ubicaciones);
     }
 }
