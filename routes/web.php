@@ -67,6 +67,12 @@ Route::middleware(['auth'])->group(function(){
         Route::get('cfe2025/eco/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcioneco')->name('2025.cfe.recepcion.eco');
         Route::get('cfe2025/bajio/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionbajio')->name('2025.cfe.recepcion.bajio');
         Route::get('cfe2025/occidente/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionoccidente')->name('2025.cfe.recepcion.occidente');
+        Route::get('cfe2025/eco/Aprobacionesvehicular', 'zcrat\anio2025\cfeController@vistaAprobacioneseco')->name('2025.cfe.Aprobaciones.eco');
+        Route::get('cfe2025/bajio/Aprobacionesvehicular', 'zcrat\anio2025\cfeController@vistaAprobacionesbajio')->name('2025.cfe.Aprobaciones.bajio');
+        Route::get('cfe2025/occidente/Aprobacionesvehicular', 'zcrat\anio2025\cfeController@vistaAprobacionesoccidente')->name('2025.cfe.Aprobaciones.occidente');
+        Route::get('cfe2025/eco/Talleresvehicular', 'zcrat\anio2025\cfeController@vistaTallereseco')->name('2025.cfe.Talleres.eco');
+        Route::get('cfe2025/bajio/Talleresvehicular', 'zcrat\anio2025\cfeController@vistaTalleresbajio')->name('2025.cfe.Talleres.bajio');
+        Route::get('cfe2025/occidente/Talleresvehicular', 'zcrat\anio2025\cfeController@vistaTalleresoccidente')->name('2025.cfe.Talleres.occidente');
 
         Route::get('cfe2025/Obtener/Recepcionvehicular', 'zcrat\anio2025\cfeController@ObtenerRecepciones')->name('2025.cfe.obtener.Recepcionvehicular');
         Route::get('cfe2025/Obtener/datosservicio', 'zcrat\anio2025\cfeController@Obtenerdatosservicio')->name('2025.cfe.obtener.datosservicio');
@@ -74,6 +80,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('cfe2025/nuevarecepcion', 'zcrat\anio2025\cfeController@nuevarecepcion')->name('2025.cfe.guardar.nuevarecepcion');
         Route::post('cfe2025/nuevarecepcionservicio', 'zcrat\anio2025\cfeController@nuevarecepcionservicio')->name('2025.cfe.guardar.nuevarecepcionservicio');
         Route::post('cfe2025/recepcion/delete', 'zcrat\anio2025\cfeController@deleterecpcion')->name('2025.cfe.recepcion.delete');
+        Route::get('cfe2025/Obtener/talleresexternos', 'zcrat\anio2025\cfeController@Obtenertalleresexternos')->name('2025.cfe.obtener.talleres');
 
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')

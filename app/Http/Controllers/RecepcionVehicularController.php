@@ -508,9 +508,6 @@ class RecepcionVehicularController extends Controller
                 $HojaConcepto->save();
 
             }
-            
-
-
             if($modeloRecepcionTEst['modulo'] == 5){
 
 

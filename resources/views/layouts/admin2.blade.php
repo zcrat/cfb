@@ -531,7 +531,50 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script type="module" src="{{asset('js/select2.js')}}"></script>
+
         <script>
+          $(function() {
+  console.log("paso");
+  
+  if ($("#submenu").length) {
+    let modulo = @json($modulo);
+    var linksContainer = $("#submenu");
+    
+    let links = [];
+    
+    switch (modulo) { 
+      case 6: 
+        links = [ 
+          { href: '{{ route("2025.cfe.recepcion.eco") }}', text: 'Recepcion Vehicular' }, 
+          { href: '{{ route("2025.cfe.Aprobaciones.eco") }}', text: 'Aprobaciones' }, 
+          { href: '{{ route("2025.cfe.Talleres.eco") }}', text: 'Talleres' }
+        ]; 
+        break; 
+      case 2: 
+        links = [ 
+          { href: '{{ route("2025.cfe.recepcion.bajio") }}', text: 'Recepcion Vehicular' }, 
+          { href: '{{ route("2025.cfe.Aprobaciones.bajio") }}', text: 'Aprobaciones' }, 
+          { href: '{{ route("2025.cfe.Talleres.bajio") }}', text: 'Talleres' }
+        ]; 
+        break; 
+      case 3: 
+        links = [ 
+          { href: '{{ route("2025.cfe.recepcion.occidente") }}', text: 'Recepcion Vehicular' }, 
+          { href: '{{ route("2025.cfe.Aprobaciones.occidente") }}', text: 'Aprobaciones' }, 
+          { href: '{{ route("2025.cfe.Talleres.occidente") }}', text: 'Talleres' }
+        ]; 
+        break; 
+      default:
+        links = [];
+    }
+
+    links.forEach(function(link) { 
+      var label = $("<label>").append($("<a>").attr("href", link.href).text(link.text));
+      linksContainer.append(label); // Añadir un salto de línea
+    });
+  }
+});
+
           document.addEventListener('DOMContentLoaded', function() {
             let s1=document.querySelector('.msidebar');
            

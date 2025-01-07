@@ -9,12 +9,7 @@
                     <button type="button"  class="boton1" data-bs-toggle="modal" onclick="limpiarmodalrecepciones()" data-bs-target="#RecepcionVehicular">
                         <i class="fa-solid fa-circle-plus"></i>&nbsp;Nueva
                     </button>
-                    <div id="submenu">
-
-                    </div>
-                      
-                       
-
+                    <div id="submenu"></div>
                 </div>
                 <div class="card-body mycard ">
                     <div class="vaniwidth" id="dataupload" >
@@ -22,7 +17,7 @@
                             <div class="iconoin zdmgr-r05">
                                 <input class="misearch zdw-r29"
                                     type="text" id="search" name="s"
-                                    placeholder="Busqueda Por #Orden,, Folio, Marca, Modelo, etc" min="1">
+                                    placeholder="Busqueda Por Folio, Marca, Modelo, Vin, Economico, etc" >
                                     <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
                             </div>
                             
@@ -51,14 +46,16 @@
                             </colgroup>
                                     <thead>
                                         <tr>
-                                            <th># Orden</th>
-                                            <th>Ord. Seguimiento</th>
-                                            <th>Folio</th>
-                                            <th>Empresa</th>
-                                            <th>Vehiculo</th>
-                                            <th>F. Recepcion</th>
-                                            <th>F. Compromiso</th>
-                                            <th>Accciones</th>
+                                            <th>OPCIONES</th>
+                                            <th>FOLIO</th>
+                                            <th>ECONOMICO</th>
+                                            <th>MARCA</th>
+                                            <th>MODELOS</th>
+                                            <th>AÑO</th>
+                                            <th>PLACAS</th>
+                                            <th>VIN</th>
+                                            <th>FECHA</th>
+                                            <th>ESTADO</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -153,8 +150,6 @@ function recepciondelete(id) {
         }
     });
 }
-
-
                 let elements = [];
                 let originalelements = [];
                 const modulo = @json($modulo);
@@ -165,7 +160,7 @@ function recepciondelete(id) {
                     document.getElementById('dataupload').setAttribute('hidden', true);
                     $.ajax({
                         type: 'GET',
-                        url: '{{ route('2025.cfe.obtener.Recepcionvehicular') }}',
+                        url: '{{ route('2025.cfe.obtener.talleres') }}',
                         data:{
                             modulo:modulo,
                             anio:anio
@@ -175,7 +170,7 @@ function recepciondelete(id) {
                             originalelements = elements = response.recepciones;
                             document.getElementById('loadingdata').setAttribute('hidden', true);
                             document.getElementById('dataupload').removeAttribute('hidden');
-                            filtering();
+                            filtering()
                         },
                         error: function(xhr, status, error) {
                             console.error(xhr);
@@ -217,52 +212,41 @@ function recepciondelete(id) {
                     }
                     $.each(paginatedElements, function(index, element) {
                         let row = $('<tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.folioNum ? element.folioNum : "Sin #ORDEN" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.orden_seguimiento ? element.orden_seguimiento : "Sin # Seguimiento")+ '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.folio ? element.folio : "folio") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.empresa ? element.empresa.nombre : "Sin Empresa") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' +
-                        (element.vehiculo ? ((element.vehiculo.marca ? element.vehiculo.marca.nombre : "Sin Marca") +'--'+(element.vehiculo.modelo ? element.vehiculo.modelo.nombre : "Sin Marca")+'--'+(element.vehiculo.placas ? element.vehiculo.placas : "Sin Placas") ) : "El vehicuylo no tiene datos") +
-                        '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.fecha ? element.fecha : "No Se Registro") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.fecha_compromiso ? element.fecha_compromiso : "No Se Registro") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">'+
-                        '<button class="btn btn-success reporte" onclick="executereporte('+(element.id ? element.id : 1 )+')" ><i aria-hidden="true"  class="fa fa-eye "></i></button>'+
-                        '<button class="btn btn-warning" onclick="executeeditarrecepcion('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa fa-pencil-square-o"></i></button>'+
-                        '<button class="btn btn-danger" onclick="executedelete('+(element.id ? element.id : 1 )+')"><i aria-hidden="true" class="fa-solid fa-trash"></i></button>'+
-                        '<button class="btn btn-info" onclick="executeagregarservicio(\''+(element.folioNum ? element.folioNum : 1 )+'\','+ (element.empresa ? element.empresa.id : 1) +')"><i aria-hidden="true" class="fa-solid fa-file"></i></button>'+
-                        '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">opciones</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.NSolicitud ? element.NSolicitud : "Sin Folio" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.identificador ? element.identificador : "Sin # Seguimiento")+ '</div></td>');
+                        row.append('<td><div class="Datatable-content">' + (element.marca ? element.marca : "marca") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.modelo ? element.modelo : "Sin Modelo") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.ano ? element.ano : "No Se Registro") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.placas ? element.placas : "Sin Placas") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.vin ? element.vin : "No Se Registro") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.created_at ? element.created_at : "No Se Registro") + '</div></td></tr>');
+                        row.append('<td><div class="Datatable-content">' + (element.status ? element.status : "No Se Registro") + '</div></td></tr>');
+                       ;
                         $('#tablarecepciones tbody').append(row);
                     });recepciondelete
                 }
                 
                 $('#search').on('input', filtering);
-                $("#empresas").change(filtering);
+    
                 function filtering() { 
                     let search = $('#search').val().toLowerCase();
-                    const empresas = document.getElementById("empresas");
-                    let option1 = empresas.value;
-                    let nombreempresa = empresas.options[empresas.selectedIndex].text;
                     Page = 1
                         elements = originalelements.filter(function(element) {
-                            return (option1 === '' || element.empresa_id == option1) && (search === '' || 
-                            element.folioNum.toLowerCase().includes(search) || 
-                            element.orden_seguimiento.toLowerCase().includes(search) || 
-                            element.folio.toLowerCase().includes(search) || 
-                            element.vehiculo.marca.nombre.toLowerCase().includes(search) || 
-                            element.vehiculo.modelo.nombre.toLowerCase().includes(search) || 
-                            element.vehiculo.placas.toLowerCase().includes(search) );
+                            return (search === '' || 
+                            element.NSolicitud.toLowerCase().includes(search) || 
+                            element.placas.toLowerCase().includes(search) || 
+                            element.identificador.toLowerCase().includes(search) ||
+                            element.vin.toLowerCase().includes(search) ||
+                            element.marca.toLowerCase().includes(search) ||
+                            element.modelo.toLowerCase().includes(search)
+                        );
 
                         });
                     if (elements.length === 0) {
                         document.querySelector('.no-results-message').removeAttribute('hidden');
-                        if(search !== '' && option1 === ''){
-                            $('#no-results-message').text('No Se Encontraron Recepcion Vehiculares Con #Orden, Ord. Seguimmiento, Folio, Marca, Modelo o Placas que Coincidan Con '+ search);
-                        }else if(search === '' && option1 !== ''){
-                            $('#no-results-message').text('No Se Encontraron Recepcion Vehiculares de la Empresa '+ nombreempresa);
-                        }else{
-                            $('#no-results-message').text('No Se Encontraron Recepcion Vehiculares Con #Orden, Ord. Seguimmiento, Folio, Marca, Modelo o Placas Que Coincidan Con  '+search +' de la Empresa '+ nombreempresa);
-                        }
+                        $('#no-results-message').text('No Se Encontraron Resultados Con Folio, Economico, Placas, Vin, Modelos o Marca Que Coincidan Con  '+search );
+                        
                     } else {
                         document.querySelector('.no-results-message').setAttribute('hidden',true);
                         $('#no-results-message').text('');

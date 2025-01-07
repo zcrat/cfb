@@ -313,6 +313,7 @@
             $('#RecepcionVehicular textarea').val('');
             $('#RecepcionVehicular select').val('').trigger('change');;  // O puedes usar $('#RecepcionVehicular select').prop('selectedIndex', -1);
             $('#RecepcionVehicular input[type="checkbox"]').prop('checked', false);
+            $('#RecepcionVehicular input[type="checkbox"]'). val(1)
         }
        
  

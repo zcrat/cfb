@@ -1,3 +1,4 @@
+
 @extends ('layouts.admin2')
 @section ('contenido')
 
@@ -9,12 +10,7 @@
                     <button type="button"  class="boton1" data-bs-toggle="modal" onclick="limpiarmodalrecepciones()" data-bs-target="#RecepcionVehicular">
                         <i class="fa-solid fa-circle-plus"></i>&nbsp;Nueva
                     </button>
-                    <div id="submenu">
-
-                    </div>
-                      
-                       
-
+                    <div id="submenu"></div>
                 </div>
                 <div class="card-body mycard ">
                     <div class="vaniwidth" id="dataupload" >
