@@ -110,8 +110,6 @@
                                     </select>   
 
                                      </template>
-
-
                                     <template v-if="cotizacion.status == 1">
 
                                     <select   name="LeaveType" @change="onChange($event,cotizacion)" class="form-control">
@@ -151,8 +149,6 @@
                                     <i class="fa fa-file-invoice"></i>
                                     </button> -->
                                     </template>
-
-
                                      <template v-if="cotizacion.status == 2">
                                      <select   name="LeaveType" @change="onChange($event,cotizacion)" class="form-control">
                                         <option value="0">Opciones de operación</option>
@@ -167,7 +163,6 @@
                                         <option value="15">Orden Servicio</option>
                                     </select>  
                                     </template>
-
                                      <template v-if="cotizacion.status == 3">
                                     <select   name="LeaveType" @change="onChange($event,cotizacion)" class="form-control">
                                         <option value="0">Opciones de operación</option>
@@ -203,7 +198,6 @@
                                     <i class="fa fa-picture-o"></i>
                                     </button> -->
                                     </template>
-
                                      <template v-if="cotizacion.status == 4">
                                     <select   name="LeaveType" @change="onChange($event,cotizacion)" class="form-control">
                                         <option value="0">Opciones de operación</option>
@@ -223,7 +217,6 @@
                                         <option value="15">Orden Servicio</option>
                                     </select>  
                                      </template>    
-
                                        <template v-if="cotizacion.status == 5">
                                     <select   name="LeaveType" @change="onChange($event,cotizacion)" class="form-control">
                                         <option value="0">Opciones de operación</option>
@@ -907,7 +900,7 @@
                             </div>
 
                   </template> 
-<template v-if="zonauno==0">
+                <template v-if="zonauno==0">
                 <div class="form-group row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -1435,7 +1428,7 @@
 
 </div>
 
-</template>
+                </template>
 
                 <div class="form-group row">
                     <div class="col-md-12">

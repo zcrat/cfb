@@ -17,19 +17,19 @@
                 </div>
                 <h4>Datos Cliente</h4>
                 <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
-                    <div class="select2conlabel zdw-45pct">
+                    <div class="select2conlabel zdw-45pct  zdrelative">
                         <label for="">Empresa</label><div><select id="empresasrecepcion" name="empresasrecepcion"></select>
                         <button id="newempresas"class="btnin" type="button">+</button>
                     </div>
                     </div>
-                    <div class="select2conlabel zdw-40pct">
+                    <div class="select2conlabel zdw-40pct  zdrelative">
                         <label for="">Clientes <strong>*</strong></label>
                         <select  id="clientesrecepcion"name="clientesrecepcion" required></select>
                         <button id="newcustomer"class="btnin" type="button">+</button>
                     </div>
                 </div>
                 <h4>Datos Del Vehiculo</h4>
-                <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
+                <div class="vaniflex zdmg-r05 zdjc-between zdfw-w zdrelative">
                     <div class="vaniwidth">
                     <div class="select2conlabel"><label for="">Vehiculo <span class="spanrelleno"> #Econonomico- Placas</span><strong>*</strong></label><select required id="vehiculo" name="vehiculo"></select>
                     <button class="btnin" id="newcar"type="button">+</button>

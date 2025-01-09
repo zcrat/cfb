@@ -5,14 +5,14 @@
     <div class="container-fluid vaniflex vanigrow">
             <div class="card vanigrow">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Recepcion Vehicular
-                    <button type="button"  class="boton1" data-bs-toggle="modal" onclick="limpiarmodalrecepciones()" data-bs-target="#RecepcionVehicular">
+                    <i class="fa fa-align-justify"></i>Talleres Externos
+                    <button type="button"  class="boton1" data-bs-toggle="modal" onclick="limpiarmodaltalleres()" data-bs-target="#recepcionservicio">
                         <i class="fa-solid fa-circle-plus"></i>&nbsp;Nueva
                     </button>
                     <div id="submenu"></div>
                 </div>
                 <div class="card-body mycard ">
-                    <div class="vaniwidth" id="dataupload" >
+                    <div class="vaniwidth vaniflex zdfd-column" id="dataupload" >
                         <div class="d-flex">
                             <div class="iconoin zdmgr-r05">
                                 <input class="misearch zdw-r29"
@@ -28,7 +28,7 @@
                                 </select>
                                 </div>
                         </div>
-                        <div class="viewelements" id="viewelements">
+                        <div class="viewelements vanigrow vaniflex zdfd-column" id="viewelements">
                             <div class="elementosporpagina">
                                 <select   class="rounded" id="epp">
                                 <option value="10" >10</option>
@@ -38,12 +38,12 @@
                                 </select>
                                 <div id='pagination'></div>
                             </div>
-                            <div class="mitabla">
+                            <div class="mitabla vanigrow vaniflex zdfd-column">
                                 <table id="tablarecepciones" class="table table-sm  table-striped">
                                 <colgroup>
-                            <col class="button_options"> <!-- Columna con ancho fijo del 20% -->
-                                
-                            </colgroup>
+                                <col class="button_options"> <!-- Columna con ancho fijo del 20% -->
+                                    
+                                </colgroup>
                                     <thead>
                                         <tr>
                                             <th>OPCIONES</th>
@@ -81,7 +81,7 @@
     @include('modales.modelo')
     @include('modales.color')
     @include('modales.recepcionservicio')
-    @include('modales.recepcionvehicular')
+    @include('modales.recepcionservicioyconceptos')
 
 
   
@@ -89,12 +89,23 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{asset('js/paginacion.js')}}"></script>
-<script src="{{asset('js/canvas.js')}}"></script>
-<script src="{{asset('js/resepcionmodal.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
 @stack('scripts')
 <script>
+
+
      $(function() {
+        window.limpiarmodaltalleres = function() {
+            $("#formnewrecepcion").find(".error-message").remove();
+            $('#recepcionservicio input').not('input[name="_token"]').val('');
+            $('#recepcionservicio textarea').val('');
+            $('#recepcionservicio select').val('').trigger('change');;  // O puedes usar $('#RecepcionVehicular select').prop('selectedIndex', -1);
+            
+        }
+        window.editarecepciontaller = function(id) {
+            
+            console.log(id);
+        }
 function recepciondelete(id) {
     let ruta = "{{ route('2025.cfe.recepcion.delete') }}";
     Swal.fire({
@@ -211,22 +222,81 @@ function recepciondelete(id) {
                         document.getElementById('viewelements').setAttribute('hidden', true);
                     }
                     $.each(paginatedElements, function(index, element) {
-                        let row = $('<tr>');
-                        row.append('<td><div class="Datatable-content">opciones</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.NSolicitud ? element.NSolicitud : "Sin Folio" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.identificador ? element.identificador : "Sin # Seguimiento")+ '</div></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.marca ? element.marca : "marca") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.modelo ? element.modelo : "Sin Modelo") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.ano ? element.ano : "No Se Registro") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.placas ? element.placas : "Sin Placas") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.vin ? element.vin : "No Se Registro") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.created_at ? element.created_at : "No Se Registro") + '</div></td></tr>');
-                        row.append('<td><div class="Datatable-content">' + (element.status ? element.status : "No Se Registro") + '</div></td></tr>');
+                        let row = $('<tr><td><div class="Datatable-content" ></div></td></tr>');
+                        let acciones =`<td><div class="Datatable-content ">`;
+                        acciones+=`<button type="button" class="btn btn-warning btn-sm" title="Factura XML" @click="abrirModal3(cotizacion)">
+                                    <i class="fa fa-comment-alt"></i>
+                                    </button>  `;
+                        let dropdownContent = `
+                            <button type="button"class="opcionesdesplegables btn  btn-primary ">Opciones</button>
+                            <ul class="detallesdesplegables zdw-r12"" hidden>
+                                <li><a href="#" ">Eliminar</a></li>
+                                <li><a href="#" onclick="executeagregarservicio2(`+element.id+`)">Editar</a></li>
+                                <li><a href="#">Recepción Vehicular</a></li>
+                                <li><a href="#">Fotos Viejas</a></li>
+                                <li><a href="#">Presupuesto</a></li>
+                                <li><a href="#">Presupuesto Acuse</a></li>
+                                <li><a href="#">Reporte Anomalías</a></li>
+                                <li><a href="#">Entrada</a></li>
+                                <li><a href="#">Orden Servicio</a></li>
+                        `;
+                        if (element.status >= 3) {
+                            dropdownContent += `
+                                <li><a href="#">Fotos Nuevas</a></li>
+                                <li><a href="#">Fotos Instaladas</a></li>
+                                <li><a href="#">Factura PDF</a></li>
+                                <li><a href="#">Factura XML</a></li>
+                                <li><a href="#">Acuse</a></li>
+                            `;
+                        }
+                        if (element.status == 0) {
+                             acciones += `
+                            
+                                 <button type="button" class="btn btn-warning" title="Boton de terminar">
+                                    Enviar
+                                    </button>
+                            `;
+                        }
+                        if (element.status < 3 && element.status>0 ) {
+                             acciones += `
+                            
+                                 <button type="button" class="btn btn-secondary" title="Boton de terminar">
+                                    PENDIENTE
+                                    </button>
+                            `;
+                        }
+                        if (element.status == 3) {
+                            //cambia a estatus 4
+                             acciones += `
+                                 <button type="button" class="btn btn-warning" title="Boton de terminar" >
+                                    Cerrar
+                                    </button>
+                            `;
+                        }
+                        if (element.status > 3) {
+                             acciones += `
+                                 <button type="button" class="btn btn-success" title="Boton de autorizar">
+                                    TERMINADO
+                                    </button> 
+                            `;
+                        }
+   
+                        dropdownContent += `</ul>`;
+                        acciones += `</div></td></tr>`;
+                        row.find('.Datatable-content').append(dropdownContent);
+                        row.append('<td><div class="">' + (element.NSolicitud ? element.NSolicitud : "Sin Folio" ) + '</div></td>');
+                        row.append('<td><div class="">' + (element.identificador ? element.identificador : "Sin # Seguimiento")+ '</div></td>');
+                        row.append('<td><div class="">' + (element.marca ? element.marca : "marca") + '</div></td></tr>');
+                        row.append('<td><div class="">' + (element.modelo ? element.modelo : "Sin Modelo") + '</div></td></tr>');
+                        row.append('<td><div class="">' + (element.ano ? element.ano : "No Se Registro") + '</div></td></tr>');
+                        row.append('<td><div class="">' + (element.placas ? element.placas : "Sin Placas") + '</div></td></tr>');
+                        row.append('<td><div class="">' + (element.vin ? element.vin : "No Se Registro") + '</div></td></tr>');
+                        row.append('<td><div class="">' + (element.created_at ? element.created_at : "No Se Registro") + '</div></td></tr>');
+                        row.append(acciones);
                        ;
                         $('#tablarecepciones tbody').append(row);
                     });recepciondelete
                 }
-                
                 $('#search').on('input', filtering);
     
                 function filtering() { 
@@ -254,7 +324,15 @@ function recepciondelete(id) {
                     showElements();
                 
             }
-        
+        $(document).on('click', '.opcionesdesplegables', function(event) {
+            event.stopPropagation(); 
+            $(".detallesdesplegables").attr('hidden',true)
+            $(this).next().removeAttr('hidden');
+        });
+        $(document).on('click', function() {
+            $(".detallesdesplegables").attr('hidden',true)
+        });
+
 
         $("#EmpresaForm").submit(function(e) {
                     e.preventDefault();

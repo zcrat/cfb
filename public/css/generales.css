@@ -150,8 +150,17 @@
 column-count: 4;
 column-gap: 5%;
 }
+.zdbottom-0{
+  bottom:0;
+}
 .zd2col{
   column-count: 2;
+  }
+  .zdrelative{
+    position: relative;
+  }
+  .zdabsolute{
+    position: absolute;
   }
 .zditemscenter{ align-items: center;
 }

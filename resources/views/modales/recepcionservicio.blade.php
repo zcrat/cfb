@@ -1,11 +1,10 @@
 <!-- Modal -->
-<div class="modal fade" id="recepcionservicio" tabindex="-1" role="dialog" aria-labelledby="recepcionservicioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" id="recepcionservicio" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="recepcionservicioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="recepcionservicioLabel">Datos del Vehículo y Generales de la Solicitud</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <h5 class="modal-title" id="recepcionservicioLabel">Nueva Recepcion Taller</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <form id="serviciorecepcionform">
@@ -141,7 +140,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary" id="guardarDatos">Guardar</button>
             </div>
 </form>
@@ -178,7 +177,7 @@
         }
      
         function llenar_campos(data){
-            console.log("holis"+data)
+            console.log(data)
             $("#rsEconomico").val(data.economico);
             $("#rsmodelo").val(data.modelo);
             $("#rsvin").val(data.vin);

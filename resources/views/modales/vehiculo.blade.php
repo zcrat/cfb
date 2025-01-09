@@ -11,22 +11,22 @@
       <!-- Cuerpo del Modal -->
       <div class="modal-body">
         <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
-            <div class="select2conlabel zdw-40pct">
+            <div class="select2conlabel zdw-40pct  zdrelative">
                 <label for="tipo">Tipo <strong>*</strong></label>
                 <select id="tiponewvehiculo"name="tiponewvehiculo" required></select>
                 <button id="newtipovehiculo"class="btnin" type="button">+</button>
             </div>
-            <div class="select2conlabel zdw-40pct">
-                <label for="marcanewvehiculo">Marca <strong>*</strong></label>
+            <div class="select2conlabel zdw-40pct  zdrelative">
+                <label for="marcanewvehiculo ">Marca <strong>*</strong></label>
                 <select id="marcanewvehiculo"name="marcanewvehiculo" required></select>
                 <button class="btnin newmarcacar" type="button">+</button>
             </div>
-            <div class="select2conlabel zdw-40pct">
+            <div class="select2conlabel zdw-40pct  zdrelative">
                 <label for="modelonewvehiculo">Modelo <strong>*</strong></label>
                 <select id="modelonewvehiculo"name="modelonewvehiculo" required></select>
                 <button id="newmodelocar"class="btnin" type="button">+</button>
             </div>
-            <div class="select2conlabel zdw-40pct">
+            <div class="select2conlabel zdw-40pct  zdrelative">
                 <label for="colornewvehiculo">Color <strong>*</strong></label>
                 <select id="colornewvehiculo"name="colornewvehiculo" required></select>
                 <button id="newcolorcar"class="btnin" type="button">+</button>

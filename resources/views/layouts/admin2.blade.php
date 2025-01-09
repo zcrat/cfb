@@ -531,50 +531,55 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script type="module" src="{{asset('js/select2.js')}}"></script>
-
+        @if (isset($modulo))
         <script>
-          $(function() {
-  console.log("paso");
-  
-  if ($("#submenu").length) {
-    let modulo = @json($modulo);
-    var linksContainer = $("#submenu");
-    
-    let links = [];
-    
-    switch (modulo) { 
-      case 6: 
-        links = [ 
-          { href: '{{ route("2025.cfe.recepcion.eco") }}', text: 'Recepcion Vehicular' }, 
-          { href: '{{ route("2025.cfe.Aprobaciones.eco") }}', text: 'Aprobaciones' }, 
-          { href: '{{ route("2025.cfe.Talleres.eco") }}', text: 'Talleres' }
-        ]; 
-        break; 
-      case 2: 
-        links = [ 
-          { href: '{{ route("2025.cfe.recepcion.bajio") }}', text: 'Recepcion Vehicular' }, 
-          { href: '{{ route("2025.cfe.Aprobaciones.bajio") }}', text: 'Aprobaciones' }, 
-          { href: '{{ route("2025.cfe.Talleres.bajio") }}', text: 'Talleres' }
-        ]; 
-        break; 
-      case 3: 
-        links = [ 
-          { href: '{{ route("2025.cfe.recepcion.occidente") }}', text: 'Recepcion Vehicular' }, 
-          { href: '{{ route("2025.cfe.Aprobaciones.occidente") }}', text: 'Aprobaciones' }, 
-          { href: '{{ route("2025.cfe.Talleres.occidente") }}', text: 'Talleres' }
-        ]; 
-        break; 
-      default:
-        links = [];
-    }
+         $(function() {
+    console.log("paso");
 
-    links.forEach(function(link) { 
-      var label = $("<label>").append($("<a>").attr("href", link.href).text(link.text));
-      linksContainer.append(label); // Añadir un salto de línea
-    });
-  }
+    if ($("#submenu").length) {
+        let modulo = @json($modulo);
+        var linksContainer = $("#submenu");
+
+        let links = '';
+
+        if (modulo === 6) {
+            links = `
+                <ul class="subbarra">
+                    <div>
+                        <li class="vanibrv"><a href="{{ route("2025.cfe.recepcion.eco") }}">Recepcion Vehicular</a></li>
+                        <li class="vanibax"><a href="{{ route("2025.cfe.Talleres.eco") }}">Talleres</a></li>
+                        <li class="vanibat"><a href="{{ route("2025.cfe.Aprobaciones.eco") }}">Aprobaciones</a></li>
+                    </div>
+                </ul>`;
+        } else if (modulo === 2) {
+            links = `
+                <ul class="subbarra">
+                    <div>
+                        <li class="vanibrv"><a href="{{ route("2025.cfe.recepcion.bajio") }}">Recepcion Vehicular</a></li>
+                        <li class="vanibax"><a href="{{ route("2025.cfe.Talleres.bajio") }}">Talleres</a></li>
+                        <li class="vanibat"><a href="{{ route("2025.cfe.Aprobaciones.bajio") }}">Aprobaciones</a></li>
+                    </div>
+                </ul>`;
+        } else if (modulo === 3) {
+            links = `
+                <ul class="subbarra">
+                    <div>
+                        <li class="vanibrv"><a href="{{ route("2025.cfe.recepcion.occidente") }}">Recepcion Vehicular</a></li>
+                        <li class="vanibax"><a href="{{ route("2025.cfe.Talleres.occidente") }}">Talleres</a></li>
+                        <li class="vanibat"><a href="{{ route("2025.cfe.Aprobaciones.occidente") }}">Aprobaciones</a></li>
+                    </div>
+                </ul>`;
+        }
+
+        if (links) {
+            linksContainer.append(links);
+        }
+    }
 });
 
+ </script>
+@endif
+<script>
           document.addEventListener('DOMContentLoaded', function() {
             let s1=document.querySelector('.msidebar');
            

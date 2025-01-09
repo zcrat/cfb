@@ -427,8 +427,7 @@ max-width: 45%;
 
 }
 .btnin{
-  position: relative;
-  bottom:2.6rem;
+  position: absolute;
   left: 0;
   width: 1.8rem;
   height: 2.5rem;
@@ -446,4 +445,29 @@ max-width: 45%;
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   line-height: 1.5rem !important; 
+}
+.detallesdesplegables{
+  position:absolute;
+  background-color: var(--fondos2);
+  border-radius: 0.5rem;
+  padding-left: 0;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+
+  justify-content: center;
+  border: 2px solid var(--navtpb);
+}
+.detallesdesplegables li{
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+.detallesdesplegables li a{
+  text-decoration: none;
+  color: var(--textoclaro);
+}
+.detallesdesplegables li a:hover{
+  font-weight: bold;
 }

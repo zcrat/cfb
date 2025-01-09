@@ -155,9 +155,24 @@ class cfeController extends Controller
 
 
     public function Obtenertalleresexternos(Request $request){
-       
+       if($request->has('idservicio')){
+        $recepcion = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
+            ->join('pCFEGenerales','presupuestosCFE.pCFEGenerales_id','=','pCFEGenerales.id')
+            ->join('users','presupuestosCFE.user_id','=','users.id')
+            ->join('sucursales','users.sucursal_id','=','sucursales.id')
+            ->join('contratos','sucursales.contratos_id','=','contratos.id')
+            ->select('presupuestosCFE.id','pCFEGenerales.NSolicitud','pCFEGenerales.FechaAlta','pCFEGenerales.OrdenServicio',
+            'pCFEGenerales.KmDeIngreso','pCFEVehiculos.identificador','pCFEVehiculos.kilometraje','pCFEVehiculos.marca',
+            'pCFEVehiculos.modelo','pCFEVehiculos.ano','pCFEVehiculos.placas','pCFEVehiculos.vin','pCFEGenerales.ClienteYRazonSocial',
+            'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
+            ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
+            ->where('presupuestosCFE.id',$request->input('idservicio'))->first();
+        return response()->json([
+            'recepcion' => $recepcion
+        ]);
+       }
+       else{
         $id = \Auth::user()->id;
-
         $ids = \Auth::user()->sucursal_id;
         $modulo=$request->input('modulo');
         $m = Sucursales::join('contratos','sucursales.contratos_id','=','contratos.id')
@@ -192,7 +207,9 @@ class cfeController extends Controller
             ->orderBy('presupuestosCFE.id', 'desc')->get();
         return response()->json([
             'recepciones' => $recepciones
-        ]);}
+        ]);
+       }
+    }
     
     public function ObtenerRecepciones(Request $request){
         if($request->has('id','modulo')){
@@ -233,7 +250,7 @@ class cfeController extends Controller
             $modelo = $Modelo->nombre;
 
             $rcus = Customer::where('id','=',$res->customer_id)->first();
-            $data['ubicacion'] = $rcus->nombre;
+            $data['ubic acion'] = $rcus->nombre;
             $data['km'] = $res->km_entrada;
             $data['idRecepcion'] = $res->id;
             $data['folio'] = $res->folioNum;
