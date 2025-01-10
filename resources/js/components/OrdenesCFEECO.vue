@@ -2291,6 +2291,7 @@ methods : {
             me.pagination= respuesta.pagination;
             me.arrayCategorias = respuesta.categorias;
             me.arrayTipos = respuesta.tipos;
+            console.log(respuesta.productos)
             me.arrayProductos = respuesta.productos;
         })
         .catch(function (error) {

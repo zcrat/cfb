@@ -347,7 +347,7 @@ $('#Conceptos_Select2').select2({
     allowClear: true,
     minimumInputLength: 0,
     ajax: {
-        url: '/select2/obtenerempresas',
+        url: '/select2/obtenerproductoscatalogo',
         dataType: 'json',
         data: function(params) {
             var query = {
@@ -361,67 +361,7 @@ $('#Conceptos_Select2').select2({
             return {
                 results: $.map(data, function(item) {
                     return {
-                        text: item.nombre,
-                        id: item.id
-                    };
-                })
-            };
-        },
-        cache: true
-    }
-});
-$('#Tiposconceptos_Select2').select2({
-    language: { searching: ()=> "Buscando opciones...",noResults: () => "Sin Resultados",},
-    dropdownParent: $("#nuevosconceptos"),
-    placeholder: 'Escribe para buscar...',
-    allowClear: true,
-    minimumInputLength: 0,
-    ajax: {
-        url: '/select2/obtenerempresas',
-        dataType: 'json',
-        data: function(params) {
-            var query = {
-                term: params.term,
-            };
-            return query;
-        },
-        delay: 500,
-        processResults: function(data) {
-            console.log(data);
-            return {
-                results: $.map(data, function(item) {
-                    return {
-                        text: item.nombre,
-                        id: item.id
-                    };
-                })
-            };
-        },
-        cache: true
-    }
-});
-$('#Categoriaconceptos_Select2').select2({
-    language: { searching: ()=> "Buscando opciones...",noResults: () => "Sin Resultados",},
-    dropdownParent: $("#nuevosconceptos"),
-    placeholder: 'Escribe para buscar...',
-    allowClear: true,
-    minimumInputLength: 0,
-    ajax: {
-        url: '/select2/obtenerempresas',
-        dataType: 'json',
-        data: function(params) {
-            var query = {
-                term: params.term,
-            };
-            return query;
-        },
-        delay: 500,
-        processResults: function(data) {
-            console.log(data);
-            return {
-                results: $.map(data, function(item) {
-                    return {
-                        text: item.nombre,
+                        text: item.descripcion,
                         id: item.id
                     };
                 })

@@ -12,6 +12,9 @@ use App\Models\Modelo;
 use App\Models\TipoAuto;
 use App\Models\Vehiculo;
 use App\Models\Ubicaciones;
+use App\CodigoSat;
+use App\pCFETipos;
+use App\pCFECategorias;
 use Illuminate\Support\Facades\DB;
 use App\RecepcionVehicular;
 
@@ -68,4 +71,30 @@ class SelecController extends Controller
         $Ubicaciones=Ubicaciones::select('id','nombre')->where('nombre','LIKE','%'.$term.'%')->take(15)->get();
         return response()->json($Ubicaciones);
     }
+    public function select2catalogosproductos(Request $request){
+        $term = str_replace(' ', '%', $request->input('term'));
+        $productos=CodigoSat::select('id','descripcion')->where('descripcion','LIKE','%'.$term.'%')->take(15)->get();
+        return response()->json($productos);
+    }
+    public function select2tiposproductos(Request $request){
+        $term = str_replace(' ', '%', $request->input('term'));
+        $modulo= $request->input('modulo');
+        if(\Auth::user()->id == 1){
+            $tipos = pCFETipos::where('CFE_id',$modulo)->where('tipo','LIKE','%'.$term.'%')->orderBy('tipo', 'asc')->take(10)->get();
+        } else {
+            $tipos = pCFETipos::where('CFE_id',$modulo)->where('tipo','LIKE','%'.$term.'%')->orderBy('tipo', 'asc')->take(10)->get();
+        }
+        return response()->json($tipos);
+    }
+    public function select2categoriaproductos(Request $request){
+        $term = str_replace(' ', '%', $request->input('term'));
+        $modulo= $request->input('modulo');
+        if(\Auth::user()->id == 1){
+            $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->orderBy('titulo', 'asc')->take(10)->get();
+        } else {
+            $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->where('sucursal_id','=',\Auth::user()->sucursal_id)->orderBy('titulo', 'asc')->take(10)->get();
+        }
+        return response()->json($categorias);
+    }
+
 }

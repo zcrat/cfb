@@ -82,10 +82,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            
             <div class="d-flex superior">
-                    <button type="button" class="btn btn-primary" onclick="agregarconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
-                    <button type="button" class="btn btn-secundary" data-bs-toggle="modal" data-bs-target="#conceptos"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
+                    <button type="button" class="btn btn-secundary"  onclick="agregarconceptos()"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+            </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -96,13 +97,11 @@
     </div>
 </div>
 @include('modales.ConceptosModal')
+@include('modales.anadirconceptosmodal')
 @push('scripts')
 <script>
     $(function(){
-        $(".regresarmodal").on('click',function(){
-            $("#nuevosconceptos").modal('hide')
-            $("#recepcionservicioyconceptos").modal('show')
-        });
+        
     window.executeagregarservicio2 = function(id) {
         $.ajax({
             type: 'GET',
@@ -117,11 +116,12 @@
                 console.error(xhr);
             }
         }); 
-        }
-        window.agregarconceptos= function(){
+    }
+        window.agregarnuevosconceptos= function(){
             $("#recepcionservicioyconceptos").modal("hide");
             $("#nuevosconceptos").modal("show");
         }
+        
         function llenar_campos(data){
             console.log(data);
             

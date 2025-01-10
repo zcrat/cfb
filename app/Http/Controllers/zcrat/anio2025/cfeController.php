@@ -35,6 +35,7 @@ use App\ServicioOrden2023;
 use App\ServicioOrden;
 use App\pCFETipos;
 use App\pCFECategorias;
+use App\pCFEConceptos;
 use App\CodigoSat;
 use App\contratos;
 
@@ -211,6 +212,12 @@ class cfeController extends Controller
        }
     }
     
+    public function obtenerdatosnuevosconcepto(Request $request){
+        $data = CodigoSat::findorfail($request->input("id"));
+        return response()->json([
+            'data' => $data
+        ]);
+    }
     public function ObtenerRecepciones(Request $request){
         if($request->has('id','modulo')){
             $recepcion=RecepcionVehicular::where("modulo",$request->input('modulo'))->where("id",$request->input('id'))->orderBy('id', 'desc')->first();
@@ -296,6 +303,57 @@ class cfeController extends Controller
                 return abort(500, $e->getMessage());
             }
                 
+    }
+    public function nuevoconcepto(Request $request){
+        $validatedData = $request->validate([ 
+            'Conceptos_Select2' => 'required|exists:codigo_sat,id', 
+            'Categoriaconceptos_Select2' => 'required|exists:pcfecategorias,id', 
+            'Tiposconceptos_Select2' => 'required|exists:pcfetipos,id', 
+            'descripcionconcepto' => 'required|string|max:255', 
+            'prefaccion' => 'required|numeric|min:0', 
+            'pmo' => 'required|numeric|min:0', 
+            'modulo' => 'required|exists:modulos,id',], 
+            [ 'Conceptos_Select2.required' => 'El concepto es obligatorio.', 
+            'Conceptos_Select2.exists' => 'El concepto seleccionado no es válido.', 
+            'Categoriaconceptos_Select2.required' => 'La categoría es obligatoria.', 
+            'Categoriaconceptos_Select2.exists' => 'La categoría seleccionada no es válida.', 
+            'Tiposconceptos_Select2.required' => 'El tipo de concepto es obligatorio.', 
+            'Tiposconceptos_Select2.exists' => 'El tipo de concepto seleccionado no es válido.', 
+            'descripcionconcepto.required' => 'La descripción es obligatoria.', 
+            'descripcionconcepto.string' => 'La descripción debe ser una cadena de texto.', 
+            'descripcionconcepto.max' => 'La descripción no debe superar los 255 caracteres.', 
+            'prefaccion.required' => 'El precio de refacción es obligatorio.', 
+            'prefaccion.numeric' => 'El precio de refacción debe ser un número.', 
+            'prefaccion.min' => 'El precio de refacción no puede ser negativo.', 
+            'pmo.required' => 'El precio de mano de obra es obligatorio.', 
+            'pmo.numeric' => 'El precio de mano de obra debe ser un número.', 
+            'pmo.min' => 'El precio de mano de obra no puede ser negativo.', 
+            'modulo.required' => 'El módulo es obligatorio.', 
+            'modulo.exists' => 'El módulo seleccionado no es válido.', ]);
+        try{
+            DB::beginTransaction();
+            $data = CodigoSat::findorfail($request->input("Conceptos_Select2"));
+            $concepto = new pCFEConceptos();
+            $concepto->pCFECategorias_id = $request->input('Categoriaconceptos_Select2');
+            $concepto->pCFETipos_id = $request->input('Tiposconceptos_Select2');
+            $concepto->num ='FC';
+            $concepto->descripcion = $request->input('descripcionconcepto');
+            $concepto->p_refaccion = $request->input('prefaccion');
+            $concepto->tiempo = ("1.0");
+            $concepto->p_mo = $request->input('pmo');
+            $concepto->p_total = $request->input('prefaccion') + $request->input('pmo');
+            $concepto->codigo_sat = $data->code;
+            $concepto->codigo_unidad = $data->unidad_sat;
+            $concepto->unidad_text = $data->unidad;
+            $concepto->CFE_id = $request->input('modulo');;
+            $concepto->save();             
+          
+           
+            DB::commit();
+            return "guardado";
+        } catch (Exception $e){
+            DB::rollBack();
+        }
     }
     public function deleterecpcion(Request $request){
         
@@ -855,6 +913,13 @@ class cfeController extends Controller
                 return abort(500, $e->getMessage());
             }
         
+    }
+    public function obtenercatalogoproductosyservicios(Request $request){
+       
+        $conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('CFE_id',$request->input('modulo'))->orderBy('id', 'asc')->get();
+        return response()->json([
+            'conceptos' => $conceptos
+        ]);
     }
    
 

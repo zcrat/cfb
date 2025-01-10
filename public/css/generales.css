@@ -48,6 +48,7 @@
 .zdw-r48 { width: 48rem; }
 .zdw-r49 { width: 49rem; }
 .zdw-r50 { width: 50rem; }
+.zdw-30pct{width: 30%;}
 .zdw-35pct{width: 35%;}
 .zdw-40pct{width: 40%;}
 .zdw-45pct{width: 45%;}
@@ -55,6 +56,7 @@
 .zdw-55pct{width: 55%;}
 .zdw-60pct{width: 60%;}
 .zdw-65pct{width: 65%;}
+.zdw-100pct{width: 100% !important;}
 .zdmg-r01 { margin: 0.1rem; }
 .zdmg-r02 { margin: 0.2rem; }
 .zdmg-r03 { margin: 0.3rem; }

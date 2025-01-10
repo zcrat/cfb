@@ -7,10 +7,12 @@
         <button type="button" class="btn-close regresarmodal" aria-label="Cerrar"></button>
       </div>
       <!-- Cuerpo del modal -->
+       <form id="formnuevoconcepto">
       <div class="modal-body">
+        @csrf
         <div class="vaniflex">
             <label>Tipo de Concepto</label>
-            <select id="Conceptos_Select2">
+            <select required id="Conceptos_Select2"name="Conceptos_Select2">
                 <option value=""></option>
             </select>
         </div>
@@ -49,14 +51,14 @@
         <div class="vaniflex zdjc-between">
             <div class="select2conlabel zdw-45pct zdrelative">
             <label>Categoria</label>
-            <select id="Categoriaconceptos_Select2">
+            <select required id="Categoriaconceptos_Select2"name="Categoriaconceptos_Select2">
                 <option value=""></option>
             </select>
             <button class="btnin zdabsolute" id="newCategoriaconceptos_Select2" name="newCategoriaconceptos_Select2" type="button">+</button>
             </div>
             <div class="select2conlabel zdrelative zdw-45pct">
             <label>Tipos</label>
-            <select id="Tiposconceptos_Select2">
+            <select required id="Tiposconceptos_Select2"name="Tiposconceptos_Select2">
                 <option value=""></option>
             </select>
             <button  class="btnin zdabsolute" id="newTiposconceptos_Select2" name="newTiposconceptos_Select2" type="button">+</button>
@@ -65,28 +67,207 @@
         <div class="vaniflex zdjc-between zdfw-w">
             <div class="selectconlabel">
             <label>P. Refaccion</label>
-            <input class="form-control"  type="text" id="prefaccion" name="prefaccion">
+            <input required class="form-control"  type="number" id="prefaccion" name="prefaccion">
             </div>
             <div class="selectconlabel">
             <label>P.M.O.</label>
-            <input class="form-control"  type="text" id="pmo" name="pmo">
+            <input required class="form-control"  type="number" id="pmo" name="pmo">
             </div>
             <div class="selectconlabel">
             <label>P. Total</label>
-            <input class="form-control"  type="text" id="ptotal" name="ptotal">
+            <input class="form-control"  type="number" id="ptotal" disabled>
             </div>
         </div>
-        <div class="textareaconlabel">
+        <div class="textareaconlabel zdw-100pct">
             <label>descripcion</label>
-            <textarea class="form-control"  name="descripcionconcepto" id="descripcionconcepto"></textarea>
+            <textarea required class="form-control"  name="descripcionconcepto" id="descripcionconcepto"></textarea>
         </div>
        
       </div>
       <!-- Pie del modal -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary regresarmodal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
+        <button type="submit" id="guardarnuevoconcepto"class="btn btn-primary">Guardar cambios</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
+@push('scripts')
+    <script>
+    $(function(){
+        $('#Tiposconceptos_Select2').select2({
+            language: { searching: ()=> "Buscando opciones...",noResults: () => "Sin Resultados",},
+            dropdownParent: $("#nuevosconceptos"),
+            placeholder: 'Escribe para buscar...',
+            allowClear: true,
+            minimumInputLength: 0,
+            ajax: {
+                url: '/select2/obtenertiposcatalogo',
+                dataType: 'json',
+                data: function(params) {
+                    var query = {
+                        term: params.term,
+                        modulo: @json($modulo),
+                    };
+                    return query;
+                },
+                delay: 500,
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item.tipo,
+                                id: item.id
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+        $('#Categoriaconceptos_Select2').select2({
+            language: { searching: ()=> "Buscando opciones...",noResults: () => "Sin Resultados",},
+            dropdownParent: $("#nuevosconceptos"),
+            placeholder: 'Escribe para buscar...',
+            allowClear: true,
+            minimumInputLength: 0,
+            ajax: {
+                url: '/select2/obtenercategoriacatalogo',
+                dataType: 'json',
+                data: function(params) {
+                    var query = {
+                        term: params.term,
+                        modulo: @json($modulo),
+                    };
+                    return query;
+                },
+                delay: 500,
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item.titulo,
+                                id: item.id
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $(".regresarmodal").on('click',function(){
+            $("#nuevosconceptos").modal('hide')
+            $("#recepcionservicioyconceptos").modal('show')
+        });
+        $('#Conceptos_Select2').on('change',function(){
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('2025.cfe.obtener.datosnuevoconcepto') }}',
+            data:{
+                id: $(this).val(),
+            },
+            success: function(response) {
+                console.log(response)
+                $("#ncsatcde").text(response.data.code)
+                $("#ncundcde").text(response.data.unidad_sat)
+                $("#nccde").text("FC")
+                $("#ncund").text(response.data.unidad)
+                $("#nctm").text("1.0")
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        }); 
+       
+    })
+    $('#prefaccion, #pmo').on('change',function(){
+         let prefaccionVal = parseFloat($('#prefaccion').val()) || 0; 
+            let pmoVal = parseFloat($('#pmo').val()) || 0; 
+            let total = prefaccionVal + pmoVal
+            $('#ptotal').val(total);
+        });
+    })
+    $('#formnuevoconcepto').submit(function(e){
+        e.preventDefault();
+        let ruta="{{ route('2025.cfe.guardar.nuevoconcepto') }}";
+        let form= $("#formnuevoconcepto");
+        let data=  form.serialize() + '&modulo='+@json($modulo);
+        let modal=$("#nuevosconceptos");
+        let guardar=$("#guardarnuevoconcepto")
+        guardar.attr("disabled", true);
+        Swal.fire({
+              icon: "question",
+              text: "¿Estás seguro de guardar el concepto?",
+              showCancelButton: true,
+              confirmButtonText: "Confirmar",
+              cancelButtonText: "Cancelar",
+              reverseButtons: true,
+              customClass: {
+                  confirmButton: "btn-primary",
+                  cancelButton: "btn-light",
+              },
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              $(".error-message").remove();
+              var $request = $.post(ruta,data);
+              $request.done(function(data) {
+                guardar.attr("disabled", false);
+                if (data === "guardado") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Se registró correctamente",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                    $(".regresarmodal").click();
+                }  else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        html: data,
+                    }).then((result) => {
+                        modal.modal("show");
+                       
+                    });
+                }
+              });
+              $request.fail(function(error) {
+                  guardar.attr("disabled", false);
+                  if (error.status === 422) {
+                   form.find(".error-message").remove();
+                    let errors = error.responseJSON.errors;
+                    let errorMessages = Object.values(errors)
+                        .map((msgs) => msgs.join("<br>"))
+                        .join("<br>");
+                    for (let field in errors) {
+                      let input = form.find(`[name="${field}"]`);
+                      let errorMessage = `<small class="text-danger error-message">${errors[field].join("<br>")}</small>`;
+                      input.after(errorMessage);
+                    }
+                    modal.modal("show");
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Ocurrió un error inesperado",
+                    }).then(() => {
+                        modal.modal("show");
+                       
+                    });
+                }
+              });
+            } else {
+                modal.modal("show");
+                guardar.removeAttr("disabled");
+                
+            }
+      });
+
+    })
+    </script>
+@endpush

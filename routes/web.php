@@ -29,6 +29,9 @@ Route::get('select2/obtenermodelosvehiculo', 'zcrat\SelecController@select2model
 Route::get('select2/obtenertipovehiculo', 'zcrat\SelecController@select2tipovehiculo')->name('select2.tipovehiculo')->middleware('auth');
 Route::get('select2/obtenercoloresvehiculo', 'zcrat\SelecController@select2coloresvehiculo')->name('select2.coloresvehiculo')->middleware('auth');
 Route::get('select2/obtenerubicaciones', 'zcrat\SelecController@select2ubicaciones')->name('select2.ubicaciones')->middleware('auth');
+Route::get('select2/obtenerproductoscatalogo', 'zcrat\SelecController@select2catalogosproductos')->name('select2.productoscatalogo')->middleware('auth');
+Route::get('select2/obtenertiposcatalogo', 'zcrat\SelecController@select2tiposproductos')->name('select2.productoscatalogo')->middleware('auth');
+Route::get('select2/obtenercategoriacatalogo', 'zcrat\SelecController@select2categoriaproductos')->name('select2.productoscatalogo')->middleware('auth');
 //users
 Route::get('clientes/usuarios', 'zcrat\Customers@clientes')->name('cliente.usuarios')->middleware('auth');
 Route::post('clientes/newusuario', 'zcrat\Customers@create')->name('cliente.register');
@@ -79,8 +82,11 @@ Route::middleware(['auth'])->group(function(){
         Route::post('cfe2025/nuevo/color', 'zcrat\anio2025\cfeController@guardarnuevocolor')->name('2025.cfe.guardar.nuevocolor');
         Route::post('cfe2025/nuevarecepcion', 'zcrat\anio2025\cfeController@nuevarecepcion')->name('2025.cfe.guardar.nuevarecepcion');
         Route::post('cfe2025/nuevarecepcionservicio', 'zcrat\anio2025\cfeController@nuevarecepcionservicio')->name('2025.cfe.guardar.nuevarecepcionservicio');
+        Route::post('cfe2025/nuevoconcepto', 'zcrat\anio2025\cfeController@nuevoconcepto')->name('2025.cfe.guardar.nuevoconcepto');
         Route::post('cfe2025/recepcion/delete', 'zcrat\anio2025\cfeController@deleterecpcion')->name('2025.cfe.recepcion.delete');
         Route::get('cfe2025/Obtener/talleresexternos', 'zcrat\anio2025\cfeController@Obtenertalleresexternos')->name('2025.cfe.obtener.talleres');
+        Route::get('cfe2025/Obtener/datosnuevoconcepto', 'zcrat\anio2025\cfeController@obtenerdatosnuevosconcepto')->name('2025.cfe.obtener.datosnuevoconcepto');
+        Route::get('cfe2025/Obtener/catalogoproductosyservicios', 'zcrat\anio2025\cfeController@obtenercatalogoproductosyservicios')->name('2025.cfe.obtener.catalogoproductosyservicios');
 
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
