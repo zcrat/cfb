@@ -471,3 +471,9 @@ max-width: 45%;
 .detallesdesplegables li a:hover{
   font-weight: bold;
 }
+.ImporteConceptos{
+  height: 20%;
+  padding: 0.5rem;
+  background-color: var(--fondoobs);
+  color: var(--textoobscuro);
+}

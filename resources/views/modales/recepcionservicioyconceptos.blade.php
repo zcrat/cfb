@@ -85,7 +85,44 @@
             
             <div class="d-flex superior">
                     <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
-                    <button type="button" class="btn btn-secundary"  onclick="agregarconceptos()"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+                    <button type="button" class="btn btn-secondary"  onclick="agregarconceptos()"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+            </div>
+            <p class="h5 text-uppercase font-weight-bold border-bottom">Diagnostico</p>
+            <div>
+            <table id="tablaconceptos" class="table table-sm  table-striped">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Cantidad</th>
+                        <th>Concepto</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+            </table>
+            </div>
+            <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
+                <div class="zdw-40pct vaniflex zdfd-column">
+                    
+                    <label for="descricionmo">Descripcion M.O.</label>
+                    <textarea class="zdh-100pct form-control" name="descricionmo" id="descricionmo"></textarea>
+                </div>
+                <div class="zdw-40pct vaniflex zdfd-column">
+                <label for="descricionmo">Tiempo de Entrega</label>
+                <textarea class="zdh-100pct form-control" name="tiempoentrega" id="tiempoentrega"></textarea>
+                </div>
+                <div class="zdw-20pct vaniflex zdfd-column">
+                    <div class="vaniflex zdfd-column zdmgb-r05"> 
+                    <label for="">Importe</label>
+                    <input type="number" class="form-control">
+                    </div>
+                    <label class="ImporteConceptos" for="">Subtotal: $0</label>
+                    <label class="ImporteConceptos" for="">Iva:      $0</label>
+                    <label class="ImporteConceptos" for="">Total:    $0</label>
+
+                </div>
+                
             </div>
             </div>
             <div class="modal-footer">
@@ -101,7 +138,8 @@
 @push('scripts')
 <script>
     $(function(){
-        
+    let listacoceptos=new Map;
+
     window.executeagregarservicio2 = function(id) {
         $.ajax({
             type: 'GET',
@@ -146,6 +184,37 @@
             $("#2rsObservaciones").val(data.observaciones);
             $("#recepcionservicioyconceptos").modal("show");
         }
-    });
+   
+
+    window.actualizartablaconceptos= function(map2){
+        let mensajes = []; // Almacena mensajes de elementos ignorados
+
+        for (let [key, value] of map2) {
+            if (listacoceptos.has(key)) {
+                mensajes.push(value.descripcion);
+            } else {
+                // Si la clave no existe, se agrega al listacoceptos
+                listacoceptos.set(key, value);
+            }
+        }
+        if (mensajes.length > 0) {
+            Swal.fire({
+                title: 'Los Siguientes Conceptos Se Ignoraron Porque ya Estaban Agregados',
+                html: `<ul>${mensajes.map(item => `<li>${item}</li>`).join('')}</ul>`,
+                icon: 'Warning',
+                showConfirmButton: true,
+            });
+        } else {
+            Swal.fire({
+                title: 'Todos los Conceptos se agregaron Correctamente',
+                icon: 'success',
+                timer: 4000,  // 4 segundos
+                showConfirmButton: false,
+            });
+
+    }
+    console.log(listacoceptos);
+    }
+});
 </script>
 @endpush
