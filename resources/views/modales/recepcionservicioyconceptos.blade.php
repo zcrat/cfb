@@ -85,7 +85,7 @@
             
             <div class="d-flex superior">
                     <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
-                    <button type="button" class="btn btn-secondary"  onclick="agregarconceptos()"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+                    <button type="button" class="btn btn-secondary"  onclick="agregarconceptos()" id="agragarconceptosacarrito"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
             </div>
             <p class="h5 text-uppercase font-weight-bold border-bottom">Diagnostico</p>
             <div>
@@ -182,38 +182,21 @@
             $("#2rsTeléfono").val(data.Telefono);
             $("#2rsTrabajador").val(data.Conductor);
             $("#2rsObservaciones").val(data.observaciones);
+            $("#agragarconceptosacarrito").attr("data-id", data.id);
             $("#recepcionservicioyconceptos").modal("show");
         }
    
+    function actualizarlista(listacoceptos){
+        $('#tablaconceptos tbody').empty();
+        $.each(listacoceptos, function(index, element) {
+            let row = $('<tr>'); 
+            row.append('<td><input type="checkbox" class="concepto" data-id="'+element.id+'" data-descripcion="'+element.descripcion+'" title="Agregar" ' + (productosSeleccionados.has(element.id) ? 'checked' : '') + '></td>');
+            row.append('<td><div class="Datatable-content">' + (element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
+            row.append('<td><div class="Datatable-content"><input type="number" class="cantidad" data-id="'+element.id+'"></input></div></td>');
+            row.append('<td><div class="Datatable-content"><input type="number" class="precio" data-id="'+element.id+'"></input></div></div></td>');
 
-    window.actualizartablaconceptos= function(map2){
-        let mensajes = []; // Almacena mensajes de elementos ignorados
-
-        for (let [key, value] of map2) {
-            if (listacoceptos.has(key)) {
-                mensajes.push(value.descripcion);
-            } else {
-                // Si la clave no existe, se agrega al listacoceptos
-                listacoceptos.set(key, value);
-            }
-        }
-        if (mensajes.length > 0) {
-            Swal.fire({
-                title: 'Los Siguientes Conceptos Se Ignoraron Porque ya Estaban Agregados',
-                html: `<ul>${mensajes.map(item => `<li>${item}</li>`).join('')}</ul>`,
-                icon: 'Warning',
-                showConfirmButton: true,
-            });
-        } else {
-            Swal.fire({
-                title: 'Todos los Conceptos se agregaron Correctamente',
-                icon: 'success',
-                timer: 4000,  // 4 segundos
-                showConfirmButton: false,
-            });
-
-    }
-    console.log(listacoceptos);
+            $('#tablaconceptos tbody').append(row);
+        });
     }
 });
 </script>

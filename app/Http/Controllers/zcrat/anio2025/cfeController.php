@@ -36,11 +36,13 @@ use App\ServicioOrden;
 use App\pCFETipos;
 use App\pCFECategorias;
 use App\pCFEConceptos;
+use App\pCFECarrito;
 use App\CodigoSat;
 use App\contratos;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\LOG;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 class cfeController extends Controller
 {
@@ -75,7 +77,7 @@ class cfeController extends Controller
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE ECO')->value('id');
-        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');;
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -83,8 +85,8 @@ class cfeController extends Controller
         $Regimenes=$this->Regimenes;
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
-        $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');;
-        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');;
+        $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -92,8 +94,8 @@ class cfeController extends Controller
         $Regimenes=$this->Regimenes;
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
-        $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');;
-        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');;
+        $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -103,7 +105,7 @@ class cfeController extends Controller
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE ECO')->value('id');
-        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');;
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.aprobaciones',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -111,8 +113,8 @@ class cfeController extends Controller
         $Regimenes=$this->Regimenes;
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
-        $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');;
-        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');;
+        $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.aprobaciones',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -120,8 +122,8 @@ class cfeController extends Controller
         $Regimenes=$this->Regimenes;
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
-        $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');;
-        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');;
+        $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.aprobaciones',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -131,7 +133,7 @@ class cfeController extends Controller
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE ECO')->value('id');
-        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');;
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
         return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -139,8 +141,8 @@ class cfeController extends Controller
         $Regimenes=$this->Regimenes;
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
-        $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');;
-        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');;
+        $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
         return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -148,8 +150,8 @@ class cfeController extends Controller
         $Regimenes=$this->Regimenes;
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
-        $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');;
-        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');;
+        $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
         return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -345,7 +347,7 @@ class cfeController extends Controller
             $concepto->codigo_sat = $data->code;
             $concepto->codigo_unidad = $data->unidad_sat;
             $concepto->unidad_text = $data->unidad;
-            $concepto->CFE_id = $request->input('modulo');;
+            $concepto->CFE_id = $request->input('modulo');
             $concepto->save();             
           
            
@@ -921,8 +923,115 @@ class cfeController extends Controller
             'conceptos' => $conceptos
         ]);
     }
-   
+    public function updatecotizacion(Request $request)
+    {
 
+        if($request->input('modulo')== 7 ){
+            $vehiculo = new pVehiculos2023();
+            $generales = new pGenerales2023();
+            $cotizacion = new presupuestos2023();
+           
+            $origen='PECO';
+        }else if($request->input('modulo')== 2 ){
+            $vehiculo1 =pCFEVehiculos::findorfail($request->pCFEVehiculos_id);
+            $generales =pCFEGenerales::findorfail($request->pCFEGenerales_id);
+            $cotizacion =presupuestosCFE::find($request->id);
+            
+            $origen='BAJIO';
+        }else if($request->input('modulo')== 3 ){
+            $vehiculo1 =pCFEVehiculos::findorfail($request->pCFEVehiculos_id);
+            $generales =pCFEGenerales::findorfail($request->pCFEGenerales_id);
+            $cotizacion =presupuestosCFE::find($request->id);
+            $origen='OCCIDENTE';
+        }else if($request->input('modulo')== 6 ){
+            $vehiculo1 =pCFEVehiculos::findorfail($request->pCFEVehiculos_id);
+            $generales =pCFEGenerales::findorfail($request->pCFEGenerales_id);
+            $cotizacion =presupuestosCFE::find($request->id);
+            $origen='ECO';}
+
+
+        $vehiculo->identificador = $request->input('2rsEconomico');
+        $vehiculo->modelo = $request->input('2rsmodelo');
+        $vehiculo->vin = $request->input('2rsvin');
+        $vehiculo->placas = $request->input('2rsplacas');
+        $vehiculo->ano = $request->input('2rsAño');
+        $vehiculo->kilometraje = $request->input('2rsKilometraje');
+        $vehiculo->marca = $request->input('2rsMarca');
+        $vehiculo->save();
+
+        $generales->NSolicitud = $request->input('2rsFolio');
+        $generales->FechaAlta = $request->input('2rsFecha_Alta');
+        $generales->OrdenServicio = $request->input('2rsid');
+        $generales->KmDeIngreso = $request->input('2rsKm_De_Ingreso');
+        $generales->ClienteYRazonSocial = $request->input('2rsAdministrador_de_Transportes');
+        $generales->Mail = $request->input('2rsJefe_de_Proceso');
+        $generales->Telefono = $request->input('2rsTeléfono');
+        $generales->Conductor = $request->input('2rsTrabajador');
+        $generales->save();
+
+        
+        $cotizacion->descripcionMO = $request->input('descricionmo');
+        $cotizacion->importe =$request->input('rsimporte');
+        $cotizacion->ubicacion =$request->input('2rsUbicación');
+        $cotizacion->observaciones =$request->input('2rsObservaciones');
+        $cotizacion->tdeentrega =$request->input('tiempoentrega');
+        $cotizacion->save();    
+        
+        if($origen=='PECO'){
+            $cotizacion->empresa_id = $request->input('empresa_id');
+        }
+        return "Actuallizado";
+    }
+
+    function guardarcatalogoproductosyservicios(Request $request)
+{
+    $productos = $request->input('productos');
+    $idPresupuesto = $request->input('idPresupuesto');
+
+    // Validar los datos entrantes
+    
+
+    // Obtener los IDs de productos enviados
+    $idsProductos = array_column($productos, 'id');
+
+    // Obtener los productos ya relacionados con el presupuesto
+    $productosExistentes = pCFECarrito::where('presupuestoCFE_id', $idPresupuesto)
+        ->pluck('pCFEConcepto_id')
+        ->toArray();
+
+    // Identificar los nuevos productos
+    $nuevosProductos = array_filter($productos, function ($producto) use ($productosExistentes) {
+        return !in_array($producto['id'], $productosExistentes);
+    });
+
+    // Insertar los nuevos productos
+    foreach ($nuevosProductos as $producto) {
+        $preciov = pCFEConceptos::findorfail($producto['id']);
+        LOG::info($preciov);
+        pCFECarrito::create([
+            'presupuestoCFE_id' => $idPresupuesto,
+            'pCFEConcepto_id' => $producto['id'],
+            'cantidad' => $producto['cantidad'],
+            'precio' => $producto['precio'],
+            'precio_v' => $preciov->p_total,
+            'usuario_id' => \Auth::id(),
+        ]);
+    }
+
+    // Filtrar los productos que ya existían
+    $productosRepetidos = array_filter($productos, function ($producto) use ($productosExistentes) {
+        return in_array($producto['id'], $productosExistentes);
+    });
+
+    // Obtener los nombres de los productos que ya existían
+    $nombresRepetidos = pCFEConceptos::whereIn('id', array_column($productosRepetidos, 'id'))
+        ->pluck('descripcion')
+        ->toArray();
+
+    return response()->json([
+        'existen' => $nombresRepetidos, // Productos que ya existían
+    ]);
+}
 
 private function guardarImagenBase64($imagenBase64, $directorio)
 {

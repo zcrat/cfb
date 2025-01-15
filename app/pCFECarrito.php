@@ -13,6 +13,7 @@ class pCFECarrito extends Model
         'pCFEConcepto_id',
         'cantidad',
         'precio',
+        'precio_v',
         'usuario_id',
         'retencion_iva',
         'retencion_isr'

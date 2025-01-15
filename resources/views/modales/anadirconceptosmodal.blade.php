@@ -64,6 +64,7 @@
     $(function(){
         let productosSeleccionados= new Map();
         window.agregarconceptos= function(){
+            let idpresupuesto=$("#agragarconceptosacarrito").attr("data-id");
             $.ajax({
             type: 'GET',
             url: '{{ route('2025.cfe.obtener.catalogoproductosyservicios') }}',
@@ -74,6 +75,7 @@
                 console.log(response)
                 $("#recepcionservicioyconceptos").modal("hide");
                 $("#agregarconceptos").modal("show");
+                $("#agregarconceptosalista").attr("data-id", idpresupuesto);
             },
             error: function(xhr, status, error) {
                 console.error(xhr);
@@ -162,7 +164,7 @@
                             modulo:@json($modulo)
                         },
                         success: function(response) {
-                            console.log(response);
+                            console.log("se hizo solicitud");
                             originalelements = elements = response.conceptos;
                             document.getElementById('listacarga').setAttribute('hidden', true);
                             document.getElementById('lista').removeAttribute('hidden');
@@ -174,14 +176,15 @@
                     });
                 }
                 function filtering() {
-                    let search = $('#searchservicio').val().toLowerCase();
+                    let search2 = $('#searchservicio').val().toLowerCase();
                     let categoria = $('#Categoriaconceptos2_Select2').val();
                     let tipos = $('#Tiposconceptos2_Select2').val();
                     Page2 = 1
-                    console.log(originalelements)
+                    
+                    console.log("se hizo filtrado")
                     elements = originalelements.filter(function(element) {
                       
-                        return (categoria === '' || element.categoria == categoria) && (tipos === '' || element.tipo == tipos) && (search === '' || element.descripcion.toLowerCase().includes(search));
+                        return (categoria === '' || element.categoria == categoria) && (tipos === '' || element.tipo == tipos) && (search2 === '' || element.descripcion.toLowerCase().includes(search2));
                     });
                     if (elements.length === 0) {
                         document.querySelector('.no-results-message2').removeAttribute('hidden');
@@ -213,20 +216,18 @@
 
                         $('#tablaproductoslista tbody').append(row);
                     });
-                    $('#searchservicio').on('input', filtering);
-                    $('#Categoriaconceptos2_Select2 , #Tiposconceptos2_Select2').on('change', filtering);
                 }
+                $('#searchservicio').on('input', filtering);
+                $('#Categoriaconceptos2_Select2 , #Tiposconceptos2_Select2').on('change', filtering);
                 $(document).on('change', '.concepto', function () {
                     let id = $(this).data('id');
-                    let descripcion = $(this).data('descripcion')
                     let cantidad = $(`.cantidad[data-id="${id}"]`).val();
                     let precio = $(`.precio[data-id="${id}"]`).val(); // Obtener el valor del checkbox
                     if ($(this).is(':checked')) { // Verificar si el checkbox está marcado
                         productosSeleccionados.set(id, {
                             id: id,
-                            descripcion:descripcion,
-                            cantidad: parseFloat(cantidad) || 0, // Parsear cantidad como número
-                            precio: parseFloat(precio) || 0      // Parsear precio como número
+                            cantidad: parseFloat(cantidad) || 1, // Parsear cantidad como número
+                            precio: parseFloat(precio) || 1      // Parsear precio como número
                         });
                     } else {
                         // Eliminar producto del mapa
@@ -236,15 +237,13 @@
                 });
                 $(document).on('input', '.precio, .cantidad', function () {
                     let id = $(this).data('id');
-                    let descripcion = $(`.concepto[data-id="${id}"]`).data('descripcion')
-                    let cantidad = parseFloat($(`.cantidad[data-id="${id}"]`).val()) || 0;
-                    let precio = parseFloat($(`.precio[data-id="${id}"]`).val()) || 0;
+                    let cantidad = parseFloat($(`.cantidad[data-id="${id}"]`).val()) || 1;
+                    let precio = parseFloat($(`.precio[data-id="${id}"]`).val()) || 1;
                     console.log(precio,cantidad)
                     if (productosSeleccionados.has(id)) {
 
                         productosSeleccionados.set(id, { 
                             id: id,
-                            descripcion:descripcion,
                             cantidad: cantidad,
                             precio: precio
                         });
@@ -254,8 +253,35 @@
 
             });
             $("#agregarconceptosalista").on('click',function(){
-                actualizartablaconceptos(productosSeleccionados)
-                $(".regresarmodal2").trigger('click')
+                let idPresupuesto=$(this).attr("data-id");
+                const productosArray = Array.from(productosSeleccionados.values());
+
+                console.log(productosArray);
+                $.ajax({
+                    url: '{{ route('2025.cfe.guardar.catalogoproductosyservicios') }}',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        productos: productosArray,
+                        idPresupuesto: idPresupuesto,
+                    },
+                    success: function (response) {
+                        if (response.existen.length === 0) {
+                            Swal.fire('Éxito', 'Todos los productos fueron agregados correctamente.', 'success');
+                        } else {
+                            Swal.fire(
+                                'Atención',
+                                `Los siguientes productos ya existían: ${response.existen.join(', ')}`,
+                                'warning'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');
+                    },
+                });
             });
     });
 </script>

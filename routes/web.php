@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('cfe2025/Obtener/talleresexternos', 'zcrat\anio2025\cfeController@Obtenertalleresexternos')->name('2025.cfe.obtener.talleres');
         Route::get('cfe2025/Obtener/datosnuevoconcepto', 'zcrat\anio2025\cfeController@obtenerdatosnuevosconcepto')->name('2025.cfe.obtener.datosnuevoconcepto');
         Route::get('cfe2025/Obtener/catalogoproductosyservicios', 'zcrat\anio2025\cfeController@obtenercatalogoproductosyservicios')->name('2025.cfe.obtener.catalogoproductosyservicios');
+        Route::post('cfe2025/guardar/catalogoproductosyservicios', 'zcrat\anio2025\cfeController@guardarcatalogoproductosyservicios')->name('2025.cfe.guardar.catalogoproductosyservicios');
 
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
