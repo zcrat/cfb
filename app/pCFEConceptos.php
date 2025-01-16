@@ -21,4 +21,9 @@ class pCFEConceptos extends Model
         'codigo_unidad',
         'unidad_text',
     ];
+
+    public function carrito()
+{
+    return $this->hasMany(pCFECarrito::class, 'pCFEConcepto_id','id');
+}
 }

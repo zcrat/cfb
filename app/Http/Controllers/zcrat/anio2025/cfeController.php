@@ -170,9 +170,8 @@ class cfeController extends Controller
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
             ->where('presupuestosCFE.id',$request->input('idservicio'))->first();
-        return response()->json([
-            'recepcion' => $recepcion
-        ]);
+        $conceptos=pCFECarrito::with('concepto')->where('presupuestoCFE_id', $recepcion->id)->get();
+        return response()->json(['recepcion' => $recepcion,'conceptos' => $conceptos]);
        }
        else{
         $id = \Auth::user()->id;
@@ -213,7 +212,16 @@ class cfeController extends Controller
         ]);
        }
     }
-    
+
+    public function conceptospresupuesto(Request $request){
+        $conceptos=pCFECarrito::with('concepto')->where('presupuestoCFE_id', $request->id)->get();
+        return response()->json(['conceptos' => $conceptos]);
+    }
+    public function eliminarconceptopresupuesto(Request $request){
+        $concepto=pCFECarrito::findorfail($request->input('id'));
+        $concepto->delete();
+        return "Eliminado";
+    }
     public function obtenerdatosnuevosconcepto(Request $request){
         $data = CodigoSat::findorfail($request->input("id"));
         return response()->json([
@@ -240,7 +248,7 @@ class cfeController extends Controller
             'recepciones' => $recepciones
         ]);}
     }
-    public function  Obtenerdatosservicio(Request $request){
+    public function Obtenerdatosservicio(Request $request){
 
         $res = RecepcionVehicular::where('folioNum','=',$request->input('orden'))->first();
         
@@ -925,67 +933,66 @@ class cfeController extends Controller
     }
     public function updatecotizacion(Request $request)
     {
-
-        if($request->input('modulo')== 7 ){
-            $vehiculo = new pVehiculos2023();
-            $generales = new pGenerales2023();
-            $cotizacion = new presupuestos2023();
-           
-            $origen='PECO';
-        }else if($request->input('modulo')== 2 ){
-            $vehiculo1 =pCFEVehiculos::findorfail($request->pCFEVehiculos_id);
-            $generales =pCFEGenerales::findorfail($request->pCFEGenerales_id);
-            $cotizacion =presupuestosCFE::find($request->id);
+            log::info($request->modulo);
+        if($request->modulo == 2 ){
+            $cotizacion =presupuestosCFE::findorfail($request->id);
+            $vehiculo =pCFEVehiculos::findorfail($cotizacion->pCFEVehiculos_id);
+            $generales =pCFEGenerales::findorfail($cotizacion->pCFEGenerales_id);
             
             $origen='BAJIO';
-        }else if($request->input('modulo')== 3 ){
-            $vehiculo1 =pCFEVehiculos::findorfail($request->pCFEVehiculos_id);
-            $generales =pCFEGenerales::findorfail($request->pCFEGenerales_id);
-            $cotizacion =presupuestosCFE::find($request->id);
+        }else if($request->modulo == 3 ){
+            $cotizacion =presupuestosCFE::findorfail($request->id);
+            $vehiculo =pCFEVehiculos::findorfail($cotizacion->pCFEVehiculos_id);
+            $generales =pCFEGenerales::findorfail($cotizacion->pCFEGenerales_id);
             $origen='OCCIDENTE';
-        }else if($request->input('modulo')== 6 ){
-            $vehiculo1 =pCFEVehiculos::findorfail($request->pCFEVehiculos_id);
-            $generales =pCFEGenerales::findorfail($request->pCFEGenerales_id);
-            $cotizacion =presupuestosCFE::find($request->id);
+        }else if($request->modulo == 6 ){
+            $cotizacion =presupuestosCFE::findorfail($request->id);
+            $vehiculo =pCFEVehiculos::findorfail($cotizacion->pCFEVehiculos_id);
+            $generales =pCFEGenerales::findorfail($cotizacion->pCFEGenerales_id);
             $origen='ECO';}
 
 
-        $vehiculo->identificador = $request->input('2rsEconomico');
-        $vehiculo->modelo = $request->input('2rsmodelo');
-        $vehiculo->vin = $request->input('2rsvin');
-        $vehiculo->placas = $request->input('2rsplacas');
-        $vehiculo->ano = $request->input('2rsAño');
-        $vehiculo->kilometraje = $request->input('2rsKilometraje');
-        $vehiculo->marca = $request->input('2rsMarca');
+        $vehiculo->identificador = $request->identificador;
+        $vehiculo->modelo = $request->modelo;
+        $vehiculo->vin = $request->vin;
+        $vehiculo->placas = $request->placas;
+        $vehiculo->ano = $request->ano;
+        $vehiculo->kilometraje = $request->kilometraje;
+        $vehiculo->marca = $request->marca;
         $vehiculo->save();
 
-        $generales->NSolicitud = $request->input('2rsFolio');
-        $generales->FechaAlta = $request->input('2rsFecha_Alta');
-        $generales->OrdenServicio = $request->input('2rsid');
-        $generales->KmDeIngreso = $request->input('2rsKm_De_Ingreso');
-        $generales->ClienteYRazonSocial = $request->input('2rsAdministrador_de_Transportes');
-        $generales->Mail = $request->input('2rsJefe_de_Proceso');
-        $generales->Telefono = $request->input('2rsTeléfono');
-        $generales->Conductor = $request->input('2rsTrabajador');
+        $generales->NSolicitud = $request->NSolicitud;
+        $generales->FechaAlta = $request->fecha_alta;
+        $generales->OrdenServicio = $request->orden_servicio;
+        $generales->KmDeIngreso = $request->kilometraje;
+        $generales->ClienteYRazonSocial = $request->cliente_razon_social;
+        $generales->Mail = $request->jefe_proceso;
+        $generales->Telefono = $request->telefono;
+        $generales->Conductor = $request->conductor;
         $generales->save();
 
         
-        $cotizacion->descripcionMO = $request->input('descricionmo');
-        $cotizacion->importe =$request->input('rsimporte');
-        $cotizacion->ubicacion =$request->input('2rsUbicación');
-        $cotizacion->observaciones =$request->input('2rsObservaciones');
-        $cotizacion->tdeentrega =$request->input('tiempoentrega');
-        $cotizacion->save();    
-        
-        if($origen=='PECO'){
-            $cotizacion->empresa_id = $request->input('empresa_id');
-        }
-        return "Actuallizado";
+        $cotizacion->descripcionMO = $request->observacionesmo;
+        $cotizacion->importe =$request->importe;
+        $cotizacion->ubicacion =$request->ubicacion;
+        $cotizacion->observaciones =$request->observaciones;
+        $cotizacion->tdeentrega =$request->tdentrega;
+        $cotizacion->save(); 
+
+        $conceptoslista=$request->conceptos;
+        if($request->conceptos){
+        foreach ($conceptoslista as $producto) {
+            $concepto = pCFECarrito::findorfail($producto['id']);
+            $concepto->cantidad=$producto['cantidad'];
+            $concepto->precio=$producto['precio'];
+            $concepto->save();
+        }}
+        return "Actualizado";
     }
 
     function guardarcatalogoproductosyservicios(Request $request)
 {
-    $productos = $request->input('productos');
+    $productos = $request->productos;
     $idPresupuesto = $request->input('idPresupuesto');
 
     // Validar los datos entrantes

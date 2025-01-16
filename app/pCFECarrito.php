@@ -18,4 +18,9 @@ class pCFECarrito extends Model
         'retencion_iva',
         'retencion_isr'
     ];
+
+public function concepto()
+    {
+        return $this->belongsTo(pCFEConceptos::class,'pCFEConcepto_id','id');
+    }
 }

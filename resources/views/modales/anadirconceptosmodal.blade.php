@@ -1,6 +1,6 @@
 
-    <div class="modal fade" id="agregarconceptos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="agregarconceptos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Agregar Conceptos</h5>
@@ -145,10 +145,12 @@
             }
         });
 
-        $(".regresarmodal2").on('click',function(){
+        $(".regresarmodal2").on('click',regresarmodalsyc);
+
+        function regresarmodalsyc(){
             $("#agregarconceptos").modal('hide')
             $("#recepcionservicioyconceptos").modal('show')
-        });
+        }
         $('#agregarconceptos').on('shown.bs.modal', function (){
             searchdata();
             let elements=[];
@@ -272,11 +274,13 @@
                             Swal.fire('Éxito', 'Todos los productos fueron agregados correctamente.', 'success');
                         } else {
                             Swal.fire(
-                                'Atención',
-                                `Los siguientes productos ya existían: ${response.existen.join(', ')}`,
+                                'Los siguientes productos no se agregaron ya que ya estaban registrados:',
+                                `${response.existen.join('<br>')}`,
                                 'warning'
                             );
                         }
+                            regresarmodalsyc();
+                            reloadlista(idPresupuesto);
                     },
                     error: function () {
                         Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');

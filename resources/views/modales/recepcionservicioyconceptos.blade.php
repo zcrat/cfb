@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="recepcionservicioyconceptos" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="recepcionservicioLabel" aria-hidden="true">
+<div class="modal fade" id="recepcionservicioyconceptos" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="recepcionservicioLabel" >
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,8 +7,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
-            <form id="servicioyconceptosrecepcionform">
-            @csrf
             <div class="modal-body">
                 <!-- Datos del Vehículo -->
                 <p class="h5 text-uppercase font-weight-bold border-bottom">Datos del Vehículo</p>
@@ -95,11 +93,12 @@
                         <th>Codigo</th>
                         <th>Cantidad</th>
                         <th>Concepto</th>
-                        <th>Precio Unitario</th>
+                        <th>Precio</th>
                         <th>Total</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
+                <tbody></tbody>
             </table>
             </div>
             <div class="vaniflex zdmg-r05 zdjc-between zdfw-w">
@@ -113,13 +112,12 @@
                 <textarea class="zdh-100pct form-control" name="tiempoentrega" id="tiempoentrega"></textarea>
                 </div>
                 <div class="zdw-20pct vaniflex zdfd-column">
-                    <div class="vaniflex zdfd-column zdmgb-r05"> 
-                    <label for="">Importe</label>
-                    <input type="number" class="form-control">
+                    <div class="vaniflex zdfd-column"> 
+                        <label for="">Importe</label>
+                        <label class="ImporteConceptos" id="subtotaldiagnostico" for="">Subtotal: $0</label>
+                        <label class="ImporteConceptos" id="ivadiagnostico" for="">Iva:      $0</label>
+                        <label class="ImporteConceptos" id="totaldiagnostico" for="">Total:    $0</label>
                     </div>
-                    <label class="ImporteConceptos" for="">Subtotal: $0</label>
-                    <label class="ImporteConceptos" for="">Iva:      $0</label>
-                    <label class="ImporteConceptos" for="">Total:    $0</label>
 
                 </div>
                 
@@ -127,9 +125,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" id="2guardarDatos">Guardar</button>
+                <button type="button" class="btn btn-primary" id="2guardarDatos">Guardar Cambios</button>
             </div>
-</form>
+
         </div>
     </div>
 </div>
@@ -138,8 +136,58 @@
 @push('scripts')
 <script>
     $(function(){
-    let listacoceptos=new Map;
+    let listaconceptos=[];
+    window.eliminarconcepto= function(id,des){
 
+        Swal.fire({
+            title: '¿Está seguro de eliminar el siguiente producto?',
+            text: des,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, Eliminar',
+            cancelButtonText: 'Regresar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('2025.cfe.update.eliminarconceptopresupuesto') }}', // Cambia esto por la URL del endpoint en tu backend
+                    method: 'post',
+                    data: {
+                        id:id,
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function (response) {
+                        if (response === "Eliminado") {
+                            console.log(listaconceptos);
+                            console.log(id);
+                            listaconceptos = listaconceptos.filter(record => record.id != id);
+                            console.log(listaconceptos);
+                            actualizarlista() 
+                        Swal.fire({
+                            icon: "success",
+                            title: "Cotizacion Actualizada correctamente",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            html: response,
+                        });
+                    }
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            'Error!',
+                            'Hubo un problema al eliminarlo',
+                            'error'
+                        );
+                    }
+                });
+            } 
+        });
+    }
     window.executeagregarservicio2 = function(id) {
         $.ajax({
             type: 'GET',
@@ -148,6 +196,8 @@
                 idservicio: id,
             },
             success: function(response) {
+                listaconceptos=response.conceptos;
+                console.log(response.recepcion)
                 llenar_campos(response.recepcion)
             },
             error: function(xhr, status, error) {
@@ -160,8 +210,8 @@
             $("#nuevosconceptos").modal("show");
         }
         
-        function llenar_campos(data){
-            console.log(data);
+        function llenar_campos(data,id){
+            console.log(listaconceptos);
             
             let fecha=data.FechaAlta+" 00:00:00";
             console.log(fecha)
@@ -182,22 +232,159 @@
             $("#2rsTeléfono").val(data.Telefono);
             $("#2rsTrabajador").val(data.Conductor);
             $("#2rsObservaciones").val(data.observaciones);
+            $("#tiempoentrega").val(data.tdeentrega);
+            $("#descricionmo").val(data.descripcionMO);
             $("#agragarconceptosacarrito").attr("data-id", data.id);
-            $("#recepcionservicioyconceptos").modal("show");
-        }
-   
-    function actualizarlista(listacoceptos){
-        $('#tablaconceptos tbody').empty();
-        $.each(listacoceptos, function(index, element) {
-            let row = $('<tr>'); 
-            row.append('<td><input type="checkbox" class="concepto" data-id="'+element.id+'" data-descripcion="'+element.descripcion+'" title="Agregar" ' + (productosSeleccionados.has(element.id) ? 'checked' : '') + '></td>');
-            row.append('<td><div class="Datatable-content">' + (element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
-            row.append('<td><div class="Datatable-content"><input type="number" class="cantidad" data-id="'+element.id+'"></input></div></td>');
-            row.append('<td><div class="Datatable-content"><input type="number" class="precio" data-id="'+element.id+'"></input></div></div></td>');
+            $("#2guardarDatos").attr("data-id", data.id);
+            actualizarlista()
+            let subtotal = 0;
+                listaconceptos.forEach(item => {
+                    subtotal += item.cantidad * item.precio;
+            });
+            let iva=subtotal*0.16;
+            let total=subtotal+iva;
+            $('#subtotaldiagnostico').text("Subtotal: $").append(subtotal.toFixed(2));
+            $('#ivadiagnostico').text("Iva:      $").append(iva.toFixed(2));
+            $('#totaldiagnostico').text("Total:    $").append(total.toFixed(2));
 
+            $("#recepcionservicioyconceptos").modal("show");
+
+        }
+   window.reloadlista = function(id){
+    $.ajax({
+            type: 'GET',
+            url: '{{ route('2025.cfe.obtener.conceptospresupuesto') }}',
+            data:{
+                id: id,
+            },
+            success: function(response) {
+                listaconceptos=response.conceptos;
+                actualizarlista()
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        }); 
+};
+
+    function actualizarlista(){
+        console.log("se esta actualizando")
+        $('#tablaconceptos tbody').empty();
+        $.each(listaconceptos, function(index, element) {
+            let row = $('<tr>'); 
+            row.append('<td><div class="Datatable-content">' + (element.code ? element.code : "---" ) + '</div></td>');
+            row.append('<td><div class="Datatable-content"><input type="number" class="cantidaddiagnostico zdw-r4" data-id="'+element.id+'"  value='+element.cantidad+' ></input></div></td>');
+            row.append('<td><div class="Datatable-content">' + (element.concepto ? element.concepto.descripcion : "Sin descripcion" ) + '</div></td>');
+            row.append('<td><div class="Datatable-content"><input type="number" class="preciodiagnostico zdw-r4" data-id="'+element.id+'" value='+element.precio+'></input></div></div></td>');
+            row.append('<td><label data-id="'+element.id+'" class="subtotaldiagnostico ">' + (element.cantidad * element.precio) + '</label></td>');
+            row.append('<td><button class="btn btn-danger" onclick="eliminarconcepto(\''+(element.id ? element.id : 1 )+'\',\''+(element.concepto ? element.concepto.descripcion : "Sin descripcion" )+'\')"><i class="fa-solid fa-trash"></i></button></td>');
             $('#tablaconceptos tbody').append(row);
         });
+            let subtotal = 0;
+                listaconceptos.forEach(item => {
+                    subtotal += item.cantidad * item.precio;
+            });
+            let iva=subtotal*0.16;
+            let total=subtotal+iva;
+            
+            $('#subtotaldiagnostico').text("Subtotal: $").append(subtotal.toFixed(2));
+            $('#ivadiagnostico').text("Iva:      $").append(iva.toFixed(2));
+            $('#totaldiagnostico').text("Total:    $").append(total.toFixed(2));
     }
+    $(document).on('change','.preciodiagnostico, .cantidaddiagnostico', function () {
+        console.log("secambia")
+            const val = parseFloat($(this).val()) || 0; // Obtener el valor del input
+            const id = parseInt($(this).data('id')); // Obtener el ID del data-id
+            const itemIndex = listaconceptos.findIndex((item) => item.id === id); // Encontrar el índice
+
+            if (itemIndex !== -1) {
+                // Actualizar el valor correspondiente en el array
+                if ($(this).hasClass('preciodiagnostico')) {
+                    listaconceptos[itemIndex].precio = val;
+                } else if ($(this).hasClass('cantidaddiagnostico')) {
+                    listaconceptos[itemIndex].cantidad = val;
+                }
+
+                // Recalcular y mostrar el subtotal
+                const subtotal = listaconceptos[itemIndex].cantidad * listaconceptos[itemIndex].precio;
+
+                actualizarlista();
+
+            }
+            
+    });
+    $('#2guardarDatos').on('click',function(){
+        let subtotal = 0;
+                listaconceptos.forEach(item => {
+                    subtotal += item.cantidad * item.precio;
+            });
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: "Los datos se guardarán en el sistema.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '{{ route('2025.cfe.update.cotizacion') }}', // Cambia esto por la URL del endpoint en tu backend
+                    method: 'POST',
+                    data: {
+                        id:$(this).attr("data-id"),
+                        identificador: $("#2rsEconomico").val(),
+                        modelo: $("#2rsmodelo").val(),
+                        vin: $("#2rsvin").val(),
+                        placas: $("#2rsplacas").val(),
+                        ano: $("#2rsAño").val(),
+                        kilometraje: $("#2rsKilometraje").val(),
+                        marca: $("#2rsMarca").val(),
+                        ubicacion: $("#2rsUbicación").val(),
+                        NSolicitud: $("#2rsFolio").val(),
+                        fecha_alta: $("#2rsFecha_Alta").val(),
+                        orden_servicio: $("#2rsid").val(),
+                        km_ingreso: $("#2rsKm_De_Ingreso").val(),
+                        cliente_razon_social: $("#2rsAdministrador_de_Transportes").val(),
+                        jefe_proceso: $("#2rsJefe_de_Proceso").val(),
+                        telefono: $("#2rsTeléfono").val(),
+                        conductor: $("#2rsTrabajador").val(),
+                        observaciones: $("#2rsObservaciones").val(),
+                        observacionesmo: $("#descricionmo").val(),
+                        tdentrega: $("#tiempoentrega").val(),
+                        importe:subtotal,
+                        conceptos:listaconceptos,
+                        modulo:@json($modulo),
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        if (response === "Actualizado") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Cotizacion Actualizada correctamente",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                        $('#recepcionservicioyconceptos').modal('hide');
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            html: response,
+                        });
+                    }
+                    },
+                    error: function (error) {
+                        Swal.fire(
+                            'Error!',
+                            'Hubo un problema al guardar los datos.',
+                            'error'
+                        );
+                    }
+                });
+            } 
+        });
+    })
 });
 </script>
 @endpush
