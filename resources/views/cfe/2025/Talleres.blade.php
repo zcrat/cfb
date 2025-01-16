@@ -20,13 +20,6 @@
                                     placeholder="Busqueda Por Folio, Marca, Modelo, Vin, Economico, etc" >
                                     <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
                             </div>
-                            
-                            <div class="vaniflex zditemscenter">    
-                                <label class="zdmgr-r02">Empresas:</label>
-                                <select class="empresas-Select2" id="empresas">
-                                        <option value="">Todas</option>
-                                </select>
-                                </div>
                         </div>
                         <div class="viewelements vanigrow vaniflex zdfd-column" id="viewelements">
                             <div class="elementosporpagina">
