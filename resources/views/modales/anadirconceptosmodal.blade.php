@@ -181,23 +181,47 @@
                     let search2 = $('#searchservicio').val().toLowerCase();
                     let categoria = $('#Categoriaconceptos2_Select2').val();
                     let tipos = $('#Tiposconceptos2_Select2').val();
-                    Page2 = 1
-                    
-                    console.log("se hizo filtrado")
+                    let cilindros = '';
+
+                    if (tipos !== '') {
+                        $.ajax({
+                            type: 'GET',
+                            url: '{{ route('2025.cfe.obtener.cilindrostipo') }}',
+                            data: { id: tipos },
+                            success: function(response) {
+                                cilindros = response.cilindros * 1000;
+                                applyFilters(search2,categoria,cilindros);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr);
+                            }
+                        });
+                    } else {
+                        applyFilters(search2,categoria,cilindros);
+                    }
+                }
+
+                function applyFilters(search2,categoria,cilindros) {
+                    Page2 = 1;
+                    console.log(cilindros);
+                    console.log("se hizo filtrado");
                     elements = originalelements.filter(function(element) {
-                      
-                        return (categoria === '' || element.categoria == categoria) && (tipos === '' || element.tipo == tipos) && (search2 === '' || element.descripcion.toLowerCase().includes(search2));
+                        return (categoria === '' || element.categoria == categoria) &&
+                            (cilindros === '' || element.tipo == cilindros) &&
+                            (search2 === '' || element.descripcion.toLowerCase().includes(search2));
                     });
+
                     if (elements.length === 0) {
                         document.querySelector('.no-results-message2').removeAttribute('hidden');
-                            $('#no-results-message2').text('No Se Encontraron Conceptos');
+                        $('#no-results-message2').text('No Se Encontraron Conceptos');
                     } else {
-                        document.querySelector('.no-results-message2').setAttribute('hidden',true);
+                        document.querySelector('.no-results-message2').setAttribute('hidden', true);
                         $('#no-results-message2').text('');
                     }
 
                     showElements();
                 }
+
                 window.executeshowElements2 = function() {
                     eval("showElements()");
                 };

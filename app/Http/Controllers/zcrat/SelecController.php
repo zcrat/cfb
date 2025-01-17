@@ -88,12 +88,13 @@ class SelecController extends Controller
     }
     public function select2categoriaproductos(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
-        $modulo= $request->input('modulo');
-        if(\Auth::user()->id == 1){
-            $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->orderBy('titulo', 'asc')->take(10)->get();
-        } else {
+        //$modulo= $request->input('modulo');
+        $modulo= 3;
+        // if(\Auth::user()->id == 1){
+        //     $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->orderBy('titulo', 'asc')->take(10)->get();
+        // } else {
             $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->where('sucursal_id','=',\Auth::user()->sucursal_id)->orderBy('titulo', 'asc')->take(10)->get();
-        }
+        // }
         return response()->json($categorias);
     }
 

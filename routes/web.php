@@ -91,6 +91,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('cfe2025/update/cotizacion', 'zcrat\anio2025\cfeController@updatecotizacion')->name('2025.cfe.update.cotizacion');
         Route::post('cfe2025/update/eliminarconceptopresupuesto', 'zcrat\anio2025\cfeController@eliminarconceptopresupuesto')->name('2025.cfe.update.eliminarconceptopresupuesto');
         Route::get('cfe2025/obtener/conceptospresupuesto', 'zcrat\anio2025\cfeController@conceptospresupuesto')->name('2025.cfe.obtener.conceptospresupuesto');
+        Route::get('cfe2025/obtener/cilindrostipo', 'zcrat\anio2025\cfeController@cilindrostipo')->name('2025.cfe.obtener.cilindrostipo');
 
      //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')

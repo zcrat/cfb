@@ -343,9 +343,10 @@ class cfeController extends Controller
         try{
             DB::beginTransaction();
             $data = CodigoSat::findorfail($request->input("Conceptos_Select2"));
+            $cilindros=pCFETipos::findorfail($request->input("Tiposconceptos_Select2"));
             $concepto = new pCFEConceptos();
             $concepto->pCFECategorias_id = $request->input('Categoriaconceptos_Select2');
-            $concepto->pCFETipos_id = $request->input('Tiposconceptos_Select2');
+            $concepto->pCFETipos_id = ($cilindros->cilindros)*1000;
             $concepto->num ='FC';
             $concepto->descripcion = $request->input('descripcionconcepto');
             $concepto->p_refaccion = $request->input('prefaccion');
@@ -355,7 +356,8 @@ class cfeController extends Controller
             $concepto->codigo_sat = $data->code;
             $concepto->codigo_unidad = $data->unidad_sat;
             $concepto->unidad_text = $data->unidad;
-            $concepto->CFE_id = $request->input('modulo');
+            $concepto->id_anio_correspondiente = 3;
+            // $concepto->CFE_id = $request->input('modulo');
             $concepto->save();             
           
            
@@ -926,10 +928,16 @@ class cfeController extends Controller
     }
     public function obtenercatalogoproductosyservicios(Request $request){
        
-        $conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('CFE_id',$request->input('modulo'))->orderBy('id', 'asc')->get();
+        //$conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('CFE_id',$request->input('modulo'))->orderBy('id', 'asc')->get();
+        $conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('id_anio_correspondiente',3)->orderBy('id', 'asc')->get();
         return response()->json([
             'conceptos' => $conceptos
         ]);
+    }
+    public function cilindrostipo(Request $request){
+       
+        $cilindros=pCFETipos::findorfail($request->input("id"));
+        return response()->json($cilindros);
     }
     public function updatecotizacion(Request $request)
     {
