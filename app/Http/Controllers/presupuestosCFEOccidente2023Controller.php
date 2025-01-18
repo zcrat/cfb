@@ -62,7 +62,6 @@ class presupuestosCFEOccidente2023Controller extends Controller
 
         }
       
-        
         $productos = CodigoSat::get();
         $contratos = Contratos::get();
         $fecha_inicio = $request->fecha_inicio;
@@ -81,7 +80,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
             ->where('presupuestosCFE.CFE_id','=','3')
             ->where('contratos.id','=',$idcontrato)
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
         }
         else{
             $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
@@ -93,7 +92,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
             ->where('presupuestosCFE.CFE_id','=','3')
             // ->where('presupuestosCFE.user_id','=',$id)
-            ->where($criterio, 'like', '%'. $buscar . '%')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
+            ->where($criterio, 'like', '%'. $buscar . '%')->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
         }
         } else {
             $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
@@ -106,7 +105,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('presupuestosCFE.CFE_id','=','3')
             // ->where('presupuestosCFE.user_id','=',$id)
             ->whereBetween('presupuestosCFE.created_at', [$request->fecha_inicio, $request->fecha_final])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(30);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(30);
 
         }
          
@@ -161,7 +160,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
             ->where('presupuestosCFE.CFE_id','=','3')
-            ->where('contratos.id','=',$buscar)->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
+            ->where('contratos.id','=',$buscar)->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
          } else {
  
         if ($buscar==''){
@@ -176,7 +175,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
             ->where('presupuestosCFE.CFE_id','=','3')
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
         }
         else{
             if($contrato == 0){
@@ -191,7 +190,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
                 'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
                 ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
                 ->where('presupuestosCFE.CFE_id','=','3')
-                ->where($criterio, 'like', '%'. $buscar . '%')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
+                ->where($criterio, 'like', '%'. $buscar . '%')->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10);
             } else {
                 $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
                 ->join('pCFEGenerales','presupuestosCFE.pCFEGenerales_id','=','pCFEGenerales.id')
@@ -205,7 +204,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
                 ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
                 ->where('presupuestosCFE.CFE_id','=','3')
                 ->where('contratos.id', '=', $contrato)
-                ->where($criterio, 'like', '%'. $buscar . '%')->orderBy('presupuestosCFE.id', 'desc')->paginate(20);
+                ->where($criterio, 'like', '%'. $buscar . '%')->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(20);
             }
            
          }
@@ -223,7 +222,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
             ->where('presupuestosCFE.CFE_id','=','3')
             ->whereBetween('presupuestosCFE.created_at', [$request->fecha_inicio, $request->fecha_final])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(30);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(30);
 
         }
         return [
@@ -283,7 +282,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato')
             ->where('presupuestosCFE.CFE_id','=','3')
             ->where('contratos.id','=',$idcontrato)
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
         else{
             $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
@@ -297,7 +296,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato')
             ->where('presupuestosCFE.CFE_id','=','3')
-            ->where($criterio, 'like', '%'. $buscar . '%')->where('contratos.id','=',$idcontrato)->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where($criterio, 'like', '%'. $buscar . '%')->where('contratos.id','=',$idcontrato)->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
          
         return [
@@ -369,7 +368,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('servicio_orden.area','=',$criterio)
             ->where('tipo_servicio_orden.tipo_servicio','=',$tipo_servicio)
             ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
 
         if ($buscar != null && $buscar2 != null && $servicio == 1 && $ubicacion != "" && $criterio != "" && $tipo_servicio == 0 ){
@@ -391,7 +390,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('servicio_orden.ubicacion','=',$ubicacion)
             ->where('servicio_orden.area','=',$criterio)
             ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
          
 
@@ -415,7 +414,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('servicio_orden.area','=',$criterio)
             ->where('correctivos_orden.correctivo_id','=',$tipo_correctivo)
             ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
 
         if ($buscar != null && $buscar2 != null && $servicio == 2 | $ubicacion != "" && $criterio != "" && $tipo_correctivo == 0 ){
@@ -436,7 +435,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('servicio_orden.ubicacion','=',$ubicacion)
             ->where('servicio_orden.area','=',$criterio)
             ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
 
         if ($buscar != null && $buscar2 != null && $servicio == 0 && $ubicacion == "" && $criterio == "" && $request->buscar != "" ){
@@ -454,7 +453,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('contratos.id','=',$idcontrato)
             ->where('pCFEVehiculos.'.$request->criterios,'=',$request->buscar)
             ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
 
         if ($buscar != null && $buscar2 != null && $servicio == 2 | $ubicacion != "" && $criterio == "" && $request->buscar == "" ){
@@ -474,7 +473,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ->where('servicio_orden.preocorr_id','=',$servicio)
             ->where('servicio_orden.ubicacion','=',$ubicacion)
             ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(40);
         }
 
 
@@ -539,7 +538,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
     //         ->where('servicio_orden.area','=',$criterio)
     //         ->where('tipo_servicio_orden.tipo_servicio','=',$tipo_servicio)
     //         ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-    //         ->orderBy('presupuestosCFE.id', 'desc')->get();
+    //         ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->get();
     //     }
 
     //     if ($buscar != null && $buscar2 != null && $servicio == 1 && $ubicacion != "" && $criterio != "" && $tipo_servicio == 0 ){
@@ -561,7 +560,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
     //         ->where('servicio_orden.ubicacion','=',$ubicacion)
     //         ->where('servicio_orden.area','=',$criterio)
     //         ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-    //         ->orderBy('presupuestosCFE.id', 'desc')->get();
+    //         ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->get();
     //     }
          
 
@@ -585,7 +584,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
     //         ->where('servicio_orden.area','=',$criterio)
     //         ->where('correctivos_orden.correctivo_id','=',$tipo_correctivo)
     //         ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-    //         ->orderBy('presupuestosCFE.id', 'desc')->get();
+    //         ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->get();
     //     }
 
     //     if ($buscar != null && $buscar2 != null && $servicio == 2 | $ubicacion != "" && $criterio != "" && $tipo_correctivo == 0 ){
@@ -606,7 +605,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
     //         ->where('servicio_orden.ubicacion','=',$ubicacion)
     //         ->where('servicio_orden.area','=',$criterio)
     //         ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-    //         ->orderBy('presupuestosCFE.id', 'desc')->get();
+    //         ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->get();
     //     }
 
     //     if ($buscar != null && $buscar2 != null && $servicio == 0 && $ubicacion == "" && $criterio == "" && $request->buscar != "" ){
@@ -624,7 +623,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
     //         ->where('contratos.id','=',$idcontrato)
     //         ->where('pCFEVehiculos.'.$request->criterios,'=',$request->buscar)
     //         ->whereBetween('pCFEGenerales.FechaAlta', [$request->finicio, $request->ffinal])
-    //         ->orderBy('presupuestosCFE.id', 'desc')->get();
+    //         ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->get();
     //     }
 
     
@@ -814,7 +813,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
             ->where('presupuestosCFE.CFE_id','=','3')
-            ->where('contratos.id','=',$buscar)->orderBy('presupuestosCFE.id', 'desc')->paginate(10000);
+            ->where('contratos.id','=',$buscar)->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10000);
          } else {
  
         if ($buscar==''){
@@ -829,7 +828,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
             ->where('presupuestosCFE.CFE_id','=','3')
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(10000);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10000);
         }
         else{
             if($contrato == 0){
@@ -844,7 +843,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
                 'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
                 ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
                 ->where('presupuestosCFE.CFE_id','=','3')
-                ->where($criterio, 'like', '%'. $buscar . '%')->orderBy('presupuestosCFE.id', 'desc')->paginate(10000);
+                ->where($criterio, 'like', '%'. $buscar . '%')->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(10000);
             } else {
                 $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
                 ->join('pCFEGenerales','presupuestosCFE.pCFEGenerales_id','=','pCFEGenerales.id')
@@ -858,7 +857,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
                 ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
                 ->where('presupuestosCFE.CFE_id','=','3')
                 ->where('contratos.id', '=', $contrato)
-                ->where($criterio, 'like', '%'. $buscar . '%')->orderBy('presupuestosCFE.id', 'desc')->paginate(20000);
+                ->where($criterio, 'like', '%'. $buscar . '%')->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(20000);
             }
            
          }
@@ -876,7 +875,7 @@ class presupuestosCFEOccidente2023Controller extends Controller
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
             ->where('presupuestosCFE.CFE_id','=','3')
             ->whereBetween('presupuestosCFE.created_at', [$request->fecha_inicio, $request->fecha_final])
-            ->orderBy('presupuestosCFE.id', 'desc')->paginate(30000);
+            ->where('presupuestosCFE.created_at', '<', '2025-01-01')->orderBy('presupuestosCFE.id', 'desc')->paginate(30000);
 
         }
     

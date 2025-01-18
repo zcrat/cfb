@@ -95,7 +95,7 @@ class cfeController extends Controller
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');
-        $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');
+        $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",$modulo)->where("id_anio_correspondiente",$anio)->count();
         return view('cfe.2025.recepcion',compact('elementostotales','modulo','anio','Regimenes','empresas'));
     }
@@ -169,7 +169,7 @@ class cfeController extends Controller
             'pCFEVehiculos.modelo','pCFEVehiculos.ano','pCFEVehiculos.placas','pCFEVehiculos.vin','pCFEGenerales.ClienteYRazonSocial',
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
-            ->where('presupuestosCFE.id',$request->input('idservicio'))->first();
+            ->where('presupuestosCFE.id',$request->input('idservicio'))->where('created_at', '>', '2024-12-30')->first();
         $conceptos=pCFECarrito::with('concepto')->where('presupuestoCFE_id', $recepcion->id)->get();
         return response()->json(['recepcion' => $recepcion,'conceptos' => $conceptos]);
        }
@@ -205,7 +205,7 @@ class cfeController extends Controller
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
             ->where('presupuestosCFE.CFE_id',$modulo)
             ->where('contratos.id','=',$idcontrato)
-           // ->where('presupuestosCFE.created_at', '>', '2024-12-30')
+            ->where('presupuestosCFE.created_at', '>', '2024-12-30')
             ->orderBy('presupuestosCFE.id', 'desc')->get();
         return response()->json([
             'recepciones' => $recepciones

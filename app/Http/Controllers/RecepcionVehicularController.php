@@ -65,7 +65,7 @@ class RecepcionVehicularController extends Controller
     if($request->orden == '')
         {
 
-        $recepciones = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",'=',$modulo)->orderBy('id', 'desc')->paginate(20);
+        $recepciones = RecepcionVehicular::where("id_anio_correspondiente",2)->where("sucursal_id",'=',$sucu)->where("modulo",'=',$modulo)->orderBy('id', 'desc')->paginate(20);
        
         foreach($recepciones as $recepcion){
             $recepcion->vehiculo;
@@ -77,7 +77,7 @@ class RecepcionVehicularController extends Controller
     }
     else 
     {
-        $recepciones = RecepcionVehicular::where("folioNum",'=',$request->orden)->orderBy('id', 'desc')->paginate(20);
+        $recepciones = RecepcionVehicular::where("id_anio_correspondiente",2)->where("folioNum",'=',$request->orden)->orderBy('id', 'desc')->paginate(20);
        
         foreach($recepciones as $recepcion){
             $recepcion->vehiculo;
@@ -254,8 +254,8 @@ class RecepcionVehicularController extends Controller
 
         $idsucursal = \Auth::user()->sucursal_id;
         $sucu = Sucursales::select('clave')->where('id',$idsucursal)->get();
-        $num = RecepcionVehicular::where('sucursal_id','=',$idsucursal)->orderBy('id','desc')->get();
-        $numreal = RecepcionVehicular::count();
+        $num = RecepcionVehicular::where("id_anio_correspondiente",2)->where('sucursal_id','=',$idsucursal)->orderBy('id','desc')->get();
+        $numreal = RecepcionVehicular::where("id_anio_correspondiente",2)->count();
                
         if($numreal == 0){
             $clave = $sucu[0]['clave'].'00001'; 
@@ -1008,13 +1008,13 @@ class RecepcionVehicularController extends Controller
 
         
 
-        $Recepcion = RecepcionVehicular::where('recepcion_vehicular.id','=',$id)
+        $Recepcion = RecepcionVehicular::where("id_anio_correspondiente",2)->where('recepcion_vehicular.id','=',$id)
         ->select('recepcion_vehicular.customer_id')
             ->first();
 
 
        if($Recepcion->customer_id==null){
-        $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+        $RecepcionVehicular = RecepcionVehicular::where("id_anio_correspondiente",2)->join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
         ->join('users','recepcion_vehicular.usuario_id','=','users.id')
         ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
         ->join('tipo_auto','vehiculos.tipo_id','=','tipo_auto.id')
@@ -1033,7 +1033,7 @@ class RecepcionVehicularController extends Controller
        }
        else 
        {
-        $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+        $RecepcionVehicular = RecepcionVehicular::where("id_anio_correspondiente",2)->join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
         ->join('users','recepcion_vehicular.usuario_id','=','users.id')
         ->join('customers','recepcion_vehicular.customer_id','=','customers.id')
         ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
@@ -1085,7 +1085,7 @@ class RecepcionVehicularController extends Controller
     public function folioBuscar(Request $request){
 
        
-        $Recepcion = RecepcionVehicular::where('recepcion_vehicular.folioNum','=',$request->id)
+        $Recepcion = RecepcionVehicular::where("id_anio_correspondiente",2)->where('recepcion_vehicular.folioNum','=',$request->id)
         ->select('recepcion_vehicular.id')->first();
 
      return $Recepcion->id;
@@ -1162,7 +1162,7 @@ class RecepcionVehicularController extends Controller
       public function delete(Request $request)
       {
          
-          $sucursal = RecepcionVehicular::findOrFail($request->id);
+          $sucursal = RecepcionVehicular::where("id_anio_correspondiente",2)->findOrFail($request->id);
          
           $so = CondicionesPintura::select('id')->where('recepcion_vehicular_id','=',$request->id)->get();
           $so1 = CondicionesPintura::findOrFail($so[0]['id']);

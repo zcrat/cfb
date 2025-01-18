@@ -18,6 +18,8 @@ def insertar_datos_excel_a_mysql(ruta_excel, usuario_db, contrasena_db, host_db,
         for index, fila in df.iterrows():
             descripcion = fila['descripcion']
             pCFECategorias_id = fila['pCFECategorias_id']
+            contrato_id = fila['contrato_id']
+            num = fila['num']
             codigo_sat = fila['codigo_sat']
 
             # Procesar las columnas relacionadas con -4, -6, -8
@@ -29,10 +31,10 @@ def insertar_datos_excel_a_mysql(ruta_excel, usuario_db, contrasena_db, host_db,
 
                 # Insertar en la tabla pcfeconceptos
                 consulta_conceptos = """
-                INSERT INTO pcfeconceptos (descripcion, p_mo, p_refaccion, p_total, pCFECategorias_id, codigo_sat,num,pCFETipos_id,tiempo,codigo_unidad,unidad_text,id_anio_correspondiente)
-                VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s)
+                INSERT INTO pcfeconceptos (descripcion, p_mo, p_refaccion, p_total, pCFECategorias_id, codigo_sat,num,pCFETipos_id,tiempo,codigo_unidad,unidad_text,id_anio_correspondiente,contrato_id)
+                VALUES (%s, %s, %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s)
                 """
-                cursor.execute(consulta_conceptos, (descripcion, p_mo, p_refaccion, p_total, pCFECategorias_id, codigo_sat,'FC',int(sufijo) * 1000,'1.0','H87','Pieza','3'))
+                cursor.execute(consulta_conceptos, (descripcion, p_mo, p_refaccion, p_total, pCFECategorias_id, codigo_sat,num,int(sufijo) * 1000,'1.0','H87','Pieza','3',contrato_id))
 
 
         # Confirmar los cambios
