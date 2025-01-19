@@ -254,8 +254,8 @@ class RecepcionVehicularController extends Controller
 
         $idsucursal = \Auth::user()->sucursal_id;
         $sucu = Sucursales::select('clave')->where('id',$idsucursal)->get();
-        $num = RecepcionVehicular::where("id_anio_correspondiente",2)->where('sucursal_id','=',$idsucursal)->orderBy('id','desc')->get();
-        $numreal = RecepcionVehicular::where("id_anio_correspondiente",2)->count();
+        $num = RecepcionVehicular::where('sucursal_id','=',$idsucursal)->orderBy('id','desc')->get();
+        $numreal = RecepcionVehicular::count();
                
         if($numreal == 0){
             $clave = $sucu[0]['clave'].'00001'; 
@@ -1005,16 +1005,11 @@ class RecepcionVehicularController extends Controller
     }
 
     public function reporte(Request $request,$id){
-
-        
-
-        $Recepcion = RecepcionVehicular::where("id_anio_correspondiente",2)->where('recepcion_vehicular.id','=',$id)
+        $Recepcion = RecepcionVehicular::where('recepcion_vehicular.id','=',$id)
         ->select('recepcion_vehicular.customer_id')
             ->first();
-
-
        if($Recepcion->customer_id==null){
-        $RecepcionVehicular = RecepcionVehicular::where("id_anio_correspondiente",2)->join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+        $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
         ->join('users','recepcion_vehicular.usuario_id','=','users.id')
         ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
         ->join('tipo_auto','vehiculos.tipo_id','=','tipo_auto.id')
@@ -1029,11 +1024,10 @@ class RecepcionVehicularController extends Controller
         'tipo_auto.nombre as tipo_auto','marcas.nombre as marca','modelos.nombre as modelo','colores.nombre as color','vehiculos.placas','vehiculos.anio','vehiculos.no_economico','vehiculos.vim','users.name','recepcion_vehicular.tecnico','recepcion_vehicular.fecha_entrega','recepcion_vehicular.folioNum')
         ->where('recepcion_vehicular.id','=',$id)
         ->orderBy('recepcion_vehicular.id','desc')->take(1)->get();
-
        }
        else 
        {
-        $RecepcionVehicular = RecepcionVehicular::where("id_anio_correspondiente",2)->join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+        $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
         ->join('users','recepcion_vehicular.usuario_id','=','users.id')
         ->join('customers','recepcion_vehicular.customer_id','=','customers.id')
         ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')

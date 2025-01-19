@@ -92,8 +92,14 @@ Route::middleware(['auth'])->group(function(){
         Route::post('cfe2025/update/eliminarconceptopresupuesto', 'zcrat\anio2025\cfeController@eliminarconceptopresupuesto')->name('2025.cfe.update.eliminarconceptopresupuesto');
         Route::get('cfe2025/obtener/conceptospresupuesto', 'zcrat\anio2025\cfeController@conceptospresupuesto')->name('2025.cfe.obtener.conceptospresupuesto');
         Route::get('cfe2025/obtener/cilindrostipo', 'zcrat\anio2025\cfeController@cilindrostipo')->name('2025.cfe.obtener.cilindrostipo');
-
-     //Tareas
+        Route::DELETE('cfe2025/delete/presupuesto', 'zcrat\anio2025\cfeController@deletepresupuesto')->name('2025.cfe.delete.presupuesto');
+        Route::get('cfe2025/obtener/idrecepcion', 'zcrat\anio2025\cfeController@obteneridrecepcion')->name('2025.cfe.obtener.idrecepcion');
+        Route::get('recepcion/reporte/storage/{id}', 'zcrat\anio2025\cfeController@reporte');
+        
+        
+        Route::get('cfe2025/obtener/rutaarchivo', 'zcrat\anio2025\cfeController@obtenerarchivo')->name('2025.cfe.obtener.archivo');
+        Route::post('cfe2025/obtener/idrecepcion', 'zcrat\anio2025\cfeController@agregararchivospresupuesto')->name('2025.cfe.agregar.archivospresupuesto');
+        //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
     ->middleware('permission:tareas.index');
     Route::get('tareas/admin', 'TareasController@indexadmin')->name('tareas.index')

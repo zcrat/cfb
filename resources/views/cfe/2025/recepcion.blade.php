@@ -199,7 +199,7 @@ function recepciondelete(id) {
                     $('#recepcionservicio').modal("show");
                 };
                 function reporte(id){
-                    window.open('/recepcion/reporte/'+ id,'_blank');
+                    window.open('/recepcion/reporte/storage/'+ id,'_blank');
                 };
                 function showElements() {
                     ShowPagination(elements.length,8);
