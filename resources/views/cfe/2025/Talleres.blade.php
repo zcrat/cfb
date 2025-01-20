@@ -216,20 +216,20 @@ function recepciondelete(id) {
                                 <li><a href="#" onclick="executedeletepresupuestos(`+element.id+`)" ">Eliminar</a></li>
                                 <li><a href="#" onclick="executeagregarservicio2(`+element.id+`)">Editar</a></li>
                                 <li><a href="#" class="reportevehicular" data-nrv="`+element.NSolicitud+`">Recepción Vehicular</a></li>
-                            <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'FotosViejas')">Fotos Viejas</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Viejas')">Fotos Viejas</a></li>
                                 <li><a href="#" class="presupuestopdf" data-id="`+element.id+`">Presupuesto</a></li>
                                 <li><a href="#" class="presupuestoacusepdf" data-id="`+element.id+`">Presupuesto Acuse</a></li>
-                                <li><a href="#">Reporte Anomalías</a></li>
-                                <li><a href="#">Entrada</a></li>
-                                <li><a href="#">Orden Servicio</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Reporte Anomalías')">Reporte Anomalías</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Entrada')">Entrada</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Orden Servicio')">Orden Servicio</a></li>
                         `;
                         if (element.status >= 3) {
                             dropdownContent += `
-                                <li><a href="#">Fotos Nuevas</a></li>
-                                <li><a href="#">Fotos Instaladas</a></li>
-                                <li><a href="#">Factura PDF</a></li>
-                                <li><a href="#">Factura XML</a></li>
-                                <li><a href="#">Acuse</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Nuevas')">Fotos Nuevas</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Instaladas')">Fotos Instaladas</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Factura PDF')">Factura PDF</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Factura XML')">Factura XML</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Acuse')">Acuse</a></li>
                             `;
                         }
                         if (element.status == 0) {
@@ -390,16 +390,20 @@ function recepciondelete(id) {
 
         window.executesubirarchivo=(id,origen)=>{
             console.log(origen)
-            if(origen=='FotosViejas'){
-            $('#archivotitle').text('Agregar Fotos Viejas')
-            $('#nuevo_archivo').val('') 
-            $('#subida_archivos').attr('data-origen',origen)
-            $('#subida_archivos').attr('data-id',id)
-            $('#Historial_archivos').attr('data-id',id)
-            $('#Historial_archivos').attr('data-origen',origen)
-            $('#img_preview').attr('hidden',true)
-            $('#img_preview').attr('src','')
-            $('#subidaarchivos').modal('show');}
+            $('#img_preview').attr('src',"");
+            $('#img_preview').attr('hidden',true);
+            $('#pdf_preview').attr('src',"");
+            $('#pdf_preview').attr('hidden',true);
+            $('#video_src_preview').attr('src',"");
+            $('#video_preview')[0].load();
+            $('#video_preview').attr('hidden',true);
+            $('#text_preview').attr('hidden',true);
+            $('#subida_archivos').attr('data-origen',origen);
+            $('#subida_archivos').attr('data-id',id);
+            $('#Historial_archivos').attr('data-id',id);
+            $('#Historial_archivos').attr('data-origen',origen);
+            $('#archivotitle').text('Agregar '+ origen);
+            $('#subidaarchivos').modal('show');
         }
        
         $('#Historial_archivos').on('click',function(){
@@ -410,18 +414,40 @@ function recepciondelete(id) {
                 type: "get",
                 data:{
                     id:id,
+                    origen:origen
                 },
                 success: function(response) {
-                    var respuesta = response.id;
-                    window.open('/documentos/fotosviejas/'+ respuesta,'_blank');
+                    var respuesta = response.src;
+                    if(origen=="Fotos Viejas"){
+                        ruta = '/storage/documentos/fotosviejas/';
+                    }else if (origen=="Reporte Anomalías") {
+                        ruta = '/storage/documentos/reporteanomalias/';
+                    }else if (origen=="Entrada") {
+                        ruta = '/storage/documentos/entradas/';
+                    }else if (origen=="Orden Servicio") {
+                        ruta = '/storage/documentos/ordenservicio/';
+                    }else if (origen=="Fotos Nuevas") {
+                        ruta = '/storage/documentos/fotosnuevas/';
+                    }else if (origen=="Fotos Instaladas") {
+                        ruta = '/storage/documentos/fotosinstaladas/';
+                    }else if (origen=="Factura PDF") {
+                        ruta = '/storage/documentos/facturaspdf/';
+                    }else if (origen=="Factura XML") {
+                        ruta = '/storage/documentos/facturasxml/';
+                    }else if (origen=="Acuse") {
+                        ruta = '/storage/documentos/acuse/';
+                    } else{
+                        $conmodelo=false;
+                    }
+                    if(response)
+                    window.open(ruta + respuesta,'_blank');
                 },
                 error: function(xhr, status, error) {
                     if(xhr.status===499){
-                        let errorMessage = 'Verifique Los Datos';
-                        Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                        Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
                     }else{
                         let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
-                        Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
+                        Swal.fire({ title: 'Error', html: `Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
                     }
                 }
             })

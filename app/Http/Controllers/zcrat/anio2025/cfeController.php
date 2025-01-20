@@ -40,6 +40,14 @@ use App\pCFECarrito;
 use App\CodigoSat;
 use App\contratos;
 use App\FotosViejas;
+use App\FotosNuevas;
+use App\FotosInstaladas;
+use App\Acuse;
+use App\OrdenServicio;
+use App\FacturaXML;
+use App\FacturaPDF;
+use App\OrdenEntrada;
+use App\ReporteAnomalias;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\LOG;
@@ -1073,28 +1081,54 @@ private function guardarImagenBase64($imagenBase64, $directorio)
 
 public function agregararchivospresupuesto(Request $request){
     if ($request->hasFile('file')) {
+        $conmodelo=true;
         $archivo = $request->file('file');
         $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
         $origen=$request->origen;
-        if($origen=="FotosViejas"){
-        $ruta = public_path('/documentos/fotosviejas/');}
-        else{
-            $ruta = public_path('/documentos/otrosarchivos/');
+        if($origen=="Fotos Viejas"){
+            $ruta = '/public/documentos/fotosviejas/';
+            $modelodb=new FotosViejas();
+        }elseif ($origen=="Reporte Anomalías" ){
+            $modelodb=new ReporteAnomalias();
+            $ruta = '/public/documentos/reporteanomalias/';
+        }elseif ($origen=="Entrada") {
+            $modelodb=new OrdenEntrada();
+            $ruta = '/public/documentos/entradas/';
+        }elseif ($origen=="Orden Servicio") {
+            $modelodb=new OrdenServicio();
+            $ruta = '/public/documentos/ordenservicio/';
+        }elseif ($origen=="Fotos Nuevas") {
+            $modelodb=new FotosNuevas();
+            $ruta = '/public/documentos/fotosnuevas/';
+        }elseif ($origen=="Fotos Instaladas") {
+            $modelodb=new FotosInstaladas();
+            $ruta = '/public/documentos/fotosinstaladas/';
+        }elseif ($origen=="Factura PDF") {
+            $modelodb=new FacturaPDF();
+            $ruta = '/public/documentos/facturaspdf/';
+        }elseif ($origen=="Factura XML") {
+            $modelodb=new FacturaXML();
+            $ruta = '/public/documentos/facturasxml/';
+        }elseif ($origen=="Acuse") {
+            $modelodb=new Acuse();
+            $ruta = '/public/documentos/acuse/';
+        } else{
+            $conmodelo=false;
         }
-        if (!file_exists($ruta)) {
-            mkdir($ruta, 0777, true); // Crea la carpeta si no existe
-        }
-        $archivo->move($ruta, $nombreArchivo);
+    if($conmodelo){
+        $archivo->storeAs($ruta, $nombreArchivo);
+        log::info("pasaa");
         try{
             DB::beginTransaction();
-            $cotizacion =FotosViejas::where('presupuestoCFE_id',$request->id)->first();
+            log::info("pasaa");
+            $cotizacion =$modelodb->where('presupuestoCFE_id',$request->id)->first();
             if($cotizacion){
                 $archivoExistente = $ruta . '/' . $cotizacion->archivo;
                 if (file_exists($archivoExistente)) {
                     unlink($archivoExistente); // Eliminar el archivo existente
                 }
             }else{
-                $cotizacion =new FotosViejas();
+                $cotizacion=$modelodb;
                 $cotizacion->presupuestoCFE_id = $request->id;
             }
             $cotizacion->archivo = $nombreArchivo;
@@ -1106,19 +1140,48 @@ public function agregararchivospresupuesto(Request $request){
             return response()->json(['error' => 'Ocurrió un error al guardar el archivo'], 500);
         }
     }
-    
+    return response()->json(['error' => 'Recarge la Pagina, si error persiste contacte a soporte'], 499);
+}
+return response()->json(['error' => 'No se envio Ningun Archivo'], 499);
 }
 public function obtenerarchivo(Request $request){
-    if($request->has('id')){ 
-        $cotizacion =FotosViejas::where('presupuestoCFE_id',$request->id)->first();
-        if($cotizacion){ 
-        return response()->json(['id' => $cotizacion->archivo], 200);  
-    }else {
-        return response()->json(['error' => 'El Numero del Presupuesto Actualemente No Se Encuentra Activa'], 499);
+    if($request->has('id')&&$request->has('origen')){ 
+        $conmodelo=true;
+        $origen=$request->origen;
+        if($origen=="Fotos Viejas"){
+            $modelodb=new FotosViejas();
+        }elseif ($origen=="Reporte Anomalías") {
+            $modelodb=new ReporteAnomalias();
+        }elseif ($origen=="Entrada") {
+            $modelodb=new OrdenEntrada();
+        }elseif ($origen=="Orden Servicio") {
+            $modelodb=new OrdenServicio();
+        }elseif ($origen=="Fotos Nuevas") {
+            $modelodb=new FotosNuevas();
+        }elseif ($origen=="Fotos Instaladas") {
+            $modelodb=new FotosInstaladas();
+        }elseif ($origen=="Factura PDF") {
+            $modelodb=new FacturaPDF();
+        }elseif ($origen=="Factura XML") {
+            $modelodb=new FacturaXML();
+        }elseif ($origen=="Acuse") {
+            $modelodb=new Acuse();
+        } else{
+
+            $conmodelo=false;
+        }
+        if($conmodelo){
+            $cotizacion =$modelodb->where('presupuestoCFE_id',$request->id)->first();
+            if($cotizacion){ 
+                return response()->json(['src' => $cotizacion->archivo], 200);  
+            }else {
+                return response()->json(['error' => 'Todavia No se Suben Archivos'], 499);
+            }
+        }
+        return response()->json(['error' => 'Recarge la Pagina, si error persiste contacte a soporte'], 499);
     }
-    }
-    else { return response()->json(['error' => 'No Se Envio El Numero del  Presupuesto'], 499); }
-}
+    return response()->json(['error' => 'No Se Envio El Numero del  Presupuesto'], 499); }
+
 
 
 

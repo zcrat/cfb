@@ -15,7 +15,12 @@
                 <input id="nuevo_archivo" class="form-control" type="file"  name="nuevo_archivo">
         </div>
         <div class="logos">
-            <img id="img_preview" src="#" alt="Logo Preview" class="mimagen" hidden>
+          <iframe id="pdf_preview" src="#"  class="mimagen" hidden></iframe>
+          <img id="img_preview" src="#"  class="mimagen" hidden></img>
+          <video id="video_preview" class="mimagen" hidden controls> 
+            <source id="video_src_preview" src="" type="video/mp4"> Tu navegador no soporta la etiqueta de video. 
+          </video>
+          <h5 id="text_preview" hidden>El Archivo Que Se Eligio No Se uede Mostrar</h5>
         </div>
       </div>
 
@@ -32,15 +37,41 @@
 <script>
     $('#nuevo_archivo').change(function(){ 
         const file = this.files[0]; // Obtén el primer archivo seleccionado
+          $('#img_preview').attr('src',"");
+          $('#img_preview').attr('hidden',true);
+          $('#pdf_preview').attr('src',"");
+          $('#pdf_preview').attr('hidden',true);
+          $('#video_src_preview').attr('src',"");
+          $('#video_preview')[0].load();
+          $('#video_preview').attr('hidden',true);
+          $('#text_preview').attr('hidden',true);
+          
     if (file) {
+      let fileType = file.type;
+
         const reader = new FileReader();
         reader.readAsDataURL(file); // Lee el archivo como una URL de datos
         reader.onload = function(e) {
-            // Asigna el resultado de la lectura al src de la imagen
-            document.getElementById('img_preview').src = e.target.result;
-            document.getElementById('img_preview').removeAttribute('hidden');
+          
+          if (fileType.startsWith('image/')) { 
+           $('#img_preview').attr('src',e.target.result)
+           $('#img_preview').removeAttr('hidden');}
+
+          else if (fileType === 'application/pdf') {
+             $('#pdf_preview').attr('src',e.target.result)
+             $('#pdf_preview').removeAttr('hidden');} 
+
+          else if (fileType.startsWith('video/')){ 
+            console.log(e.target.result)
+           $('#video_src_preview').attr('src',e.target.result)
+           $('#video_preview')[0].load();
+           $('#video_preview').removeAttr('hidden'); } 
+          else { 
+           $('#text_preview').removeAttr('hidden');
         }
+      }
     }
+
     })
     $('#subida_archivos').on('click',function(){
             let origen=$(this).attr('data-origen')
