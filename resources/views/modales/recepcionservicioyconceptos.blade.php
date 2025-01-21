@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="recepcionservicioyconceptos" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="recepcionservicioLabel" >
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog  zdmw-95pct  modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="recepcionservicioLabel">Editar Recepcion Taller</h5>
@@ -82,8 +82,8 @@
                 </div>
             
             <div class="d-flex superior">
-                    <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Agregar</button>
-                    <button type="button" class="btn btn-secondary"  onclick="agregarconceptos()" id="agragarconceptosacarrito"><i class="fa-solid fa-bars"></i>&nbsp;Conceptos</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Nuevo</button>
+                    <button type="button" class="btn btn-success"  onclick="agregarconceptos()" id="agragarconceptosacarrito"><i class="fa-solid fa-bars"></i>&nbsp;Agregar</button>
             </div>
             <p class="h5 text-uppercase font-weight-bold border-bottom">Diagnostico</p>
             <div>

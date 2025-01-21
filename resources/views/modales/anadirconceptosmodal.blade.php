@@ -37,6 +37,7 @@
                                 <th>Descripcion</th>
                                 <th>Cantidad</th>
                                 <th>Total</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -152,6 +153,10 @@
             $("#recepcionservicioyconceptos").modal('show')
         }
         $('#agregarconceptos').on('shown.bs.modal', function (){
+            window.searchdatconceptos=function(){
+
+                searchdata();
+            }
             searchdata();
             let elements=[];
             let originalelements=[];
@@ -239,6 +244,7 @@
                         row.append('<td><div class="Datatable-content">' + (element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
                         row.append('<td><div class="Datatable-content"><input type="number" class="cantidad" data-id="'+element.id+'"></input></div></td>');
                         row.append('<td><div class="Datatable-content"><input type="number" class="precio" data-id="'+element.id+'"></input></div></div></td>');
+                        row.append('<td><div class="Datatable-content"><button type="button" class="btn btn-danger" onclick="executeeliminarconcepto('+element.id+')"><i class="fa-solid fa-trash"></i></button></div></div></td>');
 
                         $('#tablaproductoslista tbody').append(row);
                     });
@@ -311,7 +317,42 @@
                     },
                 });
             });
-    });
+    
+    window.executeeliminarconcepto = (id)=>{
+        Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Una vez eliminado, no podrás recuperar este concepto.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{route('2025.cfe.delete.concepto')}}",
+                    type: "DELETE",
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        id:id,
+                    },
+                    success: function(response) {
+                        Swal.fire('Éxito', 'El Concepto Fue Eliminado Correctamente', 'success');
+                        searchdatconceptos()
+                    },
+                    error: function(xhr, status, error) {
+                    if(xhr.status===499){
+                        Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                      }else{
+                          let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                          Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
+                      }
+                    }
+                });
+            } 
+        });
+    }
+});
 </script>
 @endpush
 

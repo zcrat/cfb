@@ -13,6 +13,7 @@ use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\Vehiculo;
 use App\Models\Customer;
+use App\Models\UnidadSatModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\CondicionesPintura;
@@ -53,7 +54,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\LOG;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 class cfeController extends Controller
-{
+{   
     public $Regimenes = [
         ['id' => '601', 'nombre' => '601 - General de Ley Personas Morales'],
         ['id' => '603', 'nombre' => '603 - Personas Morales con Fines no Lucrativos'],
@@ -137,31 +138,34 @@ class cfeController extends Controller
     }
 // VISTAS TALLERES
     public function vistaTallereseco(){
-        $Regimenes=$this->Regimenes;
+        // $Regimenes=$this->Regimenes;
+        $unidades=UnidadSatModel::get();
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE ECO')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
-        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
+        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','unidades','empresas'));
     }
     public function vistaTalleresbajio(){
-        $Regimenes=$this->Regimenes;
+        // $Regimenes=$this->Regimenes;
+        $unidades=UnidadSatModel::get();
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
-        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
+        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','unidades','empresas'));
     }
     public function vistaTalleresoccidente(){
-        $Regimenes=$this->Regimenes;
+        // $Regimenes=$this->Regimenes;
+        $unidades=UnidadSatModel::get();
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
-        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
+        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','unidades','empresas'));
     }
 
 
@@ -351,19 +355,20 @@ class cfeController extends Controller
         try{
             DB::beginTransaction();
             $data = CodigoSat::findorfail($request->input("Conceptos_Select2"));
+            $unidad = UnidadSatModel::find($request->input('unidadconcepto'));
             $cilindros=pCFETipos::findorfail($request->input("Tiposconceptos_Select2"));
             $concepto = new pCFEConceptos();
             $concepto->pCFECategorias_id = $request->input('Categoriaconceptos_Select2');
             $concepto->pCFETipos_id = ($cilindros->cilindros)*1000;
-            $concepto->num ='FC';
+            $concepto->num =$request->input('cod');
             $concepto->descripcion = $request->input('descripcionconcepto');
             $concepto->p_refaccion = $request->input('prefaccion');
-            $concepto->tiempo = ("1.0");
+            $concepto->tiempo = $request->input('tiempo');
             $concepto->p_mo = $request->input('pmo');
             $concepto->p_total = $request->input('prefaccion') + $request->input('pmo');
             $concepto->codigo_sat = $data->code;
-            $concepto->codigo_unidad = $data->unidad_sat;
-            $concepto->unidad_text = $data->unidad;
+            $concepto->codigo_unidad = $unidad->clave;
+            $concepto->unidad_text = $unidad->nombre;
             $concepto->id_anio_correspondiente = 3;
             // $concepto->CFE_id = $request->input('modulo');
             $concepto->save();             
@@ -1277,6 +1282,34 @@ public function obtenerarchivo(Request $request){
 //return $pdf->stream('invoice');
 //  return $pdf->download('profile.pdf');
 
+}
+public function Obtenerunidadessat(Request $request){
+   if($request->has('id'));
+    {
+     $UNIDAD=UnidadSatModel::find($request->id);
+     if($UNIDAD){
+        return response()->json($UNIDAD->clave); 
+     }   
+    }
+    return response()->json(['error' => 'No Se Envio El Identificador De La Unidad'], 499); 
+}
+public function deleteconcepto(Request $request){
+   if($request->has('id'));
+    {
+        $existe= pCFEConceptos::find($request->id);
+        if($existe){
+            $carrito = pCFECarrito::where("pCFEConcepto_id",$request->id)->get();
+            if($carrito->isNotEmpty()){
+                Log::info($carrito);
+                return response()->json(['error' => 'El Concepto Esta Agregado A un Presupuesto'], 499);
+            }
+            $existe->delete();
+            return response()->json(['success' => 'Eliminado Correctamente'], 200);  
+        }
+        return response()->json(['error' => 'El Concepto Actualemente Ya No Se Encuentra Activo'], 499);
+    
+    }
+    return response()->json(['error' => 'No Se Envio El Id del Concepto'], 499); 
 }
 
 

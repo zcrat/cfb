@@ -97,6 +97,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('recepcion/reporte/storage/{id}', 'zcrat\anio2025\cfeController@reporte');
         Route::get('cfe2025/obtener/rutaarchivo', 'zcrat\anio2025\cfeController@obtenerarchivo')->name('2025.cfe.obtener.archivo');
         Route::post('cfe2025/obtener/idrecepcion', 'zcrat\anio2025\cfeController@agregararchivospresupuesto')->name('2025.cfe.agregar.archivospresupuesto');
+        Route::get('cfe2025/Obtener/unidadessat', 'zcrat\anio2025\cfeController@Obtenerunidadessat')->name('2025.cfe.obtener.unidadessat');
+        Route::DELETE('cfe2025/delete/concepto', 'zcrat\anio2025\cfeController@deleteconcepto')->name('2025.cfe.delete.concepto');
+        
         //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
     ->middleware('permission:tareas.index');
