@@ -80,20 +80,20 @@ class SelecController extends Controller
         $term = str_replace(' ', '%', $request->input('term'));
         $modulo= $request->input('modulo');
         if(\Auth::user()->id == 1){
-            $tipos = pCFETipos::where('CFE_id',$modulo)->where('tipo','LIKE','%'.$term.'%')->orderBy('tipo', 'asc')->take(10)->get();
+            $tipos = pCFETipos::where('CFE_id',$modulo)->where('tipo','LIKE','%'.$term.'%')->orderBy('tipo', 'asc')->take(25)->get();
         } else {
-            $tipos = pCFETipos::where('CFE_id',$modulo)->where('tipo','LIKE','%'.$term.'%')->orderBy('tipo', 'asc')->take(10)->get();
+            $tipos = pCFETipos::where('CFE_id',$modulo)->where('tipo','LIKE','%'.$term.'%')->orderBy('tipo', 'asc')->take(25)->get();
         }
         return response()->json($tipos);
     }
     public function select2categoriaproductos(Request $request){
         $term = str_replace(' ', '%', $request->input('term'));
         //$modulo= $request->input('modulo');
-        $modulo= 3;
+        $modulo= 1;
         // if(\Auth::user()->id == 1){
         //     $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->orderBy('titulo', 'asc')->take(10)->get();
         // } else {
-            $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->where('sucursal_id','=',\Auth::user()->sucursal_id)->orderBy('titulo', 'asc')->take(10)->get();
+            $categorias = pCFECategorias::where('CFE_id',$modulo)->where('titulo','LIKE','%'.$term.'%')->where('sucursal_id',1)->orderBy('titulo', 'asc')->take(25)->get();
         // }
         return response()->json($categorias);
     }

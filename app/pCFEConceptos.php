@@ -20,6 +20,7 @@ class pCFEConceptos extends Model
         'codigo_sat',
         'codigo_unidad',
         'unidad_text',
+        'id_anio_correspondiente'
     ];
 
     public function carrito()

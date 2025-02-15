@@ -559,95 +559,118 @@ class cfeController extends Controller
             'limpia_parabrisas',
             'luces_exteriores',
         ];
-        $messages = [
-            'ord_seguimiento.required' => 'La Orden de seguimiento es obligatoria.',
-            'ord_seguimiento.max'=>'La Orden de seguimineto es muy larga',
-            'ord_seguimiento.min'=>'La Orden de seguimineto es muy corta',
-            'folio.max'=>'El Folio es muy largo',
-            'folio.min'=>'El Folio es muy corto',
-            'fecha.required' => 'La fecha es obligatoria.',
-            'empresasrecepcion.exists'=> 'La Empresa no existe',
-            'clientesrecepcion.required'=> 'El cliente es obligatorio',
-            'clientesrecepcion.exists'=> 'El cliente no existe',
-            'vehiculo.required'=>'El vehiculo es obligatorio',
-            'vehiculo.exists'=>'El vehiculo no existe',
-            'kmentrada.required'=>'Este campo es obligatorio',
-            'kmentrada.min'=>'El kilometraje no es valido',
-            'kmentrada.numeric'=>'El kilometraje no es valido',
-            'kmsalida.required'=>'Este campo es obligatorio',
-            'kmsalida.min'=>'El kilometraje no es valido',
-            'kmsalida.numeric'=>'El kilometraje no es valido',
-            'gasentrada.required' => 'El nivel de gasolina es obligatorio.',
-            'gasentrada.in'=>'El nivel no es valido',
-            'gassalida.required' => 'El nivel de gasolina es obligatorio.',
-            'gassalida.in'=>'El nivel no es valido',
-            'tipo_auto.required' => 'El tipo de auto es obligatorio.',
-            'tipo_auto.in'=>'El nivel no es valido',
-            ...array_merge(
-                array_map(fn($field) => [
-                    "{$field}.required" => "El campo {$field} es obligatorio.",
-                    "{$field}.in" => "La opción seleccionada para {$field} no es válida. Debe ser uno de los valores: 1, 2, 3, 4 o 5."],
-                    $selects),
-                array_map(fn($field) => ["{$field}.boolean" => "El campo no es valido."], $selects)),
-            'fecha_esperada.required' => 'La fecha esperada es obligatoria.',
-            'fecha_entrega.required' => 'La fecha de entrega es obligatoria.',
-            'notasadicionales.max' => 'las notas adicionales son muy grandes.',
-            'indicacionescliente.max' => 'las indicaciones del cliente son muy largas.',
-            'admintrasporte.max' => 'la información de administración de transporte es muy larga.',
-            'jefedelproceso.max' => 'el nombre del jefe de proceso es muy largo.',
-        ];
+        $messages = array_merge(
+            [
+                'ord_seguimiento.required' => 'La Orden de seguimiento es obligatoria.',
+                'ord_seguimiento.max' => 'La Orden de seguimiento es muy larga.',
+                'ord_seguimiento.min' => 'La Orden de seguimiento es muy corta.',
+                'folio.max' => 'El Folio es muy largo.',
+                'folio.min' => 'El Folio es muy corto.',
+                'fecha.required' => 'La fecha es obligatoria.',
+                'empresasrecepcion.exists' => 'La Empresa no existe.',
+                'clientesrecepcion.required' => 'El cliente es obligatorio.',
+                'clientesrecepcion.exists' => 'El cliente no existe.',
+                'vehiculo.required' => 'El vehículo es obligatorio.',
+                'vehiculo.exists' => 'El vehículo no existe.',
+                'kmentrada.required' => 'Este campo es obligatorio.',
+                'kmentrada.min' => 'El kilometraje no es válido.',
+                'kmentrada.numeric' => 'El kilometraje no es válido.',
+                'kmsalida.required' => 'Este campo es obligatorio.',
+                'kmsalida.min' => 'El kilometraje no es válido.',
+                'kmsalida.numeric' => 'El kilometraje no es válido.',
+                'gasentrada.required' => 'El nivel de gasolina es obligatorio.',
+                'gasentrada.in' => 'El nivel no es válido.',
+                'gassalida.required' => 'El nivel de gasolina es obligatorio.',
+                'gassalida.in' => 'El nivel no es válido.',
+                'tipo_auto.required' => 'El tipo de auto es obligatorio.',
+                'tipo_auto.in' => 'El nivel no es válido.',
+                'fecha_esperada.required' => 'La fecha esperada es obligatoria.',
+                'fecha_entrega.required' => 'La fecha de entrega es obligatoria.',
+                'notasadicionales.max' => 'Las notas adicionales son muy grandes.',
+                'indicacionescliente.max' => 'Las indicaciones del cliente son muy largas.',
+                'admintrasporte.max' => 'La información de administración de transporte es muy larga.',
+                'jefedelproceso.max' => 'El nombre del jefe de proceso es muy largo.',
+            ],
+            array_merge(
+                array_map(function ($field) {
+                    return [
+                        "{$field}.required" => "El campo {$field} es obligatorio.",
+                        "{$field}.in" => "La opción seleccionada para {$field} no es válida. Debe ser uno de los valores: 1, 2, 3, 4 o 5."
+                    ];
+                }, $selects),
+                array_map(function ($field) {
+                    return [
+                        "{$field}.boolean" => "El campo no es válido."
+                    ];
+                }, $checkbox)
+            )
+        );        
         if($request->has('id')){
-            $request->validate([
-                'id'=>'exists:recepcion_vehicular,id',
-                'ord_seguimiento' => 'required|string|max:15|min:5',
-                'folio' => 'nullable|string|max:15|min:3',
-                'fecha' => 'required|date',
-                'empresasrecepcion' => 'nullable|exists:empresas,id',
-                'clientesrecepcion' => 'required|exists:customers,id',
-                'vehiculo' => 'required|exists:vehiculos,id',
-                'kmentrada' => 'required|numeric|min:0',
-                'kmsalida' => 'required|numeric|min:0',
-                'gasentrada' => 'required|in:0,1,2,3',
-                'gassalida' => 'required|in:0,1,2,3',
-                'tecnico' => 'nullable|string|max:255',
-                'tipo_auto' => 'nullable|in:1,2,3,4',
-                'miCanvas' => 'nullable|string',
-                'canvasfirma' => 'nullable|string',
-                'fecha_esperada' => 'required|date',
-                'fecha_entrega' => 'required|date',
-                ...array_map(fn($field) => [ "{$field}"=> 'required|in:1,2,3,4,5'],$selects),
-                ...array_map(fn($field) => [ "{$field}"=>'nullable|boolean'],$checkbox),
-                'notasadicionales' => 'nullable|string|max:500',
-                'indicacionescliente' => 'nullable|string|max:500',
-                'admintrasporte' => 'nullable|string|max:255',
-                'jefedelproceso' => 'nullable|string|max:255',
-            ]);   
+            $request->validate(array_merge(
+                [
+                    'id' => 'exists:recepcion_vehicular,id',
+                    'ord_seguimiento' => 'required|string|max:15|min:5',
+                    'folio' => 'nullable|string|max:15|min:3',
+                    'fecha' => 'required|date',
+                    'empresasrecepcion' => 'nullable|exists:empresas,id',
+                    'clientesrecepcion' => 'required|exists:customers,id',
+                    'vehiculo' => 'required|exists:vehiculos,id',
+                    'kmentrada' => 'required|numeric|min:0',
+                    'kmsalida' => 'required|numeric|min:0',
+                    'gasentrada' => 'required|in:0,1,2,3',
+                    'gassalida' => 'required|in:0,1,2,3',
+                    'tecnico' => 'nullable|string|max:255',
+                    'tipo_auto' => 'nullable|in:1,2,3,4',
+                    'miCanvas' => 'nullable|string',
+                    'canvasfirma' => 'nullable|string',
+                    'fecha_esperada' => 'required|date',
+                    'fecha_entrega' => 'required|date',
+                    'notasadicionales' => 'nullable|string|max:500',
+                    'indicacionescliente' => 'nullable|string|max:500',
+                    'admintrasporte' => 'nullable|string|max:255',
+                    'jefedelproceso' => 'nullable|string|max:255',
+                ],
+                array_map(function ($field) {
+                    return ["{$field}" => 'required|in:1,2,3,4,5'];
+                }, $selects),
+                array_map(function ($field) {
+                    return ["{$field}" => 'nullable|boolean'];
+                }, $checkbox)
+            ));
+            
         }
         else{
-        $request->validate([
-            'ord_seguimiento' => 'required|string|max:15|min:5',
-            'folio' => 'nullable|string|max:15|min:3',
-            'fecha' => 'required|date',
-            'empresasrecepcion' => 'nullable|exists:empresas,id',
-            'clientesrecepcion' => 'required|exists:customers,id',
-            'vehiculo' => 'required|exists:vehiculos,id',
-            'kmentrada' => 'required|numeric|min:0',
-            'kmsalida' => 'required|numeric|min:0',
-            'gasentrada' => 'required|in:0,1,2,3',
-            'gassalida' => 'required|in:0,1,2,3',
-            'tecnico' => 'nullable|string|max:255',
-            'tipo_auto' => 'required|in:1,2,3,4',
-            'miCanvas' => 'nullable|string',
-            'canvasfirma' => 'nullable|string',
-            'fecha_esperada' => 'required|date',
-            'fecha_entrega' => 'required|date',
-            ...array_map(fn($field) => [ "{$field}"=> 'required|in:1,2,3,4,5'],$selects),
-            ...array_map(fn($field) => [ "{$field}"=>'nullable|boolean'],$checkbox),
-            'notasadicionales' => 'nullable|string|max:500',
-            'indicacionescliente' => 'nullable|string|max:500',
-            'admintrasporte' => 'nullable|string|max:255',
-            'jefedelproceso' => 'nullable|string|max:255',
-        ]);}
+            $request->validate(array_merge(
+                [
+                    'ord_seguimiento' => 'required|string|max:15|min:5',
+                    'folio' => 'nullable|string|max:15|min:3',
+                    'fecha' => 'required|date',
+                    'empresasrecepcion' => 'nullable|exists:empresas,id',
+                    'clientesrecepcion' => 'required|exists:customers,id',
+                    'vehiculo' => 'required|exists:vehiculos,id',
+                    'kmentrada' => 'required|numeric|min:0',
+                    'kmsalida' => 'required|numeric|min:0',
+                    'gasentrada' => 'required|in:0,1,2,3',
+                    'gassalida' => 'required|in:0,1,2,3',
+                    'tecnico' => 'nullable|string|max:255',
+                    'tipo_auto' => 'required|in:1,2,3,4',
+                    'miCanvas' => 'nullable|string',
+                    'canvasfirma' => 'nullable|string',
+                    'fecha_esperada' => 'required|date',
+                    'fecha_entrega' => 'required|date',
+                    'notasadicionales' => 'nullable|string|max:500',
+                    'indicacionescliente' => 'nullable|string|max:500',
+                    'admintrasporte' => 'nullable|string|max:255',
+                    'jefedelproceso' => 'nullable|string|max:255',
+                ],
+                array_map(function ($field) {
+                    return ["{$field}" => 'required|in:1,2,3,4,5'];
+                }, $selects),
+                array_map(function ($field) {
+                    return ["{$field}" => 'nullable|boolean'];
+                }, $checkbox)
+            ));
+            }
         $img = $request->input('miCanvas');
         $img2 = $request->input('canvasfirma');
         if (!$img) {
