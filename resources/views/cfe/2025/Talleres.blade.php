@@ -67,15 +67,11 @@
                 </div>
             </div>
     </div>
-    @include('modales.empresas')
-    @include('modales.clientes')
-    @include('modales.vehiculo')
-    @include('modales.marca')
-    @include('modales.modelo')
-    @include('modales.color')
+    @include('modales.subidaarchivos')
+
     @include('modales.recepcionservicio')
     @include('modales.recepcionservicioyconceptos')
-
+    
 
   
 </main>
@@ -191,14 +187,8 @@ function recepciondelete(id) {
                 window.executeshowElements = function() {
                     eval("showElements()");
                 };
-                window.executereporte = function(id) {
-                    eval("reporte("+id+")");
-                };
                 window.executeservicio = function(id) {
                     $('#recepcionservicio').modal("show");
-                };
-                function reporte(id){
-                    window.open('/recepcion/reporte/'+ id,'_blank');
                 };
                 function showElements() {
                     ShowPagination(elements.length,8);
@@ -223,23 +213,23 @@ function recepciondelete(id) {
                         let dropdownContent = `
                             <button type="button"class="opcionesdesplegables btn  btn-primary ">Opciones</button>
                             <ul class="detallesdesplegables zdw-r12"" hidden>
-                                <li><a href="#" ">Eliminar</a></li>
+                                <li><a href="#" onclick="executedeletepresupuestos(`+element.id+`)" ">Eliminar</a></li>
                                 <li><a href="#" onclick="executeagregarservicio2(`+element.id+`)">Editar</a></li>
-                                <li><a href="#">Recepción Vehicular</a></li>
-                                <li><a href="#">Fotos Viejas</a></li>
-                                <li><a href="#">Presupuesto</a></li>
-                                <li><a href="#">Presupuesto Acuse</a></li>
-                                <li><a href="#">Reporte Anomalías</a></li>
-                                <li><a href="#">Entrada</a></li>
-                                <li><a href="#">Orden Servicio</a></li>
+                                <li><a href="#" class="reportevehicular" data-nrv="`+element.NSolicitud+`">Recepción Vehicular</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Viejas')">Fotos Viejas</a></li>
+                                <li><a href="#" class="presupuestopdf" data-id="`+element.id+`">Presupuesto</a></li>
+                                <li><a href="#" class="presupuestoacusepdf" data-id="`+element.id+`">Presupuesto Acuse</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Reporte Anomalías')">Reporte Anomalías</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Entrada')">Entrada</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Orden Servicio')">Orden Servicio</a></li>
                         `;
                         if (element.status >= 3) {
                             dropdownContent += `
-                                <li><a href="#">Fotos Nuevas</a></li>
-                                <li><a href="#">Fotos Instaladas</a></li>
-                                <li><a href="#">Factura PDF</a></li>
-                                <li><a href="#">Factura XML</a></li>
-                                <li><a href="#">Acuse</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Nuevas')">Fotos Nuevas</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Instaladas')">Fotos Instaladas</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Factura PDF')">Factura PDF</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Factura XML')">Factura XML</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Acuse')">Acuse</a></li>
                             `;
                         }
                         if (element.status == 0) {
@@ -325,109 +315,143 @@ function recepciondelete(id) {
         $(document).on('click', function() {
             $(".detallesdesplegables").attr('hidden',true)
         });
-
-
-        $("#EmpresaForm").submit(function(e) {
-                    e.preventDefault();
-                    $("#Empresa_modal").modal("hide");
-                    $("#empresaupdated").attr("disabled", true);
-                    $("#newempresa").attr("disabled", true)
-                    let mensaje;
-                    if(document.getElementById("compani_id").val==null){
-                        mensaje ="¿Estás Seguro De Registrar A la Empresa "+ document.getElementById("compani_nombre").value+" ?"
+        $(document).on('click', '.reportevehicular', function(){
+            const Nsolicitud=$(this).attr("data-nrv");
+            console.log(Nsolicitud);
+            $.ajax({
+                url: "{{route('2025.cfe.obtener.idrecepcion')}}",
+                type: "get",
+                data:{
+                    folionum:Nsolicitud,
+                },
+                success: function(response) {
+                    var respuesta = response.id;
+                    window.open('/recepcion/reporte/storage/'+ respuesta,'_blank');
+                },
+                error: function(xhr, status, error) {
+                    if(xhr.status===499){
+                        let errorMessage = 'Verifique Los Datos';
+                        Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
                     }else{
-                        mensaje ="¿Estás Seguro De Modificar Los Datos De La Empresa "+ document.getElementById("compani_nombre").value+" ?"
+                        let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                        Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
                     }
-                    Swal.fire({
-                            icon: "question",
-                            text: mensaje,
-                            showCancelButton: true,
-                            confirmButtonText: "Confirmar",
-                            cancelButtonText: "Cancelar",
-                            reverseButtons: true,
-                            customClass: {
-                                confirmButton: "btn-primary",
-                                cancelButton: "btn-light",
-                            },
-                        })
-                        .then((result) => {
-                            if (result.isConfirmed) {
-                                var form = $("#EmpresaForm")[0];
-                                var formData = new FormData(form);
-                                let ruta="{{ route('cliente.compani_register') }}";
-                                $.ajax({
-                                url: ruta,
-                                type: "POST",
-                                data: formData,
-                                contentType: false, // Evita que jQuery establezca un tipo de contenido
-                                processData: false, // Evita que jQuery procese los datos
-                                success: function(response) {
-                                    
-                                    $("#empresaupdated").attr("disabled", true);
-                                    $("#newempresa").attr("disabled", true)
-                                    if (response == "actualizado") {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "Se Actualizo Correctamente La Empresa",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    }
-                                    else if (response == "creado") {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "Se Ha Creado Correctamente La Empresa",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    } 
-                                    else if (response == "imagennosubida") {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "No Se Pudo Subir El Logo",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        window.executeSearchdata();
-                                    } 
-                                    else if (response == "noencontrado") {
-                                        
-                                    } 
-                                    else {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "Oops...",
-                                            html: data,
-                                        });
-                                    }
-                                },
-                                error: function(xhr) {
-                                    if (xhr.status === 404) {
-                                        Swal.fire({
-                                            icon: "error",
-                                            title: "No Se Pudo Encontrar La Empresa Que Desea Modificar",
-                                            showConfirmButton: false,
-                                            timer: 4000,
-                                        });
-                                        $("#empresaupdated").attr("disabled", false);
-                                        $("#newempresa").attr("disabled", false);
-                                    } else {
-                                        alert('Ocurrió un error al procesar la solicitud');
-                                        $("#empresaupdated").attr("disabled", false);
-                                        $("#newempresa").attr("disabled", false);
-                                    }
-                                }
-                            });
-                     
-                            } else {
-                                $("#Empresa_modal").modal("show");
-                                $("#empresaupdated").attr("disabled", false);
-                                $("#newempresa").attr("disabled", false);
+                }
+            })
+        });
+        $(document).on('click', '.presupuestopdf', function(){
+            const id=$(this).attr("data-id");
+            window.open('/ordenes/pdf/'+ id,'_blank');
+        });
+        window.executedeletepresupuestos = (id) => { // Tu código aquí };
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Una vez eliminado, No lo podras revertir",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'No, Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{route('2025.cfe.delete.presupuesto')}}",
+                        type: "DELETE",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                            id:id,
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            const mensaje=response.success
+                            Swal.fire({ html: `${mensaje}`, icon: 'success',showConfirmButton: false,timer: 2000,});
+                            executeSearchdata()
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            if(xhr.status===499){
+                                let errorMessage = 'Verifique Los Datos';
+                                Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                                executeSearchdata();
+                            }else{
+                                let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                                Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
                             }
-                        });
-                });
+                        }
+                    });
+                }
+            });
+        }
+        $(document).on('click', '.presupuestoacusepdf', function(){
+            const id=$(this).attr("data-id");
+            window.open('/ordenes/pdfAcuse/'+ id,'_blank');
+        });
+
+        window.executesubirarchivo=(id,origen)=>{
+            console.log(origen)
+            $('#img_preview').attr('src',"");
+            $('#img_preview').attr('hidden',true);
+            $('#pdf_preview').attr('src',"");
+            $('#pdf_preview').attr('hidden',true);
+            $('#video_src_preview').attr('src',"");
+            $('#video_preview')[0].load();
+            $('#video_preview').attr('hidden',true);
+            $('#text_preview').attr('hidden',true);
+            $('#subida_archivos').attr('data-origen',origen);
+            $('#subida_archivos').attr('data-id',id);
+            $('#Historial_archivos').attr('data-id',id);
+            $('#Historial_archivos').attr('data-origen',origen);
+            $('#archivotitle').text('Agregar '+ origen);
+            $('#subidaarchivos').modal('show');
+        }
+       
+        $('#Historial_archivos').on('click',function(){
+            let origen=$(this).attr('data-origen')
+            let id=$(this).attr('data-id')
+            $.ajax({
+                url: "{{route('2025.cfe.obtener.archivo')}}",
+                type: "get",
+                data:{
+                    id:id,
+                    origen:origen
+                },
+                success: function(response) {
+                    var respuesta = response.src;
+                    if(origen=="Fotos Viejas"){
+                        ruta = '/storage/documentos/fotosviejas/';
+                    }else if (origen=="Reporte Anomalías") {
+                        ruta = '/storage/documentos/reporteanomalias/';
+                    }else if (origen=="Entrada") {
+                        ruta = '/storage/documentos/entradas/';
+                    }else if (origen=="Orden Servicio") {
+                        ruta = '/storage/documentos/ordenservicio/';
+                    }else if (origen=="Fotos Nuevas") {
+                        ruta = '/storage/documentos/fotosnuevas/';
+                    }else if (origen=="Fotos Instaladas") {
+                        ruta = '/storage/documentos/fotosinstaladas/';
+                    }else if (origen=="Factura PDF") {
+                        ruta = '/storage/documentos/facturaspdf/';
+                    }else if (origen=="Factura XML") {
+                        ruta = '/storage/documentos/facturasxml/';
+                    }else if (origen=="Acuse") {
+                        ruta = '/storage/documentos/acuse/';
+                    } else{
+                        $conmodelo=false;
+                    }
+                    if(response)
+                    window.open(ruta + respuesta,'_blank');
+                },
+                error: function(xhr, status, error) {
+                    if(xhr.status===499){
+                        Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                    }else{
+                        let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                        Swal.fire({ title: 'Error', html: `Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
+                    }
+                }
+            })
+        })
     });
 </script>
 @endsection

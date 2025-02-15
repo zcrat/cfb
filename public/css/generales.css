@@ -57,6 +57,8 @@
 .zdw-55pct{width: 55%;}
 .zdw-60pct{width: 60%;}
 .zdw-65pct{width: 65%;}
+.zdw-70pct{width: 70%;}
+.zzd-80pct{width: 80%;}
 .zdw-100pct{width: 100% !important;}
 .zdh-100pct{height: 100% !important;}
 .zdmg-r01 { margin: 0.1rem; }
@@ -150,7 +152,12 @@
 .zdmgr-r29 { margin-right: 2.9rem; }
 .zdmgr-r30 { margin-right: 3.0rem; }
 .zdmgb-r05 { margin-bottom: 0.5rem; }
+.zdmgx-r02 {margin-inline: 0.2rem;}
 .zdmgy-r10 {margin-block: 1rem;}
+
+.zdmw-95pct{
+  max-width: 95%  !important;
+}
 .zd4col{
 column-count: 4;
 column-gap: 5%;

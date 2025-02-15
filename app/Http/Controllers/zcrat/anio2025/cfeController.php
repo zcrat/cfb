@@ -13,6 +13,7 @@ use App\Models\Marca;
 use App\Models\Modelo;
 use App\Models\Vehiculo;
 use App\Models\Customer;
+use App\Models\UnidadSatModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\CondicionesPintura;
@@ -39,13 +40,21 @@ use App\pCFEConceptos;
 use App\pCFECarrito;
 use App\CodigoSat;
 use App\contratos;
-
+use App\FotosViejas;
+use App\FotosNuevas;
+use App\FotosInstaladas;
+use App\Acuse;
+use App\OrdenServicio;
+use App\FacturaXML;
+use App\FacturaPDF;
+use App\OrdenEntrada;
+use App\ReporteAnomalias;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\LOG;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 class cfeController extends Controller
-{
+{   
     public $Regimenes = [
         ['id' => '601', 'nombre' => '601 - General de Ley Personas Morales'],
         ['id' => '603', 'nombre' => '603 - Personas Morales con Fines no Lucrativos'],
@@ -129,31 +138,34 @@ class cfeController extends Controller
     }
 // VISTAS TALLERES
     public function vistaTallereseco(){
-        $Regimenes=$this->Regimenes;
+        // $Regimenes=$this->Regimenes;
+        $unidades=UnidadSatModel::get();
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE ECO')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
-        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
+        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','unidades','empresas'));
     }
     public function vistaTalleresbajio(){
-        $Regimenes=$this->Regimenes;
+        // $Regimenes=$this->Regimenes;
+        $unidades=UnidadSatModel::get();
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE BAJIO')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2025')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
-        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
+        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','unidades','empresas'));
     }
     public function vistaTalleresoccidente(){
-        $Regimenes=$this->Regimenes;
+        // $Regimenes=$this->Regimenes;
+        $unidades=UnidadSatModel::get();
         $empresas=Empresa::select('id','nombre')->get();
         $sucu = \Auth::user()->sucursal_id;
         $modulo = Modulo::where('descripcion', 'CFE OCCIDENTE')->value('id');
         $anio = AnioCorrespondiente::where('descripcion', '2024')->value('id');
         $elementostotales = presupuestosCFE::where("CFE_id",$modulo)->where('created_at', '>', '2024-12-30')->count();
-        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','Regimenes','empresas'));
+        return view('cfe.2025.Talleres',compact('elementostotales','modulo','anio','unidades','empresas'));
     }
 
 
@@ -169,7 +181,7 @@ class cfeController extends Controller
             'pCFEVehiculos.modelo','pCFEVehiculos.ano','pCFEVehiculos.placas','pCFEVehiculos.vin','pCFEGenerales.ClienteYRazonSocial',
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area')
-            ->where('presupuestosCFE.id',$request->input('idservicio'))->where('created_at', '>', '2024-12-30')->first();
+            ->where('presupuestosCFE.id',$request->input('idservicio'))->where('presupuestosCFE.created_at', '>', '2024-12-30')->first();
         $conceptos=pCFECarrito::with('concepto')->where('presupuestoCFE_id', $recepcion->id)->get();
         return response()->json(['recepcion' => $recepcion,'conceptos' => $conceptos]);
        }
@@ -343,19 +355,20 @@ class cfeController extends Controller
         try{
             DB::beginTransaction();
             $data = CodigoSat::findorfail($request->input("Conceptos_Select2"));
+            $unidad = UnidadSatModel::find($request->input('unidadconcepto'));
             $cilindros=pCFETipos::findorfail($request->input("Tiposconceptos_Select2"));
             $concepto = new pCFEConceptos();
             $concepto->pCFECategorias_id = $request->input('Categoriaconceptos_Select2');
             $concepto->pCFETipos_id = ($cilindros->cilindros)*1000;
-            $concepto->num ='FC';
+            $concepto->num =$request->input('cod');
             $concepto->descripcion = $request->input('descripcionconcepto');
             $concepto->p_refaccion = $request->input('prefaccion');
-            $concepto->tiempo = ("1.0");
+            $concepto->tiempo = $request->input('tiempo');
             $concepto->p_mo = $request->input('pmo');
             $concepto->p_total = $request->input('prefaccion') + $request->input('pmo');
             $concepto->codigo_sat = $data->code;
-            $concepto->codigo_unidad = $data->unidad_sat;
-            $concepto->unidad_text = $data->unidad;
+            $concepto->codigo_unidad = $unidad->clave;
+            $concepto->unidad_text = $unidad->nombre;
             $concepto->id_anio_correspondiente = 3;
             // $concepto->CFE_id = $request->input('modulo');
             $concepto->save();             
@@ -400,13 +413,13 @@ class cfeController extends Controller
                 
                 $origen='BAJIO';
             }else if($request->input('modulo')== 3 ){
-                $vehiculo1 = new pCFEVehiculos();
-                $generales1 = new pCFEGenerales();
+                $vehiculo = new pCFEVehiculos();
+                $generales = new pCFEGenerales();
                 $cotizacion = new presupuestosCFE();
                 $origen='OCCIDENTE';
             }else if($request->input('modulo')== 6 ){
-                $vehiculo1 = new pCFEVehiculos();
-                $generales1 = new pCFEGenerales();
+                $vehiculo = new pCFEVehiculos();
+                $generales = new pCFEGenerales();
                 $cotizacion = new presupuestosCFE();
                 $origen='ECO';}
 
@@ -952,7 +965,7 @@ class cfeController extends Controller
     public function obtenercatalogoproductosyservicios(Request $request){
        
         //$conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('CFE_id',$request->input('modulo'))->orderBy('id', 'asc')->get();
-        $conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('id_anio_correspondiente',3)->orderBy('id', 'asc')->get();
+        $conceptos = pCFEConceptos::select('id','num','descripcion','pnuevo','p_total','pCFECategorias_id as categoria','pCFETipos_id as tipo')->where('id_anio_correspondiente',2)->orderBy('id', 'asc')->get();
         return response()->json([
             'conceptos' => $conceptos
         ]);
@@ -966,20 +979,20 @@ class cfeController extends Controller
     {
             log::info($request->modulo);
         if($request->modulo == 2 ){
-            $cotizacion =presupuestosCFE::findorfail($request->id);
-            $vehiculo =pCFEVehiculos::findorfail($cotizacion->pCFEVehiculos_id);
-            $generales =pCFEGenerales::findorfail($cotizacion->pCFEGenerales_id);
+            $cotizacion =presupuestosCFE::find($request->id);
+            $vehiculo =pCFEVehiculos::find($cotizacion->pCFEVehiculos_id);
+            $generales =pCFEGenerales::find($cotizacion->pCFEGenerales_id);
             
             $origen='BAJIO';
         }else if($request->modulo == 3 ){
-            $cotizacion =presupuestosCFE::findorfail($request->id);
-            $vehiculo =pCFEVehiculos::findorfail($cotizacion->pCFEVehiculos_id);
-            $generales =pCFEGenerales::findorfail($cotizacion->pCFEGenerales_id);
+            $cotizacion =presupuestosCFE::find($request->id);
+            $vehiculo =pCFEVehiculos::find($cotizacion->pCFEVehiculos_id);
+            $generales =pCFEGenerales::find($cotizacion->pCFEGenerales_id);
             $origen='OCCIDENTE';
         }else if($request->modulo == 6 ){
-            $cotizacion =presupuestosCFE::findorfail($request->id);
-            $vehiculo =pCFEVehiculos::findorfail($cotizacion->pCFEVehiculos_id);
-            $generales =pCFEGenerales::findorfail($cotizacion->pCFEGenerales_id);
+            $cotizacion =presupuestosCFE::find($request->id);
+            $vehiculo =pCFEVehiculos::find($cotizacion->pCFEVehiculos_id);
+            $generales =pCFEGenerales::find($cotizacion->pCFEGenerales_id);
             $origen='ECO';}
 
 
@@ -1013,7 +1026,7 @@ class cfeController extends Controller
         $conceptoslista=$request->conceptos;
         if($request->conceptos){
         foreach ($conceptoslista as $producto) {
-            $concepto = pCFECarrito::findorfail($producto['id']);
+            $concepto = pCFECarrito::find($producto['id']);
             $concepto->cantidad=$producto['cantidad'];
             $concepto->precio=$producto['precio'];
             $concepto->save();
@@ -1044,7 +1057,7 @@ class cfeController extends Controller
 
     // Insertar los nuevos productos
     foreach ($nuevosProductos as $producto) {
-        $preciov = pCFEConceptos::findorfail($producto['id']);
+        $preciov = pCFEConceptos::find($producto['id']);
         LOG::info($preciov);
         pCFECarrito::create([
             'presupuestoCFE_id' => $idPresupuesto,
@@ -1071,6 +1084,7 @@ class cfeController extends Controller
     ]);
 }
 
+
 private function guardarImagenBase64($imagenBase64, $directorio)
 {
     // Validar formato base64
@@ -1093,6 +1107,233 @@ private function guardarImagenBase64($imagenBase64, $directorio)
     return $fileName;
 }
 
+public function agregararchivospresupuesto(Request $request){
+    if ($request->hasFile('file')) {
+        $conmodelo=true;
+        $archivo = $request->file('file');
+        $nombreArchivo = time() . '_' . $archivo->getClientOriginalName();
+        $origen=$request->origen;
+        if($origen=="Fotos Viejas"){
+            $ruta = '/public/documentos/fotosviejas/';
+            $modelodb=new FotosViejas();
+        }elseif ($origen=="Reporte Anomalías" ){
+            $modelodb=new ReporteAnomalias();
+            $ruta = '/public/documentos/reporteanomalias/';
+        }elseif ($origen=="Entrada") {
+            $modelodb=new OrdenEntrada();
+            $ruta = '/public/documentos/entradas/';
+        }elseif ($origen=="Orden Servicio") {
+            $modelodb=new OrdenServicio();
+            $ruta = '/public/documentos/ordenservicio/';
+        }elseif ($origen=="Fotos Nuevas") {
+            $modelodb=new FotosNuevas();
+            $ruta = '/public/documentos/fotosnuevas/';
+        }elseif ($origen=="Fotos Instaladas") {
+            $modelodb=new FotosInstaladas();
+            $ruta = '/public/documentos/fotosinstaladas/';
+        }elseif ($origen=="Factura PDF") {
+            $modelodb=new FacturaPDF();
+            $ruta = '/public/documentos/facturaspdf/';
+        }elseif ($origen=="Factura XML") {
+            $modelodb=new FacturaXML();
+            $ruta = '/public/documentos/facturasxml/';
+        }elseif ($origen=="Acuse") {
+            $modelodb=new Acuse();
+            $ruta = '/public/documentos/acuse/';
+        } else{
+            $conmodelo=false;
+        }
+    if($conmodelo){
+        $archivo->storeAs($ruta, $nombreArchivo);
+        log::info("pasaa");
+        try{
+            DB::beginTransaction();
+            log::info("pasaa");
+            $cotizacion =$modelodb->where('presupuestoCFE_id',$request->id)->first();
+            if($cotizacion){
+                $archivoExistente = $ruta . '/' . $cotizacion->archivo;
+                if (file_exists($archivoExistente)) {
+                    unlink($archivoExistente); // Eliminar el archivo existente
+                }
+            }else{
+                $cotizacion=$modelodb;
+                $cotizacion->presupuestoCFE_id = $request->id;
+            }
+            $cotizacion->archivo = $nombreArchivo;
+            $cotizacion->save();               
+            DB::commit();
+            return response()->json(['success' => 'Se Guardo Correctamente el archivo'], 200);
+        } catch (Exception $e){
+            DB::rollBack();
+            return response()->json(['error' => 'Ocurrió un error al guardar el archivo'], 500);
+        }
+    }
+    return response()->json(['error' => 'Recarge la Pagina, si error persiste contacte a soporte'], 499);
+}
+return response()->json(['error' => 'No se envio Ningun Archivo'], 499);
+}
+public function obtenerarchivo(Request $request){
+    if($request->has('id')&&$request->has('origen')){ 
+        $conmodelo=true;
+        $origen=$request->origen;
+        if($origen=="Fotos Viejas"){
+            $modelodb=new FotosViejas();
+        }elseif ($origen=="Reporte Anomalías") {
+            $modelodb=new ReporteAnomalias();
+        }elseif ($origen=="Entrada") {
+            $modelodb=new OrdenEntrada();
+        }elseif ($origen=="Orden Servicio") {
+            $modelodb=new OrdenServicio();
+        }elseif ($origen=="Fotos Nuevas") {
+            $modelodb=new FotosNuevas();
+        }elseif ($origen=="Fotos Instaladas") {
+            $modelodb=new FotosInstaladas();
+        }elseif ($origen=="Factura PDF") {
+            $modelodb=new FacturaPDF();
+        }elseif ($origen=="Factura XML") {
+            $modelodb=new FacturaXML();
+        }elseif ($origen=="Acuse") {
+            $modelodb=new Acuse();
+        } else{
+
+            $conmodelo=false;
+        }
+        if($conmodelo){
+            $cotizacion =$modelodb->where('presupuestoCFE_id',$request->id)->first();
+            if($cotizacion){ 
+                return response()->json(['src' => $cotizacion->archivo], 200);  
+            }else {
+                return response()->json(['error' => 'Todavia No se Suben Archivos'], 499);
+            }
+        }
+        return response()->json(['error' => 'Recarge la Pagina, si error persiste contacte a soporte'], 499);
+    }
+    return response()->json(['error' => 'No Se Envio El Numero del  Presupuesto'], 499); }
+
+
+
+
+ public function deletepresupuesto(Request $request){
+    if($request->has('id')){ 
+            $presupuesto = presupuestosCFE::find($request->id);
+            if($presupuesto){
+            $presupuesto->delete(); 
+            return response()->json(['success' => 'Eliminado Correctamente'], 200);  
+        }else {
+            return response()->json(['error' => 'El Presupuesto Actualemente Ya No Se Encuentra Activo'], 499);
+        }
+    }
+    else { return response()->json(['error' => 'No Se Envio El Identificador del Presupuesto'], 499); }
+
+ }
+ public function obteneridrecepcion(Request $request){
+    if($request->has('folionum')){ 
+        $recepcionv =RecepcionVehicular::where("folioNum",$request->folionum)->first();
+        if($recepcionv){ 
+        return response()->json(['id' => $recepcionv->id], 200);  
+    }else {
+        return response()->json(['error' => 'El Numero de Solictud de la Recepcion Vehicular Actualemente Ya No Se Encuentra Activa'], 499);
+    }
+    }
+    else { return response()->json(['error' => 'No Se Envio El Numero de Solictud de la Recepcion Vehicular'], 499); }
+ }
+
+ public function reporte(Request $request,$id){
+    $Recepcion = RecepcionVehicular::where('recepcion_vehicular.id','=',$id)
+    ->select('recepcion_vehicular.customer_id')
+        ->first();
+   if($Recepcion->customer_id==null){
+    $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+    ->join('users','recepcion_vehicular.usuario_id','=','users.id')
+    ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
+    ->join('tipo_auto','vehiculos.tipo_id','=','tipo_auto.id')
+    ->join('marcas','vehiculos.marca_id','=','marcas.id')
+    ->join('modelos','vehiculos.modelo_id','=','modelos.id')
+    ->join('colores','vehiculos.color_id','=','colores.id')
+    ->select('recepcion_vehicular.id','recepcion_vehicular.orden_seguimiento','recepcion_vehicular.folio','recepcion_vehicular.notas_adicionales',
+    'recepcion_vehicular.indicaciones_del_cliente','recepcion_vehicular.km_entrada','recepcion_vehicular.km_salida','recepcion_vehicular.gas_entrada',
+    'recepcion_vehicular.gas_salida','recepcion_vehicular.fecha','recepcion_vehicular.firma','recepcion_vehicular.carro',
+    'recepcion_vehicular.fecha_compromiso','empresas.nombre','empresas.direccion','empresas.ciudad','empresas.estado','empresas.cp',
+    'empresas.tel_negocio','empresas.tel_casa','empresas.tel_celular','empresas.email',
+    'tipo_auto.nombre as tipo_auto','marcas.nombre as marca','modelos.nombre as modelo','colores.nombre as color','vehiculos.placas','vehiculos.anio','vehiculos.no_economico','vehiculos.vim','users.name','recepcion_vehicular.tecnico','recepcion_vehicular.fecha_entrega','recepcion_vehicular.folioNum')
+    ->where('recepcion_vehicular.id','=',$id)
+    ->orderBy('recepcion_vehicular.id','desc')->take(1)->get();
+   }
+   else 
+   {
+    $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+    ->join('users','recepcion_vehicular.usuario_id','=','users.id')
+    ->join('customers','recepcion_vehicular.customer_id','=','customers.id')
+    ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
+    ->join('tipo_auto','vehiculos.tipo_id','=','tipo_auto.id')
+    ->join('marcas','vehiculos.marca_id','=','marcas.id')
+    ->join('modelos','vehiculos.modelo_id','=','modelos.id')
+    ->join('colores','vehiculos.color_id','=','colores.id')
+    ->select('recepcion_vehicular.id','recepcion_vehicular.orden_seguimiento','recepcion_vehicular.folio','recepcion_vehicular.notas_adicionales',
+    'recepcion_vehicular.indicaciones_del_cliente','recepcion_vehicular.km_entrada','recepcion_vehicular.km_salida','recepcion_vehicular.gas_entrada',
+    'recepcion_vehicular.gas_salida','recepcion_vehicular.fecha','recepcion_vehicular.firma','recepcion_vehicular.carro',
+    'recepcion_vehicular.fecha_compromiso','empresas.nombre','empresas.direccion','empresas.ciudad','empresas.estado','empresas.cp','customers.nombre as usuario',
+    'empresas.tel_negocio','empresas.tel_casa','empresas.tel_celular','empresas.email',
+    'tipo_auto.nombre as tipo_auto','marcas.nombre as marca','modelos.nombre as modelo','colores.nombre as color','vehiculos.placas','vehiculos.anio','vehiculos.no_economico','vehiculos.vim','users.name','recepcion_vehicular.tecnico','recepcion_vehicular.fecha_entrega','recepcion_vehicular.folioNum')
+    ->where('recepcion_vehicular.id','=',$id)
+    ->orderBy('recepcion_vehicular.id','desc')->take(1)->get();
+
+   }
+
+
+  
+
+    $InterioresEquipo = InterioresEquipo::where('interiores_equipo.recepcion_vehicular_id','=',$id)
+    ->orderBy('interiores_equipo.id','desc')->take(1)->get();
+
+    $ExterioresEquipo = ExterioresEquipo::where('exteriores_equipo.recepcion_vehicular_id','=',$id)
+    ->orderBy('exteriores_equipo.id','desc')->take(1)->get();
+
+    $EquipoInventario = EquipoInventario::where('equipo_inventario.recepcion_vehicular_id','=',$id)
+    ->orderBy('equipo_inventario.id','desc')->take(1)->get();
+
+    $condicionesPintura = CondicionesPintura::where('condiciones_pintura.recepcion_vehicular_id','=',$id)
+    ->orderBy('condiciones_pintura.id','desc')->take(1)->get();
+   
+ return \View::make('reportes.recepcion_vehicular_storage', compact('RecepcionVehicular','InterioresEquipo','ExterioresEquipo',
+ 'EquipoInventario','condicionesPintura'))->render();
+// $pdf  =  \App::make('dompdf.wrapper');
+//$pdf->loadHTML('<h1>Test</h1>');
+// $view =  \View::make('reportes.recepcion_vehicular', compact('cotizacion'))->render();
+// $pdf->loadHTML($view);
+// $pdf->stream();
+//return $pdf->stream('invoice');
+//  return $pdf->download('profile.pdf');
+
+}
+public function Obtenerunidadessat(Request $request){
+   if($request->has('id'));
+    {
+     $UNIDAD=UnidadSatModel::find($request->id);
+     if($UNIDAD){
+        return response()->json($UNIDAD->clave); 
+     }   
+    }
+    return response()->json(['error' => 'No Se Envio El Identificador De La Unidad'], 499); 
+}
+public function deleteconcepto(Request $request){
+   if($request->has('id'));
+    {
+        $existe= pCFEConceptos::find($request->id);
+        if($existe){
+            $carrito = pCFECarrito::where("pCFEConcepto_id",$request->id)->get();
+            if($carrito->isNotEmpty()){
+                Log::info($carrito);
+                return response()->json(['error' => 'El Concepto Esta Agregado A un Presupuesto'], 499);
+            }
+            $existe->delete();
+            return response()->json(['success' => 'Eliminado Correctamente'], 200);  
+        }
+        return response()->json(['error' => 'El Concepto Actualemente Ya No Se Encuentra Activo'], 499);
+    
+    }
+    return response()->json(['error' => 'No Se Envio El Id del Concepto'], 499); 
+}
 
 
 }

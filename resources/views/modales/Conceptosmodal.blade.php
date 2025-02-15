@@ -3,7 +3,7 @@
     <div class="modal-content">
       <!-- Encabezado del modal -->
       <div class="modal-header">
-        <h5 class="modal-title" id="miModalLabel">Catalogo de Conceptos</h5>
+        <h5 class="modal-title" id="miModalLabel">Nuevo Concepto</h5>
         <button type="button" class="btn-close regresarmodal" aria-label="Cerrar"></button>
       </div>
       <!-- Cuerpo del modal -->
@@ -11,42 +11,24 @@
       <div class="modal-body">
         @csrf
         <div class="vaniflex">
-            <label>Tipo de Concepto</label>
-            <select required id="Conceptos_Select2"name="Conceptos_Select2">
-                <option value=""></option>
+            <div class="selectconlabel zdmgx-r02 zdw-70pct"> 
+                <label>Tipo de Concepto</label>
+                <select required id="Conceptos_Select2"name="Conceptos_Select2">
+                    <option value=""></option>
             </select>
+            </div>
+            <div class="selectconlabel">
+                <label>
+                    Codigo Sat
+                </label>
+                <input id="ncsatcde" class="form-control" disabled>
+            </div>
         </div>
         <div class="vaniflex">
-            <div class="mismall vaniw25">
-                <small>
-                    Codigo Sat
-                </small>
-                <label id="ncsatcde"></label>
-            </div>
-            <div class="mismall  vaniw25">
-                <small>
-                    Codigo Unidad
-                </small>
-                <label id="ncundcde"></label>
-            </div>
-            <div class="mismall  vaniw20">
-                <small>
-                    Codigo
-                </small>
-                <label id="nccde"></label>
-            </div>
-            <div class="mismall  vaniw15">
-                <small>
-                    Unidad
-                </small>
-                <label id="ncund"></label>
-            </div>
-            <div class="mismall  vaniw15">
-                <small>
-                    Tiempo
-                </small>
-                <label id="nctm"></label>
-            </div>
+            <div class="select2conlabel zdmg-r03"><label for="">Unidad</label><select class="form-control" name="unidadconcepto" id="unidadconcepto">@foreach ($unidades as $unidad) <option value="{{ $unidad['id'] }}">{{ $unidad['nombre'] }}</option> @endforeach</select></div>
+            <div class="select2conlabel zdmg-r03"><label for="">Codigo Unidad</label><input id="codud" class="form-control" disabled value="H87" type="text"></div>
+            <div class="select2conlabel zdmg-r03"><label for="">Codigo</label> <input name="cod" class="form-control" type="text" value="FC"></div>
+            <div class="select2conlabel zdmg-r03"><label for="">tiempo</label> <input name="tiempo" class="form-control" type="text" value="1.0"></div>
         </div>
         <div class="vaniflex zdjc-between">
             <div class="select2conlabel zdw-45pct zdrelative">
@@ -79,7 +61,7 @@
             </div>
         </div>
         <div class="textareaconlabel zdw-100pct">
-            <label>descripcion</label>
+            <label>Descripcion</label>
             <textarea required class="form-control"  name="descripcionconcepto" id="descripcionconcepto"></textarea>
         </div>
        
@@ -87,7 +69,7 @@
       <!-- Pie del modal -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary regresarmodal">Cerrar</button>
-        <button type="submit" id="guardarnuevoconcepto"class="btn btn-primary">Guardar cambios</button>
+        <button type="submit" id="guardarnuevoconcepto"class="btn btn-primary">Guardar</button>
       </div>
     </form>
     </div>
@@ -158,7 +140,6 @@
                 cache: true
             }
         });
-
         $(".regresarmodal").on('click',function(){
             $("#nuevosconceptos").modal('hide')
             $("#recepcionservicioyconceptos").modal('show')
@@ -172,11 +153,23 @@
             },
             success: function(response) {
                 console.log(response)
-                $("#ncsatcde").text(response.data.code)
-                $("#ncundcde").text(response.data.unidad_sat)
-                $("#nccde").text("FC")
-                $("#ncund").text(response.data.unidad)
-                $("#nctm").text("1.0")
+                $("#ncsatcde").val(response.data.code)
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        }); 
+        }); 
+        $('#unidadconcepto').on('change',function(){
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('2025.cfe.obtener.unidadessat') }}',
+            data:{
+                id: $(this).val(),
+            },
+            success: function(response) {
+                console.log(response)
+                $("#codud").val(response)
             },
             error: function(xhr, status, error) {
                 console.error(xhr);
