@@ -4,8 +4,7 @@ namespace Maatwebsite\Excel\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Maatwebsite\Excel\Files\Filesystem;
-use Maatwebsite\Excel\Files\TemporaryFile;
+use Illuminate\Filesystem\FilesystemManager;
 
 class StoreQueuedExport implements ShouldQueue
 {
@@ -14,7 +13,12 @@ class StoreQueuedExport implements ShouldQueue
     /**
      * @var string
      */
-    private $filePath;
+    private $tempPath;
+
+    /**
+     * @var string
+     */
+    private $path;
 
     /**
      * @var string|null
@@ -22,38 +26,22 @@ class StoreQueuedExport implements ShouldQueue
     private $disk;
 
     /**
-     * @var TemporaryFile
+     * @param string      $tempPath
+     * @param string      $path
+     * @param string|null $disk
      */
-    private $temporaryFile;
-    /**
-     * @var array|string
-     */
-    private $diskOptions;
-
-    /**
-     * @param  TemporaryFile  $temporaryFile
-     * @param  string  $filePath
-     * @param  string|null  $disk
-     * @param  array|string  $diskOptions
-     */
-    public function __construct(TemporaryFile $temporaryFile, string $filePath, string $disk = null, $diskOptions = [])
+    public function __construct(string $tempPath, string $path, string $disk = null)
     {
-        $this->disk          = $disk;
-        $this->filePath      = $filePath;
-        $this->temporaryFile = $temporaryFile;
-        $this->diskOptions   = $diskOptions;
+        $this->tempPath = $tempPath;
+        $this->path     = $path;
+        $this->disk     = $disk;
     }
 
     /**
-     * @param  Filesystem  $filesystem
+     * @param FilesystemManager $filesystem
      */
-    public function handle(Filesystem $filesystem)
+    public function handle(FilesystemManager $filesystem)
     {
-        $filesystem->disk($this->disk, $this->diskOptions)->copy(
-            $this->temporaryFile,
-            $this->filePath
-        );
-
-        $this->temporaryFile->delete();
+        $filesystem->disk($this->disk)->put($this->path, fopen($this->tempPath, 'r+'));
     }
 }

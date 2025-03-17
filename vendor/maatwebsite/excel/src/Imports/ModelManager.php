@@ -2,234 +2,85 @@
 
 namespace Maatwebsite\Excel\Imports;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\PersistRelations;
-use Maatwebsite\Excel\Concerns\SkipsOnError;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithSkipDuplicates;
-use Maatwebsite\Excel\Concerns\WithUpsertColumns;
-use Maatwebsite\Excel\Concerns\WithUpserts;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Exceptions\RowSkippedException;
-use Maatwebsite\Excel\Imports\Persistence\CascadePersistManager;
-use Maatwebsite\Excel\Validators\RowValidator;
-use Maatwebsite\Excel\Validators\ValidationException;
-use Throwable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\DatabaseManager;
 
 class ModelManager
 {
     /**
-     * @var array
+     * @var Collection|Model[]
      */
-    private $rows = [];
+    private $models;
 
     /**
-     * @var RowValidator
+     * @var DatabaseManager
      */
-    private $validator;
-    /**
-     * @var bool
-     */
-    private $remembersRowNumber = false;
+    private $db;
 
     /**
-     * @var CascadePersistManager
+     * @param DatabaseManager $db
      */
-    private $cascade;
-
-    /**
-     * @param  RowValidator  $validator
-     */
-    public function __construct(RowValidator $validator, CascadePersistManager $cascade)
+    public function __construct(DatabaseManager $db)
     {
-        $this->validator = $validator;
-        $this->cascade   = $cascade;
+        $this->models = new Collection();
+        $this->db     = $db;
     }
 
     /**
-     * @param  int  $row
-     * @param  array  $attributes
-     */
-    public function add(int $row, array $attributes)
-    {
-        $this->rows[$row] = $attributes;
-    }
-
-    /**
-     * @param  bool  $remembersRowNumber
-     */
-    public function setRemembersRowNumber(bool $remembersRowNumber)
-    {
-        $this->remembersRowNumber = $remembersRowNumber;
-    }
-
-    /**
-     * @param  ToModel  $import
-     * @param  bool  $massInsert
+     * @param callable $callback
      *
-     * @throws ValidationException
+     * @return mixed
      */
-    public function flush(ToModel $import, bool $massInsert = false)
+    public function transaction(callable $callback)
     {
-        if ($import instanceof WithValidation) {
-            $this->validateRows($import);
-        }
-
-        if ($massInsert) {
-            $this->massFlush($import);
-        } else {
-            $this->singleFlush($import);
-        }
-
-        $this->rows = [];
+        return $this->db->transaction($callback);
     }
 
     /**
-     * @param  ToModel  $import
-     * @param  array  $attributes
-     * @param  int|null  $rowNumber
-     * @return Model[]|Collection
+     * @param Model $model
      */
-    public function toModels(ToModel $import, array $attributes, $rowNumber = null): Collection
+    public function add(Model $model)
     {
-        if ($this->remembersRowNumber) {
-            $import->rememberRowNumber($rowNumber);
-        }
-
-        return Collection::wrap($import->model($attributes));
+        $this->models->push($model);
     }
 
     /**
-     * @param  ToModel  $import
-     */
-    private function massFlush(ToModel $import)
-    {
-        $this->rows()
-             ->flatMap(function (array $attributes, $index) use ($import) {
-                 return $this->toModels($import, $attributes, $index);
-             })
-             ->mapToGroups(function ($model) {
-                 return [\get_class($model) => $this->prepare($model)->getAttributes()];
-             })
-             ->each(function (Collection $models, string $model) use ($import) {
-                 try {
-                     /* @var Model $model */
-
-                     if ($import instanceof WithUpserts) {
-                         $model::query()->upsert(
-                             $models->toArray(),
-                             $import->uniqueBy(),
-                             $import instanceof WithUpsertColumns ? $import->upsertColumns() : null
-                         );
-
-                         return;
-                     } elseif ($import instanceof WithSkipDuplicates) {
-                         $model::query()->insertOrIgnore($models->toArray());
-
-                         return;
-                     }
-
-                     $model::query()->insert($models->toArray());
-                 } catch (Throwable $e) {
-                     $this->handleException($import, $e);
-                 }
-             });
-    }
-
-    /**
-     * @param  ToModel  $import
-     */
-    private function singleFlush(ToModel $import)
-    {
-        $this
-            ->rows()
-            ->each(function (array $attributes, $index) use ($import) {
-                $this->toModels($import, $attributes, $index)->each(function (Model $model) use ($import) {
-                    try {
-                        if ($import instanceof WithUpserts) {
-                            $model->upsert(
-                                $model->getAttributes(),
-                                $import->uniqueBy(),
-                                $import instanceof WithUpsertColumns ? $import->upsertColumns() : null
-                            );
-
-                            return;
-                        } elseif ($import instanceof WithSkipDuplicates) {
-                            $model::query()->insertOrIgnore([$model->getAttributes()]);
-
-                            return;
-                        }
-
-                        if ($import instanceof PersistRelations) {
-                            $this->cascade->persist($model);
-                        } else {
-                            $model->saveOrFail();
-                        }
-                    } catch (Throwable $e) {
-                        $this->handleException($import, $e);
-                    }
-                });
-            });
-    }
-
-    /**
-     * @param  Model  $model
-     * @return Model
-     */
-    private function prepare(Model $model): Model
-    {
-        if ($model->usesTimestamps()) {
-            $time = $model->freshTimestamp();
-
-            $updatedAtColumn = $model->getUpdatedAtColumn();
-
-            // If model has updated at column and not manually provided.
-            if ($updatedAtColumn && null === $model->{$updatedAtColumn}) {
-                $model->setUpdatedAt($time);
-            }
-
-            $createdAtColumn = $model->getCreatedAtColumn();
-
-            // If model has created at column and not manually provided.
-            if ($createdAtColumn && null === $model->{$createdAtColumn}) {
-                $model->setCreatedAt($time);
-            }
-        }
-
-        return $model;
-    }
-
-    /**
-     * @param  WithValidation  $import
+     * @param bool $massInsert
      *
-     * @throws ValidationException
+     * @throws \Throwable
      */
-    private function validateRows(WithValidation $import)
+    public function flush(bool $massInsert = false)
     {
-        try {
-            $this->validator->validate($this->rows, $import);
-        } catch (RowSkippedException $e) {
-            foreach ($e->skippedRows() as $row) {
-                unset($this->rows[$row]);
+        $this->transaction(function () use ($massInsert) {
+            if ($massInsert) {
+                $this->massFlush();
+            } else {
+                $this->singleFlush();
             }
-        }
+
+            $this->models = new Collection();
+        });
     }
 
     /**
-     * @return Collection
+     * Flush with a mass insert.
      */
-    private function rows(): Collection
+    private function massFlush()
     {
-        return new Collection($this->rows);
+        /** @var Model $model */
+        $model = get_class($this->models[0]);
+
+        $model::query()->insert(
+            collect($this->models)->map->getAttributes()->toArray()
+        );
     }
 
-    private function handleException(ToModel $import, Throwable $e): void
+    /**
+     * Flush model per model.
+     */
+    private function singleFlush()
     {
-        if (!$import instanceof SkipsOnError) {
-            throw $e;
-        }
-
-        $import->onError($e);
+        $this->models->each->saveOrFail();
     }
 }

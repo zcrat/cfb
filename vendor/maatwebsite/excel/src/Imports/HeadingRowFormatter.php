@@ -2,9 +2,8 @@
 
 namespace Maatwebsite\Excel\Imports;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Illuminate\Support\Collection;
 
 class HeadingRowFormatter
 {
@@ -37,18 +36,19 @@ class HeadingRowFormatter
     ];
 
     /**
-     * @param  array  $headings
+     * @param array $headings
+     *
      * @return array
      */
     public static function format(array $headings): array
     {
-        return (new Collection($headings))->map(function ($value, $key) {
-            return static::callFormatter($value, $key);
+        return (new Collection($headings))->map(function ($value) {
+            return static::callFormatter($value);
         })->toArray();
     }
 
     /**
-     * @param  string  $name
+     * @param string $name
      */
     public static function default(string $name = null)
     {
@@ -60,8 +60,8 @@ class HeadingRowFormatter
     }
 
     /**
-     * @param  string  $name
-     * @param  callable  $formatter
+     * @param string   $name
+     * @param callable $formatter
      */
     public static function extend(string $name, callable $formatter)
     {
@@ -73,14 +73,15 @@ class HeadingRowFormatter
      */
     public static function reset()
     {
-        static::default();
+        static::default(null);
     }
 
     /**
-     * @param  mixed  $value
+     * @param mixed $value
+     *
      * @return mixed
      */
-    protected static function callFormatter($value, $key=null)
+    protected static function callFormatter($value)
     {
         static::$formatter = static::$formatter ?? config('excel.imports.heading_row.formatter', self::FORMATTER_SLUG);
 
@@ -88,15 +89,12 @@ class HeadingRowFormatter
         if (isset(static::$customFormatters[static::$formatter])) {
             $formatter = static::$customFormatters[static::$formatter];
 
-            return $formatter($value, $key);
+            return $formatter($value);
         }
 
-        if (empty($value)) {
-            return $key;
-        }
-
-        if (static::$formatter === self::FORMATTER_SLUG) {
-            return Str::slug($value, '_');
+        switch (static::$formatter) {
+            case self::FORMATTER_SLUG:
+                return str_slug($value, '_');
         }
 
         // No formatter (FORMATTER_NONE)

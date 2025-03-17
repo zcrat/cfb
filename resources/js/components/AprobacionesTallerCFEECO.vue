@@ -72,7 +72,7 @@
                  <button class="btn btn-success btn_sm float-right" type="button" @click="listarIngreso ('1','5','presupuestosCFE.status','','')">
                         <i class="fa fa-plus-circle mr-2"></i>Facturado
                  </button> 
-                 <button type="submit" @click="verexel('1',buscar,criterio,'','')" class="btn btn-success"><i class="icon-doc"></i> Exportar</button>
+                 <button type="submit" @click="reporteexcel()" class="btn btn-success"><i class="icon-doc"></i> Exportar</button>
                         
                         </div>
                     </div>
@@ -1908,6 +1908,7 @@ data (){
             tipo_impuesto_local:"1",
             mpago:"PUE"
         },
+        estatus_id:'',
         emisor_id:2,
         buscarcod:'',
         buscarcod2:'',
@@ -2291,7 +2292,7 @@ methods : {
 
     },
     listarIngreso (page,buscar,criterio, contra, fecha_inicio,fecha_final){
-
+        (1,buscar,criterio,'0', fecha_inicio,fecha_final)
         this.buscar = buscar;
         this.criterio = criterio;
   
@@ -2306,6 +2307,17 @@ methods : {
             me.arrayTipos = respuesta.tipos;
             me.arrayProductos = respuesta.productos;
             me.arrayPlanteles = respuesta.contratos;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    reporteexcel (){
+        var url= '/zcrat/generate/reporte/cfeeco?buscar='+ this.buscar + '&criterio='+ this.criterio + '&fecha_inicio='+ this.fecha_inicio + '&fecha_final='+ this.fecha_final+ '&contrato='+ this.contrato;
+        axios.get(url).then(function (response) {
+            console.log(response.data);
+            var respuesta= response.data;
+            window.open('download/'+ respuesta.excel,'_blank');
         })
         .catch(function (error) {
             console.log(error);

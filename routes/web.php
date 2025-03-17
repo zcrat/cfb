@@ -13,6 +13,7 @@
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\zcrat\RecepcionVehicularController;
 use App\Http\Controllers\zcrat\AdminCatalogosController;
+use App\Http\Controllers\zcrat\archivosgenerate;
 
 Route::get('/', function () {
     return view('auth/login');
@@ -144,6 +145,8 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/Admin/Catalogos/Conceptos/create', [AdminCatalogosController::class, 'createconcepto'])->name('administracion.catalogos.create');
         Route::delete('/administracion/Catalogos/Conceptos/delete', [AdminCatalogosController::class, 'deleteConceptosPresupuestos'])->name('administracion.catalogos.concepto.delete');
         Route::post('/administracion/Catalogos/Conceptos/update', [AdminCatalogosController::class, 'updateconcepto'])->name('administracion.catalogos.update');
+        
+        Route::get('/zcrat/generate/reporte/cfeeco', [archivosgenerate::class, 'cfeeco'])->name('reporte.excel.cfeeco');
 
         //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')

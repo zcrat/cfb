@@ -38,20 +38,23 @@ class ExportMakeCommand extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('model') && $this->option('query')) {
-            return $this->resolveStubPath('/stubs/export.query-model.stub');
+            $stub = '/stubs/export.query-model.stub';
         } elseif ($this->option('model')) {
-            return $this->resolveStubPath('/stubs/export.model.stub');
+            $stub = '/stubs/export.model.stub';
         } elseif ($this->option('query')) {
-            return $this->resolveStubPath('/stubs/export.query.stub');
+            $stub = '/stubs/export.query.stub';
         }
 
-        return $this->resolveStubPath('/stubs/export.plain.stub');
+        $stub = $stub ?? '/stubs/export.plain.stub';
+
+        return __DIR__ . $stub;
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
@@ -63,7 +66,8 @@ class ExportMakeCommand extends GeneratorCommand
      * Build the class with the given name.
      * Remove the base controller import if we are already in base namespace.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return string
      */
     protected function buildClass($name)

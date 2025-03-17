@@ -2,23 +2,22 @@
 
 namespace Maatwebsite\Excel\Mixins;
 
-use Illuminate\Contracts\Support\Arrayable;
+use Maatwebsite\Excel\Sheet;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\Support\Arrayable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Sheet;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class DownloadCollectionMixin
+class DownloadCollection
 {
     /**
      * @return callable
      */
     public function downloadExcel()
     {
-        return function (string $fileName, string $writerType = null, $withHeadings = false, array $responseHeaders = []) {
-            $export = new class($this, $withHeadings) implements FromCollection, WithHeadings
-            {
+        return function (string $fileName, string $writerType = null, $withHeadings = false) {
+            $export = new class($this, $withHeadings) implements FromCollection, WithHeadings {
                 use Exportable;
 
                 /**
@@ -32,8 +31,8 @@ class DownloadCollectionMixin
                 private $collection;
 
                 /**
-                 * @param  Collection  $collection
-                 * @param  bool  $withHeading
+                 * @param Collection $collection
+                 * @param bool       $withHeading
                  */
                 public function __construct(Collection $collection, bool $withHeading = false)
                 {
@@ -68,7 +67,7 @@ class DownloadCollectionMixin
                 }
             };
 
-            return $export->download($fileName, $writerType, $responseHeaders);
+            return $export->download($fileName, $writerType);
         };
     }
 }

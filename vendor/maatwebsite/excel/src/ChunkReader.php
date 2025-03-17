@@ -2,76 +2,40 @@
 
 namespace Maatwebsite\Excel;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\PendingDispatch;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\Jobs\SyncJob;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ShouldQueueWithoutChain;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithLimit;
-use Maatwebsite\Excel\Concerns\WithProgressBar;
-use Maatwebsite\Excel\Files\TemporaryFile;
-use Maatwebsite\Excel\Imports\HeadingRowExtractor;
-use Maatwebsite\Excel\Jobs\AfterImportJob;
-use Maatwebsite\Excel\Jobs\QueueImport;
 use Maatwebsite\Excel\Jobs\ReadChunk;
-use Throwable;
+use Maatwebsite\Excel\Jobs\QueueImport;
+use Maatwebsite\Excel\Concerns\WithLimit;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use PhpOffice\PhpSpreadsheet\Reader\IReader;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Imports\HeadingRowExtractor;
 
 class ChunkReader
 {
     /**
-     * @var Container
+     * @param WithChunkReading $import
+     * @param IReader          $reader
+     * @param string           $file
+     *
+     * @return \Illuminate\Foundation\Bus\PendingDispatch|null
      */
-    protected $container;
-
-    public function __construct(Container $container)
+    public function read(WithChunkReading $import, IReader $reader, string $file)
     {
-        $this->container = $container;
-    }
-
-    /**
-     * @param  WithChunkReading  $import
-     * @param  Reader  $reader
-     * @param  TemporaryFile  $temporaryFile
-     * @return PendingDispatch|Collection|null
-     */
-    public function read(WithChunkReading $import, Reader $reader, TemporaryFile $temporaryFile)
-    {
-        if ($import instanceof WithEvents) {
-            $reader->beforeImport($import);
-        }
-
-        $chunkSize    = $import->chunkSize();
-        $totalRows    = $reader->getTotalRows();
-        $worksheets   = $reader->getWorksheets($import);
-        $queue        = property_exists($import, 'queue') ? $import->queue : null;
-        $delayCleanup = property_exists($import, 'cleanupInterval') ? $import->cleanupInterval : 60;
-
-        if ($import instanceof WithProgressBar) {
-            $import->getConsoleOutput()->progressStart(array_sum($totalRows));
-        }
+        $chunkSize  = $import->chunkSize();
+        $totalRows  = $this->getTotalRows($reader, $file);
+        $worksheets = $this->getWorksheets($import, $reader, $file);
 
         $jobs = new Collection();
         foreach ($worksheets as $name => $sheetImport) {
-            $startRow = HeadingRowExtractor::determineStartRow($sheetImport);
-
-            if ($sheetImport instanceof WithLimit) {
-                $limit = $sheetImport->limit();
-
-                if ($limit <= $totalRows[$name]) {
-                    $totalRows[$name] = $sheetImport->limit();
-                }
-            }
+            $startRow         = HeadingRowExtractor::determineStartRow($sheetImport);
+            $totalRows[$name] = $import instanceof WithLimit ? $import->limit() : $totalRows[$name];
 
             for ($currentRow = $startRow; $currentRow <= $totalRows[$name]; $currentRow += $chunkSize) {
                 $jobs->push(new ReadChunk(
-                    $import,
-                    $reader->getPhpSpreadsheetReader(),
-                    $temporaryFile,
+                    $reader,
+                    $file,
                     $name,
                     $sheetImport,
                     $currentRow,
@@ -80,42 +44,13 @@ class ChunkReader
             }
         }
 
-        $afterImportJob = new AfterImportJob($import, $reader);
-
-        if ($import instanceof ShouldQueueWithoutChain) {
-            $afterImportJob->setInterval($delayCleanup);
-            $afterImportJob->setDependencies($jobs);
-            $jobs->push($afterImportJob->delay($delayCleanup));
-
-            return $jobs->each(function ($job) use ($queue) {
-                dispatch($job->onQueue($queue));
-            });
-        }
-
-        $jobs->push($afterImportJob);
-
         if ($import instanceof ShouldQueue) {
-            return new PendingDispatch(
-                (new QueueImport($import))->chain($jobs->toArray())
-            );
+            return QueueImport::withChain($jobs->toArray())->dispatch();
         }
 
-        $jobs->each(function ($job) {
-            try {
-                function_exists('dispatch_now')
-                    ? dispatch_now($job)
-                    : $this->dispatchNow($job);
-            } catch (Throwable $e) {
-                if (method_exists($job, 'failed')) {
-                    $job->failed($e);
-                }
-                throw $e;
-            }
+        $jobs->each(function (ReadChunk $job) {
+            dispatch_now($job);
         });
-
-        if ($import instanceof WithProgressBar) {
-            $import->getConsoleOutput()->progressFinish();
-        }
 
         unset($jobs);
 
@@ -123,24 +58,63 @@ class ChunkReader
     }
 
     /**
-     * Dispatch a command to its appropriate handler in the current process without using the synchronous queue.
+     * @param WithChunkReading $import
+     * @param IReader          $reader
+     * @param string           $file
      *
-     * @param  object  $command
-     * @param  mixed  $handler
-     * @return mixed
+     * @return array
      */
-    protected function dispatchNow($command, $handler = null)
+    private function getWorksheets(WithChunkReading $import, IReader $reader, string $file): array
     {
-        $uses = class_uses_recursive($command);
-
-        if (in_array(InteractsWithQueue::class, $uses) &&
-            in_array(Queueable::class, $uses) && !$command->job
-        ) {
-            $command->setJob(new SyncJob($this->container, json_encode([]), 'sync', 'sync'));
+        // Csv doesn't have worksheets.
+        if (!method_exists($reader, 'listWorksheetNames')) {
+            return ['Worksheet' => $import];
         }
 
-        $method = method_exists($command, 'handle') ? 'handle' : '__invoke';
+        $worksheets     = [];
+        $worksheetNames = $reader->listWorksheetNames($file);
+        if ($import instanceof WithMultipleSheets) {
+            $sheetImports = $import->sheets();
 
-        return $this->container->call([$command, $method]);
+            // Load specific sheets.
+            if (method_exists($reader, 'setLoadSheetsOnly')) {
+                $reader->setLoadSheetsOnly(array_keys($sheetImports));
+            }
+
+            foreach ($sheetImports as $index => $sheetImport) {
+                // Translate index to name.
+                if (is_numeric($index)) {
+                    $index = $worksheetNames[$index] ?? $index;
+                }
+
+                // Specify with worksheet name should have which import.
+                $worksheets[$index] = $sheetImport;
+            }
+        } else {
+            // Each worksheet the same import class.
+            foreach ($worksheetNames as $name) {
+                $worksheets[$name] = $import;
+            }
+        }
+
+        return $worksheets;
+    }
+
+    /**
+     * @param IReader $reader
+     * @param string  $file
+     *
+     * @return array
+     */
+    private function getTotalRows(IReader $reader, string $file): array
+    {
+        $info = $reader->listWorksheetInfo($file);
+
+        $totalRows = [];
+        foreach ($info as $sheet) {
+            $totalRows[$sheet['worksheetName']] = $sheet['totalRows'];
+        }
+
+        return $totalRows;
     }
 }

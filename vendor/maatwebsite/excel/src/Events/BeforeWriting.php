@@ -17,13 +17,13 @@ class BeforeWriting extends Event
     private $exportable;
 
     /**
-     * @param  Writer  $writer
-     * @param  object  $exportable
+     * @param Writer $writer
+     * @param object $exportable
      */
     public function __construct(Writer $writer, $exportable)
     {
         $this->writer     = $writer;
-        parent::__construct($exportable);
+        $this->exportable = $exportable;
     }
 
     /**
@@ -32,6 +32,14 @@ class BeforeWriting extends Event
     public function getWriter(): Writer
     {
         return $this->writer;
+    }
+
+    /**
+     * @return object
+     */
+    public function getConcernable()
+    {
+        return $this->exportable;
     }
 
     /**
