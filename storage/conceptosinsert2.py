@@ -51,7 +51,7 @@ def insertar_datos_excel_a_mysql(ruta_excel, usuario_db, contrasena_db, host_db,
 
 # Configuración
 
-ruta_excel = "C:/Users/jchug/Downloads/conceptosbajiodisel1.xlsx"
+ruta_excel = "C:/Users/jchug/Downloads/conceptosbajiodiselnew.xlsx"
 usuario_db = "root"
 contrasena_db = ""
 host_db = "127.0.0.1"

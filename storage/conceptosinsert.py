@@ -13,13 +13,13 @@ def insertar_datos_excel_a_mysql(ruta_excel, usuario_db, contrasena_db, host_db,
         database=nombre_db
     )
     cursor = conexion.cursor()
-    count=0
+    # count=0
     try:
         for index, fila in df.iterrows():
             descripcion = fila['descripcion']
             pCFECategorias_id = fila['pcfecategoria']
-            contrato_id = 9
-            count += 1
+            contrato_id = 3
+            # count += 1
             num = fila['num']
             codigo_sat = fila['codigo sat']
             # Procesar las columnas relacionadas con -4, -6, -8
@@ -37,12 +37,12 @@ def insertar_datos_excel_a_mysql(ruta_excel, usuario_db, contrasena_db, host_db,
                     cursor.execute(consulta_conceptos, (descripcion, p_mo, p_refaccion, p_total, pCFECategorias_id, codigo_sat,num,sufijo,'1.0','H87','Pieza','3',contrato_id,2))
                 else:
                      print("Datos no insertados")
-                if count == 1:
-                    consulta_tipos = """
-                    INSERT INTO tipos_disponibles (id_tipo, id_modulo, id_sucursal, id_anio)
-                    VALUES (%s, %s, %s, %s)
-                    """
-                    cursor.execute(consulta_tipos, (sufijo,2,contrato_id,3))
+                # if count == 1:
+                #     consulta_tipos = """
+                #     INSERT INTO tipos_disponibles (id_tipo, id_modulo, id_sucursal, id_anio)
+                #     VALUES (%s, %s, %s, %s)
+                #     """
+                #     cursor.execute(consulta_tipos, (sufijo,2,contrato_id,3))
         # Confirmar los cambios
         conexion.commit()
         print("Datos insertados correctamente.")
@@ -58,7 +58,7 @@ def insertar_datos_excel_a_mysql(ruta_excel, usuario_db, contrasena_db, host_db,
 
 # Configuración
 
-ruta_excel = "C:/Users/jchug/Downloads/moreliadisel.xlsx"
+ruta_excel = "C:/Users/jchug/Downloads/conceptosdiesel.xlsx"
 usuario_db = "root"
 contrasena_db = ""
 host_db = "127.0.0.1"
