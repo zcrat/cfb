@@ -8,49 +8,52 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                <div class="vaniflex zdjc-between">
-                    <div class="select2conlabel zdw-30pct zdrelative">
-                        <label>Categoria</label>
-                        <select  id="Categoriaconceptos2_Select2"name="Categoriaconceptos2_Select2">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                    <div class="select2conlabel zdrelative zdw-30pct">
-                        <label>Tipos</label>
-                        <select  id="Tiposconceptos2_Select2"name="Tiposconceptos2_Select2">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                    <div class="iconoin zdmgr-r05 zdw-30pct">
-                        <input class="misearch zdw-100pct"
-                            type="text" id="searchservicio" name="searchservicio"
-                            placeholder="Buscar por descripcion" >
-                            <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
-                    </div>
-                </div>
-                <div id='pagination2'></div>
-                <div id="lista" hidden>
-                    <table id="tablaproductoslista" class="table table-sm  table-striped">
-                        <thead>
-                            <tr>
-                                <th>Check</th>
-                                <th>Descripcion</th>
-                                <th>Cantidad</th>
-                                <th>Total</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div id='listacarga' class="carga" >
-                            <h3 class="text-center m-2">Cargando Datos</h3>
-                            <div class="spinnerp"></div>
+                    <div class="vaniflex zdjc-between">
+                        <div class="select2conlabel zdw-30pct zdrelative">
+                            <label>Categoria</label>
+                            <select  id="Categoriaconceptos2_Select2"name="Categoriaconceptos2_Select2">
+                                <option value=""></option>
+                            </select>
                         </div>
-                        <div  class="no-results-message2" hidden>
+                        <div class="select2conlabel zdrelative zdw-30pct">
+                            <label>Tipos</label>
+                            <select  id="Tiposconceptos2_Select2"name="Tiposconceptos2_Select2">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="iconoin zdmgr-r05 zdw-30pct">
+                            <input class="misearch zdw-100pct"
+                                type="text" id="searchservicio" name="searchservicio"
+                                placeholder="Buscar por descripcion" >
+                                <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
+                        </div>
+                    </div>
+                    <div id='pagination2'></div>
+                    <div id="lista" hidden>
+                        <table id="tablaproductoslista" class="table table-sm  table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Codigo</th>
+                                    <th>Tipo</th>
+                                    <th>Descripcion</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id='listacarga' class="carga" >
+                        <h3 class="text-center m-2">Cargando Datos</h3>
+                        <div class="spinnerp"></div>
+                    </div>
+                    <div  class="no-results-message2" hidden>
                         <span id="no-results-message2"></span>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary regresarmodal2">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="agregarconceptosalista">Agregar</button>
@@ -59,7 +62,6 @@
         </div>
     </div>
 @push('scripts')
-
 <script src="{{asset('js/paginacion2.js')}}"></script>
 <script>
     $(function(){
@@ -96,6 +98,7 @@
                     var query = {
                         term: params.term,
                         modulo: @json($modulo),
+                        contrato: @json($contrato),
                     };
                     return query;
                 },
@@ -127,6 +130,8 @@
                     var query = {
                         term: params.term,
                         modulo: @json($modulo),
+                        contrato: @json($contrato),
+
                     };
                     return query;
                 },
@@ -153,10 +158,7 @@
             $("#recepcionservicioyconceptos").modal('show')
         }
         $('#agregarconceptos').on('shown.bs.modal', function (){
-            window.searchdatconceptos=function(){
-
-                searchdata();
-            }
+            window.searchdatconceptos = function(){searchdata();}
             searchdata();
             let elements=[];
             let originalelements=[];
@@ -168,10 +170,11 @@
                         type: 'GET',
                         url: '{{ route('2025.cfe.obtener.catalogoproductosyservicios') }}',
                         data:{
-                            modulo:@json($modulo)
+                            modulo:@json($modulo),
+                            contrato:@json($contrato)
                         },
                         success: function(response) {
-                            console.log("se hizo solicitud");
+                            console.log(response);
                             originalelements = elements = response.conceptos;
                             document.getElementById('listacarga').setAttribute('hidden', true);
                             document.getElementById('lista').removeAttribute('hidden');
@@ -186,24 +189,40 @@
                     let search2 = $('#searchservicio').val().toLowerCase();
                     let categoria = $('#Categoriaconceptos2_Select2').val();
                     let tipos = $('#Tiposconceptos2_Select2').val();
-                    let cilindros = '';
-
-                    if (tipos !== '') {
-                        $.ajax({
-                            type: 'GET',
-                            url: '{{ route('2025.cfe.obtener.cilindrostipo') }}',
-                            data: { id: tipos },
-                            success: function(response) {
-                                cilindros = response.cilindros * 1000;
-                                applyFilters(search2,categoria,cilindros);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(xhr);
-                            }
-                        });
+                    cilindros='';
+                    console.log(originalelements);
+                    elements = originalelements.filter(function(element) {
+                        return (categoria === '' || element.categoria == categoria) &&
+                            (tipos === '' || element.tipo == tipos) &&
+                            (search2 === '' || element.descripcion.toLowerCase().includes(search2));
+                    });
+                            
+                    if (elements.length === 0) {
+                        document.querySelector('.no-results-message2').removeAttribute('hidden');
+                        $('#no-results-message2').text('No Se Encontraron Conceptos');
                     } else {
-                        applyFilters(search2,categoria,cilindros);
+                        document.querySelector('.no-results-message2').setAttribute('hidden', true);
+                        $('#no-results-message2').text('');
                     }
+
+                    showElements();
+
+                    // if (tipos !== '') {
+                    //     $.ajax({
+                    //         type: 'GET',
+                    //         url: '{{ route('2025.cfe.obtener.cilindrostipo') }}',
+                    //         data: { id: tipos },
+                    //         success: function(response) {
+                    //             cilindros = response.cilindros * 1000;
+                    //             applyFilters(search2,categoria,cilindros);
+                    //         },
+                    //         error: function(xhr, status, error) {
+                    //             console.error(xhr);
+                    //         }
+                    //     });
+                    // } else {
+                    //     applyFilters(search2,categoria,cilindros);
+                    // }
                 }
 
                 function applyFilters(search2,categoria,cilindros) {
@@ -236,15 +255,18 @@
                     let startIndex = (Page2 - 1) * itemsPerPage;
                     let endIndex = startIndex + itemsPerPage;
                     let paginatedElements = elements.slice(startIndex, endIndex);
-                    
+                    console.log()
                     $('#tablaproductoslista tbody').empty();
                     $.each(paginatedElements, function(index, element) {
                         let row = $('<tr>'); 
-                        row.append('<td><input type="checkbox" class="concepto" data-id="'+element.id+'" data-descripcion="'+element.descripcion+'" title="Agregar" ' + (productosSeleccionados.has(element.id) ? 'checked' : '') + '></td>');
-                        row.append('<td><div class="Datatable-content">' + (element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
-                        row.append('<td><div class="Datatable-content"><input type="number" class="cantidad" data-id="'+element.id+'"></input></div></td>');
-                        row.append('<td><div class="Datatable-content"><input type="number" class="precio" data-id="'+element.id+'"></input></div></div></td>');
-                        row.append('<td><div class="Datatable-content"><button type="button" class="btn btn-danger" onclick="executeeliminarconcepto('+element.id+')"><i class="fa-solid fa-trash"></i></button></div></div></td>');
+                        row.append('<td><div class="zdh-100pct zdflex  zdpd-r05 " ><input type="checkbox" class="concepto zdw-r1 zdh-r1" data-id="'+element.id+'" data-descripcion="'+element.descripcion+'" title="Agregar" ' + (productosSeleccionados.has(element.id) ? 'checked' : '') + '></div></td>');
+                        row.append('<td><div class="Datatable-content">'+ (element.num ? element.num : "Sin Codigo" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">'+ (element.tipodata ? element.tipodata.tipo : "Sin tipo" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content">'+(element.descripcion ? element.descripcion : "Sin descripcion" ) + '</div></td>');
+                        row.append('<td><div class="Datatable-content"><input type="number" value="1" class="cantidad zdw-r3" data-id="'+element.id+'"></input></div></td>');
+                        row.append('<td><div class="Datatable-content"><input type="number" value="1" class="precio  zdw-r5" data-id="'+element.id+'"></input></div></div></td>');
+                        if(element.num && element.num=="FC"){ row.append('<td><div class="Datatable-content"><button type="button" class="btn btn-danger" onclick="executeeliminarconcepto('+element.id+')"><i class="fa-solid fa-trash"></i></button></div></div></td>');}else{
+                        row.append('<td><div class="Datatable-content"><button type="button" class="btn btn-danger" disabled><i class="fa-solid fa-trash"></i></button></div></div></td>');}
 
                         $('#tablaproductoslista tbody').append(row);
                     });
@@ -317,42 +339,41 @@
                     },
                 });
             });
-    
-    window.executeeliminarconcepto = (id)=>{
-        Swal.fire({
-        title: '¿Estás seguro?',
-        text: "Una vez eliminado, no podrás recuperar este concepto.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{route('2025.cfe.delete.concepto')}}",
-                    type: "DELETE",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        id:id,
-                    },
-                    success: function(response) {
-                        Swal.fire('Éxito', 'El Concepto Fue Eliminado Correctamente', 'success');
-                        searchdatconceptos()
-                    },
-                    error: function(xhr, status, error) {
-                    if(xhr.status===499){
-                        Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
-                      }else{
-                          let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
-                          Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
-                      }
-                    }
+            window.executeeliminarconcepto = (id)=>{
+                Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Una vez eliminado, no podrás recuperar este concepto.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{route('2025.cfe.delete.concepto')}}",
+                            type: "DELETE",
+                            data:{
+                                "_token": "{{ csrf_token() }}",
+                                id:id,
+                            },
+                            success: function(response) {
+                                Swal.fire('Éxito', 'El Concepto Fue Eliminado Correctamente', 'success');
+                                searchdatconceptos();
+                            },
+                            error: function(xhr, status, error) {
+                            if(xhr.status===499){
+                                Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                            }else{
+                                let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                                Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
+                            }
+                            }
+                        });
+                    } 
                 });
-            } 
-        });
-    }
-});
+            }
+    });
 </script>
 @endpush
 

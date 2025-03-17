@@ -41,13 +41,19 @@ class presupuestos2023Controller extends Controller
         $contra = $request->contra;
         $contrato = $request->contrato;
         $criterio = $request->criterio;
-        $categorias = pCategorias2023::orderBy('titulo', 'asc')->get();
-        $tipos = pTipos2023::orderBy('tipo', 'asc')->get();
+        $eco = $request->eco_id;
+        if($eco == '55'){
+        $categorias = pCategorias2023::select('id','titulo','eco_id')->where('eco_id','=',$eco)->orderBy('titulo', 'asc')->get();
+        $tipos = pTipos2023::select('id','tipo','eco_id')->where('eco_id','=',$eco)->orderBy('tipo', 'asc')->get();
+        } else {
+        $categorias = pCategorias2023::select('id','titulo','eco_id')->where('eco_id','=','1')->orderBy('titulo', 'asc')->get();
+        $tipos = pTipos2023::select('id','tipo','eco_id')->where('eco_id','=','1')->orderBy('tipo', 'asc')->get(); 
+        }
         $productos = CodigoSat::get();
         $contratos = Empresa::orderBy('nombre','asc')->get();
         $fecha_inicio = $request->fecha_inicio;
         $fecha_final = $request->fecha_final;
-        $eco = $request->eco_id;
+       
         if ($fecha_inicio=='' || $fecha_final=='' ){
         if ($contra == '1'){
             $cotizaciones = presupuestos2023::join('pVehiculos2023','presupuestos2023.pVehiculos_id','=','pVehiculos2023.id')

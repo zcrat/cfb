@@ -639,6 +639,32 @@
 </template>
 
 
+<template v-if="$store.state.menuc==115">
+
+        <recepcion-akumas-eco-en></recepcion-akumas-eco-en>
+
+</template>
+
+
+<template v-if="$store.state.menuc==116">
+
+        <hoja-conceptos-akumas-eco-en-component></hoja-conceptos-akumas-eco-en-component>
+
+</template>
+
+
+
+<template v-if="$store.state.menuc==117">
+
+        <ordenes-akumas-eco-en-component></ordenes-akumas-eco-en-component>
+
+</template>
+
+<template v-if="$store.state.menuc==118">
+
+        <aprobaciones-taller-akumas-eco-en-component></aprobaciones-taller-akumas-eco-en-component>
+
+</template>
 
 
 

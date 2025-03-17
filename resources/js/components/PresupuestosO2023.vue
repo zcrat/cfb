@@ -1,9 +1,5 @@
 <template>
     <main class="main">
-    <!-- Breadcrumb -->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-    </ol>
     <div class="container-fluid">
         <!-- Ejemplo de tabla Listado -->
         <div class="card">
@@ -929,7 +925,7 @@
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
                                <div class="modal-header">
-                                 <h5 class="modal-title">Catalogo de conceptos</h5>
+                                 <h5 class="modal-title">Catalogo de conceptoss</h5>
                                  <button type="button" class="close" @click="cerrarModal">
                                    <span aria-hidden="true">&times;</span>
                                  </button>
@@ -941,10 +937,16 @@
 
                               <div class="col-12 col-md-12">
 
-                                <select class="form-control" v-model="Producto" :onChange="llenado(Producto)" >
-                                                <option value="0" disabled>Seleccione Producto</option>
-                                                <option v-for="producto in arrayProductos" :key="producto.id" :value="producto" v-text="producto.strdescripcion"></option>
-                                 </select>
+                                <v-select
+                                :on-search="selectProducto"
+                                label="descripcion"
+                                :options="arrayProductos"
+                                placeholder="Buscar Productos..."
+                                :onChange="llenado(Producto)"
+                                v-model="Producto"
+                            >
+                                
+                            </v-select>
 
                              
                                </div>

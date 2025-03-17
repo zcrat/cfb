@@ -1,9 +1,6 @@
 <template>
     <main class="main">
-    <!-- Breadcrumb -->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-    </ol>
+    
     <div class="container-fluid">
         <!-- Ejemplo de tabla Listado -->
         <div class="card">
@@ -1177,7 +1174,17 @@
                             </v-select>
                         </div>
                     </div>
-                    
+                    <div class="col-md-12">
+                                <button class="elimarestilosboton" :class="{'rfcactive': emisor_id === 1}" @click="setActiveButton(1)">
+                                    <img src="img/logo_cfb_button.png" class="ajustaraltura" alt="">
+                                </button>
+                                <button  class="elimarestilosboton" :class="{'rfcactive': emisor_id === 2}" @click="setActiveButton(2)">
+                                    <img src="img/logo_akumas_button.png" class="ajustaraltura" alt="">
+                                </button>
+                                <button  class="elimarestilosboton" :class="{'rfcactive': emisor_id === 3}" @click="setActiveButton(3)">
+                                    <img src="img/logo_kmg_button.jpeg" class="ajustaraltura" alt="">
+                                </button>
+                            </div>
                     <div class="col-md-4">
                         <div class="form-group">
                              <label>Tipo de Comprobante</label>
@@ -1433,6 +1440,7 @@ data (){
             tipo_impuesto_local:"1",
             mpago:"PUE"
         },
+        emisor_id:1,
         detallefactura:[],
         ingreso_id: 0,
         idempresa:0,
@@ -1575,6 +1583,9 @@ computed:{
     }
 },
 methods : {
+    setActiveButton(buttonNumber) {
+      this.emisor_id = buttonNumber; // Cambia el botón activo
+    },
     enviarMensaje(mensaje, idorden){
         console.log('orden '+ idorden);
         console.log('mensaje '+ mensaje);
@@ -1985,7 +1996,7 @@ methods : {
         let me = this;
         me.listado=5;
         me.idpresupuesto = cotizacion.id;
-
+        me.emisor_id=1;
          var url= 'ordenesForaneas/obtenerDetalles?id=' + cotizacion.id;
 
         axios.get(url).then(function (response) {
@@ -2008,7 +2019,7 @@ methods : {
            {
             'factura' : me.factura,   
             'data' : me.detallefactura,
-            'emisor_id':'1',
+            'emisor_id': me.emisor_id,
             }).then(function (response) {
             console.log(response.data);
            if(response.data == '1'){
@@ -2574,7 +2585,7 @@ methods : {
      facturar(cotizacion){
         let me=this;
         me.listado=5;
-
+        me.emisor_id=1;
          var url= 'cotizacion3/obtenerDetalles?id=' + cotizacion.id;
 
         axios.get(url).then(function (response) {

@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Mensajes;
 class presupuestosCFE extends Model
 {
     protected $table = 'presupuestosCFE';
@@ -19,6 +19,10 @@ class presupuestosCFE extends Model
         'user_id',
         'factura_id',
         'listo',
-        'status'
+        'status',
+        'id_anio_correspondiente'
     ];
+     function mensajes(){
+        return $this->hasMany(Mensajes::class, 'presupuesto_id','id'); 
+    }
 }

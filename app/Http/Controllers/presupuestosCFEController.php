@@ -29,7 +29,7 @@ use App\TipoServicioOrden;
 use App\OrdenEntrada;
 use App\Sucursales;
 use App\FacturasSaveDetalle;
-
+use Illuminate\Support\Facades\LOG;
 use DB;
 use Illuminate\Support\Carbon;
 
@@ -774,7 +774,8 @@ class presupuestosCFEController extends Controller
         ->join('presupuestosCFE','pCFECarrito.presupuestoCFE_id','=','presupuestosCFE.id')
         ->select('pCFECarrito.id','pCFEConceptos.descripcion','pCFEConceptos.num','pCFECarrito.cantidad','pCFECarrito.precio','pCFECategorias.titulo','pCFECategorias.num as nuc')
         ->where('pCFECarrito.presupuestoCFE_id','=',$id)
-        ->orderBy('pCFECarrito.id', 'desc')->get();
+        ->orderBy('pCFECarrito.id', 'asc')
+        ->get();
 
         if($cotizacion[0]->CFE_id == 6){
             return \View::make('pdf.presupuestoeco', compact('cotizacion', 'detalles'))->render();
@@ -840,10 +841,11 @@ class presupuestosCFEController extends Controller
         ->join('presupuestosCFE','pCFECarrito.presupuestoCFE_id','=','presupuestosCFE.id')
         ->select('pCFECarrito.id','pCFEConceptos.descripcion','pCFEConceptos.num','pCFECarrito.cantidad','pCFECarrito.precio_v as precio','pCFECategorias.titulo','pCFECategorias.num as nuc')
         ->where('pCFECarrito.presupuestoCFE_id','=',$id)
-        ->orderBy('pCFECarrito.id', 'desc')->get();
+        ->orderBy('pCFECarrito.id', 'asc')
+        ->get();
 
 
-      
+      LOG::INFO($detalles);
         if($cotizacion[0]->CFE_id == 6){
             return \View::make('pdf.presupuestoeco', compact('cotizacion', 'detalles'))->render();
         } else {
@@ -879,7 +881,8 @@ class presupuestosCFEController extends Controller
         ->join('presupuestosCFE','pCFECarrito.presupuestoCFE_id','=','presupuestosCFE.id')
         ->select('pCFECarrito.id','pCFEConceptos.descripcion','pCFEConceptos.num','pCFECarrito.cantidad','pCFECarrito.precio_v as precio','pCFECategorias.titulo','pCFECategorias.num as nuc')
         ->where('pCFECarrito.presupuestoCFE_id','=',$id)
-        ->orderBy('pCFECarrito.id', 'desc')->get();
+        ->orderBy('pCFECarrito.id', 'asc')
+        ->get();
 
         return \View::make('pdf.presupuestoAcuse', compact('cotizacion', 'detalles'))->render();
        // if ($m == 1){
@@ -1285,9 +1288,10 @@ class presupuestosCFEController extends Controller
             'pCFEVehiculos.modelo','pCFEVehiculos.ano','pCFEVehiculos.placas','pCFEVehiculos.identificador as economico','pCFEGenerales.ClienteYRazonSocial',
             'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
             ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato')
-            ->where('presupuestosCFE.id','=',$det['presupuesto_id'])->get();
-
-            array_push($pila,$detalles[0]);  
+            ->where('presupuestosCFE.id','=',$det['presupuesto_id'])->first();
+            
+            if($detalles){
+            array_push($pila,$detalles);  }
         } 
          
         

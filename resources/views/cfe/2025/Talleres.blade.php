@@ -20,6 +20,17 @@
                                     placeholder="Busqueda Por Folio, Marca, Modelo, Vin, Economico, etc" >
                                     <i class="fa fa-search" aria-hidden="true"></i>&nbsp;
                             </div>
+                            <div class="zdflex">
+                            <select name="estatus" class="form-control" id="estatus">
+                                <option value="">Todos</option>
+                                <option value="0">Sin Enviar</option>
+                                <option value="1">Pendientes</option>
+                                <!-- <option value="2">Finales</option>
+                                <option value="3">Autorizacion En Proceso</option> -->
+                                <option value="4">Terminados</option>
+                            </select>
+                            
+                            </div>
                         </div>
                         <div class="viewelements vanigrow vaniflex zdfd-column" id="viewelements">
                             <div class="elementosporpagina">
@@ -68,12 +79,9 @@
             </div>
     </div>
     @include('modales.subidaarchivos')
-
     @include('modales.recepcionservicio')
     @include('modales.recepcionservicioyconceptos')
-    
-
-  
+    @include('modales.Mensajemodal')
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -154,6 +162,7 @@ function recepciondelete(id) {
                 let originalelements = [];
                 const modulo = @json($modulo);
                 const anio = @json($anio);
+                const contrato = @json($contrato);
                 searchdata();
                 function searchdata() {
                     document.getElementById('loadingdata').removeAttribute('hidden');
@@ -163,7 +172,8 @@ function recepciondelete(id) {
                         url: '{{ route('2025.cfe.obtener.talleres') }}',
                         data:{
                             modulo:modulo,
-                            anio:anio
+                            anio:anio,
+                            contrato:contrato,
                         },
                         success: function(response) {
                             console.log(response)
@@ -187,8 +197,14 @@ function recepciondelete(id) {
                 window.executeshowElements = function() {
                     eval("showElements()");
                 };
+                window.executereporte = function(id) {
+                    eval("reporte("+id+")");
+                };
                 window.executeservicio = function(id) {
                     $('#recepcionservicio').modal("show");
+                };
+                function reporte(id){
+                    window.open('/recepcion/reporte/'+ id,'_blank');
                 };
                 function showElements() {
                     ShowPagination(elements.length,8);
@@ -205,12 +221,31 @@ function recepciondelete(id) {
                         document.getElementById('viewelements').setAttribute('hidden', true);
                     }
                     $.each(paginatedElements, function(index, element) {
-                        let row = $('<tr><td><div class="Datatable-content" ></div></td></tr>');
+                        let row = $('<tr class="zdrelative"><td><div class="Datatable-content" ></div></td></tr>');
                         let acciones =`<td><div class="Datatable-content ">`;
-                        acciones+=`<button type="button" class="btn btn-warning btn-sm" title="Factura XML" @click="abrirModal3(cotizacion)">
-                                    <i class="fa fa-comment-alt"></i>
-                                    </button>  `;
-                        let dropdownContent = `
+                        acciones+=`<div class="zdrelative zdinline"><button type="button" class="btn btn-warning btn-sm zdrelative" title="Mesajes" onclick="openmessagemodal(`+element.id+`)">
+                            <i class="fa fa-comment-alt"></i>
+                            </button>`+(element.mensajes ?`<p class="notificationcount">`+element.mensajes+`</p></div>` : `</div>`);
+                        let dropdownContent = ``
+                        if (element.status == 5) {
+                            dropdownContent = `
+                            <button type="button"class="opcionesdesplegables btn  btn-primary ">Opciones</button>
+                            <ul class="detallesdesplegables zdw-r12"" hidden>
+                                <li><a href="#" class="reportevehicular" data-nrv="`+element.NSolicitud+`">Recepción Vehicular</a></li>
+                                <li><a href="#" onclick="historialarchivos(`+element.id+`, 'Fotos Viejas')">Fotos Viejas</a></li>
+                                <li><a href="#" class="presupuestopdf" data-id="`+element.id+`">Presupuesto</a></li>
+                                <li><a href="#" class="presupuestoacusepdf" data-id="`+element.id+`">Presupuesto Acuse</a></li>
+                                <li><a href="#" onclick="historialarchivos(`+element.id+`, 'Reporte Anomalías')">Reporte Anomalías</a></li>
+                                <li><a href="#" onclick="historialarchivos(`+element.id+`, 'Entrada')">Entrada</a></li>
+                                <li><a href="#" onclick="historialarchivos(`+element.id+`, 'Orden Servicio')">Orden Servicio</a></li>
+                                <li><a href="#" onclick="historialarchivos(`+element.id+`, 'Fotos Nuevas')">Fotos Nuevas</a></li>
+                                <li><a href="#" onclick="historialarchivos(`+element.id+`, 'Fotos Instaladas')">Fotos Instaladas</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Factura PDF')">Factura PDF</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Factura XML')">Factura XML</a></li>
+                                <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Acuse')">Acuse</a></li>
+                        `;
+                        }else{
+                            dropdownContent = `
                             <button type="button"class="opcionesdesplegables btn  btn-primary ">Opciones</button>
                             <ul class="detallesdesplegables zdw-r12"" hidden>
                                 <li><a href="#" onclick="executedeletepresupuestos(`+element.id+`)" ">Eliminar</a></li>
@@ -223,7 +258,9 @@ function recepciondelete(id) {
                                 <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Entrada')">Entrada</a></li>
                                 <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Orden Servicio')">Orden Servicio</a></li>
                         `;
-                        if (element.status >= 3) {
+                        }
+                        
+                        if (element.status == 3 || element.status == 4) {
                             dropdownContent += `
                                 <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Nuevas')">Fotos Nuevas</a></li>
                                 <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Fotos Instaladas')">Fotos Instaladas</a></li>
@@ -232,15 +269,16 @@ function recepciondelete(id) {
                                 <li><a href="#" onclick="executesubirarchivo(`+element.id+`, 'Acuse')">Acuse</a></li>
                             `;
                         }
+                        
                         if (element.status == 0) {
                              acciones += `
                             
-                                 <button type="button" class="btn btn-warning" title="Boton de terminar">
+                                 <button type="button" class="btn btn-warning" onclick="executecambiostatus(`+element.id+`,1)"title="Boton de terminar">
                                     Enviar
                                     </button>
                             `;
                         }
-                        if (element.status < 3 && element.status>0 ) {
+                        if (element.status <= 3 && element.status>0 ) {
                              acciones += `
                             
                                  <button type="button" class="btn btn-secondary" title="Boton de terminar">
@@ -248,14 +286,14 @@ function recepciondelete(id) {
                                     </button>
                             `;
                         }
-                        if (element.status == 3) {
-                            //cambia a estatus 4
-                             acciones += `
-                                 <button type="button" class="btn btn-warning" title="Boton de terminar" >
-                                    Cerrar
-                                    </button>
-                            `;
-                        }
+                        // if (element.status == 3) {
+                        //     //cambia a estatus 4
+                        //      acciones += `
+                        //          <button type="button" class="btn btn-warning" title="Boton de terminar" >
+                        //             Cerrar
+                        //             </button>
+                        //     `;
+                        // }
                         if (element.status > 3) {
                              acciones += `
                                  <button type="button" class="btn btn-success" title="Boton de autorizar">
@@ -281,19 +319,28 @@ function recepciondelete(id) {
                     });recepciondelete
                 }
                 $('#search').on('input', filtering);
+                $('#estatus').on('change', filtering);
     
                 function filtering() { 
                     let search = $('#search').val().toLowerCase();
+                    let estatus = $('#estatus').val();
                     Page = 1
                         elements = originalelements.filter(function(element) {
-                            return (search === '' || 
+                        elementestatus=0;
+                        if (element.status <= 3 && element.status>0 ) {
+                            elementestatus=1;
+                        }
+                        if (element.status > 3) {
+                            elementestatus=4;
+                        }
+                        console.log(elementestatus);
+                        return ((search === '' || 
                             element.NSolicitud.toLowerCase().includes(search) || 
                             element.placas.toLowerCase().includes(search) || 
                             element.identificador.toLowerCase().includes(search) ||
                             element.vin.toLowerCase().includes(search) ||
                             element.marca.toLowerCase().includes(search) ||
-                            element.modelo.toLowerCase().includes(search)
-                        );
+                            element.modelo.toLowerCase().includes(search))&&(estatus===''|| elementestatus==estatus))
 
                         });
                     if (elements.length === 0) {
@@ -387,7 +434,44 @@ function recepciondelete(id) {
             const id=$(this).attr("data-id");
             window.open('/ordenes/pdfAcuse/'+ id,'_blank');
         });
-
+        window.executecambiostatus = (id,status)=>{
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se Cambiara el estaus del presupuesto a pendiente ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, Enviarlo'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{route('2025.cfe.cambiar.estatus.presupuesto')}}",
+                        type: "post",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                            id:id,
+                            estatus:status,
+                        },
+                        success: function(response) {
+                            Swal.fire({ html: `${mensaje}`, icon: 'success',showConfirmButton: false,timer: 2000,});
+                            executeSearchdata()
+                        },
+                        error: function(xhr, status, error) {
+                            if(xhr.status===499){
+                                Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                                executeSearchdata();
+                            }else{
+                                let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                                Swal.fire({ title: 'Error', html: `${errorMessage}<br>Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
+                            }
+                        }
+                    });
+                } else {
+                    
+                }
+            });
+        }
         window.executesubirarchivo=(id,origen)=>{
             console.log(origen)
             $('#img_preview').attr('src',"");
@@ -405,7 +489,82 @@ function recepciondelete(id) {
             $('#archivotitle').text('Agregar '+ origen);
             $('#subidaarchivos').modal('show');
         }
-       
+        window.historialarchivos=(id,origen)=>{
+            $.ajax({
+                url: "{{route('2025.cfe.obtener.archivo')}}",
+                type: "get",
+                data:{
+                    id:id,
+                    origen:origen
+                },
+                success: function(response) {
+                    var respuesta = response.src;
+                    if(origen=="Fotos Viejas"){
+                        ruta = '/storage/documentos/fotosviejas/';
+                    }else if (origen=="Reporte Anomalías") {
+                        ruta = '/storage/documentos/reporteanomalias/';
+                    }else if (origen=="Entrada") {
+                        ruta = '/storage/documentos/entradas/';
+                    }else if (origen=="Orden Servicio") {
+                        ruta = '/storage/documentos/ordenservicio/';
+                    }else if (origen=="Fotos Nuevas") {
+                        ruta = '/storage/documentos/fotosnuevas/';
+                    }else if (origen=="Fotos Instaladas") {
+                        ruta = '/storage/documentos/fotosinstaladas/';
+                    }else if (origen=="Factura PDF") {
+                        ruta = '/storage/documentos/facturaspdf/';
+                    }else if (origen=="Factura XML") {
+                        ruta = '/storage/documentos/facturasxml/';
+                    }else if (origen=="Acuse") {
+                        ruta = '/storage/documentos/acuse/';
+                    } else{
+                        $conmodelo=false;
+                    }
+                    if(response)
+                    window.open(ruta + respuesta,'_blank');
+                },
+                error: function(xhr, status, error) {
+                    if(xhr.status===499){
+                        Swal.fire({ title: 'Error', html: `Detalles del error:<br>${xhr.responseJSON.error}`, icon: 'error'});
+                    }else{
+                        let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                        Swal.fire({ title: 'Error', html: `Detalles del error: ${error}<br>${status} : ${xhr.status}`, icon: 'error'});
+                    }
+                }
+            })
+        }
+        window.openmessagemodal=(id)=>{
+            $('#presupuesto_id').val(id);
+            $.ajax({
+                        url: "{{route('2025.presupuesto.get.messages')}}",
+                        type: "get",
+                        data:{
+                            presupuesto:$('#presupuesto_id').val(),
+                        },
+                        success: function(response) {
+                            $('#tablemessage').empty();
+                            $.each(response.success, function(index, element) {
+                                let row = $('<div class="zdflex zdmg-r05 zditemscenter">');
+                                row.append('<div class="zdmgl-r05"><label class="zdbold zdblock">' + (element.mensaje ? element.mensaje : 'Nulo') + '</label>'+
+                                '<label>' + (element.created_at ? element.created_at : 'Nulo') + ' &nbsp&nbsp&nbsp</label>'+
+                                '<label>' + (element.usuarios ? element.usuarios.name : 'Nulo') + '</label></div>')
+                                $('#tablemessage').append(row);
+                            });
+                            $('#messagemodal').modal('show');
+                        },
+                        error: function(xhr, status, error) {
+                            let errorMessage = 'Intentelo de nuevo, si el error persiste contacte a Soporte.';
+                            console.log(xhr)
+                            Swal.fire({
+                                title: 'Error',
+                                html: `${errorMessage} ${xhr.responseJSON ? `<br>Detalles del error:<br>${xhr.responseJSON.error}`:``}`,
+                                icon: 'error'
+                                });
+
+                        }
+                    });
+           
+        }
         $('#Historial_archivos').on('click',function(){
             let origen=$(this).attr('data-origen')
             let id=$(this).attr('data-id')

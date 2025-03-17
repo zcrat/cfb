@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class pCFEConceptos extends Model
 {
     protected $table = 'pCFEConceptos';
+    protected $with = ('tipodata');
     protected $fillable = [
         'id',
         'pCFEConceptos_id',
@@ -20,10 +21,14 @@ class pCFEConceptos extends Model
         'codigo_sat',
         'codigo_unidad',
         'unidad_text',
+        'id_anio_correspondiente'
     ];
-
     public function carrito()
 {
     return $this->hasMany(pCFECarrito::class, 'pCFEConcepto_id','id');
+}
+    public function tipodata()
+{
+    return $this->belongsTo(pCFETipos::class, 'pCFETipos_id','id');
 }
 }

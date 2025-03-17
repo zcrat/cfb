@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="recepcionservicioyconceptos" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="recepcionservicioLabel" >
-    <div class="modal-dialog  zdmw-95pct  modal-dialog-centered" role="document">
+    <div class="modal-dialog zdmw-95pct modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="recepcionservicioLabel">Editar Recepcion Taller</h5>
@@ -82,8 +82,8 @@
                 </div>
             
             <div class="d-flex superior">
-                    <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Nuevo</button>
-                    <button type="button" class="btn btn-success"  onclick="agregarconceptos()" id="agragarconceptosacarrito"><i class="fa-solid fa-bars"></i>&nbsp;Agregar</button>
+                <button type="button" class="btn btn-primary" onclick="agregarnuevosconceptos()"><i class="fa-solid fa-circle-plus"></i>&nbsp;Nuevo</button>
+                <button type="button" class="btn btn-success"  onclick="agregarconceptos()" id="agragarconceptosacarrito"><i class="fa-solid fa-bars"></i>&nbsp;Agregar</button>
             </div>
             <p class="h5 text-uppercase font-weight-bold border-bottom">Diagnostico</p>
             <div>
@@ -92,6 +92,7 @@
                     <tr>
                         <th>Codigo</th>
                         <th>Cantidad</th>
+                        <th>Vehiculo</th>
                         <th>Concepto</th>
                         <th>Precio</th>
                         <th>Total</th>
@@ -131,8 +132,8 @@
         </div>
     </div>
 </div>
-@include('modales.ConceptosModal')
 @include('modales.anadirconceptosmodal')
+@include('modales.ConceptosModal')
 @push('scripts')
 <script>
     $(function(){
@@ -259,6 +260,7 @@
             },
             success: function(response) {
                 listaconceptos=response.conceptos;
+                console.log(listaconceptos);
                 actualizarlista()
             },
             error: function(xhr, status, error) {
@@ -272,8 +274,9 @@
         $('#tablaconceptos tbody').empty();
         $.each(listaconceptos, function(index, element) {
             let row = $('<tr>'); 
-            row.append('<td><div class="Datatable-content">' + (element.code ? element.code : "---" ) + '</div></td>');
+            row.append('<td><div class="Datatable-content">' + (element.concepto.num ? element.concepto.num : "Sin Codigo" ) + '</div></td>');
             row.append('<td><div class="Datatable-content"><input type="number" class="cantidaddiagnostico zdw-r4" data-id="'+element.id+'"  value='+element.cantidad+' ></input></div></td>');
+            row.append('<td><div class="Datatable-content">' + (element.concepto.tipodata ? element.concepto.tipodata.tipo : "Sin descripcion" ) + '</div></td>');
             row.append('<td><div class="Datatable-content">' + (element.concepto ? element.concepto.descripcion : "Sin descripcion" ) + '</div></td>');
             row.append('<td><div class="Datatable-content"><input type="number" class="preciodiagnostico zdw-r4" data-id="'+element.id+'" value='+element.precio+'></input></div></div></td>');
             row.append('<td><label data-id="'+element.id+'" class="subtotaldiagnostico ">' + (element.cantidad * element.precio) + '</label></td>');

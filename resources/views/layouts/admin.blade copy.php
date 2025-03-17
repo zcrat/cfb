@@ -20,10 +20,9 @@
     <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}">
     <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <link href="{{asset('css/plantilla.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
@@ -32,7 +31,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="{{ route('homevue') }}"  @click="$store.state.menuc=0" class="logo">
+        <a href="#"  @click="$store.state.menuc=0" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>S</span>
           <!-- logo for regular state and mobile devices -->
@@ -95,9 +94,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li class="nav-item"><a href="{{ route('cliente.usuarios') }}" class="nav-link"><i class="fa fa-user"></i> Usuarios</a></li>
-                <li class="nav-item"><a href="{{ route('cliente.empresas') }}" class="nav-link"><i class="fa fa-user"></i> Empresas</a></li>
-
+                <li  @click="$store.state.menuc=3" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-building"></i> Empresas</a></li>
+                <li  @click="$store.state.menuc=12" class="nav-item"><a href="#" class="nav-link"><i class="fa fa-user"></i> Usuarios</a></li>
               </ul>
             </li>
             @endcan
@@ -221,32 +219,34 @@
             @endcan
 
             @can('sucursales.index') 
-            <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-cog"></i> <span>Configuraciòn</span>
-                  <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                <li @click="$store.state.menuc=24"><a href="#"><i class="fa fa-user-tag"></i> Sucursales</a></li>
-                <li @click="$store.state.menuc=37"><a href="#"><i class="fa fa-user-tag"></i> Contratos</a></li>
-                <li @click="$store.state.menuc=42"><a href="#"><i class="fa fa-user-tag"></i> Ubicaciones</a></li>
-                <li @click="$store.state.menuc=43"><a href="#"><i class="fa fa-user-tag"></i> Areas</a></li>
-                <li @click="$store.state.menuc=44"><a href="#"><i class="fa fa-user-tag"></i> Categorias CFE</a></li>
-                <li @click="$store.state.menuc=45"><a href="#"><i class="fa fa-user-tag"></i> Categorias CFB/ECO</a></li>
-                <li @click="$store.state.menuc=100"><a href="#"><i class="fa fa-user-tag"></i> Categorias CFB/ECO 2024</a></li>
-                <li @click="$store.state.menuc=93"><a href="#"><i class="fa fa-user-tag"></i> Categorias Foraneas</a></li>
-                <li @click="$store.state.menuc=46"><a href="#"><i class="fa fa-user-tag"></i> Tipos CFE</a></li>
-                <li @click="$store.state.menuc=47"><a href="#"><i class="fa fa-user-tag"></i> Tipos CFB/ECO</a></li>
-                <li @click="$store.state.menuc=99"><a href="#"><i class="fa fa-user-tag"></i> Tipos CFB/ECO 2024</a></li>
-                <li @click="$store.state.menuc=94"><a href="#"><i class="fa fa-user-tag"></i> Tipos Foraneas</a></li>
-                <li @click="$store.state.menuc=48"><a href="#"><i class="fa fa-user-tag"></i> Conceptos CFE</a></li>
-                <li @click="$store.state.menuc=49"><a href="#"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO</a></li>
-                <li @click="$store.state.menuc=77"><a href="#"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO 2024</a></li>
-                <li @click="$store.state.menuc=92"><a href="#"><i class="fa fa-user-tag"></i> Conceptos Foraneos</a></li>
-                <li @click="$store.state.menuc=68"><a href="#"><i class="fa fa-user-tag"></i> Tareas Admin</a></li>
-                
-                </ul>
+
+          <li class="treeview">
+              <a href="#">
+                <i class="fa fa-cog"></i> <span>Configuraciòn</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+              <li @click="$store.state.menuc=24"><a href="#"><i class="fa fa-user-tag"></i> Sucursales</a></li>
+              <li @click="$store.state.menuc=37"><a href="#"><i class="fa fa-user-tag"></i> Contratos</a></li>
+              <li @click="$store.state.menuc=42"><a href="#"><i class="fa fa-user-tag"></i> Ubicaciones</a></li>
+              <li @click="$store.state.menuc=43"><a href="#"><i class="fa fa-user-tag"></i> Areas</a></li>
+              <li @click="$store.state.menuc=44"><a href="#"><i class="fa fa-user-tag"></i> Categorias CFE</a></li>
+              <li @click="$store.state.menuc=45"><a href="#"><i class="fa fa-user-tag"></i> Categorias CFB/ECO</a></li>
+              <li @click="$store.state.menuc=100"><a href="#"><i class="fa fa-user-tag"></i> Categorias CFB/ECO 2024</a></li>
+              <li @click="$store.state.menuc=93"><a href="#"><i class="fa fa-user-tag"></i> Categorias Foraneas</a></li>
+              <li @click="$store.state.menuc=46"><a href="#"><i class="fa fa-user-tag"></i> Tipos CFE</a></li>
+              <li @click="$store.state.menuc=47"><a href="#"><i class="fa fa-user-tag"></i> Tipos CFB/ECO</a></li>
+              <li @click="$store.state.menuc=99"><a href="#"><i class="fa fa-user-tag"></i> Tipos CFB/ECO 2024</a></li>
+              <li @click="$store.state.menuc=94"><a href="#"><i class="fa fa-user-tag"></i> Tipos Foraneas</a></li>
+              <li @click="$store.state.menuc=48"><a href="#"><i class="fa fa-user-tag"></i> Conceptos CFE</a></li>
+              <li @click="$store.state.menuc=49"><a href="#"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO</a></li>
+              <li @click="$store.state.menuc=77"><a href="#"><i class="fa fa-user-tag"></i> Conceptos CFB/ECO 2024</a></li>
+              <li @click="$store.state.menuc=92"><a href="#"><i class="fa fa-user-tag"></i> Conceptos Foraneos</a></li>
+              <li @click="$store.state.menuc=68"><a href="#"><i class="fa fa-user-tag"></i> Tareas Admin</a></li>
+              
+              </ul>
             </li>
+
             @endcan
 
 
@@ -539,6 +539,32 @@
             </li>
             @endcan
 
+            @can('akumas2023.index') 
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-money"></i> <span>Presupuestos ECO Edenred</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                @can('akumas2023.recepcion') 
+                <li @click="$store.state.menuc=115"><a href="#"><i class="fa fa-circle-o"></i> Recepcion Vehicular</a></li>
+                @endcan
+
+                @can('akumas2023.recepcion') 
+                <li @click="$store.state.menuc=116"><a href="#"><i class="fa fa-circle-o"></i> Hoja de Conceptos</a></li>
+                @endcan
+                @can('akumas2023.presupuestos') 
+                <li @click="$store.state.menuc=117"><a href="#"><i class="fa fa-circle-o"></i> Anexos Taller</a></li>
+                @endcan
+                @can('akumas2023.aprobaciones') 
+                <li @click="$store.state.menuc=118"><a href="#"><i class="fa fa-circle-o"></i> Aprobaciones</a></li>
+                @endcan
+            
+              </ul>
+             
+            </li>
+            @endcan
+
             @can('cfbECOForaneos.index') 
             <li class="treeview">
               <a href="#">
@@ -623,7 +649,6 @@
     <!-- jQuery 3.4.1 -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="{{asset('js/app.js')}}"></script>
-
     @stack('scripts')
     <!-- Bootstrap 4.3.1 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>

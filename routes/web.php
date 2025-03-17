@@ -11,14 +11,16 @@
 |
 */
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\zcrat\RecepcionVehicularController;
+use App\Http\Controllers\zcrat\AdminCatalogosController;
+
 Route::get('/', function () {
     return view('auth/login');
 });
 
 Auth::routes();
-//routes clientes
-//routes select2
+
+
 Route::get('select2/obtenerarticulos', 'zcrat\SelecController@obtenerarticulos')->name('select2.articulos')->middleware('auth');
 Route::get('select2/obtenerempresas', 'zcrat\SelecController@select2empresas')->name('select2.empresas')->middleware('auth');
 Route::get('select2/obtenerrr', 'zcrat\SelecController@select2rr')->name('select2.rr')->middleware('auth');
@@ -31,8 +33,12 @@ Route::get('select2/obtenercoloresvehiculo', 'zcrat\SelecController@select2color
 Route::get('select2/obtenerubicaciones', 'zcrat\SelecController@select2ubicaciones')->name('select2.ubicaciones')->middleware('auth');
 Route::get('select2/obtenerproductoscatalogo', 'zcrat\SelecController@select2catalogosproductos')->name('select2.productoscatalogo')->middleware('auth');
 Route::get('select2/obtenertiposcatalogo', 'zcrat\SelecController@select2tiposproductos')->name('select2.productoscatalogo')->middleware('auth');
+Route::get('select2/obtenertiposcatalogo2', 'zcrat\SelecController@select2tiposproductos2')->name('select2.productoscatalogo2')->middleware('auth');
+Route::get('select2/obtenertiposcatalogo/filter', 'zcrat\SelecController@select2todostiposproductos')->name('select2.productoscatalogo')->middleware('auth');
 Route::get('select2/obtenercategoriacatalogo', 'zcrat\SelecController@select2categoriaproductos')->name('select2.productoscatalogo')->middleware('auth');
-//users
+Route::get('select2/obtenerusuarioscaja', 'zcrat\SelecController@select2usuarioscaja')->name('select2.usuariosdecaja')->middleware('auth');
+Route::get('select2/obtenerusertaller', 'zcrat\SelecController@select2usuariostaller')->name('select2.usuariosdetaller')->middleware('auth');
+
 Route::get('clientes/usuarios', 'zcrat\Customers@clientes')->name('cliente.usuarios')->middleware('auth');
 Route::post('clientes/newusuario', 'zcrat\Customers@create')->name('cliente.register');
 Route::post('clientes/deleteuser', 'zcrat\Customers@deleteuser')->name('cliente.delete');
@@ -54,19 +60,13 @@ Route::get('facturacion/obtenerproductos', 'zcrat\Facturas@obtenerproductos')->n
 //Presupuestos
 Route::get('presupuestos/vales', 'zcrat\Presupuestos@valesview')->name('presupuestos.vales')->middleware('auth');
 Route::get('presupuestos/vale', 'zcrat\Presupuestos@vale')->name('vales.rr')->middleware('auth');
-
-
-
-
-
-
-
-
-
-
-
-
+Route::get('/recepcion/FAKE', 'RecepcionVehicularController@createrecepcionesfake')->name('cfeO2023.FAKE');
 Route::middleware(['auth'])->group(function(){
+        Route::get('CFE/2025/RecepcionVehicular', 'zcrat\anio2025\cfeController@vistarecepciones')->name('2025.cfe.vista.recepcionvehicular');
+        Route::get('CFE/2025/Talleres', 'zcrat\anio2025\cfeController@vistaTalleres')->name('2025.cfe.vista.Talleres');
+        Route::get('CFE/2025/Aprobaciones', 'zcrat\anio2025\cfeController@vistaAprobaciones')->name('2025.cfe.vista.Aprobaciones');
+
+
         Route::get('cfe2025/eco/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcioneco')->name('2025.cfe.recepcion.eco');
         Route::get('cfe2025/bajio/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionbajio')->name('2025.cfe.recepcion.bajio');
         Route::get('cfe2025/occidente/Recepcionvehicular', 'zcrat\anio2025\cfeController@vistarecepcionoccidente')->name('2025.cfe.recepcion.occidente');
@@ -97,9 +97,54 @@ Route::middleware(['auth'])->group(function(){
         Route::get('recepcion/reporte/storage/{id}', 'zcrat\anio2025\cfeController@reporte');
         Route::get('cfe2025/obtener/rutaarchivo', 'zcrat\anio2025\cfeController@obtenerarchivo')->name('2025.cfe.obtener.archivo');
         Route::post('cfe2025/obtener/idrecepcion', 'zcrat\anio2025\cfeController@agregararchivospresupuesto')->name('2025.cfe.agregar.archivospresupuesto');
+        Route::post('cfe2025/cambiar/estatus/presupuesto', 'zcrat\anio2025\cfeController@cambiarestatuspresupuesto')->name('2025.cfe.cambiar.estatus.presupuesto');
         Route::get('cfe2025/Obtener/unidadessat', 'zcrat\anio2025\cfeController@Obtenerunidadessat')->name('2025.cfe.obtener.unidadessat');
         Route::DELETE('cfe2025/delete/concepto', 'zcrat\anio2025\cfeController@deleteconcepto')->name('2025.cfe.delete.concepto');
+        Route::post('presupuestos/2025/new/message', 'zcrat\anio2025\cfeController@newmessage')->name('2025.presupuesto.new.message');
+        Route::get('presupuestos/2025/get/message', 'zcrat\anio2025\cfeController@getmessages')->name('2025.presupuesto.get.messages');
+        Route::delete('presupuestos/2025/delete/message', 'zcrat\anio2025\cfeController@deletemessage')->name('2025.presupuesto.delete.message');
+
+
+        Route::post('2025/cfe/Facturar', 'zcrat\anio2025\FacturacionController@store')->name('2025.cfe.facturar.unica');
+        Route::post('2025/cfe/Facturar/varias', 'zcrat\anio2025\FacturacionController@storemas')->name('2025.cfe.facturar.varias');
+        Route::post('2025/cfe/Guardar/Facturar/varias', 'zcrat\anio2025\FacturacionController@storepreviasave')->name('2025.cfe.guardar.facturar.varias');
+        Route::get('2025/cfe/obtener/multiples/detalles', 'zcrat\anio2025\FacturacionController@Obtenermultipledetalles')->name('2025.cfe.obtener.multiples.detalles');
+        Route::get('2025/cfe/obtener/multiples/detalles/prefactura', 'zcrat\anio2025\FacturacionController@Obtenermultipledetallesprefactura')->name('2025.cfe.obtener.multiples.detalles.prefactura');
+        Route::get('2025/cfe/obtener/prefacturas', 'zcrat\anio2025\FacturacionController@obtenerprefacturas')->name('2025.cfe.obtener.prefacturas');
+        Route::delete('2025/cfe/obtener/prefacturas', 'zcrat\anio2025\FacturacionController@deleteprefactura')->name('2025.facturacion.delete.prefactura');
+        Route::get('2025/cfe/obtener/factura/pdf', 'zcrat\anio2025\FacturacionController@facturapdf')->name('Facturacion.obtener.factura.pdf');
+        Route::get('2025/cfe/obtener/factura/xml', 'zcrat\anio2025\FacturacionController@facturaxml')->name('Facturacion.obtener.factura.xml');
+     
+     
+        Route::post('administracion/caja/movimientos/delete', 'zcrat\Cajacontroller@deletemovimientocaja')->name('administracion.caja.movimiento.delete');
+        Route::post('administracion/caja/movimientos/archivo/delete', 'zcrat\Cajacontroller@deletearchivomovimientocaja')->name('administracion.caja.movimiento.archivo.delete');
+        Route::post('administracion/caja/movimientos/update', 'zcrat\Cajacontroller@updatemovimientocaja')->name('administracion.caja.movimiento.update');
+        Route::post('administracion/caja/movimientos/create', 'zcrat\Cajacontroller@newmovimientocaja')->name('administracion.caja.movimiento.create');
+        Route::get('administracion/caja/movimientos/get', 'zcrat\Cajacontroller@obtenermovimientocaja')->name('administracion.caja.movimiento.get');
+        Route::get('administracion/caja/movimientos/view', 'zcrat\Cajacontroller@movimientocaja')->name('administracion.caja.movimiento.view');
+
+        Route::post('administracion/caja/movimientos/new/user', 'zcrat\Cajacontroller@createusercaja')->name('administracion.caja.movimiento.new.user');
+     
+
         
+
+        Route::post('/vehiculos/nuevo', [RecepcionVehicularController::class, 'newVehiculo'])->name('2025.create.new.vehiculo');
+        Route::get('/Zcrat/RecepcionVehicular/Vista', [RecepcionVehicularController::class, 'VistaRecepcionVehicular'])->name('2025.Recepcion.Vehicular.View');
+        Route::get('/RecepcionVehicular/Get/Elements', [RecepcionVehicularController::class, 'ObtenerRecepcionesVehiculares'])->name('2025.Recepcion.Vehicular.Get.Elements');
+        Route::get('/RecepcionVehicular/Get/Element', [RecepcionVehicularController::class, 'ObtenerRecepcionVehicular'])->name('2025.Recepcion.Vehicular.Get.Element');
+        Route::DELETE('/RecepcionVehicular/Delete/Element', [RecepcionVehicularController::class, 'DeleteRecepcionVehicular'])->name('2025.Recepcion.Vehicular.delete');
+        Route::Post('/RecepcionVehicular/create/user/taller', [RecepcionVehicularController::class, 'CreateUserTaller'])->name('2025.Recepcion.Vehicular.create.user.taller');
+        Route::Post('/RecepcionVehicular/create', [RecepcionVehicularController::class, 'CreateRecepcionVehicular'])->name('2025.Recepcion.Vehicular.create');
+        Route::Post('/RecepcionVehicular/update', [RecepcionVehicularController::class, 'UpdateRecepcionVehicular'])->name('2025.Recepcion.Vehicular.update');
+        Route::put('/RecepcionVehicular/fotos/update', [RecepcionVehicularController::class, 'ToggleFotosUpdate'])->name('2025.Recepcion.Vehicular.fotosupdate');
+
+        Route::get('/administracion/Catalogos/Conceptos/view', [AdminCatalogosController::class, 'VistaConceptosPresupuestos'])->name('view.administracion.catalogos.conceptospresupuestos');
+        Route::get('Obtener/administracion/Catalogos/Conceptos', [AdminCatalogosController::class, 'ObteneConceptosPresupuestos'])->name('obtener.administracion.catalogos.conceptospresupuestos');
+        Route::get('Obtener/administracion/Catalogos/Concepto', [AdminCatalogosController::class, 'ObteneConceptoPresupuestos'])->name('obtener.administracion.catalogo.concepto');
+        Route::post('/Admin/Catalogos/Conceptos/create', [AdminCatalogosController::class, 'createconcepto'])->name('administracion.catalogos.create');
+        Route::delete('/administracion/Catalogos/Conceptos/delete', [AdminCatalogosController::class, 'deleteConceptosPresupuestos'])->name('administracion.catalogos.concepto.delete');
+        Route::post('/administracion/Catalogos/Conceptos/update', [AdminCatalogosController::class, 'updateconcepto'])->name('administracion.catalogos.update');
+
         //Tareas
     Route::get('tareas', 'TareasController@index')->name('tareas.index')
     ->middleware('permission:tareas.index');
@@ -125,6 +170,7 @@ Route::middleware(['auth'])->group(function(){
     ->middleware('permission:cfeO2023.index');
     Route::get('recepcionO2023/archivos', 'RecepcionVehicularController@indexarchivos')->name('cfeO2023.index')
     ->middleware('permission:cfeO2023.index');
+
     Route::put('/recepcionO2023/eliminar', 'RecepcionVehicularController@eliminar')->name('cfeO2023.index')
     ->middleware('permission:cfeO2023.index');
 
@@ -237,15 +283,15 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/sucursales/obtenerPlantel', 'SucursalesController@obtenerPlantel')->name('sucursales.index')
             ->middleware('permission:sucursales.index'); 
             
-        //Contratos        
-        Route::get('/contratos', 'ContratosController@index')->name('contratos.index')
-        ->middleware('permission:contratos.index');
-        Route::post('/contratos/registrar', 'ContratosController@store')->name('contratos.store')
-        ->middleware('permission:contratos.store');
-        Route::post('/contratos/update', 'ContratosController@update')->name('contratos.update')
-        ->middleware('permission:contratos.update');
-        Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos')->name('contratos.index')
-        ->middleware('permission:contratos.index'); 
+     //Contratos        
+Route::get('/contratos', 'ContratosController@index')->name('contratos.index')
+    ->middleware('permission:contratos.index');
+Route::post('/contratos/registrar', 'ContratosController@store')->name('contratos.store')
+    ->middleware('permission:contratos.store');
+Route::post('/contratos/update', 'ContratosController@update')->name('contratos.update')
+    ->middleware('permission:contratos.update');
+Route::get('/contratos/obtenerContratos', 'ContratosController@obtenerContratos')->name('contratos.index')
+    ->middleware('permission:contratos.index'); 
             
     //Cotizaciones3        
     Route::get('/cotizacion3', 'Cotizacion3Controller@index')->name('cotizacion.index')
@@ -291,7 +337,7 @@ Route::middleware(['auth'])->group(function(){
         ->middleware('permission:cfeB2023.index');  
         
 
-        //Ordenes       
+   //Ordenes       
         Route::get('/ordenesO2023', 'presupuestosCFEOccidente2023Controller@index')->name('cfeO2023.index')
         ->middleware('permission:cfeO2023.index');
         Route::get('/ordenesAllO2023', 'presupuestosCFEOccidente2023Controller@indexAll')->name('cfeO2023.index')
@@ -317,8 +363,7 @@ Route::middleware(['auth'])->group(function(){
         
         
         
-
-        //Ordenes       
+//Ordenes       
         Route::get('/ordenesCFEECO', 'presupuestosCFEECOController@index')->name('cfeO2023.index')
         ->middleware('permission:cfeO2023.index');
         Route::get('/ordenesAllCFEECO', 'presupuestosCFEECOController@indexAll')->name('cfeO2023.index')
@@ -550,7 +595,7 @@ Route::middleware(['auth'])->group(function(){
          ->middleware('permission:ordenesNew.index');
          Route::get('/ordenesNew/start', 'presupuestos2023Controller@indexStart')->name('ordenesNew.index')
          ->middleware('permission:ordenesNew.index');
-        Route::post('/ordenesNew/registrar', 'presupuestos2023Controller@store')->name('ordenesNew.store')
+         Route::post('/ordenesNew/registrar', 'presupuestos2023Controller@store')->name('ordenesNew.store')
          ->middleware('permission:ordenesNew.store');  
          Route::post('/ordenesNew/update', 'presupuestos2023Controller@update')->name('ordenesNew.update')
          ->middleware('permission:ordenesNew.update');   
@@ -742,18 +787,18 @@ Route::middleware(['auth'])->group(function(){
 
           
 
-        //Conceptos   
-        Route::post('/conceptos2/registrar', 'pConceptosController@store')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index');  
-        Route::get('/conceptos2/selectConceptos', 'pConceptosController@selectConceptos')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index');
-        Route::post('/conceptos2/obtenerDetallesmulti', 'pConceptosController@obtenerDetallesmulti')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index'); 
-        Route::post('/conceptos2/delete', 'pConceptosController@delete')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index'); 
-        Route::post('/conceptos/delete', 'pCFEConceptosController@delete')->name('ordenes.index')
-        ->middleware('permission:ordenes.index');     
-        
+//Conceptos   
+Route::post('/conceptos2/registrar', 'pConceptosController@store')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index');  
+Route::get('/conceptos2/selectConceptos', 'pConceptosController@selectConceptos')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index');
+Route::post('/conceptos2/obtenerDetallesmulti', 'pConceptosController@obtenerDetallesmulti')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index'); 
+Route::post('/conceptos2/delete', 'pConceptosController@delete')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index'); 
+Route::post('/conceptos/delete', 'pCFEConceptosController@delete')->name('ordenes.index')
+      ->middleware('permission:ordenes.index');     
+      
       
 
            //DetalleConceptos
@@ -768,55 +813,55 @@ Route::middleware(['auth'])->group(function(){
            Route::post('/conceptosAkumas2023/exelarchivo', 'pConceptos2023Controller@exelimport')->name('ordenesNew.index')
            ->middleware('permission:ordenesNew.index');     
 
-        //Conceptos   
-        Route::post('/conceptos2023/registrar', 'pConceptos2023Controller@store')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index');  
-        Route::get('/conceptos2023/selectConceptos', 'pConceptos2023Controller@selectConceptos')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index');
-        Route::post('/conceptos2023/obtenerDetallesmulti', 'pConceptos2023Controller@obtenerDetallesmulti')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index'); 
-        Route::post('/conceptos2023/delete', 'pConceptos2023Controller@delete')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index'); 
-        
-                
-        
-        //DetalleConceptos
-        Route::get('/detalleconceptos2', 'pCarritoController@index')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index');     
-        Route::post('/detalleconceptos2/registrar', 'pCarritoController@store')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index'); 
-        Route::get('/detalleconceptos2/delete', 'pCarritoController@delete')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index'); 
-        Route::post('/detalleconceptos2/actualizar', 'pCarritoController@update')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index');  
+//Conceptos   
+Route::post('/conceptos2023/registrar', 'pConceptos2023Controller@store')->name('ordenesNew.index')
+      ->middleware('permission:ordenesNew.index');  
+Route::get('/conceptos2023/selectConceptos', 'pConceptos2023Controller@selectConceptos')->name('ordenesNew.index')
+      ->middleware('permission:ordenesNew.index');
+Route::post('/conceptos2023/obtenerDetallesmulti', 'pConceptos2023Controller@obtenerDetallesmulti')->name('ordenesNew.index')
+      ->middleware('permission:ordenesNew.index'); 
+Route::post('/conceptos2023/delete', 'pConceptos2023Controller@delete')->name('ordenesNew.index')
+      ->middleware('permission:ordenesNew.index'); 
+      
+              
+      
+//DetalleConceptos
+Route::get('/detalleconceptos2', 'pCarritoController@index')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index');     
+Route::post('/detalleconceptos2/registrar', 'pCarritoController@store')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index'); 
+Route::get('/detalleconceptos2/delete', 'pCarritoController@delete')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index'); 
+Route::post('/detalleconceptos2/actualizar', 'pCarritoController@update')->name('ordenes2.index')
+      ->middleware('permission:ordenes2.index');  
 
 
 
-        //DetalleConceptos
-        Route::get('/detalleconceptos2023', 'pCarrito2023Controller@index')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index');     
-        Route::post('/detalleconceptos2023/registrar', 'pCarrito2023Controller@store')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index'); 
-        Route::post('/detalleconceptos2023h/registrar', 'pCarrito2023Controller@store2')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index'); 
-        Route::get('/detalleconceptos2023/delete', 'pCarrito2023Controller@delete')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index'); 
-        Route::post('/detalleconceptos2023/actualizar', 'pCarrito2023Controller@update')->name('ordenesNew.index')
-        ->middleware('permission:ordenesNew.index');  
+      //DetalleConceptos
+Route::get('/detalleconceptos2023', 'pCarrito2023Controller@index')->name('ordenesNew.index')
+->middleware('permission:ordenesNew.index');     
+Route::post('/detalleconceptos2023/registrar', 'pCarrito2023Controller@store')->name('ordenesNew.index')
+->middleware('permission:ordenesNew.index'); 
+Route::post('/detalleconceptos2023h/registrar', 'pCarrito2023Controller@store2')->name('ordenesNew.index')
+->middleware('permission:ordenesNew.index'); 
+Route::get('/detalleconceptos2023/delete', 'pCarrito2023Controller@delete')->name('ordenesNew.index')
+->middleware('permission:ordenesNew.index'); 
+Route::post('/detalleconceptos2023/actualizar', 'pCarrito2023Controller@update')->name('ordenesNew.index')
+->middleware('permission:ordenesNew.index');  
 
 
-        //Mensajes
-        Route::get('/mensajes', 'MensajesController@index')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index');     
-        Route::post('/mensajes/enviar', 'MensajesController@store')->name('ordenes2.index')
-        ->middleware('permission:ordenes2.index'); 
+//Mensajes
+Route::get('/mensajes', 'MensajesController@index')->name('ordenes2.index')
+->middleware('permission:ordenes2.index');     
+Route::post('/mensajes/enviar', 'MensajesController@store')->name('ordenes2.index')
+->middleware('permission:ordenes2.index'); 
 
 
-        //Mensajes CFE
-        Route::get('/mensajesCFE', 'MensajesCFEController@index')->name('ordenes.index')
-        ->middleware('permission:ordenes.index');     
-        Route::post('/mensajesCFE/enviar', 'MensajesCFEController@store')->name('ordenes.index')
-        ->middleware('permission:ordenes.index'); 
+//Mensajes CFE
+Route::get('/mensajesCFE', 'MensajesCFEController@index')->name('ordenes.index')
+->middleware('permission:ordenes.index');     
+Route::post('/mensajesCFE/enviar', 'MensajesCFEController@store')->name('ordenes.index')
+->middleware('permission:ordenes.index'); 
     
 
             
@@ -1074,48 +1119,48 @@ Route::middleware(['auth'])->group(function(){
       Route::post('/afconceptos/delete', 'AFConceptosController@delete')->name('cfbForaneos.index')
       ->middleware('permission:cfbForaneos.index'); 
 
-        //DetalleConceptos
-        Route::get('/detalleCarritoAF', 'AFCarritoController@index')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');     
-        Route::post('/detalleCarritoAF/registrar', 'AFCarritoController@store')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index'); 
-        Route::get('/detalleCarritoAF/delete', 'AFCarritoController@delete')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index'); 
-        Route::post('/detalleCarritoAF/actualizar', 'AFCarritoController@update')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');  
+    //DetalleConceptos
+Route::get('/detalleCarritoAF', 'AFCarritoController@index')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');     
+Route::post('/detalleCarritoAF/registrar', 'AFCarritoController@store')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index'); 
+Route::get('/detalleCarritoAF/delete', 'AFCarritoController@delete')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index'); 
+Route::post('/detalleCarritoAF/actualizar', 'AFCarritoController@update')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');  
 
-        //AnexosForaneosRecepcionAcuse
-        Route::get('/anexosFRA', 'anexosForaneosRecepcionAcuseController@index')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');     
-        Route::post('/anexosFRA/registrar', 'anexosForaneosRecepcionAcuseController@store')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index'); 
-        Route::put('/anexosFRA/delete', 'anexosForaneosRecepcionAcuseController@delete')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index'); 
-        Route::post('/anexosFRA/actualizar', 'anexosForaneosRecepcionAcuseController@update')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');  
-        Route::get('/anexosFRA/pdfAcuse/{id}', 'anexosForaneosRecepcionAcuseController@pdfacuse')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');     
+ //AnexosForaneosRecepcionAcuse
+ Route::get('/anexosFRA', 'anexosForaneosRecepcionAcuseController@index')->name('cfbForaneos.index')
+ ->middleware('permission:cfbForaneos.index');     
+ Route::post('/anexosFRA/registrar', 'anexosForaneosRecepcionAcuseController@store')->name('cfbForaneos.index')
+ ->middleware('permission:cfbForaneos.index'); 
+ Route::put('/anexosFRA/delete', 'anexosForaneosRecepcionAcuseController@delete')->name('cfbForaneos.index')
+ ->middleware('permission:cfbForaneos.index'); 
+ Route::post('/anexosFRA/actualizar', 'anexosForaneosRecepcionAcuseController@update')->name('cfbForaneos.index')
+ ->middleware('permission:cfbForaneos.index');  
+ Route::get('/anexosFRA/pdfAcuse/{id}', 'anexosForaneosRecepcionAcuseController@pdfacuse')->name('cfbForaneos.index')
+ ->middleware('permission:cfbForaneos.index');     
 
 
-        //DetalleConceptos
-        Route::get('/categoriasForaneas', 'AFCategoriasController@index')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');     
-        Route::post('/categoriasForaneas/registrar', 'AFCategoriasController@store')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');  
-        Route::put('/categoriasForaneas/actualizar', 'AFCategoriasController@update')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');   
-        Route::post('/categoriasForaneas/desactivar', 'AFCategoriasController@desactivar')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');  
+//DetalleConceptos
+Route::get('/categoriasForaneas', 'AFCategoriasController@index')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');     
+Route::post('/categoriasForaneas/registrar', 'AFCategoriasController@store')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');  
+Route::put('/categoriasForaneas/actualizar', 'AFCategoriasController@update')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');   
+Route::post('/categoriasForaneas/desactivar', 'AFCategoriasController@desactivar')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');  
 
-        //DetalleConceptos
-        Route::get('/tiposForaneos', 'AFTiposController@index')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');     
-        Route::post('/tiposForaneos/registrar', 'AFTiposController@store')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');  
-        Route::put('/tiposForaneos/actualizar', 'AFTiposController@update')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');   
-        Route::post('/tiposForaneos/desactivar', 'AFTiposController@desactivar')->name('cfbForaneos.index')
-        ->middleware('permission:cfbForaneos.index');  
+//DetalleConceptos
+Route::get('/tiposForaneos', 'AFTiposController@index')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');     
+Route::post('/tiposForaneos/registrar', 'AFTiposController@store')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');  
+Route::put('/tiposForaneos/actualizar', 'AFTiposController@update')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');   
+Route::post('/tiposForaneos/desactivar', 'AFTiposController@desactivar')->name('cfbForaneos.index')
+->middleware('permission:cfbForaneos.index');  
 
 
 
@@ -1234,6 +1279,8 @@ Route::get('/ordenesForaneas/factura', 'AnexosForaneosController@factura');
 
 
 Route::get('/recepcion/folioBuscar', 'RecepcionVehicularController@folioBuscar');
+
+Route::get('/recepcion/mulrireportefake', 'RecepcionVehicularController@multireporte');
 
 Route::get('/facturacion', 'FacturasController@index');
 Route::get('/facturacionPorCobrar', 'FacturasController@porcobrar');

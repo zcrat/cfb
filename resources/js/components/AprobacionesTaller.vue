@@ -1,9 +1,5 @@
 <template>
             <main class="main">
-            <!-- Breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-            </ol>
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
@@ -1317,15 +1313,7 @@
                                     </v-select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                <label for="">MIS RFCS(*)</label> 
-                                <select v-model="emisor_id" id="rfcs"class="form-control">
-                                     <option value="2">ECO IMPULSA</option>
-                                     <option value="1">CAR FIX AND BEYOND</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                      <label>Tipo de Comprobante</label>
@@ -1457,9 +1445,7 @@
                                             <td v-text="detalle.descripcion"></td>
                                             <td v-text="detalle.precio"></td>
                                             <td v-text="detalle.cantidad"></td>
-                                            <td v-text="detalle.precio*detalle.cantidad">
-                                                <input type="hidden" name="customfield" class="form-control" :value="detalle.idarticulo" >
-                                            </td>
+                                            <td v-text="detalle.precio*detalle.cantidad"><input type="hidden" name="customfield" class="form-control" :value="detalle.idarticulo" ></td>
 
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="3" align="right"><strong>Total Parcial:</strong></td>
@@ -1524,15 +1510,7 @@
                                     </v-select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                <label for="">MIS RFCS(*)</label> 
-                                <select v-model="emisor_id" id="rfcs"class="form-control">
-                                     <option value="2">ECO IMPULSA</option>
-                                     <option value="1">CAR FIX AND BEYOND</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                      <label>Tipo de Comprobante</label>
@@ -1884,7 +1862,6 @@ import { constants } from 'crypto';
                     tipo_impuesto_local:"1",
                     mpago:"PUE"
                 },
-                emisor_id:1,
                 buscarcod:'',
                 buscarcod2:'',
                 detallefactura:[],
@@ -2652,8 +2629,7 @@ import { constants } from 'crypto';
                 axios.post('facturacion/timbrar',
                    {
                     'factura' : me.factura,   
-                    'data' : me.detallefactura,
-                    'emisor_id':me.emisor_id
+                    'data' : me.detallefactura
                     }).then(function (response) {
                     console.log(response.data);
                    
@@ -2676,8 +2652,7 @@ import { constants } from 'crypto';
                 axios.post('facturacion/timbrarmas',
                    {
                     'factura' : me.factura,   
-                    'data' : me.detallefacturaCompleta,
-                    'emisor_id':me.emisor_id
+                    'data' : me.detallefacturaCompleta
                     }).then(function (response) {
                     console.log(response.data);
                    
@@ -2698,8 +2673,7 @@ import { constants } from 'crypto';
                 axios.post('facturacion/timbrarprevia',
                    {
                     'factura' : me.factura,   
-                    'data' : me.detallefactura,
-                    'emisor_id':me.emisor_id
+                    'data' : me.detallefactura
                     }).then(function (response) {
                     console.log(response.data);
                     window.open('facturas/factura_prueba.pdf' ,'_blank');
@@ -2715,8 +2689,7 @@ import { constants } from 'crypto';
                 axios.post('facturacion/timbrarpreviamas',
                    {
                     'factura' : me.factura,   
-                    'data' : me.detallefacturaCompleta,
-                    'emisor_id':me.emisor_id
+                    'data' : me.detallefacturaCompleta
                     }).then(function (response) {
                     console.log(response.data);
                     window.open('facturas/factura_prueba.pdf' ,'_blank');
@@ -2732,8 +2705,7 @@ import { constants } from 'crypto';
                 axios.post('facturacion/timbrarpreviasave',
                    {
                     'factura' : me.factura,   
-                    'data' : me.detallefacturaCompleta,
-                    'emisor_id':me.emisor_id
+                    'data' : me.detallefacturaCompleta
                     }).then(function (response) {
                     console.log(response.data);
                     me.$toastr.success('Se guardo correctamente', 'Facturación');

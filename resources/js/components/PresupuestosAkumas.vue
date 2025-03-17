@@ -1,9 +1,5 @@
 <template>
             <main class="main">
-            <!-- Breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-            </ol>
             <div class="container-fluid">
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
@@ -562,18 +558,6 @@
                                <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Empresas(*)</label>
-                                    <v-select
-                                        :on-search="selectEmpresa"
-                                        label="nombre"
-                                        :options="arrayEmpresa"
-                                        placeholder="Buscar Empresas..."
-                                        :onChange="getDatosEmpresa"
-                                    >
-                                        
-                                    </v-select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">RFC(*)</label>
                                     <v-select
                                         :on-search="selectEmpresa"
                                         label="nombre"
@@ -1403,7 +1387,14 @@
                                     </v-select>
                                 </div>
                             </div>
-                            
+                            <div class="col-md-12"><div class="form-group">
+                                <label for="">MIS RFCS(*)</label> 
+                                <select v-model="emisor_id" id="rfcs"class="form-control">
+                                     <option value="2">ECO IMPULSA</option>
+                                     <option value="1">CAR FIX AND BEYOND</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                      <label>Tipo de Comprobante</label>
@@ -1535,12 +1526,8 @@
                                             <td v-text="detalle.descripcion"></td>
                                             <td v-text="detalle.precio"></td>
                                             <td v-text="detalle.cantidad"></td>
-                                            <td>
-                                        <input type="hidden" name="customfield" class="form-control" :value="detalle.idarticulo">
-                                        <span>{{ detalle.precio * detalle.cantidad }}</span>
-                                        </td>
+                                            <td v-text="detalle.precio*detalle.cantidad"><input type="hidden" name="customfield" class="form-control" :value="detalle.idarticulo" ></td>
 
-                                        </tr>
                                         <tr style="background-color: #CEECF5;">
                                             <td colspan="3" align="right"><strong>Total Parcial:</strong></td>
                                             <td>$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</td>
@@ -2511,7 +2498,8 @@ import { constants } from 'crypto';
                 axios.post('facturacion/timbrar',
                    {
                     'factura' : me.factura,   
-                    'data' : me.detallefactura
+                    'data' : me.detallefactura,
+                    'emisor':me.emisor_id
                     }).then(function (response) {
                     console.log(response.data);
                    
