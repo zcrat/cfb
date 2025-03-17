@@ -1,9 +1,5 @@
 <template>
     <main class="main">
-    <!-- Breadcrumb -->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-    </ol>
 
     <div class="container-fluid">
         <!-- Ejemplo de tabla Listado -->
@@ -893,7 +889,7 @@ methods : {
  
     listarPersona2 (page,id,from,to, criterio, buscar){
         let me=this;
-        var url= 'tac/public/tecnicos/reparaciones/?page=' + page + '&id='+ id + '&from='+ from + '&to='+ to + '&criterio='+ criterio + '&buscar='+ buscar ;
+        var url= '/tecnicos/reparaciones/?page=' + page + '&id='+ id + '&from='+ from + '&to='+ to + '&criterio='+ criterio + '&buscar='+ buscar ;
         axios.get(url).then(function (response) {
             console.log(response);
             var respuesta= response.data;

@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use App\Models\RecepcionVehicular;
+
 use Illuminate\Database\Eloquent\Model;
 
 class EquipoInventario extends Model
@@ -22,6 +22,6 @@ class EquipoInventario extends Model
         'placas',
     ];
     function recepcionVehicular(){
-        return $this->hasMany(RecepcionVehicular::class ,'recepcion_vehicular_id');
+        return $this->hasOne(RecepcionVehicular::class);
     }
 }

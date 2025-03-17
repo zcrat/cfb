@@ -13,6 +13,7 @@
  */
 namespace App\Classes;
 use App\Classes\FPDF;
+use Illuminate\Support\Facades\Log;
 
 define('FPDF_FONTPATH', 'font/');
 

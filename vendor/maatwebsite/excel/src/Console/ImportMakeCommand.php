@@ -37,15 +37,20 @@ class ImportMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return $this->option('model')
-            ? $this->resolveStubPath('/stubs/import.model.stub')
-            : $this->resolveStubPath('/stubs/import.collection.stub');
+        if ($this->option('model')) {
+            $stub = '/stubs/import.model.stub';
+        }
+
+        $stub = $stub ?? '/stubs/import.collection.stub';
+
+        return __DIR__ . $stub;
     }
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param  string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
@@ -57,7 +62,8 @@ class ImportMakeCommand extends GeneratorCommand
      * Build the class with the given name.
      * Remove the base controller import if we are already in base namespace.
      *
-     * @param  string  $name
+     * @param  string $name
+     *
      * @return string
      */
     protected function buildClass($name)
@@ -80,7 +86,8 @@ class ImportMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate an import for the given model.'],
+            ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate an export for the given model.'],
+            ['query', '', InputOption::VALUE_NONE, 'Generate an export for a query.'],
         ];
     }
 }

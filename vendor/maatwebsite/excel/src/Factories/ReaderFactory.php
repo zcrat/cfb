@@ -2,86 +2,26 @@
 
 namespace Maatwebsite\Excel\Factories;
 
-use Maatwebsite\Excel\Concerns\MapsCsvSettings;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
-use Maatwebsite\Excel\Concerns\WithLimit;
-use Maatwebsite\Excel\Concerns\WithReadFilter;
-use Maatwebsite\Excel\Concerns\WithStartRow;
-use Maatwebsite\Excel\Exceptions\NoTypeDetectedException;
-use Maatwebsite\Excel\Files\TemporaryFile;
-use Maatwebsite\Excel\Filters\LimitFilter;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\Csv;
-use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Reader\IReader;
+use Maatwebsite\Excel\Exceptions\UnreadableFileException;
 
 class ReaderFactory
 {
-    use MapsCsvSettings;
-
     /**
-     * @param  object  $import
-     * @param  TemporaryFile  $file
-     * @param  string  $readerType
-     * @return IReader
+     * @param string $filePath
+     * @param string $readerType
      *
-     * @throws Exception
+     * @return IReader
      */
-    public static function make($import, TemporaryFile $file, string $readerType = null): IReader
+    public static function make(string $filePath, string $readerType): IReader
     {
-        $reader = IOFactory::createReader(
-            $readerType ?: static::identify($file)
-        );
+        $reader = IOFactory::createReader($readerType);
 
-        if (method_exists($reader, 'setReadDataOnly')) {
-            $reader->setReadDataOnly(config('excel.imports.read_only', true));
-        }
-
-        if (method_exists($reader, 'setReadEmptyCells')) {
-            $reader->setReadEmptyCells(!config('excel.imports.ignore_empty', false));
-        }
-
-        if ($reader instanceof Csv) {
-            static::applyCsvSettings(config('excel.imports.csv', []));
-
-            if ($import instanceof WithCustomCsvSettings) {
-                static::applyCsvSettings($import->getCsvSettings());
-            }
-
-            $reader->setDelimiter(static::$delimiter);
-            $reader->setEnclosure(static::$enclosure);
-            $reader->setEscapeCharacter(static::$escapeCharacter);
-            $reader->setContiguous(static::$contiguous);
-            $reader->setInputEncoding(static::$inputEncoding);
-            if (method_exists($reader, 'setTestAutoDetect')) {
-                $reader->setTestAutoDetect(static::$testAutoDetect);
-            }
-        }
-
-        if ($import instanceof WithReadFilter) {
-            $reader->setReadFilter($import->readFilter());
-        } elseif ($import instanceof WithLimit) {
-            $reader->setReadFilter(new LimitFilter(
-                $import instanceof WithStartRow ? $import->startRow() : 1,
-                $import->limit()
-            ));
+        if (!$reader->canRead($filePath)) {
+            throw new UnreadableFileException;
         }
 
         return $reader;
-    }
-
-    /**
-     * @param  TemporaryFile  $temporaryFile
-     * @return string
-     *
-     * @throws NoTypeDetectedException
-     */
-    private static function identify(TemporaryFile $temporaryFile): string
-    {
-        try {
-            return IOFactory::identify($temporaryFile->getLocalPath());
-        } catch (Exception $e) {
-            throw new NoTypeDetectedException(null, null, $e);
-        }
     }
 }

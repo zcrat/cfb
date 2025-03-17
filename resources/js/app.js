@@ -186,6 +186,11 @@ Vue.component('aprobaciones-foraneos-eco-component', require('./components/Anexo
 Vue.component('start-foraneos-eco-component', require('./components/AnexosForaneosStartEco.vue').default);
 Vue.component('reportes-foraneos-eco-component', require('./components/AnexosForaneosReportesEco.vue').default);
 
+Vue.component('recepcion-akumas-eco-en', require('./components/RecepcionAkumasECOen.vue').default);
+Vue.component('hoja-conceptos-akumas-eco-en-component', require('./components/HojaConceptosAkumasECOen.vue').default);
+Vue.component('ordenes-akumas-eco-en-component', require('./components/PresupuestosAkumasEcoen.vue').default);
+Vue.component('aprobaciones-taller-akumas-eco-en-component', require('./components/AprobacionesAkumasEcoen.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -193,7 +198,7 @@ Vue.component('reportes-foraneos-eco-component', require('./components/AnexosFor
  */
 const store = new Vuex.Store({
     state:{ 
-        menuc: 0
+        menuc:localStorage.getItem('menuc') ?? 0,
     },
     mutations:{
         facturacion(state) {
@@ -225,10 +230,12 @@ const app = new Vue({
     store:store,
     data :{
         menu : 0,
+        
         notifications: []
     },
     created() {
         let me = this;
+        
         axios.post('notification/get').then(function(response){
             //console.log(response.data);
             me.notifications=response.data;

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReparacionesTecnicos extends Model
 {
-    protected $table = 'reparaciones_tecnicos';
+    protected $table = 'reparaciones_tecnicos1';
     protected $fillable = [
         'id',
         'marca_modelo',

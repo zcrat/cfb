@@ -2,25 +2,19 @@
 
 namespace Maatwebsite\Excel;
 
-use Illuminate\Foundation\Bus\PendingDispatch;
+use Traversable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\LazyCollection;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
-use Maatwebsite\Excel\Concerns\WithCustomQuerySize;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Maatwebsite\Excel\Files\TemporaryFile;
-use Maatwebsite\Excel\Files\TemporaryFileFactory;
-use Maatwebsite\Excel\Jobs\AppendDataToSheet;
-use Maatwebsite\Excel\Jobs\AppendPaginatedToSheet;
-use Maatwebsite\Excel\Jobs\AppendQueryToSheet;
-use Maatwebsite\Excel\Jobs\AppendViewToSheet;
 use Maatwebsite\Excel\Jobs\CloseSheet;
 use Maatwebsite\Excel\Jobs\QueueExport;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Jobs\SerializedQuery;
+use Maatwebsite\Excel\Jobs\AppendDataToSheet;
 use Maatwebsite\Excel\Jobs\StoreQueuedExport;
-use Traversable;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Jobs\AppendQueryToSheet;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
+use Maatwebsite\Excel\Concerns\WithCustomQuerySize;
 
 class QueuedWriter
 {
@@ -35,55 +29,41 @@ class QueuedWriter
     protected $chunkSize;
 
     /**
-     * @var TemporaryFileFactory
+     * @param Writer $writer
      */
-    protected $temporaryFileFactory;
-
-    /**
-     * @param  Writer  $writer
-     * @param  TemporaryFileFactory  $temporaryFileFactory
-     */
-    public function __construct(Writer $writer, TemporaryFileFactory $temporaryFileFactory)
+    public function __construct(Writer $writer)
     {
-        $this->writer               = $writer;
-        $this->chunkSize            = config('excel.exports.chunk_size', 1000);
-        $this->temporaryFileFactory = $temporaryFileFactory;
+        $this->writer    = $writer;
+        $this->chunkSize = config('excel.exports.chunk_size', 1000);
     }
 
     /**
-     * @param  object  $export
-     * @param  string  $filePath
-     * @param  string  $disk
-     * @param  string|null  $writerType
-     * @param  array|string  $diskOptions
+     * @param object      $export
+     * @param string      $filePath
+     * @param string|null $disk
+     * @param string|null $writerType
+     *
      * @return \Illuminate\Foundation\Bus\PendingDispatch
      */
-    public function store($export, string $filePath, string $disk = null, string $writerType = null, $diskOptions = [])
+    public function store($export, string $filePath, string $disk = null, string $writerType = null)
     {
-        $extension     = pathinfo($filePath, PATHINFO_EXTENSION);
-        $temporaryFile = $this->temporaryFileFactory->make($extension);
+        $tempFile = $this->writer->tempFile();
 
-        $jobs = $this->buildExportJobs($export, $temporaryFile, $writerType);
+        $jobs = $this->buildExportJobs($export, $tempFile, $writerType);
 
-        $jobs->push(new StoreQueuedExport(
-            $temporaryFile,
-            $filePath,
-            $disk,
-            $diskOptions
-        ));
+        $jobs->push(new StoreQueuedExport($tempFile, $filePath, $disk));
 
-        return new PendingDispatch(
-            (new QueueExport($export, $temporaryFile, $writerType))->chain($jobs->toArray())
-        );
+        return QueueExport::withChain($jobs->toArray())->dispatch($export, $tempFile, $writerType);
     }
 
     /**
-     * @param  object  $export
-     * @param  TemporaryFile  $temporaryFile
-     * @param  string  $writerType
+     * @param object $export
+     * @param string $tempFile
+     * @param string $writerType
+     *
      * @return Collection
      */
-    private function buildExportJobs($export, TemporaryFile $temporaryFile, string $writerType): Collection
+    private function buildExportJobs($export, string $tempFile, string $writerType)
     {
         $sheetExports = [$export];
         if ($export instanceof WithMultipleSheets) {
@@ -93,43 +73,42 @@ class QueuedWriter
         $jobs = new Collection;
         foreach ($sheetExports as $sheetIndex => $sheetExport) {
             if ($sheetExport instanceof FromCollection) {
-                $jobs = $jobs->merge($this->exportCollection($sheetExport, $temporaryFile, $writerType, $sheetIndex));
+                $jobs = $jobs->merge($this->exportCollection($sheetExport, $tempFile, $writerType, $sheetIndex));
             } elseif ($sheetExport instanceof FromQuery) {
-                $jobs = $jobs->merge($this->exportQuery($sheetExport, $temporaryFile, $writerType, $sheetIndex));
-            } elseif ($sheetExport instanceof FromView) {
-                $jobs = $jobs->merge($this->exportView($sheetExport, $temporaryFile, $writerType, $sheetIndex));
+                $jobs = $jobs->merge($this->exportQuery($sheetExport, $tempFile, $writerType, $sheetIndex));
             }
 
-            $jobs->push(new CloseSheet($sheetExport, $temporaryFile, $writerType, $sheetIndex));
+            $jobs->push(new CloseSheet($sheetExport, $tempFile, $writerType, $sheetIndex));
         }
 
         return $jobs;
     }
 
     /**
-     * @param  FromCollection  $export
-     * @param  TemporaryFile  $temporaryFile
-     * @param  string  $writerType
-     * @param  int  $sheetIndex
-     * @return Collection|LazyCollection
+     * @param FromCollection $export
+     * @param string         $filePath
+     * @param string         $writerType
+     * @param int            $sheetIndex
+     *
+     * @return Collection
      */
     private function exportCollection(
         FromCollection $export,
-        TemporaryFile $temporaryFile,
+        string $filePath,
         string $writerType,
         int $sheetIndex
     ) {
         return $export
             ->collection()
             ->chunk($this->getChunkSize($export))
-            ->map(function ($rows) use ($writerType, $temporaryFile, $sheetIndex, $export) {
+            ->map(function ($rows) use ($writerType, $filePath, $sheetIndex, $export) {
                 if ($rows instanceof Traversable) {
                     $rows = iterator_to_array($rows);
                 }
 
                 return new AppendDataToSheet(
                     $export,
-                    $temporaryFile,
+                    $filePath,
                     $writerType,
                     $sheetIndex,
                     $rows
@@ -138,23 +117,20 @@ class QueuedWriter
     }
 
     /**
-     * @param  FromQuery  $export
-     * @param  TemporaryFile  $temporaryFile
-     * @param  string  $writerType
-     * @param  int  $sheetIndex
+     * @param FromQuery $export
+     * @param string    $filePath
+     * @param string    $writerType
+     * @param int       $sheetIndex
+     *
      * @return Collection
      */
     private function exportQuery(
         FromQuery $export,
-        TemporaryFile $temporaryFile,
+        string $filePath,
         string $writerType,
         int $sheetIndex
-    ): Collection {
+    ) {
         $query = $export->query();
-
-        if ($query instanceof \Laravel\Scout\Builder) {
-            return $this->exportScout($export, $temporaryFile, $writerType, $sheetIndex);
-        }
 
         $count = $export instanceof WithCustomQuerySize ? $export->querySize() : $query->count();
         $spins = ceil($count / $this->getChunkSize($export));
@@ -162,13 +138,16 @@ class QueuedWriter
         $jobs = new Collection();
 
         for ($page = 1; $page <= $spins; $page++) {
+            $serializedQuery = new SerializedQuery(
+                $query->forPage($page, $this->getChunkSize($export))
+            );
+
             $jobs->push(new AppendQueryToSheet(
                 $export,
-                $temporaryFile,
+                $filePath,
                 $writerType,
                 $sheetIndex,
-                $page,
-                $this->getChunkSize($export)
+                $serializedQuery
             ));
         }
 
@@ -176,71 +155,8 @@ class QueuedWriter
     }
 
     /**
-     * @param  FromQuery  $export
-     * @param  TemporaryFile  $temporaryFile
-     * @param  string  $writerType
-     * @param  int  $sheetIndex
-     * @return Collection
-     */
-    private function exportScout(
-        FromQuery $export,
-        TemporaryFile $temporaryFile,
-        string $writerType,
-        int $sheetIndex
-    ): Collection {
-        $jobs = new Collection();
-
-        $chunk = $export->query()->paginate($this->getChunkSize($export));
-        // Append first page
-        $jobs->push(new AppendDataToSheet(
-            $export,
-            $temporaryFile,
-            $writerType,
-            $sheetIndex,
-            $chunk->items()
-        ));
-
-        // Append rest of pages
-        for ($page = 2; $page <= $chunk->lastPage(); $page++) {
-            $jobs->push(new AppendPaginatedToSheet(
-                $export,
-                $temporaryFile,
-                $writerType,
-                $sheetIndex,
-                $page,
-                $this->getChunkSize($export)
-            ));
-        }
-
-        return $jobs;
-    }
-
-    /**
-     * @param  FromView  $export
-     * @param  TemporaryFile  $temporaryFile
-     * @param  string  $writerType
-     * @param  int  $sheetIndex
-     * @return Collection
-     */
-    private function exportView(
-        FromView $export,
-        TemporaryFile $temporaryFile,
-        string $writerType,
-        int $sheetIndex
-    ): Collection {
-        $jobs = new Collection();
-        $jobs->push(new AppendViewToSheet(
-            $export,
-            $temporaryFile,
-            $writerType,
-            $sheetIndex
-        ));
-
-        return $jobs;
-    }
-
-    /**
-     * @param  object|WithCustomChunkSize  $export
+     * @param object|WithCustomChunkSize $export
+     *
      * @return int
      */
     private function getChunkSize($export): int

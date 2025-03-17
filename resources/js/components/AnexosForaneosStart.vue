@@ -1,15 +1,10 @@
 <template>
     <main class="main">
-    <!-- Breadcrumb -->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-    </ol>
     <div class="container-fluid">
         <!-- Ejemplo de tabla Listado -->
         <div class="card">
             <div class="card-header">
                 <i class="fa fa-align-justify"></i> Start Foraneos
-               
             </div>
             <!-- Listado-->
             <template v-if="listado==1">

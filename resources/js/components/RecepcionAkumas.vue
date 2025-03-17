@@ -1,9 +1,5 @@
 <template>
     <main class="main">
-        <!-- Breadcrumb -->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-        </ol>
         <div class="container-fluid">
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
@@ -2150,7 +2146,7 @@
                 
                 let me = this;
 
-                axios.post('ordenesNew/registrar',{
+                axios.post('ordenes2/registrar',{
                     'identificador': this.modeloPresupuesto.economico,
                     'modelo': this.modeloPresupuesto.modelo,
                     'vin' : this.modeloPresupuesto.vin,

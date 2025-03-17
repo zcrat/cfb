@@ -28,4 +28,7 @@ class Customer extends Model
     function recepcionvehicular(){
         return $this->hasMany(Recepcionvehicular::class,'customer_id','id');
     }
+    function datosgenerales(){
+        return $this->hasMany(Recepcionvehiculardemo::class,'customer_id','id');
+    }
 }

@@ -21,9 +21,10 @@ use App\Contratos;
 use App\Empresa;
 use App\FacturasSave;
 use App\FacturasSaveDetalle;
-use App\Articulo;
+use App\pCFEConceptos;
 use Carbon\Carbon;
-use Illuminate\support\facades\log;
+use Illuminate\Support\Facades\Log;
+use SoapClient;
 class FacturasController extends Controller
 {
 
@@ -108,7 +109,6 @@ class FacturasController extends Controller
         ];
     }
 
-
     public function porcobrar(Request $request)
     {
 
@@ -139,7 +139,6 @@ class FacturasController extends Controller
         libxml_use_internal_errors(true);
         foreach($facturas as $fac){
         $archivoname = public_path().'/facturas/'.$fac->xml;
-        
         try { 
            $xml = new \SimpleXMLElement ($archivoname,null,true);
        } catch (\Exception $e) 
@@ -305,17 +304,18 @@ class FacturasController extends Controller
         
         $logotipo = '';
         $emisorid = $request->emisor_id; 
-log::info($request->emisor_id);
+
         if($emisorid == 2){
             $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
+        } 
+        else if($emisorid == 3){
+            $logotipo = 'logo_kmg.jpeg';
+        }
+        else {
             $logotipo = 'logo_cfb_fact.png';
             $emisorid = 1;
         }
 
-        
-       
         $dato = [];
 
         if (!$request->ajax()) return redirect('/');
@@ -324,8 +324,6 @@ log::info($request->emisor_id);
             DB::beginTransaction();
  
             $mytime= Carbon::now('America/Lima');
- 
-            
             $factura = new Factura();
             $factura->empresa_id = $request->factura['empresa_id'];
             $factura->emisor_id = $emisorid;
@@ -403,7 +401,7 @@ log::info($request->emisor_id);
             $archivo_key = public_path().'/utilerias/certificados/'.$factura_emisor->archivo_key;
             
           
-        
+            
             // generar y sellar un XML con los CSD de pruebas
             $cfdi = new Facturar();
             $docxml = $cfdi->crearXML($empresa, $factura_emisor, $detalles_todo, $dato);          
@@ -422,8 +420,15 @@ log::info($request->emisor_id);
             fclose($xml_file);
              
  
-            $url = "https://facturacion.finkok.com/servicios/soap/stamp.wsdl";
-            $client = new \SoapClient($url);
+            try {
+
+                $client = new \SoapClient('https://facturacion.finkok.com/servicios/soap/stamp.wsdl');
+                log::info('exito');
+            } catch (SoapFault $e) {
+                Log::error('SOAP Error: ' . $e->getMessage());
+                Log::error('Trace: ' . $e->getTraceAsString());
+                return response()->json(['error' => 'No se pudo conectar con el servicio.'], 500);
+            }
             $params = array(
             "xml" => $xml_content,
             "username" => $username,
@@ -482,15 +487,7 @@ log::info($request->emisor_id);
     public function storePago(Request $request)
     {
 
-        $logotipo = '';
-        $emisorid = $request->emisor_id;
-
-        if($emisorid == 2){
-            $logotipo = 'logo_akumas_fct.png';
-        } else {
-            $logotipo = 'logo_cfb_fact.png';
-            $emisorid = 1;
-        } 
+        
        
         $dato = [];
 
@@ -504,7 +501,7 @@ log::info($request->emisor_id);
             
             $factura = new Factura();
             $factura->empresa_id = $request->empresa_id;
-            $factura->emisor_id = $emisorid;
+            $factura->emisor_id = '1';
             $factura->idusuario = \Auth::user()->id;
             $factura->xml = '';
             $factura->pdf = '';
@@ -638,7 +635,7 @@ log::info($request->emisor_id);
            fwrite($file, $response->stampResult->xml);
            fclose($file);
 
-           $pdfarch = $cfdi->generarPDFPagos($nombre,$logotipo,$texto1);
+           $pdfarch = $cfdi->generarPDFPagos($nombre,'logo_cfb_fact.png',$texto1);
 
            $napdf = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.pdf';
            $naxml = $factura_emisor->serie."".$folionvo."-".$factura_emisor->rfc."-".$response->stampResult->UUID.'.xml';
@@ -734,17 +731,20 @@ log::info($request->emisor_id);
 
 
     public function store2(Request $request)
-    {   
+    {
         $logotipo = '';
-        $emisorid = $request->emisor_id;
+        $emisorid = $request->emisor_id; 
+
         if($emisorid == 2){
             $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
+        } 
+        else if($emisorid == 3){
+            $logotipo = 'logo_kmg.jpeg';
+        }
+        else {
             $logotipo = 'logo_cfb_fact.png';
             $emisorid = 1;
-        } 
-       
+        }
         $dato = [];
 
         if (!$request->ajax()) return redirect('/');
@@ -850,7 +850,6 @@ log::info($request->emisor_id);
             $cfdi = new Facturar();
             $docxml = $cfdi->crearXML($empresa, $factura_emisor, $detalles_todo, $dato);          
             $keypem = new Certificados();
-           
             $keypem->generaKeyPem($archivo_key,$factura_emisor->clave_key);
             $selladoxml = $cfdi->satxmlsv40_sella($docxml, $numero_certificado, $archivo_cer.'.pem',$archivo_key.'.pem');
             file_put_contents(public_path().'/facturas/factura.xml',$selladoxml);
@@ -863,8 +862,8 @@ log::info($request->emisor_id);
             $xml_file = fopen($invoice_path, "rb");
             $xml_content = fread($xml_file, filesize($invoice_path));
             fclose($xml_file);
-        
-            return '';
+             
+ 
             $url = "https://facturacion.finkok.com/servicios/soap/stamp.wsdl";
             $client = new \SoapClient($url);
             $params = array(
@@ -928,16 +927,18 @@ log::info($request->emisor_id);
 
         if($emisorid == 2){
             $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
+        } 
+        else if($emisorid == 3){
+            $logotipo = 'logo_kmg.jpeg';
+        }
+        else {
             $logotipo = 'logo_cfb_fact.png';
             $emisorid = 1;
         }
-
         $dato = [];
 
         if (!$request->ajax()) return redirect('/');
-        log::info('emisor');
+ 
         try{
             DB::beginTransaction();
  
@@ -1117,8 +1118,11 @@ log::info($request->emisor_id);
 
         if($emisorid == 2){
             $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
+        } 
+        else if($emisorid == 3){
+            $logotipo = 'logo_kmg.jpeg';
+        }
+        else {
             $logotipo = 'logo_cfb_fact.png';
             $emisorid = 1;
         }
@@ -1316,14 +1320,13 @@ log::info($request->emisor_id);
             'facturas_emisor.regimen_emisor as regimen','facturas_emisor.codigo_emisor as codigo',
             'facturas_emisor.serie_factura as serie','facturas_emisor.folio_factura as folio','facturas.xml')
             ->where('facturas.id','=',$request['factura_id'])->first();
-
-
-           
+            Log::info($factura_emisor);
 
             $numero_certificado = $factura_emisor->n_certificado;
             $archivo_cer = public_path().'/utilerias/certificados/'.$factura_emisor->archivo_cer;
             $archivo_key = public_path().'/utilerias/certificados/'.$factura_emisor->archivo_key;
-
+            Log::info($archivo_cer);
+            Log::info($archivo_key);
             $username = 'facturacion@aurumfixmotors.com';
             $password = 'Akumas2019##';
             # Generar el certificado y llave en formato .pem
@@ -1333,11 +1336,13 @@ log::info($request->emisor_id);
 
 
             $cer_path = public_path()."/utilerias/certificados/certificado.pem"; 
+            Log::info($cer_path);
             $cer_file = fopen($cer_path, "r");
             $cer_content = fread($cer_file, filesize($cer_path));
             fclose($cer_file);
-
+            log::info("Certificado generado correctamente");
             $key_path = public_path()."/utilerias/certificados/llave.enc";
+            Log::info($cer_path);
             $key_file = fopen($key_path, "r");
             $key_content = fread($key_file,filesize($key_path));
             fclose($key_file);  
@@ -1345,6 +1350,7 @@ log::info($request->emisor_id);
            
            
             $xml = new \SimpleXMLElement (public_path().'/facturas/'.$factura_emisor->xml,null,true);
+            Log::info($xml);
             $ns = $xml->getNamespaces(true);
             $xml->registerXPathNamespace('c', $ns['cfdi']);
             $xml->registerXPathNamespace('t', $ns['tfd']);
@@ -1364,23 +1370,22 @@ log::info($request->emisor_id);
             }
             
 
-        
+            Log::info($request['factura']);
             $relacion = "";
             if (isset($request['factura']['relacion'])){
                 $relacion = $request['factura']['relacion'];
             } else {
                 $relacion = "";
             }
-
-            
-
+          
+            log::INFO("EMPIEZA EL PROCESO");
             $idvoc =  $invoices[0];
-
+            Log::info($invoices);
             $url = "https://facturacion.finkok.com/servicios/soap/cancel.wsdl";
             $client = new \SoapClient($url, array('trace' => 1));
+            
             $uuids = array("UUID" => "$idvoc", "Motivo" => $request['factura']['motivo'], "FolioSustitucion" => $relacion);
             $uuid_ar = array('UUID' => $uuids);
-             
             $params = array("UUIDS"=>$uuid_ar,
                             "username" => $username,
                             "password" => $password,
@@ -1389,9 +1394,10 @@ log::info($request->emisor_id);
                             "key" => $key_content);
              
          
-      
+            log::info($params);
+            Log::info($uuids);
             $response = $client->__soapCall("cancel", array($params));
-            //$response = \Response::json($response);
+            $response2 = \Response::json($response);
             //return $response;
            
 
@@ -1402,7 +1408,8 @@ log::info($request->emisor_id);
 
 
           
-               
+               log::info($file);
+               log::info($response2);
 	            $resp = $response->cancelResult->Folios->Folio->EstatusCancelacion;
                 $factAct = Factura::findOrFail($request['factura_id']);
                 $factAct->acuse = "Cancel-$idvoc.xml";
@@ -1512,15 +1519,8 @@ log::info($request->emisor_id);
 
     public function storeprevia(Request $request)
     {
-        $logotipo = '';
-        $emisorid = $request->emisor_id;
-        if($emisorid == 2){
-            $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
-            $logotipo = 'logo_cfb_fact.png';
-            $emisorid = 1;
-        }
+
+
         $dato = [];
 
         if (!$request->ajax()) return redirect('/');
@@ -1584,7 +1584,8 @@ log::info($request->emisor_id);
 
             
             $texto1="CONTRATO: ".$request->factura['contrato']." \n ECONOMICO: ".$pres->identificador." \n  PLACAS: ".$pres->placas." \n KILOMETRAJE: ".$pres->kilometraje." \n FOLIO: ".$pres->NSolicitud;
-
+            
+           
             $empresa = Empresa::select('id','nombre as nombre','rfc as rfc','logo','cp','regimen')
             ->where('id', '=', $request->factura['empresa_id'])->first();
             
@@ -1617,7 +1618,7 @@ log::info($request->emisor_id);
             fclose($xml_file);
 	
             $nombre = public_path().'/facturas/factura_vista.xml';
-            $pdfarch = $cfdi->generarPDFprueba($nombre,$logotipo,''); 
+            $pdfarch = $cfdi->generarPDFprueba($nombre,'logo_cfb_fact.png',''); 
         
            
             DB::commit();
@@ -1631,15 +1632,8 @@ log::info($request->emisor_id);
 
     public function storepreviamas(Request $request)
     {
-        $logotipo = '';
-        $emisorid = $request->emisor_id;
-        if($emisorid == 2){
-            $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
-            $logotipo = 'logo_cfb_fact.png';
-            $emisorid = 1;
-        }
+
+        
        
         $dato = [];
 
@@ -1720,7 +1714,7 @@ log::info($request->emisor_id);
             fclose($xml_file);
 	
             $nombre = public_path().'/facturas/factura_vista.xml';
-            $pdfarch = $cfdi->generarPDFprueba($nombre,$logotipo,$texto1); 
+            $pdfarch = $cfdi->generarPDFprueba($nombre,'logo_cfb_fact.png',$texto1); 
         
            
             DB::commit();
@@ -1741,12 +1735,17 @@ log::info($request->emisor_id);
     }
 
     public function storemas(Request $request)
-    {   $logotipo = '';
-        $emisorid = $request->emisor_id;
+    {
+        $logotipo = '';
+        $emisorid = $request->emisor_id; 
+
         if($emisorid == 2){
             $logotipo = 'logo_akumas_fct.png';
-            $emisorid = 2;
-        } else {
+        } 
+        else if($emisorid == 3){
+            $logotipo = 'logo_kmg.jpeg';
+        }
+        else {
             $logotipo = 'logo_cfb_fact.png';
             $emisorid = 1;
         }

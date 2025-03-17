@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
-use App\Empresa;
 use App\Http\Requests\CustomerFormRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 class CustomerController extends Controller
 {
     /**
@@ -44,7 +43,11 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+    public function create()
+    {
+        //
+    }
+
 
     /**
      * @param CustomerFormRequest $request

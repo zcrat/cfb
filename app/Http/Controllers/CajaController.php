@@ -35,12 +35,12 @@ class CajaController extends Controller
         
         if ($finicio==''){
             $categorias = Caja::select('caja.id','caja.fecha','caja.concepto','caja.ingreso','caja.egreso','caja.saldo')
-            ->orderBy('id', 'asc')->paginate(50);
+            ->orderBy('id', 'desc')->paginate(50);
         }
         else{
             $categorias = Caja::select('caja.id','caja.fecha','caja.concepto','caja.ingreso','caja.egreso','caja.saldo')
             ->whereBetween('caja.fecha', [$finicio, $ffinal])
-            ->orderBy('id', 'asc')->paginate(50);
+            ->orderBy('id', 'desc')->paginate(50);
         }
         
 

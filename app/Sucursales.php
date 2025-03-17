@@ -22,4 +22,6 @@ class Sucursales extends Model
         'telefono',
         'email'
     ];
+    
+    
 }

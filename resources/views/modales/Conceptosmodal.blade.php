@@ -3,7 +3,7 @@
     <div class="modal-content">
       <!-- Encabezado del modal -->
       <div class="modal-header">
-        <h5 class="modal-title" id="miModalLabel">Nuevo Concepto</h5>
+        <h5 class="modal-title" id="miModalLabel">Catalogo de Conceptos</h5>
         <button type="button" class="btn-close regresarmodal" aria-label="Cerrar"></button>
       </div>
       <!-- Cuerpo del modal -->
@@ -49,7 +49,7 @@
         <div class="vaniflex zdjc-between zdfw-w">
             <div class="selectconlabel">
             <label>P. Refaccion</label>
-            <input required class="form-control"  type="number" id="prefaccion" name="prefaccion">
+            <input required class="form-control"  type="number" id="prefaccion" step="0.01" name="prefaccion">
             </div>
             <div class="selectconlabel">
             <label>P.M.O.</label>
@@ -91,6 +91,7 @@
                     var query = {
                         term: params.term,
                         modulo: @json($modulo),
+                        contrato: @json($contrato),
                     };
                     return query;
                 },
@@ -159,8 +160,8 @@
                 console.error(xhr);
             }
         }); 
-        }); 
-        $('#unidadconcepto').on('change',function(){
+    })
+    $('#unidadconcepto').on('change',function(){
         $.ajax({
             type: 'GET',
             url: '{{ route('2025.cfe.obtener.unidadessat') }}',
@@ -188,7 +189,7 @@
         e.preventDefault();
         let ruta="{{ route('2025.cfe.guardar.nuevoconcepto') }}";
         let form= $("#formnuevoconcepto");
-        let data=  form.serialize() + '&modulo='+@json($modulo);
+        let data=  form.serialize() + '&modulo='+@json($modulo) + '&contrato='+@json($contrato);
         let modal=$("#nuevosconceptos");
         let guardar=$("#guardarnuevoconcepto")
         guardar.attr("disabled", true);

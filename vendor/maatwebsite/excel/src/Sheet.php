@@ -2,64 +2,45 @@
 
 namespace Maatwebsite\Excel;
 
-use Closure;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\LazyCollection;
-use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromGenerator;
-use Maatwebsite\Excel\Concerns\FromIterator;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\OnEachRow;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToArray;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Reader\Html;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Maatwebsite\Excel\Concerns\WithCharts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use Maatwebsite\Excel\Concerns\WithColumnLimit;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Illuminate\Contracts\Support\Arrayable;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Imports\EndRowFinder;
+use Maatwebsite\Excel\Concerns\FromIterator;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithDrawings;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Imports\ModelImporter;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithMappedCells;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Imports\HeadingRowExtractor;
 use Maatwebsite\Excel\Concerns\WithCustomChunkSize;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
-use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
-use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithFormatData;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMappedCells;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithProgressBar;
-use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Events\BeforeSheet;
-use Maatwebsite\Excel\Exceptions\ConcernConflictException;
-use Maatwebsite\Excel\Exceptions\RowSkippedException;
-use Maatwebsite\Excel\Exceptions\SheetNotFoundException;
-use Maatwebsite\Excel\Files\TemporaryFileFactory;
-use Maatwebsite\Excel\Helpers\ArrayHelper;
-use Maatwebsite\Excel\Helpers\CellHelper;
-use Maatwebsite\Excel\Imports\EndRowFinder;
-use Maatwebsite\Excel\Imports\HeadingRowExtractor;
-use Maatwebsite\Excel\Imports\ModelImporter;
-use Maatwebsite\Excel\Validators\RowValidator;
-use PhpOffice\PhpSpreadsheet\Cell\Cell as SpreadsheetCell;
-use PhpOffice\PhpSpreadsheet\Chart\Chart;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\Html;
-use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\BaseDrawing;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Exceptions\ConcernConflictException;
+use PhpOffice\PhpSpreadsheet\Cell\Cell as SpreadsheetCell;
 
-/** @mixin Worksheet */
 class Sheet
 {
     use DelegatedMacroable, HasEventBus;
@@ -70,9 +51,9 @@ class Sheet
     protected $chunkSize;
 
     /**
-     * @var TemporaryFileFactory
+     * @var string
      */
-    protected $temporaryFileFactory;
+    protected $tmpPath;
 
     /**
      * @var object
@@ -85,67 +66,55 @@ class Sheet
     private $worksheet;
 
     /**
-     * @param  Worksheet  $worksheet
+     * @param Worksheet $worksheet
      */
     public function __construct(Worksheet $worksheet)
     {
-        $this->worksheet            = $worksheet;
-        $this->chunkSize            = config('excel.exports.chunk_size', 100);
-        $this->temporaryFileFactory = app(TemporaryFileFactory::class);
+        $this->worksheet = $worksheet;
+        $this->chunkSize = config('excel.exports.chunk_size', 100);
+        $this->tmpPath   = config('excel.exports.temp_path', sys_get_temp_dir());
     }
 
     /**
-     * @param  Spreadsheet  $spreadsheet
-     * @param  string|int  $index
-     * @return Sheet
+     * @param Spreadsheet $spreadsheet
+     * @param string|int  $index
      *
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws SheetNotFoundException
+     * @return Sheet
      */
     public static function make(Spreadsheet $spreadsheet, $index)
     {
         if (is_numeric($index)) {
-            return self::byIndex($spreadsheet, $index);
+            return Sheet::byIndex($spreadsheet, $index);
         }
 
-        return self::byName($spreadsheet, $index);
+        return Sheet::byName($spreadsheet, $index);
     }
 
     /**
-     * @param  Spreadsheet  $spreadsheet
-     * @param  int  $index
-     * @return Sheet
+     * @param Spreadsheet $spreadsheet
+     * @param int         $index
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws SheetNotFoundException
+     * @return Sheet
      */
-    public static function byIndex(Spreadsheet $spreadsheet, int $index): Sheet
+    public static function byIndex(Spreadsheet $spreadsheet, int $index)
     {
-        if (!isset($spreadsheet->getAllSheets()[$index])) {
-            throw SheetNotFoundException::byIndex($index, $spreadsheet->getSheetCount());
-        }
-
         return new static($spreadsheet->getSheet($index));
     }
 
     /**
-     * @param  Spreadsheet  $spreadsheet
-     * @param  string  $name
-     * @return Sheet
+     * @param Spreadsheet $spreadsheet
+     * @param string      $name
      *
-     * @throws SheetNotFoundException
+     * @return Sheet
      */
-    public static function byName(Spreadsheet $spreadsheet, string $name): Sheet
+    public static function byName(Spreadsheet $spreadsheet, string $name)
     {
-        if (!$spreadsheet->sheetNameExists($name)) {
-            throw SheetNotFoundException::byName($name);
-        }
-
         return new static($spreadsheet->getSheetByName($name));
     }
 
     /**
-     * @param  object  $sheetExport
+     * @param object $sheetExport
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
@@ -164,14 +133,7 @@ class Sheet
         $this->raise(new BeforeSheet($this, $this->exportable));
 
         if ($sheetExport instanceof WithTitle) {
-            $title = $sheetExport->title();
-
-            $title = str_replace(['*', ':', '/', '\\', '?', '[', ']'], '', $title);
-            if (StringHelper::countCharacters($title) > Worksheet::SHEET_TITLE_MAXIMUM_LENGTH) {
-                $title = StringHelper::substring($title, 0, Worksheet::SHEET_TITLE_MAXIMUM_LENGTH);
-            }
-
-            $this->worksheet->setTitle($title);
+            $this->worksheet->setTitle($sheetExport->title());
         }
 
         if (($sheetExport instanceof FromQuery || $sheetExport instanceof FromCollection || $sheetExport instanceof FromArray) && $sheetExport instanceof FromView) {
@@ -183,20 +145,20 @@ class Sheet
                 $startCell = $sheetExport->startCell();
             }
 
-            $this->append(
-                ArrayHelper::ensureMultipleRows($sheetExport->headings()),
-                $startCell ?? null,
-                $this->hasStrictNullComparison($sheetExport)
-            );
+            $this->append([$sheetExport->headings()], $startCell ?? null, $this->hasStrictNullComparison($sheetExport));
         }
 
         if ($sheetExport instanceof WithCharts) {
             $this->addCharts($sheetExport->charts());
         }
+
+        if ($sheetExport instanceof WithDrawings) {
+            $this->addDrawings($sheetExport->drawings());
+        }
     }
 
     /**
-     * @param  object  $sheetExport
+     * @param object $sheetExport
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
@@ -223,18 +185,14 @@ class Sheet
             if ($sheetExport instanceof FromIterator) {
                 $this->fromIterator($sheetExport);
             }
-
-            if ($sheetExport instanceof FromGenerator) {
-                $this->fromGenerator($sheetExport);
-            }
         }
 
         $this->close($sheetExport);
     }
 
     /**
-     * @param  object  $import
-     * @param  int  $startRow
+     * @param object $import
+     * @param int    $startRow
      */
     public function import($import, int $startRow = 1)
     {
@@ -242,164 +200,87 @@ class Sheet
             $this->registerListeners($import->registerEvents());
         }
 
-        $this->raise(new BeforeSheet($this, $import));
-
-        if ($import instanceof WithProgressBar && !$import instanceof WithChunkReading) {
-            $import->getConsoleOutput()->progressStart($this->worksheet->getHighestRow());
-        }
+        $this->raise(new BeforeSheet($this, $this->exportable));
 
         $calculatesFormulas = $import instanceof WithCalculatedFormulas;
-        $formatData         = $import instanceof WithFormatData;
 
         if ($import instanceof WithMappedCells) {
-            app(MappedReader::class)->map($import, $this->worksheet);
+            resolve(MappedReader::class)->map($import, $this->worksheet);
         } else {
             if ($import instanceof ToModel) {
-                app(ModelImporter::class)->import($this->worksheet, $import, $startRow);
+                resolve(ModelImporter::class)->import($this->worksheet, $import, $startRow);
             }
 
             if ($import instanceof ToCollection) {
-                $rows = $this->toCollection($import, $startRow, null, $calculatesFormulas, $formatData);
-
-                if ($import instanceof WithValidation) {
-                    $rows = $this->validated($import, $startRow, $rows);
-                }
-
-                $import->collection($rows);
+                $import->collection($this->toCollection($import, $startRow, null, $calculatesFormulas));
             }
 
             if ($import instanceof ToArray) {
-                $rows = $this->toArray($import, $startRow, null, $calculatesFormulas, $formatData);
-
-                if ($import instanceof WithValidation) {
-                    $rows = $this->validated($import, $startRow, $rows);
-                }
-
-                $import->array($rows);
+                $import->array($this->toArray($import, $startRow, null, $calculatesFormulas));
             }
         }
 
         if ($import instanceof OnEachRow) {
-            $headingRow          = HeadingRowExtractor::extract($this->worksheet, $import);
-            $headerIsGrouped     = HeadingRowExtractor::extractGrouping($headingRow, $import);
-            $endColumn           = $import instanceof WithColumnLimit ? $import->endColumn() : null;
-            $preparationCallback = $this->getPreparationCallback($import);
-
+            $headingRow = HeadingRowExtractor::extract($this->worksheet, $import);
             foreach ($this->worksheet->getRowIterator()->resetStart($startRow ?? 1) as $row) {
-                $sheetRow = new Row($row, $headingRow, $headerIsGrouped);
-
-                if ($import instanceof WithValidation) {
-                    $sheetRow->setPreparationCallback($preparationCallback);
-                }
-
-                $rowArray                    = $sheetRow->toArray(null, $import instanceof WithCalculatedFormulas, $import instanceof WithFormatData, $endColumn);
-                $rowIsEmptyAccordingToImport = $import instanceof SkipsEmptyRows && method_exists($import, 'isEmptyWhen') && $import->isEmptyWhen($rowArray);
-                if (!$import instanceof SkipsEmptyRows || ($import instanceof SkipsEmptyRows && (!$rowIsEmptyAccordingToImport && !$sheetRow->isEmpty($calculatesFormulas)))) {
-                    if ($import instanceof WithValidation) {
-                        $toValidate = [$sheetRow->getIndex() => $rowArray];
-
-                        try {
-                            app(RowValidator::class)->validate($toValidate, $import);
-                            $import->onRow($sheetRow);
-                        } catch (RowSkippedException $e) {
-                        }
-                    } else {
-                        $import->onRow($sheetRow);
-                    }
-                }
-
-                if ($import instanceof WithProgressBar) {
-                    $import->getConsoleOutput()->progressAdvance();
-                }
+                $import->onRow(new Row($row, $headingRow));
             }
         }
 
-        $this->raise(new AfterSheet($this, $import));
-
-        if ($import instanceof WithProgressBar && !$import instanceof WithChunkReading) {
-            $import->getConsoleOutput()->progressFinish();
-        }
+        $this->raise(new AfterSheet($this, $this->exportable));
     }
 
     /**
-     * @param  object  $import
-     * @param  int|null  $startRow
-     * @param  null  $nullValue
-     * @param  bool  $calculateFormulas
-     * @param  bool  $formatData
+     * @param object   $import
+     * @param int|null $startRow
+     * @param null     $nullValue
+     * @param bool     $calculateFormulas
+     * @param bool     $formatData
+     *
      * @return array
      */
     public function toArray($import, int $startRow = null, $nullValue = null, $calculateFormulas = false, $formatData = false)
     {
-        if ($startRow > $this->worksheet->getHighestRow()) {
-            return [];
-        }
-
-        $endRow          = EndRowFinder::find($import, $startRow, $this->worksheet->getHighestRow());
-        $headingRow      = HeadingRowExtractor::extract($this->worksheet, $import);
-        $headerIsGrouped = HeadingRowExtractor::extractGrouping($headingRow, $import);
-        $endColumn       = $import instanceof WithColumnLimit ? $import->endColumn() : null;
+        $endRow     = EndRowFinder::find($import, $startRow);
+        $headingRow = HeadingRowExtractor::extract($this->worksheet, $import);
 
         $rows = [];
-        foreach ($this->worksheet->getRowIterator($startRow, $endRow) as $index => $row) {
-            $row = new Row($row, $headingRow, $headerIsGrouped);
-
-            if ($import instanceof SkipsEmptyRows && $row->isEmpty($calculateFormulas, $endColumn)) {
-                continue;
-            }
-
-            $row = $row->toArray($nullValue, $calculateFormulas, $formatData, $endColumn);
-
-            if ($import && method_exists($import, 'isEmptyWhen') && $import->isEmptyWhen($row)) {
-                continue;
-            }
+        foreach ($this->worksheet->getRowIterator($startRow, $endRow) as $row) {
+            $row = (new Row($row, $headingRow))->toArray($nullValue, $calculateFormulas, $formatData);
 
             if ($import instanceof WithMapping) {
                 $row = $import->map($row);
             }
 
-            if ($import instanceof WithValidation && method_exists($import, 'prepareForValidation')) {
-                $row = $import->prepareForValidation($row, $index);
-            }
-
             $rows[] = $row;
-
-            if ($import instanceof WithProgressBar) {
-                $import->getConsoleOutput()->progressAdvance();
-            }
         }
 
         return $rows;
     }
 
     /**
-     * @param  object  $import
-     * @param  int|null  $startRow
-     * @param  null  $nullValue
-     * @param  bool  $calculateFormulas
-     * @param  bool  $formatData
+     * @param object   $import
+     * @param int|null $startRow
+     * @param null     $nullValue
+     * @param bool     $calculateFormulas
+     * @param bool     $formatData
+     *
      * @return Collection
      */
     public function toCollection($import, int $startRow = null, $nullValue = null, $calculateFormulas = false, $formatData = false): Collection
     {
-        $rows = $this->toArray($import, $startRow, $nullValue, $calculateFormulas, $formatData);
-
         return new Collection(array_map(function (array $row) {
             return new Collection($row);
-        }, $rows));
+        }, $this->toArray($import, $startRow, $nullValue, $calculateFormulas, $formatData)));
     }
 
     /**
-     * @param  object  $sheetExport
+     * @param object $sheetExport
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function close($sheetExport)
     {
-        if ($sheetExport instanceof WithDrawings) {
-            $this->addDrawings($sheetExport->drawings());
-        }
-
         $this->exportable = $sheetExport;
 
         if ($sheetExport instanceof WithColumnFormatting) {
@@ -412,91 +293,44 @@ class Sheet
             $this->autoSize();
         }
 
-        if ($sheetExport instanceof WithColumnWidths) {
-            foreach ($sheetExport->columnWidths() as $column => $width) {
-                $this->worksheet->getColumnDimension($column)->setAutoSize(false)->setWidth($width);
-            }
-        }
-
-        if ($sheetExport instanceof WithStyles) {
-            $styles = $sheetExport->styles($this->worksheet);
-            if (is_array($styles)) {
-                foreach ($styles as $coordinate => $coordinateStyles) {
-                    if (is_numeric($coordinate)) {
-                        $coordinate = 'A' . $coordinate . ':' . $this->worksheet->getHighestColumn($coordinate) . $coordinate;
-                    }
-
-                    $this->worksheet->getStyle($coordinate)->applyFromArray($coordinateStyles);
-                }
-            }
-        }
-
         $this->raise(new AfterSheet($this, $this->exportable));
-
-        $this->clearListeners();
     }
 
     /**
-     * @param  FromView  $sheetExport
-     * @param  int|null  $sheetIndex
+     * @param FromView $sheetExport
      *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
-    public function fromView(FromView $sheetExport, $sheetIndex = null)
+    public function fromView(FromView $sheetExport)
     {
-        $temporaryFile = $this->temporaryFileFactory->makeLocal(null, 'html');
-        $temporaryFile->put($sheetExport->view()->render());
+        $tempFile = $this->tempFile();
+        file_put_contents($tempFile, $sheetExport->view()->render());
 
         $spreadsheet = $this->worksheet->getParent();
 
         /** @var Html $reader */
         $reader = IOFactory::createReader('Html');
 
-        // If no sheetIndex given, insert content into the last sheet
-        $reader->setSheetIndex($sheetIndex ?? $spreadsheet->getSheetCount() - 1);
-        $reader->loadIntoExisting($temporaryFile->getLocalPath(), $spreadsheet);
-
-        $temporaryFile->delete();
+        // Insert content into the last sheet
+        $reader->setSheetIndex($spreadsheet->getSheetCount() - 1);
+        $reader->loadIntoExisting($tempFile, $spreadsheet);
     }
 
     /**
-     * @param  FromQuery  $sheetExport
-     * @param  Worksheet  $worksheet
+     * @param FromQuery $sheetExport
+     * @param Worksheet $worksheet
      */
     public function fromQuery(FromQuery $sheetExport, Worksheet $worksheet)
     {
-        if ($sheetExport->query() instanceof \Laravel\Scout\Builder) {
-            $this->fromScout($sheetExport, $worksheet);
-
-            return;
-        }
-
-        $sheetExport->query()->chunk($this->getChunkSize($sheetExport), function ($chunk) use ($sheetExport) {
-            $this->appendRows($chunk, $sheetExport);
+        $sheetExport->query()->chunk($this->getChunkSize($sheetExport), function ($chunk) use ($sheetExport, $worksheet) {
+            foreach ($chunk as $row) {
+                $this->appendRow($row, $sheetExport);
+            }
         });
     }
 
     /**
-     * @param  FromQuery  $sheetExport
-     * @param  Worksheet  $worksheet
-     */
-    public function fromScout(FromQuery $sheetExport, Worksheet $worksheet)
-    {
-        $scout     = $sheetExport->query();
-        $chunkSize = $this->getChunkSize($sheetExport);
-
-        $chunk = $scout->paginate($chunkSize);
-        // Append first page
-        $this->appendRows($chunk->items(), $sheetExport);
-
-        // Append rest of pages
-        for ($page = 2; $page <= $chunk->lastPage(); $page++) {
-            $this->appendRows($scout->paginate($chunkSize, 'page', $page)->items(), $sheetExport);
-        }
-    }
-
-    /**
-     * @param  FromCollection  $sheetExport
+     * @param FromCollection $sheetExport
      */
     public function fromCollection(FromCollection $sheetExport)
     {
@@ -504,7 +338,7 @@ class Sheet
     }
 
     /**
-     * @param  FromArray  $sheetExport
+     * @param FromArray $sheetExport
      */
     public function fromArray(FromArray $sheetExport)
     {
@@ -512,37 +346,19 @@ class Sheet
     }
 
     /**
-     * @param  FromIterator  $sheetExport
+     * @param FromIterator $sheetExport
      */
     public function fromIterator(FromIterator $sheetExport)
     {
-        $iterator = class_exists(LazyCollection::class) ? new LazyCollection(function () use ($sheetExport) {
-            foreach ($sheetExport->iterator() as $row) {
-                yield $row;
-            }
-        }) : $sheetExport->iterator();
-
-        $this->appendRows($iterator, $sheetExport);
+        $this->appendRows($sheetExport->iterator(), $sheetExport);
     }
 
     /**
-     * @param  FromGenerator  $sheetExport
-     */
-    public function fromGenerator(FromGenerator $sheetExport)
-    {
-        $generator = class_exists(LazyCollection::class) ? new LazyCollection(function () use ($sheetExport) {
-            foreach ($sheetExport->generator() as $row) {
-                yield $row;
-            }
-        }) : $sheetExport->generator();
-
-        $this->appendRows($generator, $sheetExport);
-    }
-
-    /**
-     * @param  array  $rows
-     * @param  string|null  $startCell
-     * @param  bool  $strictNullComparison
+     * @param array       $rows
+     * @param string|null $startCell
+     * @param bool        $strictNullComparison
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function append(array $rows, string $startCell = null, bool $strictNullComparison = false)
     {
@@ -551,48 +367,39 @@ class Sheet
         }
 
         if ($this->hasRows()) {
-            $startCell = CellHelper::getColumnFromCoordinate($startCell) . ($this->worksheet->getHighestRow() + 1);
+            $startCell = 'A' . ($this->worksheet->getHighestRow() + 1);
         }
 
         $this->worksheet->fromArray($rows, null, $startCell, $strictNullComparison);
     }
 
+    /**
+     * @return void
+     */
     public function autoSize()
     {
         foreach ($this->buildColumnRange('A', $this->worksheet->getHighestDataColumn()) as $col) {
-            $dimension = $this->worksheet->getColumnDimension($col);
-
-            // Only auto-size columns that have not have an explicit width.
-            if ($dimension->getWidth() == -1) {
-                $dimension->setAutoSize(true);
-            }
+            $this->worksheet->getColumnDimension($col)->setAutoSize(true);
         }
     }
 
     /**
-     * @param  string  $column
-     * @param  string  $format
+     * @param string $column
+     * @param string $format
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function formatColumn(string $column, string $format)
     {
-        // If the column is a range, we wouldn't need to calculate the range.
-        if (stripos($column, ':') !== false) {
-            $this->worksheet
-                ->getStyle($column)
-                ->getNumberFormat()
-                ->setFormatCode($format);
-        } else {
-            $this->worksheet
-                ->getStyle($column . '1:' . $column . $this->worksheet->getHighestRow())
-                ->getNumberFormat()
-                ->setFormatCode($format);
-        }
+        $this->worksheet
+            ->getStyle($column . '1:' . $column . $this->worksheet->getHighestRow())
+            ->getNumberFormat()
+            ->setFormatCode($format);
     }
 
     /**
-     * @param  int  $chunkSize
+     * @param int $chunkSize
+     *
      * @return Sheet
      */
     public function chunkSize(int $chunkSize)
@@ -611,7 +418,7 @@ class Sheet
     }
 
     /**
-     * @param  Chart|Chart[]  $charts
+     * @param Chart|Chart[] $charts
      */
     public function addCharts($charts)
     {
@@ -623,7 +430,7 @@ class Sheet
     }
 
     /**
-     * @param  BaseDrawing|BaseDrawing[]  $drawings
+     * @param BaseDrawing|BaseDrawing[] $drawings
      */
     public function addDrawings($drawings)
     {
@@ -635,7 +442,8 @@ class Sheet
     }
 
     /**
-     * @param  string  $concern
+     * @param string $concern
+     *
      * @return string
      */
     public function hasConcern(string $concern): string
@@ -644,47 +452,39 @@ class Sheet
     }
 
     /**
-     * @param  iterable  $rows
-     * @param  object  $sheetExport
+     * @param iterable $rows
+     * @param object   $sheetExport
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function appendRows($rows, $sheetExport)
     {
-        if (method_exists($sheetExport, 'prepareRows')) {
-            $rows = $sheetExport->prepareRows($rows);
-        }
-
-        $rows = $rows instanceof LazyCollection ? $rows : new Collection($rows);
-
-        $rows->flatMap(function ($row) use ($sheetExport) {
+        $append = [];
+        foreach ($rows as $row) {
             if ($sheetExport instanceof WithMapping) {
                 $row = $sheetExport->map($row);
             }
 
-            if ($sheetExport instanceof WithCustomValueBinder) {
-                SpreadsheetCell::setValueBinder($sheetExport);
-            }
+            $append[] = static::mapArraybleRow($row);
+        }
 
-            return ArrayHelper::ensureMultipleRows(
-                static::mapArraybleRow($row)
-            );
-        })->chunk(1000)->each(function ($rows) use ($sheetExport) {
-            $this->append(
-                $rows->toArray(),
-                $sheetExport instanceof WithCustomStartCell ? $sheetExport->startCell() : null,
-                $this->hasStrictNullComparison($sheetExport)
-            );
-        });
+        if ($sheetExport instanceof WithCustomStartCell) {
+            $startCell = $sheetExport->startCell();
+        }
+
+        $this->append($append, $startCell ?? null, $this->hasStrictNullComparison($sheetExport));
     }
 
     /**
-     * @param  mixed  $row
+     * @param mixed $row
+     *
      * @return array
      */
     public static function mapArraybleRow($row): array
     {
         // When dealing with eloquent models, we'll skip the relations
         // as we won't be able to display them anyway.
-        if (is_object($row) && method_exists($row, 'attributesToArray')) {
+        if (method_exists($row, 'attributesToArray')) {
             return $row->attributesToArray();
         }
 
@@ -701,7 +501,8 @@ class Sheet
     }
 
     /**
-     * @param  $sheetImport
+     * @param $sheetImport
+     *
      * @return int
      */
     public function getStartRow($sheetImport): int
@@ -719,28 +520,34 @@ class Sheet
     }
 
     /**
-     * @return Collection|array
+     * @param iterable $row
+     * @param object   $sheetExport
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    protected function validated(WithValidation $import, int $startRow, $rows)
+    protected function appendRow($row, $sheetExport)
     {
-        $toValidate = (new Collection($rows))->mapWithKeys(function ($row, $index) use ($startRow) {
-            return [($startRow + $index) => $row];
-        });
-
-        try {
-            app(RowValidator::class)->validate($toValidate->toArray(), $import);
-        } catch (RowSkippedException $e) {
-            foreach ($e->skippedRows() as $row) {
-                unset($rows[$row - $startRow]);
-            }
+        if ($sheetExport instanceof WithMapping) {
+            $row = $sheetExport->map($row);
         }
 
-        return $rows;
+        $row = static::mapArraybleRow($row);
+
+        if ($sheetExport instanceof WithCustomStartCell) {
+            $startCell = $sheetExport->startCell();
+        }
+
+        if (isset($row[0]) && is_array($row[0])) {
+            $this->append($row, $startCell ?? null, $this->hasStrictNullComparison($sheetExport));
+        } else {
+            $this->append([$row], $startCell ?? null, $this->hasStrictNullComparison($sheetExport));
+        }
     }
 
     /**
-     * @param  string  $lower
-     * @param  string  $upper
+     * @param string $lower
+     * @param string $upper
+     *
      * @return \Generator
      */
     protected function buildColumnRange(string $lower, string $upper)
@@ -752,33 +559,34 @@ class Sheet
     }
 
     /**
+     * @return string
+     */
+    protected function tempFile(): string
+    {
+        return $this->tmpPath . DIRECTORY_SEPARATOR . 'laravel-excel-' . str_random(16);
+    }
+
+    /**
      * @return bool
      */
     private function hasRows(): bool
     {
-        $startCell = 'A1';
-        if ($this->exportable instanceof WithCustomStartCell) {
-            $startCell = $this->exportable->startCell();
-        }
-
-        return $this->worksheet->cellExists($startCell);
+        return $this->worksheet->cellExists('A1');
     }
 
     /**
-     * @param  object  $sheetExport
+     * @param object $sheetExport
+     *
      * @return bool
      */
     private function hasStrictNullComparison($sheetExport): bool
     {
-        if ($sheetExport instanceof WithStrictNullComparison) {
-            return true;
-        }
-
-        return config('excel.exports.strict_null_comparison', false);
+        return $sheetExport instanceof WithStrictNullComparison;
     }
 
     /**
-     * @param  object|WithCustomChunkSize  $export
+     * @param object|WithCustomChunkSize $export
+     *
      * @return int
      */
     private function getChunkSize($export): int
@@ -788,20 +596,5 @@ class Sheet
         }
 
         return $this->chunkSize;
-    }
-
-    /**
-     * @param  object|WithValidation  $import
-     * @return Closure|null
-     */
-    private function getPreparationCallback($import)
-    {
-        if (!$import instanceof WithValidation || !method_exists($import, 'prepareForValidation')) {
-            return null;
-        }
-
-        return function (array $data, int $index) use ($import) {
-            return $import->prepareForValidation($data, $index);
-        };
     }
 }

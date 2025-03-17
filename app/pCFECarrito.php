@@ -13,13 +13,12 @@ class pCFECarrito extends Model
         'pCFEConcepto_id',
         'cantidad',
         'precio',
-        'precio_v',
         'usuario_id',
         'retencion_iva',
-        'retencion_isr'
+        'retencion_isr',
+        'precio_v',
     ];
-
-public function concepto()
+    public function concepto()
     {
         return $this->belongsTo(pCFEConceptos::class,'pCFEConcepto_id','id');
     }

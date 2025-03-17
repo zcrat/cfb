@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\log;
 use App\TipoAuto;
 use App\Marca;
 use App\HojaConcepto;
@@ -36,7 +37,9 @@ use App\pCFEVehiculos;
 use App\pCFEGenerales;
 use App\RecepcionArchivos;
 use DB;
-
+use PDF;
+use Dompdf\Dompdf;
+use setasign\Fpdi\Fpdi;
 class RecepcionVehicularController extends Controller
 {
 
@@ -65,7 +68,7 @@ class RecepcionVehicularController extends Controller
     if($request->orden == '')
         {
 
-        $recepciones = RecepcionVehicular::where("id_anio_correspondiente",2)->where("sucursal_id",'=',$sucu)->where("modulo",'=',$modulo)->orderBy('id', 'desc')->paginate(20);
+        $recepciones = RecepcionVehicular::where("sucursal_id",'=',$sucu)->where("modulo",'=',$modulo)->where("id_anio_correspondiente",2)->orderBy('id', 'desc')->paginate(20);
        
         foreach($recepciones as $recepcion){
             $recepcion->vehiculo;
@@ -77,7 +80,7 @@ class RecepcionVehicularController extends Controller
     }
     else 
     {
-        $recepciones = RecepcionVehicular::where("id_anio_correspondiente",2)->where("folioNum",'=',$request->orden)->orderBy('id', 'desc')->paginate(20);
+        $recepciones = RecepcionVehicular::where("folioNum",'=',$request->orden)->where("id_anio_correspondiente",2)->orderBy('id', 'desc')->paginate(20);
        
         foreach($recepciones as $recepcion){
             $recepcion->vehiculo;
@@ -106,10 +109,206 @@ class RecepcionVehicularController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createrecepcionesfake()
     {
-        //
+        $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
+        ->join('pCFEGenerales','presupuestosCFE.pCFEGenerales_id','=','pCFEGenerales.id')
+        ->join('users','presupuestosCFE.user_id','=','users.id')
+        ->join('sucursales','users.sucursal_id','=','sucursales.id')
+        ->join('contratos','sucursales.contratos_id','=','contratos.id')
+        ->select('presupuestosCFE.user_id','presupuestosCFE.id','pCFEGenerales.NSolicitud','pCFEGenerales.FechaAlta','pCFEGenerales.OrdenServicio',
+        'pCFEGenerales.KmDeIngreso','pCFEVehiculos.identificador','pCFEVehiculos.kilometraje','pCFEVehiculos.marca',
+        'pCFEVehiculos.modelo','pCFEVehiculos.ano','pCFEVehiculos.placas','pCFEVehiculos.vin','pCFEGenerales.ClienteYRazonSocial',
+        'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
+        ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
+        ->where('presupuestosCFE.CFE_id','=','2')
+        ->where('presupuestosCFE.id_anio_correspondiente','=','2')
+        ->orderBy('presupuestosCFE.id', 'desc')->get();
+
+        $cotizacionessinrecepcion=[];
+        $cotizacionesCONrecepcion=[];
+        $recepcionescreadas=[];
+        $recepcionesnocreadas=[];
+       
+        foreach($cotizaciones AS $cotizacion){
+            $Recepcion = RecepcionVehicular::where('folioNum','=',$cotizacion->NSolicitud)->select('id')->first();
+            
+        if(!$Recepcion){
+            $cotizacionessinrecepcion[]=$cotizacion;
+        }else {
+            $cotizacionesCONrecepcion[]=$cotizacion;
+        }
+        }
+        foreach($cotizacionessinrecepcion AS $cotizacion){
+            DB::beginTransaction();
+            try {
+            $recepcion = new RecepcionVehicular();
+            $ExterioresEquipo = new ExterioresEquipo();
+            $CondicionesPintura = new CondicionesPintura();
+            $EquipoInventario = new EquipoInventario();
+            $InterioresEquipo = new InterioresEquipo();
+            $GAS=rand(0, 4);
+            $nombres = [
+                "Ana Martínez",
+                "Juan Ramírez",
+                "Lucía Hernández",
+                "Carlos Gómez",
+                "María Fernández",
+                "Sofía García",
+                "Javier Rodríguez",
+                "Laura Torres",
+                "Miguel Sánchez",
+                "Patricia López"
+            ];
+            $hora=rand(12, 18).":".rand(10, 59).":".rand(10, 59);
+            $Fecha = Carbon::parse($cotizacion->FechaAlta . " " . $hora)->format('Y-m-d H:i:s');
+            $fechaCarbon = Carbon::parse($Fecha);
+            $user=  User::find($cotizacion->user_id);
+            $vehiculo=Vehiculo::WHERE('placas',$cotizacion->placas)->first();
+            if(!$vehiculo){
+                $vehiculo1 = pCFEVehiculos::WHERE('identificador',$cotizacion->identificador)->first();
+
+                if(!$vehiculo1){
+                    return response()->json([
+                        'error'=> 'El vehiculo No existe',
+                    ],500);
+                }
+                $vehiculo= new Vehiculo();
+                $marca=Marca::where('Nombre',$vehiculo1->marca)->first();
+                
+                if(!$marca){
+                    $marca=new Marca();
+                    $marca->nombre=$vehiculo1->marca;
+                    $marca->save();
+                }
+                $modelo=Modelo::where('Nombre',$vehiculo1->modelo)->where('marca_id',$marca->id )->first();
+                if(!$modelo){
+                    $modelo=new Modelo();
+                    $modelo->nombre=$vehiculo1->modelo;
+                    $modelo->marca_id=$marca->id;
+                    $modelo->save();
+                }
+                $vehiculo->tipo_id=1;
+                $vehiculo->marca_id=$marca->id; 
+                $vehiculo->modelo_id=$modelo->id;
+                $vehiculo->color_id=3;
+                $vehiculo->placas=$vehiculo1->placas; 
+                $vehiculo->anio=$vehiculo1->ano;
+                $vehiculo->no_economico=$vehiculo1->identificador;
+                $vehiculo->vim=$vehiculo1->vin;
+                $vehiculo->save();
+            }
+            log::info($cotizacion->OrdenServicio);
+            $recepcion->folioNum=$cotizacion->NSolicitud;
+            $recepcion->usuario_id= $cotizacion->user_id;
+            $recepcion->sucursal_id=$user?$user->sucursal_id:2;
+            $recepcion->status= 0;
+            $recepcion->id_anio_correspondiente=2;
+            $recepcion->empresa_id= 4;
+            $recepcion->customer_id= 372;
+            $recepcion->vehiculo_id=$vehiculo->id;
+            $recepcion->orden_seguimiento= $cotizacion->OrdenServicio;
+            $recepcion->notas_adicionales= $cotizacion->descripcionMO;
+            $recepcion->indicaciones_del_cliente= 'REPARACION DEL VEHICULO';
+            $recepcion->km_entrada= $cotizacion->KmDeIngreso;
+            $recepcion->km_salida=$cotizacion->KmDeIngreso;
+            $recepcion->gas_entrada= $GAS;
+            $recepcion->gas_salida=$GAS;
+            $recepcion->tecnico= 'SALVADOR HERNANDEZ';
+            $recepcion->fecha= $Fecha;
+            $recepcion->firma= '64_20250129095713.png';
+            $recepcion->carro= '64_20250129095713.png';
+            $recepcion->fecha_compromiso= $fechaCarbon->addDays(3)->format('Y-m-d H:i:s');
+            $recepcion->fecha_entrega= $fechaCarbon->addDays(rand(1, 2))->format('Y-m-d H:i:s');
+            $recepcion->modulo= 1;
+            $recepcion->administrador= $cotizacion->ClienteYRazonSocial;
+            $recepcion->jefedeprocesos= $cotizacion->Mail;
+            $recepcion->telefonojefe= $cotizacion->Telefono;
+            $recepcion->trabajador=  $cotizacion->Conductor;
+            $recepcion->save();
+
+            $ExterioresEquipo->recepcion_vehicular_id= $recepcion->id;
+            $ExterioresEquipo->antena_radio = 7;
+            $ExterioresEquipo->antena_telefono = 7;
+            $ExterioresEquipo->antena_cb = 7;
+            $ExterioresEquipo->estribos =rand(2, 3);
+            $ExterioresEquipo->espejos_laterales = rand(2, 3);
+            $ExterioresEquipo->guardafangos = rand(2, 3);
+            $ExterioresEquipo->parabrisas = rand(2, 3);
+            $ExterioresEquipo->sistema_alarma = rand(2, 3);
+            $ExterioresEquipo->limpia_parabrisas = rand(2, 3);
+            $ExterioresEquipo->luces_exteriores = rand(2, 3);
+            $ExterioresEquipo->save();
+
+
+            $EquipoInventario->recepcion_vehicular_id= $recepcion->id;
+            $EquipoInventario->llanta = rand(0, 1);
+            $EquipoInventario->cubreruedas = rand(0, 1);
+            $EquipoInventario->cables_corriente = rand(0, 1);
+            $EquipoInventario->candado_ruedas = rand(0, 1);
+            $EquipoInventario->estuche_herramientas = rand(0, 1);
+            $EquipoInventario->gato = rand(0, 1);
+            $EquipoInventario->llave_tuercas = rand(0, 1);
+            $EquipoInventario->tarjeta_circulacion = 1;
+            $EquipoInventario->triangulo_seguridad = rand(0, 1);
+            $EquipoInventario->extinguidor = rand(0, 1);
+            $EquipoInventario->placas = 1;
+            $EquipoInventario->save();
+
+
+            $InterioresEquipo->recepcion_vehicular_id= $recepcion->id;
+            $InterioresEquipo->puerta_interior_frontal = rand(2, 3);
+            $InterioresEquipo->puerta_interior_trasera = rand(2, 3);
+            $InterioresEquipo->puerta_delantera_frontal =rand(2, 3);
+            $InterioresEquipo->puerta_delantera_trasera = rand(2, 3);
+            $InterioresEquipo->asiento_interior_frontal =rand(2, 3);
+            $InterioresEquipo->asiento_interior_trasera = rand(2, 3);
+            $InterioresEquipo->asiento_delantera_frontal = rand(2, 3);
+            $InterioresEquipo->asiento_delantera_trasera = rand(2, 3);
+            $InterioresEquipo->consola_central =rand(2, 3);
+            $InterioresEquipo->claxon = rand(2, 3);
+            $InterioresEquipo->tablero =rand(2, 3);
+            $InterioresEquipo->quemacocos =7;
+            $InterioresEquipo->toldo = 7;
+            $InterioresEquipo->elevadores_eletricos = 7;
+            $InterioresEquipo->luces_interiores = rand(2, 3);
+            $InterioresEquipo->seguros_eletricos = rand(2, 3);
+            $InterioresEquipo->tapetes = rand(2, 3);
+            $InterioresEquipo->climatizador = rand(2, 3);
+            $InterioresEquipo->radio = rand(2, 3);
+            $InterioresEquipo->espejos_retrovizor = rand(2, 3);
+            $InterioresEquipo->save();
+
+            $CondicionesPintura->recepcion_vehicular_id= $recepcion->id;
+            $CondicionesPintura->decolorada=rand(0, 1);
+            $CondicionesPintura->emblemas_completos=rand(0, 1);
+            $CondicionesPintura->color_no_igual=rand(0, 1);
+            $CondicionesPintura->logos=rand(0, 1);
+            $CondicionesPintura->exeso_rayones=rand(0, 1);
+            $CondicionesPintura->exeso_rociado=rand(0, 1);
+            $CondicionesPintura->pequenias_grietas=rand(0, 1);
+            $CondicionesPintura->danios_granizado=rand(0, 1);
+            $CondicionesPintura->carroceria_golpes=rand(0, 1);
+            $CondicionesPintura->lluvia_acido=rand(0, 1);
+            $CondicionesPintura->save();
+            DB::commit();
+            $recepcionescreadas[]=$cotizacion;
+            }catch (\Exception $e) {
+                $recepcionesnocreadas[]=$cotizacion;
+                DB::rollback();
+            }
+        }
+
+        
+        
+        return response()->json([
+            'success'=> $cotizacionessinrecepcion,
+            'success2'=> $cotizacionesCONrecepcion,
+            'success3'=> $recepcionescreadas,
+            'success34'=> $recepcionesnocreadas,
+        ]);
     }
+
 
     function base64ToImage($base64_string, $output_file)
     {
@@ -508,6 +707,9 @@ class RecepcionVehicularController extends Controller
                 $HojaConcepto->save();
 
             }
+            
+
+
             if($modeloRecepcionTEst['modulo'] == 5){
 
 
@@ -1005,9 +1207,13 @@ class RecepcionVehicularController extends Controller
     }
 
     public function reporte(Request $request,$id){
+
+        
+
         $Recepcion = RecepcionVehicular::where('recepcion_vehicular.id','=',$id)
-        ->select('recepcion_vehicular.customer_id')
-            ->first();
+        ->select('recepcion_vehicular.customer_id')->first();
+
+
        if($Recepcion->customer_id==null){
         $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
         ->join('users','recepcion_vehicular.usuario_id','=','users.id')
@@ -1024,6 +1230,7 @@ class RecepcionVehicularController extends Controller
         'tipo_auto.nombre as tipo_auto','marcas.nombre as marca','modelos.nombre as modelo','colores.nombre as color','vehiculos.placas','vehiculos.anio','vehiculos.no_economico','vehiculos.vim','users.name','recepcion_vehicular.tecnico','recepcion_vehicular.fecha_entrega','recepcion_vehicular.folioNum')
         ->where('recepcion_vehicular.id','=',$id)
         ->orderBy('recepcion_vehicular.id','desc')->take(1)->get();
+
        }
        else 
        {
@@ -1075,11 +1282,126 @@ class RecepcionVehicularController extends Controller
   //  return $pdf->download('profile.pdf');
 
     }
+    public function multireporte(Request $request){
+        $RecepcionesVehiculares=[];
+        //$pdfMerger = new Fpdi();
+        $cotizaciones = presupuestosCFE::join('pCFEVehiculos','presupuestosCFE.pCFEVehiculos_id','=','pCFEVehiculos.id')
+        ->join('pCFEGenerales','presupuestosCFE.pCFEGenerales_id','=','pCFEGenerales.id')
+        ->join('users','presupuestosCFE.user_id','=','users.id')
+        ->join('sucursales','users.sucursal_id','=','sucursales.id')
+        ->join('contratos','sucursales.contratos_id','=','contratos.id')
+        ->select('presupuestosCFE.user_id','presupuestosCFE.id','pCFEGenerales.NSolicitud','pCFEGenerales.FechaAlta','pCFEGenerales.OrdenServicio',
+        'pCFEGenerales.KmDeIngreso','pCFEVehiculos.identificador','pCFEVehiculos.kilometraje','pCFEVehiculos.marca',
+        'pCFEVehiculos.modelo','pCFEVehiculos.ano','pCFEVehiculos.placas','pCFEVehiculos.vin','pCFEGenerales.ClienteYRazonSocial',
+        'pCFEGenerales.Mail','pCFEGenerales.Telefono','pCFEGenerales.Conductor','presupuestosCFE.created_at','presupuestosCFE.observaciones','presupuestosCFE.status','pCFEVehiculos.id as pCFEVehiculos_id','pCFEGenerales.id as pCFEGenerales_id'
+        ,'presupuestosCFE.descripcionMO','presupuestosCFE.importe','presupuestosCFE.importep','presupuestosCFE.ubicacion','presupuestosCFE.tdeentrega','presupuestosCFE.area','contratos.numero as contrato','presupuestosCFE.factura_id','presupuestosCFE.tramite')
+        ->where('presupuestosCFE.CFE_id','=','2')
+        ->where('presupuestosCFE.id_anio_correspondiente','=','2')
+        ->orderBy('presupuestosCFE.id', 'desc')->get();
+        foreach($cotizaciones as $cotizacion){
+            $Recepcion = RecepcionVehicular::where('folioNum','=',$cotizacion->NSolicitud)->select('id','customer_id','folioNum')->first();
+
+            if($Recepcion){
+                $id = $Recepcion->id;
+                $folinum = $Recepcion->folioNum;
+
+                if($Recepcion->customer_id==null){
+                    $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+                    ->join('users','recepcion_vehicular.usuario_id','=','users.id')
+                    ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
+                    ->join('tipo_auto','vehiculos.tipo_id','=','tipo_auto.id')
+                    ->join('marcas','vehiculos.marca_id','=','marcas.id')
+                    ->join('modelos','vehiculos.modelo_id','=','modelos.id')
+                    ->join('colores','vehiculos.color_id','=','colores.id')
+                    ->select('recepcion_vehicular.id','recepcion_vehicular.orden_seguimiento','recepcion_vehicular.folio','recepcion_vehicular.notas_adicionales',
+                    'recepcion_vehicular.indicaciones_del_cliente','recepcion_vehicular.km_entrada','recepcion_vehicular.km_salida','recepcion_vehicular.gas_entrada',
+                    'recepcion_vehicular.gas_salida','recepcion_vehicular.fecha','recepcion_vehicular.firma','recepcion_vehicular.carro',
+                    'recepcion_vehicular.fecha_compromiso','empresas.nombre','empresas.direccion','empresas.ciudad','empresas.estado','empresas.cp',
+                    'empresas.tel_negocio','empresas.tel_casa','empresas.tel_celular','empresas.email',
+                    'tipo_auto.nombre as tipo_auto','marcas.nombre as marca','modelos.nombre as modelo','colores.nombre as color','vehiculos.placas','vehiculos.anio','vehiculos.no_economico','vehiculos.vim','users.name','recepcion_vehicular.tecnico','recepcion_vehicular.fecha_entrega','recepcion_vehicular.folioNum')
+                    ->where('recepcion_vehicular.id','=',$id)
+                    ->orderBy('recepcion_vehicular.id','desc')->take(1)->get();
+
+                }
+                else 
+                {
+                    $RecepcionVehicular = RecepcionVehicular::join('empresas','recepcion_vehicular.empresa_id','=','empresas.id')
+                    ->join('users','recepcion_vehicular.usuario_id','=','users.id')
+                    ->join('customers','recepcion_vehicular.customer_id','=','customers.id')
+                    ->join('vehiculos','recepcion_vehicular.vehiculo_id','=','vehiculos.id')
+                    ->join('tipo_auto','vehiculos.tipo_id','=','tipo_auto.id')
+                    ->join('marcas','vehiculos.marca_id','=','marcas.id')
+                    ->join('modelos','vehiculos.modelo_id','=','modelos.id')
+                    ->join('colores','vehiculos.color_id','=','colores.id')
+                    ->select('recepcion_vehicular.id','recepcion_vehicular.orden_seguimiento','recepcion_vehicular.folio','recepcion_vehicular.notas_adicionales',
+                    'recepcion_vehicular.indicaciones_del_cliente','recepcion_vehicular.km_entrada','recepcion_vehicular.km_salida','recepcion_vehicular.gas_entrada',
+                    'recepcion_vehicular.gas_salida','recepcion_vehicular.fecha','recepcion_vehicular.firma','recepcion_vehicular.carro',
+                    'recepcion_vehicular.fecha_compromiso','empresas.nombre','empresas.direccion','empresas.ciudad','empresas.estado','empresas.cp','customers.nombre as usuario',
+                    'empresas.tel_negocio','empresas.tel_casa','empresas.tel_celular','empresas.email',
+                    'tipo_auto.nombre as tipo_auto','marcas.nombre as marca','modelos.nombre as modelo','colores.nombre as color','vehiculos.placas','vehiculos.anio','vehiculos.no_economico','vehiculos.vim','users.name','recepcion_vehicular.tecnico','recepcion_vehicular.fecha_entrega','recepcion_vehicular.folioNum')
+                    ->where('recepcion_vehicular.id','=',$id)
+                    ->orderBy('recepcion_vehicular.id','desc')->take(1)->get();
+
+                }
+
+                $InterioresEquipo = InterioresEquipo::where('interiores_equipo.recepcion_vehicular_id','=',$id)
+                ->orderBy('interiores_equipo.id','desc')->take(1)->get();
+
+                $ExterioresEquipo = ExterioresEquipo::where('exteriores_equipo.recepcion_vehicular_id','=',$id)
+                ->orderBy('exteriores_equipo.id','desc')->take(1)->get();
+
+                $EquipoInventario = EquipoInventario::where('equipo_inventario.recepcion_vehicular_id','=',$id)
+                ->orderBy('equipo_inventario.id','desc')->take(1)->get();
+
+                $Seguro = Seguro::where('seguros.recepcion_vehicular_id','=',$id)
+                ->orderBy('seguros.id','desc')->take(1)->get();
+
+                $condicionesPintura = CondicionesPintura::where('condiciones_pintura.recepcion_vehicular_id','=',$id)
+                ->orderBy('condiciones_pintura.id','desc')->take(1)->get();
+                $RecepcionesVehiculares[]=[
+                    "InterioresEquipo"=>$InterioresEquipo,
+                    "ExterioresEquipo"=>$ExterioresEquipo,
+                    "EquipoInventario"=>$EquipoInventario,
+                    "Seguro"=>$Seguro,
+                    "condicionesPintura"=>$condicionesPintura,
+                    "RecepcionVehicular"=>$RecepcionVehicular,
+                ];
+
+                // $html = view('reportes.recepcion_vehicular', compact('RecepcionVehicular', 'InterioresEquipo', 'ExterioresEquipo', 'EquipoInventario', 'Seguro', 'condicionesPintura'))->render();
+                // Log::info('Contenido HTML generado: ' . $html);
+                // $pdf  =  \App::make('dompdf.wrapper');
+                // $pdf->loadHTML($html);
+                // $pdf->render();
+                // $output = $pdf->output();
+                // $pdfPath = storage_path($folinum.'.pdf');
+                // file_put_contents($pdfPath, $pdf->output());
+                //$pdf = PDF::loadView('reportes.recepcion_vehicular', compact('RecepcionVehicular','InterioresEquipo','ExterioresEquipo','EquipoInventario','Seguro','condicionesPintura'));
+                //file_put_contents(storage_path('app/public/recepcion_vehicular.pdf'), $output);
+
+                // $pdfMerger->setSourceFile($pdfPath);
+                // $tplIdx = $pdfMerger->importPage(1);
+                // $pdfMerger->addPage();
+            }
+        }
+        // $outputPath = storage_path('reporte_unificado.pdf');
+        // $pdfMerger->Output($outputPath, 'F');
+
+        // return response()->download($outputPath)->deleteFileAfterSend(true);
+        return \View::make('reportes.recepcion_vehicular_multi', compact('RecepcionesVehiculares'))->render();
+        // $pdf  =  \App::make('dompdf.wrapper');
+            //$pdf->loadHTML('<h1>Test</h1>');
+        // $view =  \View::make('reportes.recepcion_vehicular', compact('cotizacion'))->render();
+        // $pdf->loadHTML($view);
+        // $pdf->stream();
+            //return $pdf->stream('invoice');
+        //  return $pdf->download('profile.pdf');
+
+    }
 
     public function folioBuscar(Request $request){
 
        
-        $Recepcion = RecepcionVehicular::where("id_anio_correspondiente",2)->where('recepcion_vehicular.folioNum','=',$request->id)
+        $Recepcion = RecepcionVehicular::where('recepcion_vehicular.folioNum','=',$request->id)
         ->select('recepcion_vehicular.id')->first();
 
      return $Recepcion->id;
@@ -1156,7 +1478,7 @@ class RecepcionVehicularController extends Controller
       public function delete(Request $request)
       {
          
-          $sucursal = RecepcionVehicular::where("id_anio_correspondiente",2)->findOrFail($request->id);
+          $sucursal = RecepcionVehicular::findOrFail($request->id);
          
           $so = CondicionesPintura::select('id')->where('recepcion_vehicular_id','=',$request->id)->get();
           $so1 = CondicionesPintura::findOrFail($so[0]['id']);

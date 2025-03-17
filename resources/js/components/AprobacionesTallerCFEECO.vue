@@ -1,9 +1,5 @@
 <template>
     <main class="main">
-    <!-- Breadcrumb -->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#" @click="$store.state.menuc=0">Escritorio</a></li>
-    </ol>
     <div class="container-fluid">
         <!-- Ejemplo de tabla Listado -->
         <div class="card">
@@ -76,7 +72,7 @@
                  <button class="btn btn-success btn_sm float-right" type="button" @click="listarIngreso ('1','5','presupuestosCFE.status','','')">
                         <i class="fa fa-plus-circle mr-2"></i>Facturado
                  </button> 
-                 <button type="submit" @click="verexel('1',buscar,criterio,'','')" class="btn btn-success"><i class="icon-doc"></i> Exportar</button>
+                 <button type="submit" @click="reporteexcel()" class="btn btn-success"><i class="icon-doc"></i> Exportar</button>
                         
                         </div>
                     </div>
@@ -1337,7 +1333,17 @@
                             </v-select>
                         </div>
                     </div>
-                    
+                    <div class="col-md-12">
+                                <button class="elimarestilosboton" :class="{'rfcactive': emisor_id === 1}" @click="setActiveButton(1)">
+                                    <img src="img/logo_cfb_button.png" class="ajustaraltura" alt="">
+                                </button>
+                                <button  class="elimarestilosboton" :class="{'rfcactive': emisor_id === 2}" @click="setActiveButton(2)">
+                                    <img src="img/logo_akumas_button.png" class="ajustaraltura" alt="">
+                                </button>
+                                <button  class="elimarestilosboton" :class="{'rfcactive': emisor_id === 3}" @click="setActiveButton(3)">
+                                    <img src="img/logo_kmg_button.jpeg" class="ajustaraltura" alt="">
+                                </button>
+                            </div>
                     <div class="col-md-4">
                         <div class="form-group">
                              <label>Tipo de Comprobante</label>
@@ -1534,7 +1540,17 @@
                             </v-select>
                         </div>
                     </div>
-                    
+                    <div class="col-md-12">
+                                <button class="elimarestilosboton" :class="{'rfcactive': emisor_id === 1}" @click="setActiveButton(1)">
+                                    <img src="img/logo_cfb_button.png" class="ajustaraltura" alt="">
+                                </button>
+                                <button  class="elimarestilosboton" :class="{'rfcactive': emisor_id === 2}" @click="setActiveButton(2)">
+                                    <img src="img/logo_akumas_button.png" class="ajustaraltura" alt="">
+                                </button>
+                                <button  class="elimarestilosboton" :class="{'rfcactive': emisor_id === 3}" @click="setActiveButton(3)">
+                                    <img src="img/logo_kmg_button.jpeg" class="ajustaraltura" alt="">
+                                </button>
+                            </div>
                     <div class="col-md-4">
                         <div class="form-group">
                              <label>Tipo de Comprobante</label>
@@ -1892,6 +1908,8 @@ data (){
             tipo_impuesto_local:"1",
             mpago:"PUE"
         },
+        estatus_id:'',
+        emisor_id:2,
         buscarcod:'',
         buscarcod2:'',
         detallefactura:[],
@@ -2018,6 +2036,7 @@ components: {
 },
 computed:{
     isActived: function(){
+        console.log('El botón fue clicado');
         return this.pagination.current_page;
     },
 
@@ -2123,6 +2142,9 @@ computed:{
     }
 },
 methods : {
+    setActiveButton(buttonNumber) {
+      this.emisor_id = buttonNumber; // Cambia el botón activo
+    },
     enviarMensaje(mensaje, idorden){
         console.log('orden '+ idorden);
         console.log('mensaje '+ mensaje);
@@ -2270,7 +2292,7 @@ methods : {
 
     },
     listarIngreso (page,buscar,criterio, contra, fecha_inicio,fecha_final){
-
+        (1,buscar,criterio,'0', fecha_inicio,fecha_final)
         this.buscar = buscar;
         this.criterio = criterio;
   
@@ -2285,6 +2307,17 @@ methods : {
             me.arrayTipos = respuesta.tipos;
             me.arrayProductos = respuesta.productos;
             me.arrayPlanteles = respuesta.contratos;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+    reporteexcel (){
+        var url= '/zcrat/generate/reporte/cfeeco?buscar='+ this.buscar + '&criterio='+ this.criterio + '&fecha_inicio='+ this.fecha_inicio + '&fecha_final='+ this.fecha_final+ '&contrato='+ this.contrato;
+        axios.get(url).then(function (response) {
+            console.log(response.data);
+            var respuesta= response.data;
+            window.open('download/'+ respuesta.excel,'_blank');
         })
         .catch(function (error) {
             console.log(error);
@@ -2642,7 +2675,7 @@ methods : {
         let me = this;
         me.listado=5;
         me.idpresupuesto = cotizacion.id;
-
+        me.emisor_id=2;
          var url= 'ordenes/obtenerDetalles?id=' + cotizacion.id;
 
         axios.get(url).then(function (response) {
@@ -2667,7 +2700,7 @@ methods : {
            {
             'factura' : me.factura,   
             'data' : me.detallefactura,
-            'emisor_id':'2',
+            'emisor_id': me.emisor_id,
             }).then(function (response) {
             console.log(response.data);
            
@@ -2690,7 +2723,8 @@ methods : {
         axios.post('facturacion/timbrarmas',
            {
             'factura' : me.factura,   
-            'data' : me.detallefacturaCompleta
+            'data' : me.detallefacturaCompleta,
+            'emisor_id' : me.emisor_id,
             }).then(function (response) {
             console.log(response.data);
            
@@ -3332,7 +3366,7 @@ methods : {
         let me=this;
         me.listado=6;
         me.detallefacturaCompleta = [];
-
+        me.emisor_id=2;
          var url= 'ordenes/obtenerDetallesmulti';
 
         axios.post(url,{ 'ides' : me.check}).then(function (response) {
@@ -3352,7 +3386,7 @@ methods : {
         let me=this;
         me.listado=6;
         me.detallefacturaCompleta = [];
-
+        me.emisor_id=2;
          var url= 'ordenes/obtenerDetallesmultiSave';
 
         axios.post(url,{ 'id' : info}).then(function (response) {
